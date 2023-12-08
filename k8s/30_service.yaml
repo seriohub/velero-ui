@@ -1,0 +1,14 @@
+# webserver/service.yml
+apiVersion: v1
+kind: Service
+metadata:
+  name: velero-ui-load-balancer
+spec:
+  type: LoadBalancer
+  selector:
+    layer: webserver
+  ports:
+    - name: frontend
+      protocol: TCP
+      port: 80
+      targetPort: run
