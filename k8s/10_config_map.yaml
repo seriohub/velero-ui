@@ -3,5 +3,5 @@ kind: ConfigMap
 metadata:
   name: velero-ui-config
 data:
-    NEXT_PUBLIC_VELERO_API_URL: http://10.10.0.14
-    NEXT_PUBLIC_VELERO_API_WS: ws://10.10.0.14
+    NEXT_PUBLIC_VELERO_API_URL: http://10.10.0.15
+    NEXT_PUBLIC_VELERO_API_WS: ws://10.10.0.15
