@@ -5,6 +5,7 @@ metadata:
   name: velero-ui-load-balancer
 spec:
   type: LoadBalancer
+  loadBalancerIP : 10.10.0.16
   selector:
     layer: webserver
   ports:
