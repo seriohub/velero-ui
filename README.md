@@ -40,8 +40,8 @@ This project was created to simplify through a user interface some velero backup
 Clone the repository:
 
   ``` bash
-    git clone https://github.com/seriohub/velero-api.git
-    cd velero-api
+    git clone https://github.com/seriohub/velero-ui.git
+    cd velero-ui
   ```
 
 ### Run native
