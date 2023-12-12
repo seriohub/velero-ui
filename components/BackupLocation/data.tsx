@@ -13,7 +13,7 @@ import RefreshDatatable from '../Actions/ToolbarActionIcons/RefreshDatatable';
 import DetailActionIcon from '../Actions/DatatableActionsIcons/DetailActionIcon';
 import Toolbar from '../Toolbar';
 
-const PAGE_SIZES = [10, 15, 20];
+const PAGE_SIZES = [5];
 
 export function BackupLocation() {
   const { data, getData, error, fetching } = useApiWithGet();
@@ -25,7 +25,7 @@ export function BackupLocation() {
     direction: 'asc',
   });
 
-  const [pageSize, setPageSize] = useState(PAGE_SIZES[1]);
+  const [pageSize, setPageSize] = useState(PAGE_SIZES[0]);
   const [page, setPage] = useState(1);
 
   const [records, setRecords] = useState(items.slice(0, pageSize));
@@ -82,7 +82,7 @@ export function BackupLocation() {
           recordsPerPage={pageSize}
           page={page}
           onPageChange={(p) => setPage(p)}
-          recordsPerPageOptions={PAGE_SIZES}
+          // recordsPerPageOptions={PAGE_SIZES}
           onRecordsPerPageChange={setPageSize}
           sortStatus={sortStatus}
           onSortStatusChange={setSortStatus}
@@ -103,10 +103,20 @@ export function BackupLocation() {
               accessor: 'spec.provider',
               title: 'provider',
             },
-            { accessor: 'status.errors', title: 'Errors', sortable: true },
-            { accessor: 'spec.objectStorage.bucket', title: 'bucket', sortable: true },
-            { accessor: 'spec.objectStorage.default', title: 'Default', sortable: true },
-            { accessor: 'spec.objectStorage.accessMode', title: 'Access Mode', sortable: true },
+            { accessor: 'spec.objectStorage.bucket', title: 'Bucket/Prefix', sortable: true },
+            { accessor: 'status.phase', title: 'Phase', sortable: true },
+            { accessor: 'spec.accessMode', title: 'Access Mode', sortable: true },
+            {
+              accessor: 'spec.credential.name',
+              title: 'Credential',
+              sortable: true,
+              render: ({ spec }) => (
+                <>
+                  {spec.credential && spec.credential.name && spec.credential.name}
+                  {spec.credential && spec.credential.key && <>: {spec.credential.key}</>}
+                </>
+              ),
+            },
             {
               accessor: 'actions',
               title: (

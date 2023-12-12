@@ -1,4 +1,6 @@
-import { Box, Group, Stack } from '@mantine/core';
+'use client';
+
+import { Box, Grid, Stack } from '@mantine/core';
 
 import { BackupLocation } from '@/components/BackupLocation/data';
 import { RepoLocation } from '@/components/Repo/data';
@@ -9,10 +11,14 @@ export default function ScheduledPage() {
     <>
       <Stack justify="space-between" h="100%">
         <Box h="35%">
-          <Group grow>
-            <BackupLocation />
-            <SnapshotLocation />
-          </Group>
+          <Grid gutter={{ base: 5, xs: 'md', md: 'xl', xl: 50 }}>
+            <Grid.Col span={{ base: 12, md: 12, lg: 6 }}>
+              <BackupLocation />
+            </Grid.Col>
+            <Grid.Col span={{ base: 12, md: 12, lg: 6 }}>
+              <SnapshotLocation />
+            </Grid.Col>
+          </Grid>
         </Box>
         <Box h="65%">
           <RepoLocation />

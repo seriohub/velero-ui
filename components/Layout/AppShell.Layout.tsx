@@ -1,7 +1,7 @@
 'use client';
 
 import { useDisclosure } from '@mantine/hooks';
-import { AppShell, Burger, Group, Stack } from '@mantine/core';
+import { AppShell, Box, Burger, Group, Stack } from '@mantine/core';
 
 import { AppShellHeader } from './AppShell.Header';
 import { AppShellNavbar } from './AppShell.Navbar';
@@ -34,16 +34,19 @@ export default function AppShellLayout({ children }: AppShellLayoutProps) {
           <AppShellNavbar />
         </AppShell.Navbar>
         <AppShell.Main>
-          <Stack h="calc(100vh - 220px)" justify="space-between" gap="lg">
-            <Stack style={{ height: 'calc(100% - 250px)' }}>{children}</Stack>
-            <Stack style={{ height: '240px' }}>
+          <Stack h="calc(100vh - 100px)" justify="space-between" gap="lg">
+            {children}
+
+            <Box style={{ height: '280px' }}>
               <RecentTask />
-            </Stack>
+            </Box>
+
+            <AppShellFooter />
           </Stack>
         </AppShell.Main>
-        <AppShell.Footer p={0} style={{ height: '130px' }}>
+        {/*<AppShell.Footer p={0} style={{ background: '#010101' }}>
           <AppShellFooter />
-        </AppShell.Footer>
+        </AppShell.Footer>*/}
       </AppShell>
     </>
   );

@@ -13,7 +13,7 @@ import RefreshDatatable from '../Actions/ToolbarActionIcons/RefreshDatatable';
 import Toolbar from '../Toolbar';
 import DetailActionIcon from '../Actions/DatatableActionsIcons/DetailActionIcon';
 
-const PAGE_SIZES = [10, 15, 20];
+const PAGE_SIZES = [5];
 
 export function SnapshotLocation() {
   const { data, getData, error, fetching } = useApiWithGet();
@@ -25,7 +25,7 @@ export function SnapshotLocation() {
     direction: 'asc',
   });
 
-  const [pageSize, setPageSize] = useState(PAGE_SIZES[1]);
+  const [pageSize, setPageSize] = useState(PAGE_SIZES[0]);
   const [page, setPage] = useState(1);
 
   const [records, setRecords] = useState(items.slice(0, pageSize));
@@ -61,7 +61,7 @@ export function SnapshotLocation() {
       <DetailActionIcon name={record.metadata.name} record={record} />
     </Group>
   );
-
+  console.log(records);
   return (
     <>
       <Stack h="100%" gap={0}>
@@ -76,13 +76,13 @@ export function SnapshotLocation() {
           striped
           highlightOnHover
           records={records}
-          //idAccessor="id"
+          // idAccessor="id"
           totalRecords={items.length}
           paginationActiveBackgroundColor="grape"
           recordsPerPage={pageSize}
           page={page}
           onPageChange={(p) => setPage(p)}
-          recordsPerPageOptions={PAGE_SIZES}
+          // recordsPerPageOptions={PAGE_SIZES}
           onRecordsPerPageChange={setPageSize}
           sortStatus={sortStatus}
           onSortStatusChange={setSortStatus}

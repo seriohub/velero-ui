@@ -113,7 +113,7 @@ export function RepoLocation() {
               title: 'Backup Storage Location',
               sortable: true,
             },
-            { accessor: 'spec.repositoryType', title: 'Reposittory Type', sortable: true },
+            { accessor: 'spec.repositoryType', title: 'Repository Type', sortable: true },
             {
               accessor: 'spec.resticIdentifier',
               title: 'Identifier',

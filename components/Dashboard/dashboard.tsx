@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 
-import { Stack, Group, Grid } from '@mantine/core';
+import { Stack, Group, Grid, Loader, Center } from '@mantine/core';
 
 import { IconClock, IconDeviceFloppy, IconRestore, IconCalendarEvent } from '@tabler/icons-react';
 
@@ -25,11 +25,19 @@ export function Dashboard() {
     getData('/api/v1/utils/stats');
   }, [reload]);
 
-  if (data === undefined) return <></>;
+  if (data === undefined) {
+    return (
+      <Stack h="100%" justify="center">
+        <Center>
+          <Loader color="blue" />
+        </Center>
+      </Stack>
+    );
+  }
 
   return (
     <>
-      <Stack h="100%">
+      <Stack h="100%" gap={0}>
         <Stack>
           <Toolbar title="Dashboard">
             <RefreshDatatable setReload={setReload} reload={reload} />
