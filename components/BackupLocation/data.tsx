@@ -82,7 +82,7 @@ export function BackupLocation() {
           recordsPerPage={pageSize}
           page={page}
           onPageChange={(p) => setPage(p)}
-          // recordsPerPageOptions={PAGE_SIZES}
+          recordsPerPageOptions={PAGE_SIZES}
           onRecordsPerPageChange={setPageSize}
           sortStatus={sortStatus}
           onSortStatusChange={setSortStatus}
