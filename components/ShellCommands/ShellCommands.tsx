@@ -26,27 +26,26 @@ export default function ShellCommands() {
     }
   };
 
-  const commands = messageHistory
-    //.filter((item: any) => item.data !== 'velero restore get -o json' && item.data !== 'velero backup get -o json')
-    .map((item: any, index: number) => (
-      <Group gap={0} key={index}>
-        <CopyButton value={item.data} timeout={2000}>
-          {({ copied, copy }) => (
-            <Tooltip label={copied ? 'Copied' : 'Copy'} withArrow position="right">
-              <ActionIcon color={copied ? 'teal' : 'gray'} variant="subtle" onClick={copy}>
-                {copied ? (
-                  <IconCheck style={{ height: rem(14), width: rem(14) }} />
-                ) : (
-                  <IconCopy style={{ height: rem(14), width: rem(14) }} />
-                )}
-              </ActionIcon>
-            </Tooltip>
-          )}
-        </CopyButton>
-        <Text size="sm">{item.data}</Text>
-      </Group>
-    ));
-  //.reverse();
+  const commands = messageHistory.map((item: any, index: number) => (
+    <Group gap={0} key={index}>
+      <CopyButton value={item.data} timeout={2000}>
+        {({ copied, copy }) => (
+          <Tooltip label={copied ? 'Copied' : 'Copy'} withArrow position="right">
+            <ActionIcon color={copied ? 'teal' : 'gray'} variant="subtle" onClick={copy}>
+              {copied ? (
+                <IconCheck style={{ height: rem(14), width: rem(14) }} />
+              ) : (
+                <IconCopy style={{ height: rem(14), width: rem(14) }} />
+              )}
+            </ActionIcon>
+          </Tooltip>
+        )}
+      </CopyButton>
+      <Text c="white" size="sm">
+        {item.data}
+      </Text>
+    </Group>
+  ));
 
   useEffect(() => {
     scrollToBottom();
@@ -60,7 +59,9 @@ export default function ShellCommands() {
     <>
       <Box p={2} h="130px">
         <ScrollArea px={10} h="100%" type="always" viewportRef={viewport} scrollbarSize={8}>
-          <Code>{commands}</Code>
+          <Code block color="#010101">
+            {commands}
+          </Code>
         </ScrollArea>
       </Box>
     </>

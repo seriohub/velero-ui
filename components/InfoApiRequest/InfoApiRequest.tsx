@@ -12,6 +12,7 @@ import {
   ScrollArea,
   Code,
   Box,
+  Pill,
 } from '@mantine/core';
 
 import Link from 'next/link';
@@ -32,7 +33,7 @@ export default function InfoApiRequest() {
   };
 
   const commands = value.state.apiHistory.map((item: any, index: number) => (
-    <Group gap={3} key={index}>
+    <Group gap={0} key={index}>
       <CopyButton value={item.url} timeout={2000}>
         {({ copied, copy }) => (
           <Tooltip label={copied ? 'Copied' : 'Copy'} withArrow position="right">
@@ -46,24 +47,22 @@ export default function InfoApiRequest() {
           </Tooltip>
         )}
       </CopyButton>
-      <Code fw={700}>{item.method}</Code>
-      <Text size="sm">{item.url}</Text>
-
+      <Box w="3.3rem">
+        <Pill radius={0} fw={700}>
+          {item.method}
+        </Pill>
+      </Box>
+      <Text c="white" size="sm">
+        {item.url}
+      </Text>
       <Tooltip label="Params">
-        <ActionIcon
-          component={Link}
-          variant="transparent"
-          href={item.url}
-          target="_blank"
-        >
-          <IconExternalLink style={{ height: rem(18), width: rem(18) }} />
+        <ActionIcon component={Link} variant="transparent" href={item.url} target="_blank">
+          <IconExternalLink style={{ height: rem(14), width: rem(14) }} />
         </ActionIcon>
       </Tooltip>
-
       {item.method === 'POST' && <InfoParamActionIcon params={item.params} />}
     </Group>
   ));
-  //.reverse();
 
   useEffect(() => {
     scrollToBottom();
@@ -72,15 +71,10 @@ export default function InfoApiRequest() {
   return (
     <>
       <Box p={2} h="130px">
-        <ScrollArea
-          px={10}
-          h="100%"
-          type="always"
-          viewportRef={viewport}
-          // classNames={classes}
-          scrollbarSize={8}
-        >
-          <Code>{commands}</Code>
+        <ScrollArea px={10} h="100%" type="always" viewportRef={viewport} scrollbarSize={8}>
+          <Code block color="#010101">
+            {commands}
+          </Code>
         </ScrollArea>
       </Box>
     </>

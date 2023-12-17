@@ -1,4 +1,4 @@
-import { Accordion, Tabs, Text } from '@mantine/core';
+import { Accordion, Box, Tabs } from '@mantine/core';
 
 import { IconTerminal2, IconPrompt, IconApi, IconPlus } from '@tabler/icons-react';
 
@@ -8,16 +8,19 @@ import classes from './Footer.module.css';
 
 export function AppShellFooter() {
   return (
-    <>
+    <Box style={{ borderTop: '1px solid #828282' }}>
       <Accordion
-        classNames={{ chevron: classes.chevron }}
+        classNames={{
+          chevron: classes.chevron,
+          label: classes.label,
+          control: classes.control,
+          content: classes.content,
+        }}
         chevron={<IconPlus className={classes.icon} />}
       >
         <Accordion.Item key="Debug" value="Debug">
-          <Accordion.Control icon={<IconPrompt />} style={{ paddingTop: '0px' }}>
-            <Text>Debug</Text>
-          </Accordion.Control>
-          <Accordion.Panel style={{ background: '#010101' }}>
+          <Accordion.Control icon={<IconPrompt />}>Debug</Accordion.Control>
+          <Accordion.Panel>
             <Tabs defaultValue="Shell" orientation="vertical">
               <Tabs.List>
                 <Tabs.Tab value="Shell" leftSection={<IconTerminal2 />}>
@@ -39,6 +42,6 @@ export function AppShellFooter() {
           </Accordion.Panel>
         </Accordion.Item>
       </Accordion>
-    </>
+    </Box>
   );
 }

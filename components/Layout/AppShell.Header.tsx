@@ -9,10 +9,14 @@ import SwitchColorScheme from '../SwitchColorScheme/SwitchColorScheme';
 export function AppShellHeader() {
   return (
     <Group w="100%" justify="flex-end">
-      <Box h={20}>
-        <Alert variant="filled" color="yellow" title="Alert title" icon={<IconInfoCircle />} p={8}>
-          Development version. Not optimized on mobile screen.
-        </Alert>
+      <Box h={30}>
+        <Alert
+          variant="filled"
+          color="yellow"
+          title="Development version. Not optimized on mobile screen."
+          icon={<IconInfoCircle />}
+          p={8}
+        />
       </Box>
       <Group>
         <Group ml={50} gap={10} visibleFrom="sm">

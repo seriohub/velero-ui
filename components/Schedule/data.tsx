@@ -44,7 +44,7 @@ export function ScheduleData() {
     getData('/api/v1/schedule/get');
   }, []);
 
-  useMemo(() => {
+  useEffect(() => {
     if (data !== undefined) {
       setItems(data.payload.items);
     } else setItems([]);
@@ -60,7 +60,7 @@ export function ScheduleData() {
         ? data_sorted.reverse().slice(from, to)
         : data_sorted.slice(from, to)
     );
-  }, [page, pageSize, sortStatus, data]);
+  }, [page, pageSize, sortStatus, items]);
 
   const renderActions: DataTableColumn<any>['render'] = (record) => (
     <Group gap={4} justify="right" wrap="nowrap">

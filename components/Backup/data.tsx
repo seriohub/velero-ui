@@ -117,7 +117,7 @@ export function BackupData({ limit = -1 }: BackupDataProps) {
         ? data_filter.reverse().slice(from, to)
         : data_filter.slice(from, to)
     );
-  }, [page, pageSize, sortStatus, selectedSchedule, selectedPhase, data]);
+  }, [page, pageSize, sortStatus, selectedSchedule, selectedPhase, items]);
 
   useEffect(() => {
     setPage(1);

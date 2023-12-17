@@ -6,7 +6,7 @@ import { DataTable, DataTableColumn, DataTableSortStatus } from 'mantine-datatab
 
 import { Group, Center, Stack } from '@mantine/core';
 
-import { IconClick } from '@tabler/icons-react';
+import { IconClick, IconRotateClockwise } from '@tabler/icons-react';
 
 import sortBy from 'lodash/sortBy';
 
@@ -63,7 +63,7 @@ export default function RecentTask() {
     <>
       <Stack h="100%" gap={0}>
         <Toolbar title="Recent task">
-          <RefreshDatatable setReload={setReload} reload={reload} />
+          <RefreshDatatable setReload={setReload} reload={reload} fetching={fetching} />
         </Toolbar>
 
         <DataTable

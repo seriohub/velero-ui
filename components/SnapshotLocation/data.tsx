@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { DataTable, DataTableColumn, DataTableSortStatus } from 'mantine-datatable';
 import sortBy from 'lodash/sortBy';
@@ -12,6 +12,7 @@ import { useApiWithGet } from '@/hooks/useApiWithGet';
 import RefreshDatatable from '../Actions/ToolbarActionIcons/RefreshDatatable';
 import Toolbar from '../Toolbar';
 import DetailActionIcon from '../Actions/DatatableActionsIcons/DetailActionIcon';
+import CredentialActionIcon from '../Actions/DatatableActionsIcons/CredentialActionIcon';
 
 const PAGE_SIZES = [5];
 
@@ -58,10 +59,11 @@ export function SnapshotLocation() {
 
   const renderActions: DataTableColumn<any>['render'] = (record) => (
     <Group gap={4} justify="right" wrap="nowrap">
+      <CredentialActionIcon name={record.metadata.name} record={record} />
       <DetailActionIcon name={record.metadata.name} record={record} />
     </Group>
   );
-  console.log(records);
+  
   return (
     <>
       <Stack h="100%" gap={0}>
@@ -101,6 +103,27 @@ export function SnapshotLocation() {
             },
 
             { accessor: 'spec.provider', title: 'Provider', sortable: true },
+            { accessor: 'spec.config.bucket', title: 'Bucket/Prefix', sortable: true },
+            {
+              accessor: 'spec.credential.name',
+              title: 'Cred. Secret Name',
+              sortable: true,
+              render: ({ spec }) => (
+                <>
+                  {spec.credential && spec.credential.name && spec.credential.name}
+                </>
+              ),
+            },
+            {
+              accessor: 'spec.credential.key',
+              title: 'Key Name',
+              sortable: true,
+              render: ({ spec }) => (
+                <>
+                  {spec.credential && spec.credential.key && <>{spec.credential.key}</>}
+                </>
+              ),
+            },
             {
               accessor: 'actions',
               title: (

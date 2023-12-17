@@ -12,6 +12,7 @@ import { useApiWithGet } from '@/hooks/useApiWithGet';
 import RefreshDatatable from '../Actions/ToolbarActionIcons/RefreshDatatable';
 import DetailActionIcon from '../Actions/DatatableActionsIcons/DetailActionIcon';
 import Toolbar from '../Toolbar';
+import CredentialActionIcon from '../Actions/DatatableActionsIcons/CredentialActionIcon';
 
 const PAGE_SIZES = [5];
 
@@ -58,6 +59,7 @@ export function BackupLocation() {
 
   const renderActions: DataTableColumn<any>['render'] = (record) => (
     <Group gap={4} justify="right" wrap="nowrap">
+      <CredentialActionIcon name={record.metadata.name} record={record} />
       <DetailActionIcon name={record.metadata.name} record={record} />
     </Group>
   );
@@ -108,12 +110,21 @@ export function BackupLocation() {
             { accessor: 'spec.accessMode', title: 'Access Mode', sortable: true },
             {
               accessor: 'spec.credential.name',
-              title: 'Credential',
+              title: 'Cred. Secret Name',
               sortable: true,
               render: ({ spec }) => (
                 <>
-                  {spec.credential && spec.credential.name && spec.credential.name}
-                  {spec.credential && spec.credential.key && <>: {spec.credential.key}</>}
+                  {spec.credential && spec.credential.name}
+                </>
+              ),
+            },
+            {
+              accessor: 'spec.credential.key',
+              title: 'Key Name',
+              sortable: true,
+              render: ({ spec }) => (
+                <>
+                  {spec.credential && spec.credential.key}
                 </>
               ),
             },

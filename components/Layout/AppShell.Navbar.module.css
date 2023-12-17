@@ -1,9 +1,9 @@
 .navbar {
   height: 100%;
-  padding: var(--mantine-spacing-md);
+  padding: var(--mantine-spacing-xs);
   display: flex;
   flex-direction: column;
-  border-right: rem(1px) solid light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4));
+  /*border-right: rem(1px) solid light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4));*/
 }
 
 .navbarMain {
@@ -13,7 +13,7 @@
 .header {
   padding-bottom: var(--mantine-spacing-md);
   margin-bottom: calc(var(--mantine-spacing-md) * 1.5);
-  border-bottom: rem(1px) solid light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4));
+  //border-bottom: rem(1px) solid light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4));
 }
 
 .footer {
