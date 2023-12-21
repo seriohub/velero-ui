@@ -16,6 +16,8 @@ import DeleteActionIcon from '@/components/Actions/DatatableActionsIcons/DeleteA
 import RefreshDatatable from '../Actions/ToolbarActionIcons/RefreshDatatable';
 import CreateBackupToolbarIcon from '../Actions/ToolbarActionIcons/CreateBackupToolbarIcon';
 import Toolbar from '../Toolbar';
+import UpdateExpirationActionIcon from '../Actions/DatatableActionsIcons/UpdateExpirationActionIcon';
+import ExpireIn from './ExpireIn';
 
 const PAGE_SIZES = [10, 15, 20];
 
@@ -100,7 +102,8 @@ export function BackupData({ limit = -1 }: BackupDataProps) {
       }
 
       if (
-        selectedSchedule.length !== 0 && metadata.labels !== undefined &&
+        selectedSchedule.length !== 0 &&
+        metadata.labels !== undefined &&
         !selectedSchedule.includes(metadata.labels['velero.io/schedule-name'])
       ) {
         return false;
@@ -127,6 +130,7 @@ export function BackupData({ limit = -1 }: BackupDataProps) {
     <Group gap={4} justify="right" wrap="nowrap">
       <DescribeActionIcon resourceType="backup" record={record} />
       <LogsActionIcon resourceType="backup" record={record} />
+      <UpdateExpirationActionIcon record={record} />
       <RestoreActionIcon
         resourceType="backup"
         record={record}
@@ -229,6 +233,16 @@ export function BackupData({ limit = -1 }: BackupDataProps) {
             { accessor: 'status.warnings', title: 'Warnings', sortable: true },
             { accessor: 'metadata.creationTimestamp', title: 'Created', sortable: true },
             { accessor: 'status.expiration', title: 'Expires', sortable: true },
+            {
+              accessor: 'status.expiration',
+              title: 'Expires in',
+              sortable: true,
+              render: ({ status }) => (
+                <>
+                  <ExpireIn expiration={status.expiration} />
+                </>
+              ),
+            },
             {
               accessor: 'metadata.labels["velero.io/storage-location"]',
               render: ({ metadata }) => (

@@ -6,7 +6,7 @@ import { DataTable, DataTableColumn, DataTableSortStatus } from 'mantine-datatab
 
 import { Group, Center, Stack } from '@mantine/core';
 
-import { IconClick, IconRotateClockwise } from '@tabler/icons-react';
+import { IconClick } from '@tabler/icons-react';
 
 import sortBy from 'lodash/sortBy';
 
@@ -15,6 +15,8 @@ import DescribeActionIcon from '../Actions/DatatableActionsIcons/DescribeActionI
 import LogsActionIcon from '../Actions/DatatableActionsIcons/LogsActionIcon';
 import RefreshDatatable from '../Actions/ToolbarActionIcons/RefreshDatatable';
 import Toolbar from '../Toolbar';
+import ExpireIn from '../Backup/ExpireIn';
+import DeleteActionIcon from '../Actions/DatatableActionsIcons/DeleteActionIcon';
 
 export default function RecentTask() {
   const { data, getData, error, fetching } = useApiWithGet();
@@ -53,9 +55,17 @@ export default function RecentTask() {
   }, []);
 
   const renderActions: DataTableColumn<any>['render'] = (record) => (
-    <Group gap={4} justify="right" wrap="nowrap">
+    <Group gap={4} justify="left" wrap="nowrap">
       <DescribeActionIcon resourceType={record.kind.toLowerCase()} record={record} />
       <LogsActionIcon resourceType={record.kind.toLowerCase()} record={record} />
+      {record.kind.toLowerCase() === 'backup' && (
+        <DeleteActionIcon
+          resourceType="backup"
+          record={record}
+          reload={reload}
+          setReload={setReload}
+        />
+      )}
     </Group>
   );
 
@@ -110,6 +120,17 @@ export default function RecentTask() {
             { accessor: 'status.warnings', title: 'Warnings', sortable: true },
             { accessor: 'status.startTimestamp', title: 'Start', sortable: true },
             { accessor: 'status.completionTimestamp', title: 'Completion', sortable: true },
+            { accessor: 'status.expiration', title: 'Expires', sortable: true },
+            {
+              accessor: 'status.expiration',
+              title: 'Expires in',
+              sortable: true,
+              render: ({ status }) => (
+                <>
+                  <ExpireIn expiration={status.expiration} />
+                </>
+              ),
+            },
             {
               accessor: 'actions',
               title: (

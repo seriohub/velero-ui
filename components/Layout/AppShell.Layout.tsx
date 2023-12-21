@@ -1,7 +1,7 @@
 'use client';
 
 import { useDisclosure } from '@mantine/hooks';
-import { AppShell, Box, Burger, Group, Stack } from '@mantine/core';
+import { AppShell, Box, Burger, Group, Stack, ScrollArea } from '@mantine/core';
 
 import { AppShellHeader } from './AppShell.Header';
 import { AppShellNavbar } from './AppShell.Navbar';
@@ -37,9 +37,9 @@ export default function AppShellLayout({ children }: AppShellLayoutProps) {
             justify="space-between"
             gap="lg"
           >
-            <Box p="md" style={{ height: 'calc(100% - 300px)' }}>
+            <ScrollArea p="md" style={{ height: 'calc(100% - 300px)' }}>
               {children}
-            </Box>
+            </ScrollArea>
             <Box p="md" style={{ height: '280px' }}>
               <RecentTask />
             </Box>

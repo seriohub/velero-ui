@@ -16,7 +16,7 @@ import DetailActionIcon from '../Actions/DatatableActionsIcons/DetailActionIcon'
 import RefreshDatatable from '../Actions/ToolbarActionIcons/RefreshDatatable';
 import Toolbar from '../Toolbar';
 
-const PAGE_SIZES = [10, 15, 20];
+const PAGE_SIZES = [5, 10, 15, 20];
 
 export function RepoLocation() {
   const { data, getData, error, fetching } = useApiWithGet();
@@ -28,7 +28,7 @@ export function RepoLocation() {
     direction: 'asc',
   });
 
-  const [pageSize, setPageSize] = useState(PAGE_SIZES[1]);
+  const [pageSize, setPageSize] = useState(PAGE_SIZES[0]);
   const [page, setPage] = useState(1);
 
   const [records, setRecords] = useState(items.slice(0, pageSize));
