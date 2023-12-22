@@ -3,20 +3,31 @@ pipeline {
 
     environment {
         // Environment variables
-        evGit_Source_Code = 'https://github.com/seriohub/velero-ui'             // Source code repository
-        evDocker_HUB = "${env.DEFAULT_DOCKER_REGISTRY}"                         // Default docker registry  (Global environment variable setting)
-        evDocker_Project ="${env.DOCKER_AUTHOR}"                                // author name
-        evDocker_HUB_Credentials = credentials('DEFAULT_DOCKER_CREDENTIALS')    // Credential stored in Jenkins Credential for logging in the HUB
+
+        // Source code repository
+        evGit_Source_Code = 'https://github.com/seriohub/velero-ui'
+
+        // Default docker registry  (Global environment variable setting)
+        evDocker_HUB = "${env.DEFAULT_DOCKER_REGISTRY}"
+
+        // Author name
+        evDocker_Project = "${env.DOCKER_AUTHOR}"
+
+        // Credential stored in Jenkins Credential for logging in the HUB
+        evDocker_HUB_Credentials = credentials('DEFAULT_DOCKER_CREDENTIALS')
+
         evTarget = 'velero-ui'
-        evLatestTag = ''
+        evLatestTag = 'dev'
         evCommitChangeset = ''
     }
     stages {
         stage('Clone Git Repository') {
             steps {
                 script {
+                    echo 'Clone Git repository...'
+
                     // Clone the GitHub repository
-                    checkout([$class: 'GitSCM', branches: [[name: '*/main']], userRemoteConfigs: [[url: evGit_Source_Code]]])
+                    checkout([$class: "GitSCM", branches: [[name: "*/main"]], userRemoteConfigs: [[url: evGit_Source_Code]]])
 
                     // Get the latest tag in the main branch
                     // evLatestTag = sh(script: 'git describe --tags --abbrev=0', returnStdout: true).trim()
@@ -24,11 +35,10 @@ pipeline {
                     // Remove the "v" prefix if it exists
                     // evLatestTag = evLatestTag.startsWith('v') ? evLatestTag.substring(1) : evLatestTag
 
-                    //echo "Latest Tag: ${evLatestTag}"
+                    // echo "Latest Tag: ${evLatestTag}"
 
                     // Set the latest tag as an environment variable for later use
-                    // GIT_TAG = evLatestTag
-                    GIT_TAG = 'dev'
+                    GIT_TAG = evLatestTag
 
                     //Get commit changes
                     evCommitChangeset = sh(returnStdout: true, script: "git log -1 --pretty='%s'").trim()
@@ -70,7 +80,8 @@ pipeline {
                         }
                     }
 
-                    sh "echo '$evDocker_HUB_Credentials_PSW' | docker login -u $evDocker_HUB_Credentials_USR --password-stdin ${pushTo}"
+                    sh "echo ${evDocker_HUB_Credentials_PSW} | docker login -u ${evDocker_HUB_Credentials_USR} --password-stdin ${pushTo}"
+
                     def dockerImageName = "$evDocker_Project/$evTarget"
 
                     if (evDocker_HUB != null) {
@@ -91,7 +102,7 @@ pipeline {
         always {
             script {
                 def pipelineName = currentBuild.fullProjectName
-                def message
+                def message = ''
 
                 if (currentBuild.resultIsBetterOrEqualTo('SUCCESS')) {
                     message = "Jenkins Pipeline ${pipelineName} : Your image version ${evLatestTag} has been successfully pushed to the Docker Registry.\nCommit changes:\n ${evCommitChangeset}"
