@@ -9,22 +9,24 @@ import 'mantine-datatable/styles.layer.css';
 
 import React, { useState } from 'react';
 import { MantineProvider, ColorSchemeScript } from '@mantine/core';
-import { ModalsProvider } from '@mantine/modals';
-import { Notifications } from '@mantine/notifications';
-import { PublicEnvScript, PublicEnvProvider } from 'next-runtime-env';
+import { PublicEnvScript } from 'next-runtime-env';
 import { theme } from '../theme';
 
 import VeleroAppContexts from '@/contexts/VeleroAppContexts';
 
-import AppShellLayout from '@/components/Layout/AppShell.Layout';
-
 export default function RootLayout({ children }: { children: any }) {
   const [appApiHistory, setAppApiHistory] = useState<Array<any>>([]);
+  const [appRefreshDatatableAfter, setAppRefreshDatatableAfter] = useState<Number>(
+    Number(`${process.env.NEXT_PUBLIC_REFRESH_DATATABLE_AFTER}`)
+  );
+  const [appRefreshRecent, setAppRefreshRecent] = useState<Number>(
+    Number(`${process.env.NEXT_PUBLIC_REFRESH_RECENT}`)
+  );
 
   return (
     <html lang="en">
       <head>
-        <PublicEnvScript />
+        <PublicEnvScript nonce={{ headerKey: 'x-nonce' }} />
         <ColorSchemeScript />
         <title>Velero</title>
         <link rel="shortcut icon" href="/favicon.svg" />
@@ -39,16 +41,15 @@ export default function RootLayout({ children }: { children: any }) {
             value={{
               state: {
                 apiHistory: appApiHistory,
+                refreshDatatableAfter: appRefreshDatatableAfter,
+                refreshRecent: appRefreshRecent,
               },
               setApiHistory: setAppApiHistory,
+              setRefreshDatatableAfter: setAppRefreshDatatableAfter,
+              setRefreshRecent: setAppRefreshRecent,
             }}
           >
-            <Notifications />
-            <ModalsProvider>
-              <AppShellLayout>
-                <PublicEnvProvider>{children}</PublicEnvProvider>
-              </AppShellLayout>
-            </ModalsProvider>
+            {children}
           </VeleroAppContexts.Provider>
         </MantineProvider>
       </body>

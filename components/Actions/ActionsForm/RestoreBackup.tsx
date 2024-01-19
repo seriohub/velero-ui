@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { Button, Group, Text, TextInput } from '@mantine/core';
 import { closeAllModals } from '@mantine/modals';
 
-import { useApiWithPost } from '@/hooks/useApiWithPost';
+import { useApiPost } from '@/hooks/useApiPost';
 
 interface RestoreBackupProps {
   resourceType: string;
@@ -20,7 +20,7 @@ export function RestoreBackup({
   reload,
   setReload,
 }: RestoreBackupProps) {
-  const { data, postData, error, fetching } = useApiWithPost();
+  const { postData } = useApiPost();
   const [parameters, setParamaters] = useState('');
 
   function restore_backup() {

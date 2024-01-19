@@ -4,7 +4,7 @@ import { Loader, Center, Box, TextInput, Group, Button } from '@mantine/core';
 import { useEffect } from 'react';
 import { useForm } from '@mantine/form';
 
-import { useApiWithGet } from '@/hooks/useApiWithGet';
+import { useApiGet } from '@/hooks/useApiGet';
 
 import 'react-json-view-lite/dist/index.css';
 
@@ -13,7 +13,7 @@ interface UpdateExpirationProps {
 }
 
 export function UpdateExpiration({ record = {} }: UpdateExpirationProps) {
-  const { data, getData, error, fetching } = useApiWithGet();
+  const { data, getData } = useApiGet();
 
   // const [credential, setCredential] = useState<any>({});
 
@@ -44,7 +44,10 @@ export function UpdateExpiration({ record = {} }: UpdateExpirationProps) {
     );
   }
   function onDone(values: any) {
-    getData('/api/v1/backup/update-expiration', `backup_name=${record.metadata.name}&expiration=${values.expiration}`);
+    getData(
+      '/api/v1/backup/update-expiration',
+      `backup_name=${record.metadata.name}&expiration=${values.expiration}`
+    );
   }
   return (
     <>
@@ -54,11 +57,7 @@ export function UpdateExpiration({ record = {} }: UpdateExpirationProps) {
             onDone(values);
           })}
         >
-          <TextInput
-            label="expiration"
-            placeholder=""
-            {...form.getInputProps('expiration')}
-          />
+          <TextInput label="expiration" placeholder="" {...form.getInputProps('expiration')} />
           <Group justify="flex-end" mt="md">
             <Button type="submit">Submit</Button>
           </Group>

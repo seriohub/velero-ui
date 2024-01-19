@@ -4,7 +4,7 @@ import { Loader, Center, Box, TextInput } from '@mantine/core';
 import { useEffect } from 'react';
 import { useForm } from '@mantine/form';
 
-import { useApiWithGet } from '@/hooks/useApiWithGet';
+import { useApiGet } from '@/hooks/useApiGet';
 
 import 'react-json-view-lite/dist/index.css';
 
@@ -21,7 +21,7 @@ export function Credential({
   secretKey = '',
   cloudCredential = false,
 }: CredentialProps) {
-  const { data, getData, error, fetching } = useApiWithGet();
+  const { data, getData } = useApiGet();
 
   // const [credential, setCredential] = useState<any>({});
 

@@ -40,7 +40,6 @@ export function BackupsStats({ stats, title }: BackupsStatsProps) {
         <Center>
           <RingProgress
             size={200}
-            //size={stats.backups_count}
             thickness={24}
             label={
               <Text size="xs" ta="center" px="xs" style={{ pointerEvents: 'none' }}>

@@ -8,11 +8,17 @@ export const useAppWebSocket = () => {
   const NEXT_PUBLIC_VELERO_API_WS = env('NEXT_PUBLIC_VELERO_API_WS');
 
   //const [socketUrl, setSocketUrl] = useState(`${process.env.NEXT_PUBLIC_VELERO_API_WS}/ws`);
-  const socketUrl = `${NEXT_PUBLIC_VELERO_API_WS}/ws`;
+  const socketUrl = `${process.env.NEXT_PUBLIC_VELERO_API_WS}/ws`;
 
   const [messageHistory, setMessageHistory] = useState<Array<any>>([]);
   const didUnmount = useRef(false);
+
+  const jwtToken = typeof localStorage !== 'undefined' ? localStorage.getItem('token') : '';
+
   const { sendMessage, lastMessage, readyState } = useWebSocket(socketUrl, {
+    //queryParams: {
+    //  token: `${jwtToken}`,
+    //},
     shouldReconnect: (closeEvent) => didUnmount.current === false,
     reconnectAttempts: 10,
     reconnectInterval: 3000,
@@ -20,8 +26,12 @@ export const useAppWebSocket = () => {
 
   useEffect(() => {
     if (lastMessage !== null) {
-      if (typeof lastMessage === 'object' && lastMessage.data !== undefined && typeof lastMessage.data === 'string') {
-        setMessageHistory((prev) => prev.concat(lastMessage));
+      if (
+        typeof lastMessage === 'object' &&
+        lastMessage.data !== undefined &&
+        typeof lastMessage.data === 'string'
+      ) {
+        setMessageHistory((prev) => prev.concat(lastMessage.data));
       }
     }
   }, [lastMessage]);
@@ -35,8 +45,8 @@ export const useAppWebSocket = () => {
   }[readyState];
 
   return {
-    lastMessage,
-    connectionStatus,
+    // lastMessage,
+    // connectionStatus,
     messageHistory,
   };
 };
