@@ -18,12 +18,13 @@ export default function RootLayout({ children }: { children: any }) {
   const [appApiHistory, setAppApiHistory] = useState<Array<any>>([]);
 
   const NEXT_PUBLIC_REFRESH_DATATABLE_AFTER = env('NEXT_PUBLIC_REFRESH_DATATABLE_AFTER');
+  const NEXT_PUBLIC_REFRESH_RECENT = env('NEXT_PUBLIC_REFRESH_RECENT');
 
   const [appRefreshDatatableAfter, setAppRefreshDatatableAfter] = useState<Number>(
     Number(`${NEXT_PUBLIC_REFRESH_DATATABLE_AFTER}`)
   );
   const [appRefreshRecent, setAppRefreshRecent] = useState<Number>(
-    Number(`${process.env.NEXT_PUBLIC_REFRESH_RECENT}`)
+    Number(`${NEXT_PUBLIC_REFRESH_RECENT}`)
   );
 
   return (
