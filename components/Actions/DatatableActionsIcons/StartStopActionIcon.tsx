@@ -4,7 +4,9 @@ import { ActionIcon, Tooltip } from '@mantine/core';
 
 import { IconPlayerPause, IconPlayerPlay } from '@tabler/icons-react';
 
-import { useApiWithGet } from '@/hooks/useApiWithGet';
+import { useApiGet } from '@/hooks/useApiGet';
+import VeleroAppContexts from '@/contexts/VeleroAppContexts';
+import { useContext } from 'react';
 
 interface StartStopActionIconProps {
   resourceName: string;
@@ -19,14 +21,15 @@ export default function StartStopActionIcon({
   reload,
   setReload,
 }: StartStopActionIconProps) {
-  const { data, getData, error, fetching } = useApiWithGet();
+  const appValues = useContext(VeleroAppContexts);
+  const { getData } = useApiGet();
 
   function unpause_schedule() {
     getData('/api/v1/schedule/unpause', `resource_name=${resourceName}`);
     const interval = setInterval(() => {
       setReload(reload + 1);
       clearInterval(interval);
-    }, 5000);
+    }, appValues.state.refreshDatatableAfter);
   }
 
   function pause_schedule() {
@@ -34,7 +37,7 @@ export default function StartStopActionIcon({
     const interval = setInterval(() => {
       setReload(reload + 1);
       clearInterval(interval);
-    }, 5000);
+    }, appValues.state.refreshDatatableAfter);
   }
 
   return (

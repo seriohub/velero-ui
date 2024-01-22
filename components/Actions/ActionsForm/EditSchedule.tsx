@@ -1,13 +1,14 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
 import { useForm } from '@mantine/form';
 import { closeAllModals } from '@mantine/modals';
 
-import { useApiWithGet } from '@/hooks/useApiWithGet';
-import { useApiWithPost } from '@/hooks/useApiWithPost';
+import { useApiGet } from '@/hooks/useApiGet';
+import { useApiPost } from '@/hooks/useApiPost';
 import CreateBackupScheduleForm from './CreateBackupScheduleForm';
+import VeleroAppContexts from '@/contexts/VeleroAppContexts';
 
 interface EditScheduleProps {
   record: any;
@@ -15,9 +16,10 @@ interface EditScheduleProps {
   setReload: any;
 }
 export function EditSchedule({ record, reload, setReload }: EditScheduleProps) {
-  const { data, getData, error, fetching } = useApiWithGet();
+  const appValues = useContext(VeleroAppContexts);
+  const { data, getData } = useApiGet();
 
-  const { postData } = useApiWithPost();
+  const { postData } = useApiPost();
 
   const [namespaces, setNamespaces] = useState([]);
   const [backupLocation, setBackupLocation] = useState([]);
@@ -73,7 +75,7 @@ export function EditSchedule({ record, reload, setReload }: EditScheduleProps) {
     const interval = setInterval(() => {
       setReload(reload + 1);
       clearInterval(interval);
-    }, 3000);
+    }, appValues.state.refreshDatatableAfter);
   }
 
   return (

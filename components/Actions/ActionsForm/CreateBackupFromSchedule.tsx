@@ -3,14 +3,14 @@
 import { Button, Group, Text } from '@mantine/core';
 import { closeAllModals } from '@mantine/modals';
 
-import { useApiWithPost } from '@/hooks/useApiWithPost';
+import { useApiPost } from '@/hooks/useApiPost';
 
 interface CreateBackupFromScheduleProps {
   scheduleName: string;
 }
 
 export function CreateBackupFromSchedule({ scheduleName }: CreateBackupFromScheduleProps) {
-  const { data, postData, error, fetching } = useApiWithPost();
+  const { postData } = useApiPost();
 
   function createBackupFromSchedule() {
     postData('/api/v1/backup/create-from-schedule', { scheduleName: `${scheduleName}` });

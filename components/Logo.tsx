@@ -18,8 +18,8 @@ export function Logo() {
         }}
       >
         <Group>
-          <Text fw={900} fz="xl" c="dimmed" size="xl">
-            Velero
+          <Text fw={900} fz="xl" size="xl">
+            Velero UI
           </Text>
         </Group>
       </Anchor>

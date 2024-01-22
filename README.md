@@ -30,10 +30,12 @@ This project was created to simplify through a user interface some velero backup
 
 ## Configuration
 
-| FIELD                        | TYPE   | DEFAULT                   | DESCRIPTION                                                              |
-|------------------------------|--------|---------------------------|--------------------------------------------------------------------------|
-| `NEXT_PUBLIC_VELERO_API_URL` | String | http://127.0.0.1:8001     | Url to http [velero-api](https://github.com/seriohub/velero-api) project |
-| `NEXT_PUBLIC_VELERO_API_WS`  | String | ws://127.0.0.1:8001       | Url to ws [velero-api](https://github.com/seriohub/velero-api) project   |
+| FIELD                                 | TYPE   | DEFAULT                   | DESCRIPTION                                                              |
+|---------------------------------------|--------|---------------------------|--------------------------------------------------------------------------|
+| `NEXT_PUBLIC_REFRESH_DATATABLE_AFTER` | Number | 1500                      | Milliseconds delay for datatable update after each operation.            |
+| `NEXT_PUBLIC_REFRESH_RECENT`          | Number | 5000                      | Polling **task in progress** updates in milliseconds.                    |
+| `NEXT_PUBLIC_VELERO_API_URL`          | String | http://127.0.0.1:8001     | Url to http [velero-api](https://github.com/seriohub/velero-api) project |
+| `NEXT_PUBLIC_VELERO_API_WS`           | String | ws://127.0.0.1:8001       | Url to ws [velero-api](https://github.com/seriohub/velero-api) project   |
 
 ## Installation
 

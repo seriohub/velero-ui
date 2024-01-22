@@ -17,7 +17,7 @@ import { IconCopy, IconCheck } from '@tabler/icons-react';
 import { useAppWebSocket } from '@/hooks/useAppWebSocket';
 
 export default function ShellCommands() {
-  const { messageHistory, lastMessage, connectionStatus } = useAppWebSocket();
+  const { messageHistory } = useAppWebSocket();
   const viewport = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -28,7 +28,7 @@ export default function ShellCommands() {
 
   const commands = messageHistory.map((item: any, index: number) => (
     <Group gap={0} key={index}>
-      <CopyButton value={item.data} timeout={2000}>
+      <CopyButton value={item} timeout={2000}>
         {({ copied, copy }) => (
           <Tooltip label={copied ? 'Copied' : 'Copy'} withArrow position="right">
             <ActionIcon color={copied ? 'teal' : 'gray'} variant="subtle" onClick={copy}>
@@ -42,7 +42,7 @@ export default function ShellCommands() {
         )}
       </CopyButton>
       <Text c="white" size="sm">
-        {item.data}
+        {item}
       </Text>
     </Group>
   ));
@@ -51,9 +51,9 @@ export default function ShellCommands() {
     scrollToBottom();
   }, [messageHistory]);
 
-  if (lastMessage === null || !('data' in lastMessage)) {
+  /*if (lastMessage === null || lastMessage === undefined || !('data' in lastMessage)) {
     return <></>;
-  }
+  }*/
 
   return (
     <>

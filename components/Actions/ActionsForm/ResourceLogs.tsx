@@ -5,8 +5,8 @@ import { useEffect } from 'react';
 import { Button, Group, Stack } from '@mantine/core';
 import { closeAllModals } from '@mantine/modals';
 
-import { useApiWithGet } from '@/hooks/useApiWithGet';
-import { Logs } from '@/components/Logs/logs';
+import { useApiGet } from '@/hooks/useApiGet';
+import { Logs } from '@/components/Logs/Logs';
 
 interface ResourceLogsProps {
   resourceType: string;
@@ -14,7 +14,7 @@ interface ResourceLogsProps {
 }
 
 export function ResourceLogs({ resourceType, resourceName }: ResourceLogsProps) {
-  const { data, getData, error, fetching } = useApiWithGet();
+  const { data, getData, error, fetching } = useApiGet();
 
   useEffect(() => {
     getData(`/api/v1/${resourceType}/logs`, `resource_name=${resourceName}`);

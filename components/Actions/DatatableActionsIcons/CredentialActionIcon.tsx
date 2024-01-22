@@ -51,12 +51,7 @@ export default function CredentialActionIcon({ name, record }: DetailActionIconP
               openModal({
                 title: `Credential ${name}`,
                 size: 'md',
-                children: (
-                  <Credential
-                    record={record}
-                    cloudCredential={true}
-                  />
-                ),
+                children: <Credential record={record} cloudCredential />,
               });
             }}
           >
