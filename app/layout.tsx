@@ -9,15 +9,18 @@ import 'mantine-datatable/styles.layer.css';
 
 import React, { useState } from 'react';
 import { MantineProvider, ColorSchemeScript } from '@mantine/core';
-import { PublicEnvScript } from 'next-runtime-env';
+import { PublicEnvScript, env } from 'next-runtime-env';
 import { theme } from '../theme';
 
 import VeleroAppContexts from '@/contexts/VeleroAppContexts';
 
 export default function RootLayout({ children }: { children: any }) {
   const [appApiHistory, setAppApiHistory] = useState<Array<any>>([]);
+
+  const NEXT_PUBLIC_REFRESH_DATATABLE_AFTER = env('NEXT_PUBLIC_REFRESH_DATATABLE_AFTER');
+
   const [appRefreshDatatableAfter, setAppRefreshDatatableAfter] = useState<Number>(
-    Number(`${process.env.NEXT_PUBLIC_REFRESH_DATATABLE_AFTER}`)
+    Number(`${NEXT_PUBLIC_REFRESH_DATATABLE_AFTER}`)
   );
   const [appRefreshRecent, setAppRefreshRecent] = useState<Number>(
     Number(`${process.env.NEXT_PUBLIC_REFRESH_RECENT}`)
