@@ -8,7 +8,7 @@ export const useAppWebSocket = () => {
   const NEXT_PUBLIC_VELERO_API_WS = env('NEXT_PUBLIC_VELERO_API_WS');
 
   //const [socketUrl, setSocketUrl] = useState(`${process.env.NEXT_PUBLIC_VELERO_API_WS}/ws`);
-  const socketUrl = `${process.env.NEXT_PUBLIC_VELERO_API_WS}/ws`;
+  const socketUrl = `${NEXT_PUBLIC_VELERO_API_WS}/ws`;
 
   const [messageHistory, setMessageHistory] = useState<Array<any>>([]);
   const didUnmount = useRef(false);

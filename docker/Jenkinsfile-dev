@@ -27,15 +27,15 @@ pipeline {
                     echo 'Clone Git repository...'
 
                     // Clone the GitHub repository
-                    checkout([$class: "GitSCM", branches: [[name: "*/main"]], userRemoteConfigs: [[url: evGit_Source_Code]]])
+                    checkout([$class: "GitSCM", branches: [[name: "*/dev"]], userRemoteConfigs: [[url: evGit_Source_Code]]])
 
                     // Get the latest tag in the main branch
-                    evLatestTag = sh(script: 'git describe --tags --abbrev=0', returnStdout: true).trim()
+                    // evLatestTag = sh(script: 'git describe --tags --abbrev=0', returnStdout: true).trim()
 
                     // Remove the "v" prefix if it exists
-                    evLatestTag = evLatestTag.startsWith('v') ? evLatestTag.substring(1) : evLatestTag
+                    // evLatestTag = evLatestTag.startsWith('v') ? evLatestTag.substring(1) : evLatestTag
 
-                    echo "Latest Tag: ${evLatestTag}"
+                    // echo "Latest Tag: ${evLatestTag}"
 
                     // Set the latest tag as an environment variable for later use
                     GIT_TAG = evLatestTag
@@ -64,7 +64,7 @@ pipeline {
                     sh "docker build --target base -f ${dockerfilePath} ."
                     sh "docker build --target deps -f ${dockerfilePath} ."
                     sh "docker build --target builder -f ${dockerfilePath} ."
-                    sh "docker build --target ${evTarget} -t ${dockerHubProject}:${GIT_TAG} -t ${dockerHubProject}:latest -f ${dockerfilePath} ."
+                    sh "docker build --target ${evTarget} -t ${dockerHubProject}:${GIT_TAG} -f ${dockerfilePath} ."
                 }
             }
         }
@@ -92,7 +92,6 @@ pipeline {
                     }
                     echo "Docker push to:- ${dockerImageName} -"
                     sh "docker push ${dockerImageName}:${GIT_TAG}"
-                    sh "docker push ${dockerImageName}:latest"
                     sh 'docker logout '
                 }
             }

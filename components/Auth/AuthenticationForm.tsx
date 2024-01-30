@@ -15,10 +15,12 @@ import {
   useMantineColorScheme,
 } from '@mantine/core';
 import { IconLock, IconUser } from '@tabler/icons-react';
+import { env } from 'next-runtime-env';
 
 export function AuthenticationForm() {
   const router = useRouter();
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
+  const NEXT_PUBLIC_VELERO_API_URL = env('NEXT_PUBLIC_VELERO_API_URL');
   const form = useForm({
     initialValues: {
       username: '',
@@ -37,7 +39,7 @@ export function AuthenticationForm() {
     const formData = new FormData();
     formData.append('username', form.values.username);
     formData.append('password', form.values.password);
-    const res = await fetch(`${process.env.NEXT_PUBLIC_VELERO_API_URL}/api/v1/token`, {
+    const res = await fetch(`${NEXT_PUBLIC_VELERO_API_URL}/api/v1/token`, {
       method: 'POST',
       body: formData,
     });
