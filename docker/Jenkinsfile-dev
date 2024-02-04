@@ -60,7 +60,7 @@ pipeline {
                         }
                     }
 
-                    export now="$(date -u +'%Y-%m-%dT%H:%M:%SZ')"
+                    sh export now="$(date -u +'%Y-%m-%dT%H:%M:%SZ')"
                     // Build the Docker image, specifying the Dockerfile path
                     sh "docker build --target base -f ${dockerfilePath} ."
                     sh "docker build --target deps -f ${dockerfilePath} ."
