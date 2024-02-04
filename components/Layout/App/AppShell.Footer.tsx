@@ -6,7 +6,8 @@ import { Group, Space, Text } from '@mantine/core';
 
 export function AppShellFooter() {
   const value = useContext(VeleroAppContexts);
-  const NEXT_PUBLIC_VELERO_API_URL = env('NEXT_PUBLIC_FRONT_END_VERSION');
+  const NEXT_PUBLIC_FRONT_END_VERSION = env('NEXT_PUBLIC_FRONT_END_VERSION');
+  const NEXT_PUBLIC_FRONT_END_BUILD_DATE = env('NEXT_PUBLIC_FRONT_END_BUILD_DATE');
   const { data, getData } = useApiGet();
 
   useEffect(() => {
@@ -18,13 +19,13 @@ export function AppShellFooter() {
       <Group justify="flex-end" mx={5}>
         {data && <>
         <Group gap={5}>
-          <Text >API</Text> 
+          <Text >API:</Text> 
           <Text fw={800}>{data['release_version']}({data['release_date']})</Text>
           </Group>
         </>}
         <Group gap={5}>
-        <Text>UI</Text>
-        <Text fw={800}>{NEXT_PUBLIC_VELERO_API_URL}</Text>
+        <Text>UI:</Text>
+        <Text fw={800}>{NEXT_PUBLIC_FRONT_END_VERSION}({NEXT_PUBLIC_FRONT_END_BUILD_DATE})</Text>
         </Group>
       </Group>
     </>
