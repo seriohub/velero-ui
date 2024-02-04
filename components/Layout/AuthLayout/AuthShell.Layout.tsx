@@ -3,6 +3,7 @@
 import { AppShell, Group, Stack, Flex, Box } from '@mantine/core';
 
 import { AuthShellHeader } from './AuthShell.Header';
+import { AppShellFooter } from '../App/AppShell.Footer';
 
 interface AuthShellLayoutProps {
   children: any;
@@ -32,6 +33,9 @@ export default function AuthShellLayout({ children }: AuthShellLayoutProps) {
             </Flex>
           </Stack>
         </AppShell.Main>
+        <AppShell.Footer>
+          <AppShellFooter />
+        </AppShell.Footer>
       </AppShell>
     </>
   );

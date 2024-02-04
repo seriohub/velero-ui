@@ -56,9 +56,15 @@ RUN yarn build
 
 # Production image, copy all the files and run next
 FROM base AS velero-ui
+ARG VERSION
+ARG BUILD_DATE
+
 WORKDIR /app
 
 ENV NODE_ENV production
+ENV NEXT_PUBLIC_FRONT_END_VERSION=$VERSION
+ENV NEXT_PUBLIC_FRONT_END_BUILD_DATE=$BUILD_DATE
+
 # Uncomment the following line in case you want to disable telemetry during runtime.
 ENV NEXT_TELEMETRY_DISABLED 1
 

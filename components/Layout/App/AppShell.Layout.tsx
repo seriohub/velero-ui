@@ -7,6 +7,7 @@ import { AppShellHeader } from './AppShell.Header';
 import { AppShellNavbar } from './AppShell.Navbar';
 import { AppShellFooter } from './AppShell.Footer';
 import TaskInProgress from '../../TaskInProgress/TaskInProgress';
+import { AppShellMainFooter } from './AppShell.Main.Footer';
 
 interface AppShellLayoutProps {
   children: any;
@@ -33,7 +34,7 @@ export default function AppShellLayout({ children }: AppShellLayoutProps) {
         </AppShell.Navbar>
         <AppShell.Main>
           <Stack
-            h="calc(100vh - var(--app-shell-header-height, 0px) - var(--app-shell-footer-height, 0px) - 0px)"
+            h="calc(100vh - var(--app-shell-header-height, 0px) - var(--app-shell-footer-height, 0px) - 25px)"
             justify="space-between"
             gap="lg"
           >
@@ -48,13 +49,13 @@ export default function AppShellLayout({ children }: AppShellLayoutProps) {
               defaultValue={['RecentTask']}
             >
               <TaskInProgress />
-              <AppShellFooter />
+              <AppShellMainFooter />
             </Accordion>
           </Stack>
         </AppShell.Main>
-        {/*<AppShell.Footer style={{ background: '#c1c3c5' }} withBorder>
+        <AppShell.Footer>
           <AppShellFooter />
-        </AppShell.Footer>*/}
+        </AppShell.Footer>
       </AppShell>
     </>
   );
