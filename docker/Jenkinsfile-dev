@@ -60,11 +60,12 @@ pipeline {
                         }
                     }
 
+                    export now="$(date -u +'%Y-%m-%dT%H:%M:%SZ')"
                     // Build the Docker image, specifying the Dockerfile path
                     sh "docker build --target base -f ${dockerfilePath} ."
                     sh "docker build --target deps -f ${dockerfilePath} ."
                     sh "docker build --target builder -f ${dockerfilePath} ."
-                    sh "docker build --build-arg NEXT_PUBLIC_FRONT_END_VERSION=dev --target ${evTarget} -t ${dockerHubProject}:${GIT_TAG} -f ${dockerfilePath} ."
+                    sh "docker build --build-arg VERSION=dev --build-arg BUILD_DATE=${now} --target ${evTarget} -t ${dockerHubProject}:${GIT_TAG} -f ${dockerfilePath} ."
                 }
             }
         }
