@@ -1,17 +1,37 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
-import { Button, Group, Text, TextInput } from '@mantine/core';
+import {
+  Button,
+  Card,
+  Divider,
+  Group,
+  List,
+  Select,
+  Space,
+  Text,
+  TextInput,
+  ThemeIcon,
+  rem,
+} from '@mantine/core';
 import { closeAllModals } from '@mantine/modals';
 
+import { useForm } from '@mantine/form';
 import { useApiPost } from '@/hooks/useApiPost';
+import { useApiGet } from '@/hooks/useApiGet';
+import { IconCheck, IconInfoCircle, IconX } from '@tabler/icons-react';
+import { IconArrowRight } from '@tabler/icons-react';
 
 interface RestoreBackupProps {
   resourceType: string;
   resourceName: string;
   reload: number;
   setReload: any;
+}
+
+interface MappingNamespace {
+  [key: string]: any; // Or specify the type of values if known
 }
 
 export function RestoreBackup({
@@ -21,42 +41,267 @@ export function RestoreBackup({
   setReload,
 }: RestoreBackupProps) {
   const { postData } = useApiPost();
-  const [parameters, setParamaters] = useState('');
+
+  const { data: dataRestore, getData: getDataRestore } = useApiGet();
+  const { data: storageClasses, getData: getStorageClasses } = useApiGet();
+  const { data: pvc, getData: getPvc } = useApiGet();
+  const { data: configMap, getData: getConfigMap } = useApiGet();
+
+  // ui dynamic react node
+  const [storageClassesList, setStoragesClassesList] = useState<React.ReactNode[]>([]);
+  const [configMapList, setConfigMapList] = useState<React.ReactNode[]>([]);
+  const [mappingNamespaceList, setMappingNamespaceList] = useState<React.ReactNode[]>([]);
+  const [pvcList, setPvcList] = useState<React.ReactNode[]>([]);
+
+  const [mapNamespace, setMapNamespace] = useState<MappingNamespace>({});
+
+  const form = useForm({
+    initialValues: {
+      mappingNamespace: {},
+      parameters: '',
+    },
+  });
 
   function restore_backup() {
     postData('/api/v1/restore/create', {
       resource_name: `${resourceName}`,
       resource_type: `${resourceType}`,
-      parameters,
+      mapping_namespaces: form.values.mappingNamespace,
+      parameters: form.values.parameters,
     });
     setReload(reload + 1);
   }
 
+  function onDone(values: any) {
+    restore_backup();
+    closeAllModals();
+  }
+
+  function updateMappingNamespace(item: string, e: any) {
+    if (e.currentTarget.value !== '') {
+      let tmp = mapNamespace;
+      tmp[item] = e.currentTarget.value;
+      setMapNamespace(tmp);
+    } else {
+      let tmp = mapNamespace;
+      delete tmp[item];
+      setMapNamespace(tmp);
+    }
+  }
+
+  useEffect(() => {
+    form.values.mappingNamespace = mapNamespace;
+  }, [mapNamespace]);
+
+  // load data
+  useEffect(() => {
+    getDataRestore(`/api/v1/${resourceType}/describe`, `resource_name=${resourceName}`); // object
+    getPvc('/api/v1/backup/get-storage-classes', `backup_name=${resourceName}`); // list of object of pvc data
+    getStorageClasses('/api/v1/k8s/sc/get'); // { storage-class : { name: ..., provisioner: ..., parameteres: ...}}
+    getConfigMap('/api/v1/sc/change-storage-classes-config-map/get'); // list of object [{<oldStorageClass>: <newStorageClass>}, ...]
+  }, []);
+
+  useEffect(() => {
+    if (
+      dataRestore !== undefined &&
+      dataRestore['payload']['status']['resourceList']['v1/Namespace'] !== undefined
+    ) {
+      const values = dataRestore['payload']['status']['resourceList']['v1/Namespace'].map(
+        (item: string) => (
+          <>
+            <TextInput
+              key={item}
+              label={`Namespace ${item}`}
+              placeholder={`Optional: new name for the namespace ${item}`}
+              // value={parameters}
+              onChange={(e) => updateMappingNamespace(item, e)}
+            />
+          </>
+        )
+      );
+      setMappingNamespaceList(values);
+    }
+  }, [dataRestore]);
+
+  useEffect(() => {
+    if (storageClasses !== undefined) {
+      const values = Object.keys(storageClasses).map((item: any) => (
+        <List.Item key={item}>
+          <Text size="sm">{`${item}`}</Text>
+        </List.Item>
+      ));
+      setStoragesClassesList(values);
+    }
+  }, [storageClasses]);
+
+  useEffect(() => {
+    if (configMap !== undefined) {
+      const values = configMap.map((item: any) => (
+        <List.Item key={item['oldStorageClass']}>
+          <Text size="sm">
+            {`${item['oldStorageClass']}`} : {`${item['newStorageClass']}`}
+          </Text>
+        </List.Item>
+      ));
+      setConfigMapList(values);
+    }
+  }, [configMap]);
+
+  useEffect(() => {
+    if (pvc !== undefined) {
+      const values = pvc.map((item: any) => (
+        <>
+          <Group gap={5}>
+            <Text size="sm">PVC name:</Text>
+            <Text size="sm" fw={800}>
+              {item['metadata']['name']}
+            </Text>
+            <Space w={20} />
+            <Text size="sm">Backup storage class:</Text>
+            {storageClasses !== undefined &&
+              item['spec']['storageClassName'] !== 'manual' &&
+              Object.keys(storageClasses).includes(item['spec']['storageClassName']) && (
+                <>
+                  <IconCheck color="green" />
+                </>
+              )}
+            {storageClasses !== undefined &&
+              item['spec']['storageClassName'] !== 'manual' &&
+              !Object.keys(storageClasses).includes(item['spec']['storageClassName']) && (
+                <>
+                  <IconX color="red" />
+                </>
+              )}
+            <Text size="sm" fw={800}>
+              {item['spec']['storageClassName']}
+            </Text>
+            <Space w={20} />
+            {configMap !== undefined &&
+              configMap.some(
+                (obj: { [x: string]: any }) =>
+                  obj['oldStorageClass'] == item['spec']['storageClassName']
+              ) && (
+                <Text size="sm">
+                  New storage class:{' '}
+                  {
+                    configMap.find(
+                      (obj: { [x: string]: any }) =>
+                        obj['oldStorageClass'] == item['spec']['storageClassName']
+                    )['newStorageClass']
+                  }
+                </Text>
+              )}
+          </Group>
+        </>
+      ));
+      setPvcList(values);
+    }
+  }, [pvc, storageClasses, configMap]);
+
+  useEffect(() => {
+    if (configMap !== undefined && pvc !== undefined) {
+      const cm: any[] = [];
+      configMap.map((item: any) =>
+        cm.push({
+          oldStorageClass: item['oldStorageClass'],
+          newStorageClass: item['newStorageClass'],
+        })
+      );
+      const sc: any[] = [];
+      pvc.map((item: any) => {
+        if (
+          storageClasses !== undefined &&
+          item['spec']['storageClassName'] !== 'manual' &&
+          !cm.some((obj: { [x: string]: any }) => obj['oldStorageClass'] == item)
+        ) {
+          sc.push({
+            oldStorageClass: item['spec']['storageClassName'],
+            newStorageClass: Object.keys(storageClasses).includes(item['spec']['storageClassName'])
+              ? item['spec']['storageClassName']
+              : '',
+          });
+        }
+      });
+      // setNewStorageClassesMap(cm.concat(sc));
+    }
+  }, [storageClasses, configMap, pvcList]);
+
   return (
     <>
-      <Text>
-        Confirm restore backup {resourceName} from {resourceType}?
-      </Text>
-      <TextInput
-        label="Add parameters"
-        placeholder="Input parameters"
-        value={parameters}
-        onChange={(e) => setParamaters(e.currentTarget.value)}
-      />
-      <Group mt="md" gap="sm" justify="flex-end">
-        <Button
-          color="green"
-          onClick={() => {
-            restore_backup();
-            closeAllModals();
-          }}
-        >
-          Restore
-        </Button>
-        <Button variant="transparent" c="dimmed" onClick={() => closeAllModals()}>
-          Close
-        </Button>
-      </Group>
+      <form
+        onSubmit={form.onSubmit((values: any) => {
+          onDone(values);
+        })}
+      >
+        <Text>
+          Confirm restore backup {resourceName} from {resourceType}?
+        </Text>
+        <Space h="xs" />
+        <Divider h={20} />
+        <Card withBorder radius="md" p="sm">
+          <Group gap={5}>
+            <IconInfoCircle style={{ width: rem(24), height: rem(24) }} />
+            <Text size="sm" fw={800}>
+              Cluster storage classes:
+            </Text>
+          </Group>
+          <List
+            icon={
+              <ThemeIcon color="green" size={18} radius="xl">
+                <IconCheck style={{ width: rem(12), height: rem(12) }} />
+              </ThemeIcon>
+            }
+            withPadding
+          >
+            {storageClassesList}
+          </List>
+          <Space h="xl" />
+          <Group gap={5}>
+            <IconInfoCircle style={{ width: rem(24), height: rem(24) }} />
+            <Text size="sm" fw={800}>
+              Velero Config Map:
+            </Text>
+          </Group>
+          <Text pl={20} size="sm">
+            {`<`}oldStorageClass{`>`}: {`<`}newStorageClass{`>`}
+          </Text>
+          <List
+            icon={
+              <ThemeIcon color="green" size={18} radius="xl">
+                <IconArrowRight style={{ width: rem(12), height: rem(12) }} />
+              </ThemeIcon>
+            }
+            withPadding
+          >
+            {configMapList}
+          </List>
+        </Card>
+        <Divider />
+        <Space h="xl" />
+        <Text>Mapping namespace</Text>
+        {mappingNamespaceList}
+
+        <Space h="xl" />
+        <Text>Backup PVC List</Text>
+        {pvcList}
+        <Space h="xl" />
+
+        <TextInput
+          label="Additional parameters"
+          placeholder="Optional"
+          {...form.getInputProps('parameters')}
+        />
+
+        <Group mt="md" gap="sm" justify="flex-end">
+          <Button color="green" type="submit">
+            Restore
+          </Button>
+          <Button variant="transparent" c="dimmed" onClick={() => closeAllModals()}>
+            Close
+          </Button>
+        </Group>
+      </form>
+      <Space h="xl" />
     </>
   );
 }

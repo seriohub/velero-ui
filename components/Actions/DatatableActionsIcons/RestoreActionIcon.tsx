@@ -30,7 +30,7 @@ export default function RestoreActionIcon({
           e.stopPropagation();
           openModal({
             title: `Restore Backup ${record.metadata.name}`,
-            size: '50%',
+            size: 'xl',
             children: (
               <RestoreBackup
                 resourceType={resourceType}

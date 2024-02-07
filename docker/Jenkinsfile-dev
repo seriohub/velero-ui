@@ -65,7 +65,7 @@ pipeline {
                     sh "docker build --target base -f ${dockerfilePath} ."
                     sh "docker build --target deps -f ${dockerfilePath} ."
                     sh "docker build --target builder -f ${dockerfilePath} ."
-                    sh "docker build --build-arg VERSION=dev --build-arg BUILD_DATE='${now.format('yyyy-MM-dd HH:mm', TimeZone.getTimeZone('UTC'))}' --target ${evTarget} -t ${dockerHubProject}:${GIT_TAG} -f ${dockerfilePath} ."
+                    sh "docker build --build-arg VERSION=dev --build-arg BUILD_DATE=${now.format("yyyy-MM-dd'T'HH:mm:ss'Z'", TimeZone.getTimeZone('UTC'))} --target ${evTarget} -t ${dockerHubProject}:${GIT_TAG} -f ${dockerfilePath} ."
                 }
             }
         }

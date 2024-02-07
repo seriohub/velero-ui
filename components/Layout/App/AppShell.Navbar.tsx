@@ -5,6 +5,7 @@ import {
   IconDeviceFloppy,
   IconCalendarEvent,
   IconDatabase,
+  IconLink,
 } from '@tabler/icons-react';
 
 import { useRouter, usePathname } from 'next/navigation';
@@ -22,6 +23,7 @@ const data = [
   { link: '/restores', label: 'Restores', icon: IconRestore },
   { link: '/schedules', label: 'Schedules', icon: IconCalendarEvent },
   { link: '/storage', label: 'Storage', icon: IconDatabase },
+  { link: '/sc-mapping', label: 'SC mapping', icon: IconLink },
 ];
 
 export function AppShellNavbar() {
@@ -55,7 +57,7 @@ export function AppShellNavbar() {
           <div className={classes.navbarMain}>
             <Group className={classes.header} justify="space-between">
               <Logo />
-              <Code fw={700}>develop</Code>
+              {/*<Code fw={700}>develop</Code>*/}
             </Group>
             <Divider />
             <UserInfo />
