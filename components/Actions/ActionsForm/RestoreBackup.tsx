@@ -103,8 +103,9 @@ export function RestoreBackup({
 
   useEffect(() => {
     if (
-      dataRestore !== undefined &&
-      dataRestore['payload']['status']['resourceList']['v1/Namespace'] !== undefined
+      //dataRestore !== undefined &&
+      //dataRestore['payload']['status']['resourceList']['v1/Namespace'] !== null
+      dataRestore?.payload?.status?.resourceList?.['v1/Namespace'] != null
     ) {
       const values = dataRestore['payload']['status']['resourceList']['v1/Namespace'].map(
         (item: string) => (
@@ -181,15 +182,17 @@ export function RestoreBackup({
                 (obj: { [x: string]: any }) =>
                   obj['oldStorageClass'] == item['spec']['storageClassName']
               ) && (
-                <Text size="sm">
-                  New storage class:{' '}
-                  {
-                    configMap.find(
-                      (obj: { [x: string]: any }) =>
-                        obj['oldStorageClass'] == item['spec']['storageClassName']
-                    )['newStorageClass']
-                  }
-                </Text>
+                <>
+                  <Text size="sm">New storage class: </Text>
+                  <Text size="sm" fw={800}>
+                    {
+                      configMap.find(
+                        (obj: { [x: string]: any }) =>
+                          obj['oldStorageClass'] == item['spec']['storageClassName']
+                      )['newStorageClass']
+                    }
+                  </Text>
+                </>
               )}
           </Group>
         </>
