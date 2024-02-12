@@ -73,6 +73,7 @@ export function RepoLocation() {
         </Toolbar>
 
         <DataTable
+          minHeight={160}
           withTableBorder
           borderRadius="sm"
           withColumnBorders

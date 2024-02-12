@@ -62,7 +62,7 @@ ARG BUILD_DATE
 WORKDIR /app
 
 ENV NODE_ENV production
-ENV NEXT_PUBLIC_FRONT_END_VERSION=$VERSION
+ENV NEXT_PUBLIC_FRONT_END_BUILD_VERSION=$VERSION
 ENV NEXT_PUBLIC_FRONT_END_BUILD_DATE=$BUILD_DATE
 
 # Uncomment the following line in case you want to disable telemetry during runtime.

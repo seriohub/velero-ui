@@ -18,6 +18,7 @@ import CreateBackupToolbarIcon from '../Actions/ToolbarActionIcons/CreateBackupT
 import Toolbar from '../Toolbar';
 import UpdateExpirationActionIcon from '../Actions/DatatableActionsIcons/UpdateExpirationActionIcon';
 import ExpireIn from './ExpireIn';
+import LastBackup4Schedule from '../Actions/ToolbarActionIcons/LastBackup4Schedule';
 
 const PAGE_SIZES = [10, 15, 20];
 
@@ -29,6 +30,8 @@ export function BackupData({ limit = -1 }: BackupDataProps) {
   const { data, getData, fetching } = useApiGet();
   const [items, setItems] = useState<Array<any>>([]);
   const [reload, setReload] = useState(1);
+
+  const [onlyLast4Schedule, setOnlyLast4Schedule] = useState(false);
 
   const [dataFiltered, setDataFilter] = useState<any[]>([]);
 
@@ -74,11 +77,11 @@ export function BackupData({ limit = -1 }: BackupDataProps) {
   }, [data]);
 
   useEffect(() => {
-    getData('/api/v1/backup/get');
-  }, [reload]);
+    getData('/api/v1/backup/get', onlyLast4Schedule==true?'only_last_for_schedule=true':'');
+  }, [reload, onlyLast4Schedule]);
 
   useEffect(() => {
-    getData('/api/v1/backup/get');
+    getData('/api/v1/backup/get', onlyLast4Schedule==true?'only_last_for_schedule=true':'');
   }, []);
 
   useEffect(() => {
@@ -124,7 +127,7 @@ export function BackupData({ limit = -1 }: BackupDataProps) {
 
   useEffect(() => {
     setPage(1);
-  }, [selectedSchedule]);
+  }, [selectedSchedule, sortStatus, onlyLast4Schedule]);
 
   const renderActions: DataTableColumn<any>['render'] = (record) => (
     <Group gap={4} justify="right" wrap="nowrap">
@@ -150,11 +153,13 @@ export function BackupData({ limit = -1 }: BackupDataProps) {
     <>
       <Stack h="100%" gap={0}>
         <Toolbar title="Backup">
+          <LastBackup4Schedule setReload={setReload} reload={reload} setOnlyLast4Schedule={setOnlyLast4Schedule}/>
           <CreateBackupToolbarIcon setReload={setReload} reload={reload} />
           <RefreshDatatable setReload={setReload} reload={reload} />
         </Toolbar>
 
         <DataTable
+          minHeight={160}
           withTableBorder
           borderRadius="sm"
           withColumnBorders

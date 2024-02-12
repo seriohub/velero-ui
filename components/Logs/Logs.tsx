@@ -97,6 +97,7 @@ export function Logs({ items = [], fetching}: LogsProps) {
   return (
     <>
       <DataTable
+        minHeight={160}
         fetching={fetching}
         striped
         highlightOnHover

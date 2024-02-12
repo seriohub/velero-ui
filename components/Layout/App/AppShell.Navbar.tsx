@@ -5,6 +5,8 @@ import {
   IconDeviceFloppy,
   IconCalendarEvent,
   IconDatabase,
+  IconLink,
+  IconSettings,
 } from '@tabler/icons-react';
 
 import { useRouter, usePathname } from 'next/navigation';
@@ -22,6 +24,7 @@ const data = [
   { link: '/restores', label: 'Restores', icon: IconRestore },
   { link: '/schedules', label: 'Schedules', icon: IconCalendarEvent },
   { link: '/storage', label: 'Storage', icon: IconDatabase },
+  { link: '/sc-mapping', label: 'SC mapping', icon: IconLink },
 ];
 
 export function AppShellNavbar() {
@@ -55,15 +58,29 @@ export function AppShellNavbar() {
           <div className={classes.navbarMain}>
             <Group className={classes.header} justify="space-between">
               <Logo />
-              <Code fw={700}>develop</Code>
             </Group>
-            <Divider />
             <UserInfo />
             {links}
           </div>
           <div className={classes.footer}>
             <Version />
             <Divider />
+            <NavLink
+              className={classes.link}
+              key="configuration"
+              active={'configuration' === pathname || undefined}
+              label="Configuration"
+              leftSection={
+                <Avatar color="blue" radius="md">
+                  <IconSettings size="1.5rem" />
+                </Avatar>
+              }
+              onClick={(event) => {
+                event.preventDefault();
+                router.push('/configuration');
+              }}
+              variant="filled"
+            />
             <UpdatePassword />
             <Logout />
           </div>

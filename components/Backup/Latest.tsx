@@ -79,6 +79,7 @@ export function BackupLatest({ reload, setReload, latest = [] }: BackupLatestPro
         </Toolbar>
 
         <DataTable
+          minHeight={160}
           withTableBorder
           borderRadius="sm"
           withColumnBorders

@@ -34,7 +34,7 @@ export default function AppShellLayout({ children }: AppShellLayoutProps) {
         </AppShell.Navbar>
         <AppShell.Main>
           <Stack
-            h="calc(100vh - var(--app-shell-header-height, 0px) - var(--app-shell-footer-height, 0px) - 25px)"
+            h="calc(100vh - var(--app-shell-header-height, 0px) - var(--app-shell-footer-height, 0px) - 20px)"
             justify="space-between"
             gap="lg"
           >

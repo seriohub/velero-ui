@@ -4,7 +4,7 @@ import React from 'react';
 
 import { useRouter } from 'next/navigation';
 
-import { Group, Anchor, Text } from '@mantine/core';
+import { Anchor, Text } from '@mantine/core';
 
 export function Logo() {
   const router = useRouter();
@@ -16,12 +16,15 @@ export function Logo() {
         onClick={() => {
           router.push('/');
         }}
+        underline="never"
       >
-        <Group>
-          <Text fw={900} fz="xl" size="xl">
-            Velero UI
-          </Text>
-        </Group>
+        <Text fz="xl" size={"xl"} fw={800} c="white" lightHidden>
+          Velero UI
+        </Text>
+        <Text fz="xl" size="xl" fw={800} c="blue" darkHidden>
+          Velero UI
+        </Text>
+
       </Anchor>
     </>
   );

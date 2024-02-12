@@ -1,18 +1,16 @@
-import { useContext, useState } from 'react';
+import { useState, useContext } from 'react';
 
-import { useRouter, usePathname } from 'next/navigation';
-
+import { useRouter } from 'next/navigation';
 import { notifications } from '@mantine/notifications';
 
-import { IconExclamationMark, IconInfoCircle } from '@tabler/icons-react';
+import { IconInfoCircle, IconExclamationMark } from '@tabler/icons-react';
 
 import { env } from 'next-runtime-env';
 
 import VeleroAppContexts from '@/contexts/VeleroAppContexts';
 
-export const useApiGet = () => {
+export const useApiPatch = () => {
   const router = useRouter();
-  const pathname = usePathname();
   const value = useContext(VeleroAppContexts);
   const NEXT_PUBLIC_VELERO_API_URL = env('NEXT_PUBLIC_VELERO_API_URL');
 
@@ -20,11 +18,10 @@ export const useApiGet = () => {
   const [data, setData] = useState<Record<string, any> | undefined>(undefined);
   const [error, setError] = useState(false);
 
-  const getData = async (url: string, param: string = '', addInHistory: boolean = true) => {
+  const patchData = async (url: string, values: any) => {
     if (error) {
       setError(false);
     }
-    setFetching(true);
 
     // Recupera il token JWT dal localStorage
     const jwtToken = localStorage.getItem('token');
@@ -38,24 +35,23 @@ export const useApiGet = () => {
       headers.Authorization = `Bearer ${jwtToken}`;
     }
 
-    if (addInHistory === true) {
-      value.setApiHistory((prev: Array<any>) =>
-        prev.concat({
-          method: 'GET',
-          headers,
-          //url: `${process.env.NEXT_PUBLIC_VELERO_API_URL}${url}?${param}`,
-          url: `${NEXT_PUBLIC_VELERO_API_URL}${url}?${param}`,
-          params: param,
-        })
-      );
-    }
+    const requestOptions = {
+      method: 'PATCH',
+      headers,
+      body: JSON.stringify(values),
+    };
 
-    // fetch(`${process.env.NEXT_PUBLIC_VELERO_API_URL}${url}?${param}`, { method: 'GET' })
-    fetch(`${NEXT_PUBLIC_VELERO_API_URL}${url}?${param}`, { method: 'GET', headers })
+    setFetching(true);
+    value.setApiHistory((prev: Array<any>) =>
+      // prev.concat({ method: 'POST', url: `${process.env.NEXT_PUBLIC_VELERO_API_URL}${url}`, params: values })
+      prev.concat({ method: 'PATCH', url: `${NEXT_PUBLIC_VELERO_API_URL}${url}`, params: values })
+    );
+    // fetch(`${process.env.NEXT_PUBLIC_VELERO_API_URL}${url}`, requestOptions)
+    fetch(`${NEXT_PUBLIC_VELERO_API_URL}${url}`, requestOptions)
       .then((res) => {
         if (res.status === 401) {
           localStorage.removeItem('token');
-          if (pathname !== '/login' && pathname !== '/' ) router.push('/');
+          router.push('/');
         }
         return res.json();
       })
@@ -67,10 +63,10 @@ export const useApiGet = () => {
             title: res.error.title,
             message: res.error.description,
           });
-          setData(undefined);
+          setData({});
           setError(true);
         } else if ('data' in res) {
-          setData(res.data);
+          setData(res);
         } else if ('messages' in res) {
           res.messages.map((message: any) => {
             notifications.show({
@@ -92,16 +88,13 @@ export const useApiGet = () => {
           message: `Oops, something went wrong. ${err}`,
         });
         setFetching(false);
-        setData(undefined);
       });
   };
 
   return {
     fetching,
     data,
-    getData,
-    setData,
-
+    patchData,
     error,
   };
 };
