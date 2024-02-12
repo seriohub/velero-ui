@@ -3,6 +3,7 @@ import { env } from 'next-runtime-env';
 import VeleroAppContexts from '@/contexts/VeleroAppContexts';
 import { useApiGet } from '@/hooks/useApiGet';
 import { Code, Group } from '@mantine/core';
+import { ClusterInfo } from '@/components/ClusterInfo';
 
 export function AppShellFooter() {
   const value = useContext(VeleroAppContexts);
@@ -16,7 +17,8 @@ export function AppShellFooter() {
 
   return (
     <>
-      <Group mx={5} justify="flex-end">
+      <Group mx={5} justify="space-between">
+        <ClusterInfo />
         <Group justify="flex-end">
           {data && (
             <>

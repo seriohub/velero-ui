@@ -12,14 +12,13 @@ import {
   Stack,
   Space,
   ActionIcon,
-  useMantineColorScheme,
 } from '@mantine/core';
+
 import { IconLock, IconUser } from '@tabler/icons-react';
 import { env } from 'next-runtime-env';
 
 export function AuthenticationForm() {
   const router = useRouter();
-  const { colorScheme, toggleColorScheme } = useMantineColorScheme();
   const NEXT_PUBLIC_VELERO_API_URL = env('NEXT_PUBLIC_VELERO_API_URL');
   const form = useForm({
     initialValues: {
@@ -54,9 +53,13 @@ export function AuthenticationForm() {
 
   return (
     <Paper radius="md" p="xl" withBorder style={{ width: '100%', border: 'none' }} mt="10rem">
-      <Text size="22px" fw={800} c={colorScheme === 'light' ? 'dark' : 'white'}>
-        Velero UI
+      <Text size="22px" fw={800} lightHidden c="white">
+        Velero
       </Text>
+      <Text size="22px" fw={800} darkHidden c="dark">
+        Velero
+      </Text>
+
       <Text style={{ fontSize: '12px', marginTop: '2%' }} c="dimmed">
         Backup Simplified
       </Text>

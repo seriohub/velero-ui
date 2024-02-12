@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react';
 
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 
 import { notifications } from '@mantine/notifications';
 
@@ -12,6 +12,7 @@ import VeleroAppContexts from '@/contexts/VeleroAppContexts';
 
 export const useApiGet = () => {
   const router = useRouter();
+  const pathname = usePathname();
   const value = useContext(VeleroAppContexts);
   const NEXT_PUBLIC_VELERO_API_URL = env('NEXT_PUBLIC_VELERO_API_URL');
 
@@ -54,7 +55,7 @@ export const useApiGet = () => {
       .then((res) => {
         if (res.status === 401) {
           localStorage.removeItem('token');
-          router.push('/');
+          if (pathname !== '/login' && pathname !== '/' ) router.push('/');
         }
         return res.json();
       })

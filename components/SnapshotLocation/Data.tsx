@@ -72,6 +72,7 @@ export function SnapshotLocation() {
         </Toolbar>
 
         <DataTable
+          minHeight={160}
           withTableBorder
           borderRadius="sm"
           withColumnBorders

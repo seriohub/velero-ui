@@ -131,6 +131,7 @@ export function RestoreData() {
         </Toolbar>
 
         <DataTable
+          minHeight={160}
           withTableBorder
           borderRadius="sm"
           withColumnBorders

@@ -48,6 +48,7 @@ export function SCMappingData() {
         </Toolbar>
 
         <DataTable
+          minHeight={160}
           withTableBorder
           borderRadius="sm"
           withColumnBorders
