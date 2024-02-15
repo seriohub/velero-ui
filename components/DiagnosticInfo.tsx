@@ -7,10 +7,6 @@ import {
   IconApi,
   IconCheck,
   IconCircleCheck,
-  IconCircleDashed,
-  IconExternalLink,
-  IconFile,
-  IconLink,
   IconPlugConnected,
   IconSettings,
   IconX,
@@ -28,7 +24,7 @@ export const DiagnosticInfo = () => {
   const [origins, setOrigins] = useState<string | any>('');
   const [checkValidOrigins, setCheckValidOrigins] = useState(false);
 
-  const { isUrlAvailable, loading, checkAvailability } = useUrlAvailability('');
+  const { isUrlAvailable, loading, checkAvailability } = useUrlAvailability();
 
   useEffect(() => {
     getDataK8sHealth('/info/health-k8s');
