@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file.
 
+***
+
 ## [v0.1.2] - 2024-02-12
 
 - Added storage class mapping feature
@@ -15,6 +17,10 @@ All notable changes to this project will be documented in this file.
 
 - 🎉 first release!
 
+***
+
 [v0.1.2] : [https://github.com/seriohub/velero-ui/releases/tag/v0.1.2](https://github.com/seriohub/velero-ui/releases/tag/v0.1.2)
+
 [v0.1.1] : [https://github.com/seriohub/velero-ui/releases/tag/v0.1.1](https://github.com/seriohub/velero-ui/releases/tag/v0.1.1)
+
 [v0.1.0] : [https://github.com/seriohub/velero-ui/releases/tag/v0.1.0](https://github.com/seriohub/velero-ui/releases/tag/v0.1.0)

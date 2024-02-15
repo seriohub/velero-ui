@@ -10,7 +10,7 @@ import { env } from 'next-runtime-env';
 
 import VeleroAppContexts from '@/contexts/VeleroAppContexts';
 
-export const useApiGet = () => {
+export const useApiOptions = () => {
   const router = useRouter();
   const pathname = usePathname();
   const value = useContext(VeleroAppContexts);
@@ -31,7 +31,7 @@ export const useApiGet = () => {
 
     // Aggiungi il token JWT all'header, se presente
     const headers: any = {
-      // 'Content-Type': 'application/json',
+      'Content-Type': 'application/json',
     };
 
     if (jwtToken) {
@@ -41,7 +41,7 @@ export const useApiGet = () => {
     if (addInHistory === true) {
       value.setApiHistory((prev: Array<any>) =>
         prev.concat({
-          method: 'GET',
+          method: 'OPTIONS',
           headers,
           //url: `${process.env.NEXT_PUBLIC_VELERO_API_URL}${url}?${param}`,
           url: `${NEXT_PUBLIC_VELERO_API_URL}${url}?${param}`,
@@ -51,7 +51,7 @@ export const useApiGet = () => {
     }
 
     // fetch(`${process.env.NEXT_PUBLIC_VELERO_API_URL}${url}?${param}`, { method: 'GET' })
-    fetch(`${NEXT_PUBLIC_VELERO_API_URL}${url}?${param}`, { method: 'GET', headers })
+    fetch(`${NEXT_PUBLIC_VELERO_API_URL}${url}?${param}`, { method: 'OPTIONS', headers })
       .then((res) => {
         if (res.status === 401) {
           localStorage.removeItem('token');

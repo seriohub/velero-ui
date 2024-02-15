@@ -5,6 +5,7 @@ import { useApiGet } from '@/hooks/useApiGet';
 import { Code, Group } from '@mantine/core';
 import { ClusterInfo } from '@/components/ClusterInfo';
 
+
 export function AppShellFooter() {
   const value = useContext(VeleroAppContexts);
   const NEXT_PUBLIC_FRONT_END_BUILD_VERSION = env('NEXT_PUBLIC_FRONT_END_BUILD_VERSION');
@@ -12,7 +13,7 @@ export function AppShellFooter() {
   const { data, getData } = useApiGet();
 
   useEffect(() => {
-    getData('/api/v1/info');
+    getData('/info/get');
   }, []);
 
   return (

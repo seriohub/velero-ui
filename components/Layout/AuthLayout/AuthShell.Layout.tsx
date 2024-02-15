@@ -4,6 +4,7 @@ import { AppShell, Group, Stack, Flex, Box } from '@mantine/core';
 
 import { AuthShellHeader } from './AuthShell.Header';
 import { AppShellFooter } from '../App/AppShell.Footer';
+import { DiagnosticInfo } from '@/components/DiagnosticInfo';
 
 interface AuthShellLayoutProps {
   children: any;
@@ -25,11 +26,13 @@ export default function AuthShellLayout({ children }: AuthShellLayoutProps) {
               >
                 {children}
               </Box>
-              <Box w="calc(100% - 440px)">
-                <Group align="flex-end" h="100%" p="md" grow>
+              <Stack w="calc(100% - 440px)" h="100%" justify="space-between">
+                <Group align="flex-end" p="md" grow>
                   <AuthShellHeader />
                 </Group>
-              </Box>
+                <DiagnosticInfo />
+              </Stack>
+              
             </Flex>
           </Stack>
         </AppShell.Main>
