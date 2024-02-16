@@ -1,34 +1,28 @@
 import { useEffect, useState } from 'react';
 
-import { ActionIcon, Anchor, Box, Group, List, Space, Text, ThemeIcon, rem } from '@mantine/core';
-import { usePathname } from 'next/navigation';
+import { Box, Group, List, Space, Text, ThemeIcon, rem } from '@mantine/core';
 import { useApiGet } from '@/hooks/useApiGet';
-import {
-  IconApi,
-  IconCheck,
-  IconCircleCheck,
-  IconPlugConnected,
-  IconSettings,
-  IconX,
-} from '@tabler/icons-react';
+import { IconCheck, IconCircleCheck, IconX } from '@tabler/icons-react';
 import { env } from 'next-runtime-env';
 import { useUrlAvailability } from '@/hooks/checkUrlAvailability';
+import { DiagnosticLink } from './DiagnosticLink';
 
 export const DiagnosticInfo = () => {
   const { data: k8sHealth, getData: getDataK8sHealth } = useApiGet();
   const { data: ApiOrigins, getData: getApiOrigins } = useApiGet();
+  const { data: ApiArch, getData: getApiArch } = useApiGet();
 
   const [UiURL, setUiHost] = useState('');
-  const [ApiURL, setApiURL] = useState(env('NEXT_PUBLIC_VELERO_API_URL'));
-  const [apiOnline, setApiOnline] = useState(false);
+  const ApiURL = env('NEXT_PUBLIC_VELERO_API_URL');
+
   const [origins, setOrigins] = useState<string | any>('');
-  const [checkValidOrigins, setCheckValidOrigins] = useState(false);
 
   const { isUrlAvailable, loading, checkAvailability } = useUrlAvailability();
 
   useEffect(() => {
     getDataK8sHealth('/info/health-k8s');
     getApiOrigins('/info/origins');
+    getApiArch('/info/arch')
 
     if (window) {
       const currentURL = new URL(window.location.href);
@@ -97,7 +91,6 @@ export const DiagnosticInfo = () => {
             <Text size="sm" fw={800}>
               {ApiURL}
             </Text>
-            
           </Group>
         </List.Item>
         {/* API reachable */}
@@ -112,90 +105,29 @@ export const DiagnosticInfo = () => {
           }
         >
           <Group>
-          <Text size="sm">Check API reachable</Text>
-          {ApiURL !== undefined && isUrlAvailable && (
+            <Text size="sm">Check API reachable</Text>
+            {ApiURL !== undefined && isUrlAvailable && (
               <>
-                {/* online */}
-                <Group gap={20}>
-                <Group gap={5}>
-                  <Text size="sm">docs</Text>
-                  <ActionIcon
-                    component="a"
-                    href={ApiURL}
-                    size="sm"
-                    aria-label="Open in a new tab"
-                    target="_blank"
-                  >
-                    <IconPlugConnected size={20} />
-                  </ActionIcon>
-                  <ActionIcon
-                    component="a"
-                    href={ApiURL + '/docs'}
-                    size="sm"
-                    aria-label="Docs"
-                    target="_blank"
-                  >
-                    <IconApi size={20} />
-                  </ActionIcon>
-                  <ActionIcon
-                    component="a"
-                    href={ApiURL + '/redoc'}
-                    size="sm"
-                    aria-label="Docs"
-                    target="_blank"
-                  >
-                    <IconSettings size={20} />
-                  </ActionIcon>
-                </Group>
-                {/* info */}
-                <Group gap={5}>
-                  <Text size="sm">info</Text>
-                  <ActionIcon
-                    component="a"
-                    href={ApiURL + '/info/docs'}
-                    size="sm"
-                    aria-label="Docs"
-                    target="_blank"
-                  >
-                    <IconApi size={20} />
-                  </ActionIcon>
-                  <ActionIcon
-                    component="a"
-                    href={ApiURL + '/info/redoc'}
-                    size="sm"
-                    aria-label="Docs"
-                    target="_blank"
-                  >
-                    <IconSettings size={20} />
-                  </ActionIcon>
-                </Group>
-
-                {/* v1 */}
-                <Group gap={5}>
-                  <Text size="sm">v1</Text>
-                  <ActionIcon
-                    component="a"
-                    href={ApiURL + '/api/v1/docs'}
-                    size="sm"
-                    aria-label="Docs"
-                    target="_blank"
-                  >
-                    <IconApi size={20} />
-                  </ActionIcon>
-                  <ActionIcon
-                    component="a"
-                    href={ApiURL + '/api/v1/redoc'}
-                    size="sm"
-                    aria-label="Docs"
-                    target="_blank"
-                  >
-                    <IconSettings size={20} />
-                  </ActionIcon>
-                </Group>
-                </Group>
+                <DiagnosticLink ApiURL={ApiURL} />
               </>
             )}
-            </Group>
+          </Group>
+        </List.Item>
+        {/* API arch */}
+        <List.Item
+          icon={
+            <ThemeIcon color="dimmed" size={24} radius="xl">
+              {isUrlAvailable && ApiArch!==undefined && ApiArch.platform == undefined &&(
+                <IconCheck color="green" style={{ width: rem(16), height: rem(16) }} />
+              )}
+              {(!isUrlAvailable || ApiArch?.platform?.length > 0) && <IconX color="red" style={{ width: rem(16), height: rem(16) }} />}
+            </ThemeIcon>
+          }
+        >
+          <Group gap={10}>
+            <Text size="sm">Get API architecture:</Text>
+            <Text size="sm" fw={800}>{ApiArch?.arch} {ApiArch?.platform}</Text>
+          </Group>
         </List.Item>
         {/* Origins */}
         <List.Item
@@ -261,19 +193,19 @@ export const DiagnosticInfo = () => {
             </ThemeIcon>
           }
         >
-          <Group gap={5}>
+          <Group gap={10}>
             <Text size="sm">Cluster Online:</Text>
             <Text size="sm" fw={700}>
               {k8sHealth?.cluster_online ? 'true' : 'false'}
             </Text>
           </Group>
-          <Group gap={5}>
+          <Group gap={10}>
             <Text size="sm">Nodes:</Text>
             <Text size="sm" fw={700}>
               {k8sHealth?.nodes?.total}
             </Text>
           </Group>
-          <Group gap={5}>
+          <Group gap={10}>
             <Text size="sm">Nodes in error:</Text>
             <Text size="sm" fw={700}>
               {k8sHealth?.nodes?.in_error}
