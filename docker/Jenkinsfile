@@ -82,6 +82,7 @@ pipeline {
                         }
                     }
                     echo "Build Docker Image ${dockerImageName} -"
+                    sh "docker buildx use multi-arch-2"
                     sh "docker buildx build --platform linux/amd64,linux/arm64 --target base -f ${dockerfilePath} ."
                     sh "docker buildx build --platform linux/amd64,linux/arm64 --target deps -f ${dockerfilePath} ."
                     sh "docker buildx build --platform linux/amd64,linux/arm64 --target builder -f ${dockerfilePath} ."
