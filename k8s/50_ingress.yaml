@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+ name:  velero-ui-ingress
+# annotations:
+#    kubernetes.io/ingress.class: nginx
+# labels:
+#   app.kubernetes.io/instance: ingress-nginx
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: velero.your-test-domain
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: velero-ui-lb
+            port:
+              number: 80
