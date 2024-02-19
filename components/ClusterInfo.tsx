@@ -10,7 +10,7 @@ export const ClusterInfo = () => {
 
   useEffect(() => {
     if (pathname!='/' && pathname!='/login')
-    getData('/api/v1/utils/health-k8s');
+    getData('/info/health-k8s');
   }, []);
   
   if (pathname=='/' || pathname=='/login')

@@ -36,7 +36,8 @@ export default function TaskInProgress() {
 
   useEffect(() => {
     if (data !== undefined) {
-      const data_sorted = sortBy(data.payload, sortStatus.columnAccessor);
+      
+      const data_sorted = sortBy(data, sortStatus.columnAccessor);
       const data_order = sortStatus.direction === 'desc' ? data_sorted.reverse() : data_sorted;
       setRecords(data_order);
     } else {

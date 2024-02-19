@@ -28,7 +28,7 @@ interface BackupDataProps {
 
 export function BackupData({ limit = -1 }: BackupDataProps) {
   const { data, getData, fetching } = useApiGet();
-  const [items, setItems] = useState<Array<any>>([]);
+  const [items, setItems] = useState<Record<string, any>>([]);
   const [reload, setReload] = useState(1);
 
   const [onlyLast4Schedule, setOnlyLast4Schedule] = useState(false);
@@ -87,9 +87,9 @@ export function BackupData({ limit = -1 }: BackupDataProps) {
   useEffect(() => {
     if (data !== undefined) {
       if (limit === -1) {
-        setItems(data.payload.items);
+        setItems(data);
       } else {
-        setItems(data.payload.items.slice(0, limit));
+        setItems(data.slice(0, limit));
       }
     } else setItems([]);
   }, [data]);

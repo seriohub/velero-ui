@@ -2,10 +2,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: velero-ui-load-balancer
+  name: velero-ui-lb
 spec:
   type: LoadBalancer
-  loadBalancerIP : 10.10.0.16
+  loadBalancerIP : 10.10.0.101
   selector:
     layer: webserver
   ports:

@@ -46,8 +46,7 @@ pipeline {
             }
         }
 
-
-        stage('Build Docker Image and Push Image to Registry') {
+        stage('Build Docker Image') {
             steps {
                 script {
                     // Path to your Dockerfile within the project directory
@@ -62,7 +61,18 @@ pipeline {
                     }
 
                     def now=new Date()
-                    
+                    // Build the Docker image, specifying the Dockerfile path
+                    sh "docker build --target base -f ${dockerfilePath} ."
+                    sh "docker build --target deps -f ${dockerfilePath} ."
+                    sh "docker build --target builder -f ${dockerfilePath} ."
+                    sh "docker build --build-arg VERSION=${GIT_TAG} --build-arg BUILD_DATE=${now.format("yyyy-MM-dd'T'HH:mm:ss'Z'", TimeZone.getTimeZone('UTC'))} --target ${evTarget} -t ${dockerHubProject}:${GIT_TAG} -t ${dockerHubProject}:latest -f ${dockerfilePath} ."
+                }
+            }
+        }
+
+        stage('Push Docker Image to Registry') {
+            steps {
+                script {
                     echo "Docker registry: ${evDocker_HUB}"
                     def pushTo = ''
                     if (evDocker_HUB != null) {
@@ -81,12 +91,10 @@ pipeline {
                             dockerImageName = "$urlWithoutProtocol/$evDocker_Project/$evTarget"
                         }
                     }
-                    echo "Build Docker Image ${dockerImageName} -"
-                    sh "docker buildx build --platform linux/amd64,linux/arm64 --target base -f ${dockerfilePath} ."
-                    sh "docker buildx build --platform linux/amd64,linux/arm64 --target deps -f ${dockerfilePath} ."
-                    sh "docker buildx build --platform linux/amd64,linux/arm64 --target builder -f ${dockerfilePath} ."
-                    sh "docker buildx build --platform linux/amd64,linux/arm64 --build-arg VERSION=dev --build-arg BUILD_DATE=${now.format("yyyy-MM-dd'T'HH:mm:ss'Z'", TimeZone.getTimeZone('UTC'))} --target ${evTarget} -t ${dockerHubProject}:${GIT_TAG} -t ${dockerHubProject}:latest -f ${dockerfilePath} --push ."
-                    sh "docker logout"
+                    echo "Docker push to:- ${dockerImageName} -"
+                    sh "docker push ${dockerImageName}:${GIT_TAG}"
+                    sh "docker push ${dockerImageName}:latest"
+                    sh 'docker logout '
                 }
             }
         }
