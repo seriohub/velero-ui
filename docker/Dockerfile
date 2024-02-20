@@ -29,6 +29,7 @@ RUN if [ -f yarn.lock ]; then yarn --network-timeout 100000 --immutable; fi
 #  fi
 
 RUN echo $(yarn --version)
+RUN ls 
 RUN ls -lah 
 
 ######################################################################
