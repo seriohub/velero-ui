@@ -111,9 +111,9 @@ pipeline {
                     sh "docker buildx build --platform linux/amd64,linux/arm64 --target deps -f ${dockerfilePath} ."
                     sh "docker buildx build --platform linux/amd64,linux/arm64 --target builder -f ${dockerfilePath} ."
                     sh "docker buildx build --platform linux/amd64,linux/arm64 --build-arg VERSION=dev --build-arg BUILD_DATE=${now.format("yyyy-MM-dd'T'HH:mm:ss'Z'", TimeZone.getTimeZone('UTC'))} --target ${evTarget} -t ${dockerHubProject}:${GIT_TAG} -f ${dockerfilePath} --push ."*/
-                    sh "docker buildx build --platform linux/amd64 --cache-from=type=local,src=/buildx-cache/ui --cache-to=type=local,dest=/buildx-cache/ui --target base -f ${dockerfilePath} -t base ."
-                    sh "docker buildx build --platform linux/amd64 --cache-from=type=local,src=/buildx-cache/ui --cache-to=type=local,dest=/buildx-cache/ui --target deps -f ${dockerfilePath} -t deps ."
-                    sh "docker buildx build --platform linux/amd64 --cache-from=type=local,src=/buildx-cache/ui --cache-to=type=local,dest=/buildx-cache/ui --target builder -f ${dockerfilePath} -t builder ."
+                    sh "docker buildx build --platform linux/amd64 --cache-from=type=local,src=/buildx-cache/ui --cache-to=type=local,dest=/buildx-cache/ui --target base -f ${dockerfilePath} -t base --push ."
+                    sh "docker buildx build --platform linux/amd64 --cache-from=type=local,src=/buildx-cache/ui --cache-to=type=local,dest=/buildx-cache/ui --target deps -f ${dockerfilePath} -t deps --push ."
+                    sh "docker buildx build --platform linux/amd64 --cache-from=type=local,src=/buildx-cache/ui --cache-to=type=local,dest=/buildx-cache/ui --target builder -f ${dockerfilePath} -t builder --push ."
                     sh "docker buildx build --platform linux/amd64 --cache-from=type=local,src=/buildx-cache/ui --cache-to=type=local,dest=/buildx-cache/ui --build-arg VERSION=dev --build-arg BUILD_DATE=${now.format("yyyy-MM-dd'T'HH:mm:ss'Z'", TimeZone.getTimeZone('UTC'))} --target ${evTarget} -t ${dockerHubProject}:${GIT_TAG} -f ${dockerfilePath} --push ."
                     sh 'docker logout'
                 }
