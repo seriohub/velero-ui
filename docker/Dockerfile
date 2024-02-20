@@ -15,9 +15,11 @@ WORKDIR /app
 # Install dependencies based on the preferred package manager
 # COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* .yarnrc.yml ./
 # COPY .yarn ./.yarn
-COPY package.json yarn.lock* ./
+COPY package.json ./
+COPY yarn.lock ./
 
-RUN if [ -f yarn.lock ]; then yarn --network-timeout 100000; fi
+RUN if [ -f yarn.lock ]; then yarn --network-timeout 100000 --immutable; fi
+
 
 #RUN \
 #  if [ -f yarn.lock ]; then yarn --network-timeout 100000;  \

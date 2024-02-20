@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { RequestInfo } from 'undici-types';
 
 // Funzione asincrona che verifica la raggiungibilità di un URL
-const checkUrlAvailability = async (url: RequestInfo) => {
+const checkUrlAvailability = async (url: string) => {
   try {
     const response = await fetch(url);
     // Se il codice di stato della risposta è compreso tra 200 e 299, l'URL è raggiungibile
@@ -23,7 +23,7 @@ export const useUrlAvailability = () => {
   const [isUrlAvailable, setIsUrlAvailable] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const checkAvailability = async (url: RequestInfo) => {
+  const checkAvailability = async (url: string) => {
     setLoading(true);
     const result = await checkUrlAvailability(url);
     setIsUrlAvailable(result);
