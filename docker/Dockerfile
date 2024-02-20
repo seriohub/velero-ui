@@ -14,7 +14,8 @@ WORKDIR /app
 
 # Install dependencies based on the preferred package manager
 # COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* .yarnrc.yml ./
-COPY .yarn ./
+# COPY .yarn ./.yarn
+COPY package.json yarn.lock* ./
 
 # if [ -f yarn.lock ]; then yarn --frozen-lockfile; \
 
