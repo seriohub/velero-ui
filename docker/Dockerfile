@@ -17,6 +17,7 @@ WORKDIR /app
 # COPY .yarn ./.yarn
 COPY package.json ./
 COPY yarn.lock ./
+COPY .yarn ./.yarn
 
 RUN if [ -f yarn.lock ]; then yarn --network-timeout 100000 --immutable; fi
 
