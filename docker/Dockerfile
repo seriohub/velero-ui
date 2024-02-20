@@ -18,12 +18,14 @@ COPY .yarn ./.yarn
 
 # if [ -f yarn.lock ]; then yarn --frozen-lockfile; \
 
-RUN \
-  if [ -f yarn.lock ]; then yarn --network-timeout 100000;  \
-  elif [ -f package-lock.json ]; then npm ci; \
-  elif [ -f pnpm-lock.yaml ]; then yarn global add pnpm && pnpm i --frozen-lockfile; \
-  else echo "Lockfile not found." && exit 1; \
-  fi
+#RUN \
+#  if [ -f yarn.lock ]; then yarn --network-timeout 100000;  \
+#  elif [ -f package-lock.json ]; then npm ci; \
+#  elif [ -f pnpm-lock.yaml ]; then yarn global add pnpm && pnpm i --frozen-lockfile; \
+#  else echo "Lockfile not found." && exit 1; \
+#  fi
+RUN yarn --network-timeout 100000
+
 RUN echo $(yarn --version)
 RUN ls -lah 
 
