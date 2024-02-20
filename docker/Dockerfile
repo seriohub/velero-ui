@@ -13,13 +13,10 @@ RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
 # Install dependencies based on the preferred package manager
-# COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* .yarnrc.yml ./
-# COPY .yarn ./.yarn
-COPY package.json ./
-COPY yarn.lock ./
+COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* .yarnrc.yml ./
 COPY .yarn ./.yarn
 
-RUN if [ -f yarn.lock ]; then yarn --network-timeout 100000 --immutable; fi
+RUN yarn --network-timeout 100000 --immutable
 
 
 #RUN \
