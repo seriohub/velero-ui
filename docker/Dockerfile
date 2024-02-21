@@ -42,7 +42,7 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 COPY .env.build .env
-COPY .yarn ./.yarn
+# COPY .yarn ./.yarn
 
 # Next.js collects completely anonymous telemetry data about general usage.
 # Learn more here: https://nextjs.org/telemetry
