@@ -15,10 +15,10 @@ WORKDIR /app
 # Install dependencies based on the preferred package manager
 # COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* .yarnrc.yml ./
 COPY package.json yarn.lock* .yarnrc.yml ./
-RUN mkdir .yarn
-COPY .yarn ./.yarn
+COPY .yarnrc.yml.build ./.yarnrc.yml
+# COPY .yarn ./.yarn
 
-RUN yarn --immutable
+RUN yarn 
 
 
 #RUN \
