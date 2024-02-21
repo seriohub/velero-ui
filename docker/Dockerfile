@@ -16,7 +16,7 @@ WORKDIR /app
 # COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* .yarnrc.yml ./
 COPY package.json yarn.lock* .yarnrc.yml ./
 RUN mkdir .yarn
-COPY .yarn ./.yarn
+COPY .yarn/* ./.yarn/
 
 RUN yarn --immutable
 
