@@ -1,5 +1,4 @@
 FROM node:20.10.0-alpine AS base
-RUN mkdir .yarn
 
 ######################################################################
 #
@@ -12,11 +11,12 @@ FROM base AS deps
 RUN apk add --no-cache libc6-compat
 
 WORKDIR /app
+RUN mkdir /app/.yarn
 
 # Install dependencies based on the preferred package manager
 # COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* .yarnrc.yml ./
 COPY package.json yarn.lock* .yarnrc.yml ./
-COPY .yarn ./.yarn
+COPY .yarn/. ./.yarn/
 
 RUN yarn --immutable --network-timeout 100000;
 RUN echo $(yarn --version)
