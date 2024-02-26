@@ -61,9 +61,9 @@ export function CreateSchedule({ reload, setReload }: CreateScheduleProps) {
   }, [data]);
 
   function createSchedule(values: any) {
-    postData('/api/v1/schedule/create', {
+    postData('/api/v1/schedule/create',
       values,
-    });
+    );
     closeAllModals();
     const interval = setInterval(() => {
       setReload(reload + 1);

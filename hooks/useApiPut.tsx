@@ -76,7 +76,8 @@ export const useApiPut = () => {
             message: res.error.description,
           });
           setError(true);
-        } else if ('messages' in res) {
+        }
+        if ('messages' in res) {
           res.messages.map((message: any) => {
             notifications.show({
               icon: <IconInfoCircle />,

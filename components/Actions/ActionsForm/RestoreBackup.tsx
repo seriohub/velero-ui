@@ -126,7 +126,7 @@ export function RestoreBackup({
 
   useEffect(() => {
     if (storageClasses !== undefined) {
-      const values = Object.keys(storageClasses).map((item: any) => (
+      const values = Object.keys(storageClasses.payload).map((item: any) => (
         <List.Item key={item}>
           <Text size="sm">{`${item}`}</Text>
         </List.Item>
@@ -136,8 +136,8 @@ export function RestoreBackup({
   }, [storageClasses]);
 
   useEffect(() => {
-    if (configMap !== undefined) {
-      const values = configMap.map((item: any) => (
+    if (configMap?.payload !== undefined) {
+      const values = configMap?.payload.map((item: any) => (
         <List.Item key={item['oldStorageClass']}>
           <Text size="sm">
             {`${item['oldStorageClass']}`} : {`${item['newStorageClass']}`}
@@ -150,7 +150,7 @@ export function RestoreBackup({
 
   useEffect(() => {
     if (pvc !== undefined) {
-      const values = pvc.map((item: any) => (
+      const values = pvc.payload.map((item: any) => (
         <>
           <Group gap={5}>
             <Text size="sm">PVC name:</Text>
@@ -161,14 +161,14 @@ export function RestoreBackup({
             <Text size="sm">Backup storage class:</Text>
             {storageClasses !== undefined &&
               item['spec']['storageClassName'] !== 'manual' &&
-              Object.keys(storageClasses).includes(item['spec']['storageClassName']) && (
+              Object.keys(storageClasses.payload).includes(item['spec']['storageClassName']) && (
                 <>
                   <IconCheck color="green" />
                 </>
               )}
             {storageClasses !== undefined &&
               item['spec']['storageClassName'] !== 'manual' &&
-              !Object.keys(storageClasses).includes(item['spec']['storageClassName']) && (
+              !Object.keys(storageClasses.payload).includes(item['spec']['storageClassName']) && (
                 <>
                   <IconX color="red" />
                 </>
@@ -177,8 +177,8 @@ export function RestoreBackup({
               {item['spec']['storageClassName']}
             </Text>
             <Space w={20} />
-            {configMap !== undefined &&
-              configMap.some(
+            {configMap?.payload !== undefined &&
+              configMap?.payload.some(
                 (obj: { [x: string]: any }) =>
                   obj['oldStorageClass'] == item['spec']['storageClassName']
               ) && (
@@ -186,7 +186,7 @@ export function RestoreBackup({
                   <Text size="sm">New storage class: </Text>
                   <Text size="sm" fw={800}>
                     {
-                      configMap.find(
+                      configMap?.payload.find(
                         (obj: { [x: string]: any }) =>
                           obj['oldStorageClass'] == item['spec']['storageClassName']
                       )['newStorageClass']
@@ -202,16 +202,16 @@ export function RestoreBackup({
   }, [pvc, storageClasses, configMap]);
 
   useEffect(() => {
-    if (configMap !== undefined && pvc !== undefined) {
+    if (configMap?.payload !== undefined && pvc !== undefined) {
       const cm: any[] = [];
-      configMap.map((item: any) =>
+      configMap?.payload.map((item: any) =>
         cm.push({
           oldStorageClass: item['oldStorageClass'],
           newStorageClass: item['newStorageClass'],
         })
       );
       const sc: any[] = [];
-      pvc.map((item: any) => {
+      pvc.payload.map((item: any) => {
         if (
           storageClasses !== undefined &&
           item['spec']['storageClassName'] !== 'manual' &&

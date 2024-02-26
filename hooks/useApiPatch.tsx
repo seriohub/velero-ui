@@ -67,7 +67,8 @@ export const useApiPatch = () => {
           setError(true);
         } else if ('data' in res) {
           setData(res);
-        } else if ('messages' in res) {
+        }
+        if ('messages' in res) {
           res.messages.map((message: any) => {
             notifications.show({
               icon: <IconInfoCircle />,

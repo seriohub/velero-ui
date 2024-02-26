@@ -9,7 +9,7 @@ export const Version = () => {
   const { data, getData, error, fetching } = useApiGet();
 
   useEffect(() => {
-    getData('/api/v1/utils/version');
+    getData('/api/v1/setup/version');
   }, []);
 
   if (data === undefined) return <></>;
@@ -21,13 +21,13 @@ export const Version = () => {
           <Text fw={700} size="sm">
             Velero Client:
           </Text>
-          <Code fw={700}>{data.payload.client.version}</Code>
+          <Code fw={700}>{data.payload?.client?.version}</Code>
         </Group>
         <Group justify="space-between">
           <Text fw={700} size="sm">
             Velero Server:
           </Text>
-          <Code fw={700}>{data.payload.server.version}</Code>
+          <Code fw={700}>{data.payload?.server?.version}</Code>
         </Group>
         {data.payload.warning && (
           <Group>

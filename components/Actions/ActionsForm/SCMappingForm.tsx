@@ -82,7 +82,7 @@ export function SCMappingForm({
             label="New Storage Class"
             placeholder="Pick value"
             {...form.getInputProps('newStorageClass')}
-            data={storageClasses !== undefined ? Object.keys(storageClasses) : []}
+            data={storageClasses !== undefined ? Object.keys(storageClasses.payload) : []}
           />
 
           <Group justify="flex-end" mt="md">

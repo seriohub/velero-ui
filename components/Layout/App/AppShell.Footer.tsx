@@ -25,11 +25,11 @@ export function AppShellFooter() {
         <ClusterInfo />
         {pathname != '/' && pathname != '/login' && <DiagnosticLink ApiURL={ApiURLenv} />}
         <Group justify="flex-end">
-          {data && (
+          {data && data?.payload && (
             <>
               <Group gap={5}>
                 <Code>
-                  API: {data['release_version']} ({data['release_date']})
+                  API: {data.payload['release_version']} ({data.payload['release_date']})
                 </Code>
               </Group>
             </>

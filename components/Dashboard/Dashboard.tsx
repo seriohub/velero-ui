@@ -18,11 +18,11 @@ export function Dashboard() {
   const [reload, setReload] = useState(1);
 
   useEffect(() => {
-    getData('/api/v1/utils/stats');
+    getData('/api/v1/stats/get');
   }, []);
 
   useEffect(() => {
-    getData('/api/v1/utils/stats');
+    getData('/api/v1/stats/get');
   }, [reload]);
 
   if (data === undefined) {
@@ -68,7 +68,7 @@ export function Dashboard() {
 
         <Grid>
           <Grid.Col span={2}>
-            <UnscheduledNamespaces namespaces={data.payload.namespaces.unscheduled} />
+            <UnscheduledNamespaces namespaces={data.payload?.namespaces?.unscheduled} />
           </Grid.Col>
           <Grid.Col span={10}>
             <BackupLatest
