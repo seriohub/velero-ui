@@ -60,9 +60,9 @@ export function CreateBackup({ reload, setReload }: CreateBackupProps) {
   }, [data]);
 
   function createBackup(values: any) {
-    postData('/api/v1/backup/create', {
+    postData('/api/v1/backup/create', 
       values,
-    });
+    );
     closeAllModals();
     const interval = setInterval(() => {
       setReload(reload + 1);

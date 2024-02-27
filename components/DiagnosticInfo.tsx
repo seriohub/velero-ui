@@ -36,9 +36,10 @@ export const DiagnosticInfo = () => {
 
   useEffect(() => {
     if (ApiOrigins !== undefined) {
-      setOrigins(ApiOrigins);
+      setOrigins(ApiOrigins.payload);
     }
   }, [ApiOrigins]);
+  
   return (
     <Box p="lg">
       <Text size="sm" fw={800}>
@@ -117,16 +118,16 @@ export const DiagnosticInfo = () => {
         <List.Item
           icon={
             <ThemeIcon color="dimmed" size={24} radius="xl">
-              {isUrlAvailable && ApiArch!==undefined && ApiArch.platform == undefined &&(
+              {isUrlAvailable && ApiArch?.payload?.platform == undefined &&(
                 <IconCheck color="green" style={{ width: rem(16), height: rem(16) }} />
               )}
-              {(!isUrlAvailable || ApiArch?.platform?.length > 0) && <IconX color="red" style={{ width: rem(16), height: rem(16) }} />}
+              {(!isUrlAvailable || ApiArch?.payload?.platform?.length > 0) && <IconX color="red" style={{ width: rem(16), height: rem(16) }} />}
             </ThemeIcon>
           }
         >
           <Group gap={10}>
             <Text size="sm">Get API architecture:</Text>
-            <Text size="sm" fw={800}>{ApiArch?.arch} {ApiArch?.platform}</Text>
+            <Text size="sm" fw={800}>{ApiArch?.payload.arch} {ApiArch?.payload.platform}</Text>
           </Group>
         </List.Item>
         {/* Origins */}
@@ -145,7 +146,7 @@ export const DiagnosticInfo = () => {
           <Group gap={10}>
             <Text size="sm">Get Origins:</Text>
             <Text size="sm" fw={800}>
-              {origins.length > 0 && origins.join(', ')}
+              {origins.length > 0 && origins?.join(', ')}
             </Text>
           </Group>
         </List.Item>
@@ -156,9 +157,10 @@ export const DiagnosticInfo = () => {
               {origins.length > 0 && (origins.includes(UiURL) || origins.includes('*')) && (
                 <IconCheck color="green" style={{ width: rem(16), height: rem(16) }} />
               )}
-              {(origins.length == 0 || !origins.includes(UiURL)) && (
+              {(origins.length == 0 || (origins.length > 0 && !origins.includes(UiURL))) && (
                 <IconX color="red" style={{ width: rem(16), height: rem(16) }} />
               )}
+              
             </ThemeIcon>
           }
         >
@@ -169,7 +171,7 @@ export const DiagnosticInfo = () => {
                 Warning: ORIGINS contains '*'
               </Text>
             )}
-            {(origins.length == 0 || !origins.includes(UiURL)) && (
+            {(origins.length == 0 || (origins.length > 0 && !origins.includes(UiURL))) && (
               <Group gap={5}>
                 <Text size="sm">ERROR: ORIGINS must contain</Text>{' '}
                 <Text size="sm" fw={800}>
@@ -196,19 +198,19 @@ export const DiagnosticInfo = () => {
           <Group gap={10}>
             <Text size="sm">Cluster Online:</Text>
             <Text size="sm" fw={700}>
-              {k8sHealth?.cluster_online ? 'true' : 'false'}
+              {k8sHealth?.payload?.cluster_online ? 'true' : 'false'}
             </Text>
           </Group>
           <Group gap={10}>
             <Text size="sm">Nodes:</Text>
             <Text size="sm" fw={700}>
-              {k8sHealth?.nodes?.total}
+              {k8sHealth?.payload?.nodes?.total}
             </Text>
           </Group>
           <Group gap={10}>
             <Text size="sm">Nodes in error:</Text>
             <Text size="sm" fw={700}>
-              {k8sHealth?.nodes?.in_error}
+              {k8sHealth?.payload?.nodes?.in_error}
             </Text>
           </Group>
         </List.Item>

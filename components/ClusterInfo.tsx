@@ -9,14 +9,17 @@ export const ClusterInfo = () => {
   const pathname = usePathname();
 
   useEffect(() => {
-    if (pathname!='/' && pathname!='/login')
-    getData('/info/health-k8s');
+    if (pathname != '/' && pathname != '/login') getData('/info/health-k8s');
   }, []);
-  
-  if (pathname=='/' || pathname=='/login')
-    return <><div></div></>
-  
-    if (data === undefined) return <>-</>;
+
+  if (pathname == '/' || pathname == '/login')
+    return (
+      <>
+        <div></div>
+      </>
+    );
+
+  if (data === undefined) return <>-</>;
 
   return (
     <>
@@ -24,19 +27,19 @@ export const ClusterInfo = () => {
         <Group gap={5}>
           <Text size="sm">Cluster Online:</Text>
           <Text size="sm" fw={700}>
-            {data?.cluster_online ? 'true' : 'false'}
+            {data?.payload?.cluster_online ? 'true' : 'false'}
           </Text>
         </Group>
         <Group gap={5}>
           <Text size="sm">Nodes:</Text>
           <Text size="sm" fw={700}>
-            {data?.nodes?.total}
+            {data?.payload?.nodes?.total}
           </Text>
         </Group>
         <Group gap={5}>
           <Text size="sm">Nodes in error:</Text>
           <Text size="sm" fw={700}>
-            {data?.nodes?.in_error}
+            {data?.payload?.nodes?.in_error}
           </Text>
         </Group>
       </Group>

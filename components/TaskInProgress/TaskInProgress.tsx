@@ -31,13 +31,13 @@ export default function TaskInProgress() {
   });
 
   useEffect(() => {
-    getData('/api/v1/utils/in-progress');
+    getData('/api/v1/stats/in-progress');
   }, [reload]);
 
   useEffect(() => {
     if (data !== undefined) {
       
-      const data_sorted = sortBy(data, sortStatus.columnAccessor);
+      const data_sorted = sortBy(data?.payload, sortStatus.columnAccessor);
       const data_order = sortStatus.direction === 'desc' ? data_sorted.reverse() : data_sorted;
       setRecords(data_order);
     } else {
@@ -52,7 +52,7 @@ export default function TaskInProgress() {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      getData('/api/v1/utils/in-progress', '', false);
+      getData('/api/v1/stats/in-progress', '', false);
     }, appValues.state.refreshRecent);
     return () => clearInterval(interval);
   }, []);

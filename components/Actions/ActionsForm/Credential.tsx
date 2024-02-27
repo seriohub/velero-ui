@@ -47,8 +47,8 @@ export function Credential({
 
   useEffect(() => {
     if (data !== undefined) {
-      form.setFieldValue('aws_access_key_id', data.aws_access_key_id);
-      form.setFieldValue('aws_secret_access_key', data.aws_secret_access_key);
+      form.setFieldValue('aws_access_key_id', data.payload?.aws_access_key_id);
+      form.setFieldValue('aws_secret_access_key', data.payload?.aws_secret_access_key);
     }
   }, [data]);
 

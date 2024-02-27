@@ -71,7 +71,7 @@ export function RestoreData() {
   }, []);
 
   useEffect(() => {
-    if (data !== undefined) setItems(data.payload.items);
+    if (data !== undefined) setItems(data.payload);
     else setItems([]);
   }, [data]);
 

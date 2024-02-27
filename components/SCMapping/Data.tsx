@@ -27,8 +27,8 @@ export function SCMappingData() {
   }, []);
 
   useEffect(() => {
-    if (configMap !== undefined) {
-      setItems(configMap);
+    if (configMap?.payload !== undefined) {
+      setItems(configMap.payload);
     }
   }, [configMap]);
 

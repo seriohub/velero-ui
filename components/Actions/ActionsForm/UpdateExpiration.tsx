@@ -31,8 +31,9 @@ export function UpdateExpiration({ record = {} }: UpdateExpirationProps) {
   }, []);
 
   useEffect(() => {
+    console.log("data", data)
     if (data !== undefined) {
-      form.setFieldValue('expiration', data.payload.expiration);
+      form.setFieldValue('expiration', data.payload);
     }
   }, [data]);
 

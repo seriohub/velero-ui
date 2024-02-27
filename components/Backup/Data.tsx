@@ -87,9 +87,9 @@ export function BackupData({ limit = -1 }: BackupDataProps) {
   useEffect(() => {
     if (data !== undefined) {
       if (limit === -1) {
-        setItems(data);
+        setItems(data.payload);
       } else {
-        setItems(data.slice(0, limit));
+        setItems(data.payload.slice(0, limit));
       }
     } else setItems([]);
   }, [data]);

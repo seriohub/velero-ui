@@ -43,7 +43,7 @@ export function RepoLocation() {
 
   useEffect(() => {
     if (data !== undefined) {
-      setItems(data.payload.items);
+      setItems(data.payload);
     } else setItems([]);
   }, [data]);
 
