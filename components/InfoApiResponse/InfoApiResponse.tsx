@@ -20,9 +20,10 @@ import Link from 'next/link';
 import { IconCopy, IconCheck, IconExternalLink } from '@tabler/icons-react';
 
 import VeleroAppContexts from '@/contexts/VeleroAppContexts';
-import InfoParamActionIcon from './InfoParamActionIcon';
+import InfoDataResponseIcon from './InfoDataResponseIcon';
+import InfoParamActionIcon from '../InfoApiRequest/InfoParamActionIcon';
 
-export default function InfoApiRequest() {
+export default function InfoApiReponse() {
   const value = useContext(VeleroAppContexts);
   const viewport = useRef<HTMLDivElement>(null);
 
@@ -32,8 +33,8 @@ export default function InfoApiRequest() {
     }
   };
 
-  const commands = value.state.apiRequest.map((item: any, index: number) => (
-    <Group gap={0} key={index}>
+  const commands = value.state.apiResponse.map((item: any, index: number) => (
+    <Group gap={5} key={index}>
       <CopyButton value={item.url} timeout={2000}>
         {({ copied, copy }) => (
           <Tooltip label={copied ? 'Copied' : 'Copy'} withArrow position="right">
@@ -47,20 +48,30 @@ export default function InfoApiRequest() {
           </Tooltip>
         )}
       </CopyButton>
-      <Box w="3.3rem">
+      <Box w="4rem">
         <Pill radius={0} fw={700}>
           {item.method}
+        </Pill>
+      </Box>
+      <Box w="3.3rem">
+        <Pill
+          radius={0}
+          fw={700}
+          bg={item.statusCode >= 200 && item.statusCode <= 299 ? 'green' : 'red'}
+        >
+          {item.statusCode}
+        </Pill>
+      </Box>
+      <Box w="5rem">
+        <Pill radius={0} fw={700} bg={'blue'}>
+          {item.xProcessTime}
         </Pill>
       </Box>
       <Text c="white" size="sm">
         {item.url}
       </Text>
-      <Tooltip label="Params">
-        <ActionIcon component={Link} variant="transparent" href={item.url} target="_blank">
-          <IconExternalLink style={{ height: rem(14), width: rem(14) }} />
-        </ActionIcon>
-      </Tooltip>
-      {item.method === 'POST' && <InfoParamActionIcon params={item.params} />}
+      {item.params && <InfoParamActionIcon params={item.params} />}
+      <InfoDataResponseIcon data={item.data} />
     </Group>
   ));
 

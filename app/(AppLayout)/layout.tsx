@@ -9,7 +9,7 @@ import AppShellLayout from '@/components/Layout/App/AppShell.Layout';
 export default function RootLayout({ children }: { children: any }) {
   return (
     <>
-      <Notifications autoClose={10000}/>
+      <Notifications autoClose={5000}/>
       <ModalsProvider>
         <AppShellLayout>{children}</AppShellLayout>
       </ModalsProvider>
