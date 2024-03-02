@@ -38,7 +38,7 @@ export default function AppShellLayout({ children }: AppShellLayoutProps) {
             justify="space-between"
             gap="lg"
           >
-            <ScrollArea p="md" style={{ height: 'calc(100% - 300px)' }}>
+            <ScrollArea p="md" style={{ height: 'calc(100% - 350px)' }}>
               {children}
             </ScrollArea>
 

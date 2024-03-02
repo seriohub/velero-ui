@@ -15,7 +15,10 @@ import { theme } from '../theme';
 import VeleroAppContexts from '@/contexts/VeleroAppContexts';
 
 export default function RootLayout({ children }: { children: any }) {
-  const [appApiHistory, setAppApiHistory] = useState<Array<any>>([]);
+  const [appApiRequest, setAppApiRequest] = useState<Array<any>>([]);
+  const [appApiResponse, setAppApiResponse] = useState<Array<any>>([]);
+  
+  const [appNotificationHistory, setAppNotificationHistory] = useState<Array<any>>([]);
 
   const NEXT_PUBLIC_REFRESH_DATATABLE_AFTER = env('NEXT_PUBLIC_REFRESH_DATATABLE_AFTER');
   const NEXT_PUBLIC_REFRESH_RECENT = env('NEXT_PUBLIC_REFRESH_RECENT');
@@ -44,13 +47,17 @@ export default function RootLayout({ children }: { children: any }) {
           <VeleroAppContexts.Provider
             value={{
               state: {
-                apiHistory: appApiHistory,
+                apiRequest: appApiRequest,
+                apiResponse: appApiResponse,
                 refreshDatatableAfter: appRefreshDatatableAfter,
                 refreshRecent: appRefreshRecent,
+                notificationHistory: appNotificationHistory,
               },
-              setApiHistory: setAppApiHistory,
+              setApiRequest: setAppApiRequest,
+              setApiResponse: setAppApiResponse,
               setRefreshDatatableAfter: setAppRefreshDatatableAfter,
               setRefreshRecent: setAppRefreshRecent,
+              setNotificationHistory: setAppNotificationHistory
             }}
           >
             {children}

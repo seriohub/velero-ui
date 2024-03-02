@@ -1,9 +1,11 @@
 import { Accordion, Tabs } from '@mantine/core';
 
-import { IconTerminal2, IconPrompt, IconApi } from '@tabler/icons-react';
+import { IconTerminal2, IconPrompt, IconApi, IconBell } from '@tabler/icons-react';
 
 import ShellCommands from '../../ShellCommands/ShellCommands';
 import InfoApiRequest from '../../InfoApiRequest/InfoApiRequest';
+import InfoNotification from '@/components/InfoNotification/InfoNotification';
+import InfoApiReponse from '@/components/InfoApiResponse/InfoApiResponse';
 
 export function AppShellMainFooter() {
   return (
@@ -16,8 +18,14 @@ export function AppShellMainFooter() {
               <Tabs.Tab value="Shell" leftSection={<IconTerminal2 />}>
                 Shell
               </Tabs.Tab>
-              <Tabs.Tab value="API" leftSection={<IconApi />}>
-                API
+              <Tabs.Tab value="API-Request" leftSection={<IconApi />}>
+                Request
+              </Tabs.Tab>
+              <Tabs.Tab value="API-Response" leftSection={<IconApi />}>
+                Response
+              </Tabs.Tab>
+              <Tabs.Tab value="Notification" leftSection={<IconBell />}>
+                Notification
               </Tabs.Tab>
             </Tabs.List>
 
@@ -25,8 +33,16 @@ export function AppShellMainFooter() {
               <ShellCommands />
             </Tabs.Panel>
 
-            <Tabs.Panel value="API">
+            <Tabs.Panel value="API-Request">
               <InfoApiRequest />
+            </Tabs.Panel>
+
+            <Tabs.Panel value="API-Response">
+              <InfoApiReponse />
+            </Tabs.Panel>
+
+            <Tabs.Panel value="Notification">
+              <InfoNotification />
             </Tabs.Panel>
           </Tabs>
         </Accordion.Panel>

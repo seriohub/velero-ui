@@ -39,52 +39,86 @@ export const useApiGet = () => {
     }
 
     if (addInHistory === true) {
-      value.setApiHistory((prev: Array<any>) =>
+      value.setApiRequest((prev: Array<any>) =>
         prev.concat({
           method: 'GET',
           headers,
-          //url: `${process.env.NEXT_PUBLIC_VELERO_API_URL}${url}?${param}`,
           url: `${NEXT_PUBLIC_VELERO_API_URL}${url}?${param}`,
           params: param,
         })
       );
     }
 
-    // fetch(`${process.env.NEXT_PUBLIC_VELERO_API_URL}${url}?${param}`, { method: 'GET' })
     fetch(`${NEXT_PUBLIC_VELERO_API_URL}${url}?${param}`, { method: 'GET', headers })
-      .then((res) => {
+      .then(async (res) => {
         if (res.status === 401) {
           localStorage.removeItem('token');
-          if (pathname !== '/login' && pathname !== '/' ) router.push('/');
+          if (pathname !== '/login' && pathname !== '/') router.push('/');
         }
-        return res.json();
+
+        return res.json().then((response) => {
+          return {
+            data: response,
+            status: res.status,
+            xProcessTime: res.headers.get('X-Process-Time'),
+          };
+        });
       })
       .then((res) => {
-        if ('error' in res) {
+        const data = res.data;
+        const statusCode = res.status;
+
+        if ('error' in data) {
           notifications.show({
             icon: <IconExclamationMark />,
             color: 'red',
-            title: res.error.title,
-            message: res.error.description,
+            title: data.error.title,
+            message: data.error.description,
           });
           setData(undefined);
           setError(true);
-        } else if ('data' in res) {
-          setData(res.data);
+          value.setNotificationHistory((prev: Array<any>) =>
+            prev.concat({
+              statusCode: statusCode,
+              title: data.error.title,
+              description: data.error.description,
+            })
+          );
+        } else if ('data' in data) {
+          setData(data.data);
         }
-        if ('messages' in res) {
-          res.messages.map((message: any) => {
+        if ('messages' in data) {
+          data.messages.map((message: any) => {
             notifications.show({
               icon: <IconInfoCircle />,
               color: 'blue',
               title: message.title,
               message: message.description,
             });
+            value.setNotificationHistory((prev: Array<any>) =>
+              prev.concat({
+                statusCode: statusCode,
+                title: message.title,
+                description: message.description,
+              })
+            );
             return null;
           });
         }
         setFetching(false);
+        if (addInHistory === true) {
+          value.setApiResponse((prev: Array<any>) =>
+            prev.concat({
+              method: 'GET',
+              url: `${NEXT_PUBLIC_VELERO_API_URL}${url}?${param}`,
+              data: data,
+              statusCode: statusCode,
+              xProcessTime: res.xProcessTime,
+            })
+          );
+        }
       })
+
       .catch((err) => {
         notifications.show({
           icon: <IconExclamationMark />,

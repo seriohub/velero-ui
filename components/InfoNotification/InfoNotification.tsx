@@ -1,23 +1,26 @@
 'use client';
 
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useContext } from 'react';
 
 import {
-  Text,
-  ScrollArea,
-  Code,
-  Box,
   CopyButton,
   ActionIcon,
   Tooltip,
   rem,
   Group,
+  Text,
+  ScrollArea,
+  Code,
+  Box,
+  Pill,
 } from '@mantine/core';
-import { IconCopy, IconCheck } from '@tabler/icons-react';
-import { useAppWebSocket } from '@/hooks/useAppWebSocket';
 
-export default function ShellCommands() {
-  const { messageHistory } = useAppWebSocket();
+import { IconCopy, IconCheck } from '@tabler/icons-react';
+
+import VeleroAppContexts from '@/contexts/VeleroAppContexts';
+
+export default function InfoNotification() {
+  const value = useContext(VeleroAppContexts);
   const viewport = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -26,9 +29,9 @@ export default function ShellCommands() {
     }
   };
 
-  const commands = messageHistory.map((item: any, index: number) => (
-    <Group gap={0} key={index}>
-      <CopyButton value={item} timeout={2000}>
+  const commands = value.state.notificationHistory.map((item: any, index: number) => (
+    <Group gap={5} key={index}>
+      <CopyButton value={`${item.statusCode}: ${item.title}: ${item.description}`} timeout={2000}>
         {({ copied, copy }) => (
           <Tooltip label={copied ? 'Copied' : 'Copy'} withArrow position="right">
             <ActionIcon color={copied ? 'teal' : 'gray'} variant="subtle" onClick={copy}>
@@ -41,19 +44,21 @@ export default function ShellCommands() {
           </Tooltip>
         )}
       </CopyButton>
+      <Pill radius={0} fw={700} bg={item.statusCode>=200 && item.statusCode<=299 ? 'green': 'red'}>
+        {item.statusCode}
+      </Pill>
       <Text c="white" size="sm">
-        {item}
+        {item.title}:
+      </Text>
+      <Text c="white" size="sm">
+        {item.description}
       </Text>
     </Group>
   ));
 
   useEffect(() => {
     scrollToBottom();
-  }, [messageHistory]);
-
-  /*if (lastMessage === null || lastMessage === undefined || !('data' in lastMessage)) {
-    return <></>;
-  }*/
+  }, [value.state.apiRequest]);
 
   return (
     <>

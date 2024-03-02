@@ -14,8 +14,7 @@ interface UpdateExpirationProps {
 
 export function UpdateExpiration({ record = {} }: UpdateExpirationProps) {
   const { data, getData } = useApiGet();
-
-  // const [credential, setCredential] = useState<any>({});
+  const { data: data2, getData: getData2 } = useApiGet(); // Todo: change method
 
   const form = useForm({
     initialValues: {
@@ -31,7 +30,6 @@ export function UpdateExpiration({ record = {} }: UpdateExpirationProps) {
   }, []);
 
   useEffect(() => {
-    console.log("data", data)
     if (data !== undefined) {
       form.setFieldValue('expiration', data.payload);
     }
@@ -45,7 +43,7 @@ export function UpdateExpiration({ record = {} }: UpdateExpirationProps) {
     );
   }
   function onDone(values: any) {
-    getData(
+    getData2(
       '/api/v1/backup/update-expiration',
       `backup_name=${record.metadata.name}&expiration=${values.expiration}`
     );
