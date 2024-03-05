@@ -8,7 +8,9 @@ import sortBy from 'lodash/sortBy';
 
 import { ActionIcon, Center, Group, Stack, CopyButton, Tooltip, rem } from '@mantine/core';
 
-import { IconClick, IconCheck, IconCopy } from '@tabler/icons-react';
+import { IconClick, IconCheck, IconCopy, IconAnalyze, IconLockOpen } from '@tabler/icons-react';
+
+import { useContextMenu } from 'mantine-contextmenu';
 
 import { useApiGet } from '@/hooks/useApiGet';
 
@@ -19,7 +21,12 @@ import Toolbar from '../Toolbar';
 const PAGE_SIZES = [5, 10, 15, 20];
 
 export function RepoLocation() {
+  const { showContextMenu } = useContextMenu();
+
   const { data, getData, error, fetching } = useApiGet();
+  const { data: locks, getData: getLocks } = useApiGet();
+  const { data: unlock, getData: tryUnlock } = useApiGet();
+
   const [items, setItems] = useState<Array<any>>([]);
   const [reload, setReload] = useState(1);
 
@@ -65,6 +72,29 @@ export function RepoLocation() {
     </Group>
   );
 
+  useEffect(() => {
+    if (locks !== undefined) {
+      setRecords(
+        records.filter(function (obj) {
+          if (obj.spec.resticIdentifier == Object.keys(locks.payload)[0]) {
+            if (locks.payload[Object.keys(locks.payload)[0]].length > 0) {
+              obj.locks = locks.payload[Object.keys(locks.payload)[0]].join('\n');
+            } else {
+              obj.locks = 'No locks';
+            }
+          }
+          return obj;
+        })
+      );
+    }
+  }, [locks]);
+
+  useEffect(() => {
+    if (unlock !== undefined) {
+      getLocks('/api/v1/repo/locks/get', `repository_url=${Object.keys(unlock.payload)[0]}`);
+    }
+  }, [unlock]);
+
   return (
     <>
       <Stack h="100%" gap={0}>
@@ -81,7 +111,6 @@ export function RepoLocation() {
           highlightOnHover
           records={records}
           totalRecords={items.length}
-          paginationActiveBackgroundColor="grape"
           recordsPerPage={pageSize}
           page={page}
           onPageChange={(p) => setPage(p)}
@@ -90,6 +119,38 @@ export function RepoLocation() {
           sortStatus={sortStatus}
           onSortStatusChange={setSortStatus}
           fetching={fetching}
+          onRowContextMenu={({ record, event }) =>
+            showContextMenu([
+              {
+                key: 'Check if locked',
+                icon: <IconAnalyze size={16} />,
+                onClick: () =>
+                  getLocks(
+                    '/api/v1/repo/locks/get',
+                    `repository_url=${record.spec.resticIdentifier}`
+                  ),
+              },
+              {
+                key: 'Unlock',
+                icon: <IconLockOpen size={16} />,
+                onClick: () =>
+                  tryUnlock(
+                    '/api/v1/repo/unlock',
+                    `repository_url=${record.spec.resticIdentifier}`
+                  ),
+              },
+              {
+                key: 'Unlock --remove-all',
+                title: 'Unlock --remove-all',
+                icon: <IconLockOpen size={16} />,
+                onClick: () =>
+                  tryUnlock(
+                    '/api/v1/repo/unlock',
+                    `repository_url=${record.spec.resticIdentifier}&remove_all=True`
+                  ),
+              },
+            ])(event)
+          }
           columns={[
             {
               accessor: 'id',
@@ -114,6 +175,7 @@ export function RepoLocation() {
               sortable: true,
             },
             { accessor: 'spec.repositoryType', title: 'Repository Type', sortable: true },
+            { accessor: 'locks', title: 'Locks', sortable: true },
             {
               accessor: 'spec.resticIdentifier',
               title: 'Identifier',

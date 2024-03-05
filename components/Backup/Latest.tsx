@@ -88,7 +88,6 @@ export function BackupLatest({ reload, setReload, latest = [] }: BackupLatestPro
           records={records}
           idAccessor="id"
           totalRecords={records.length}
-          paginationActiveBackgroundColor="grape"
           recordsPerPage={pageSize}
           page={page}
           onPageChange={(p) => setPage(p)}

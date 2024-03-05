@@ -1,6 +1,7 @@
 'use client';
 
-import { AppShell, Group, Stack, Flex, Box } from '@mantine/core';
+import { AppShell, Group, Stack, Box, em, Flex } from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
 
 import { AuthShellHeader } from './AuthShell.Header';
 import { AppShellFooter } from '../App/AppShell.Footer';
@@ -11,30 +12,36 @@ interface AuthShellLayoutProps {
 }
 
 export default function AuthShellLayout({ children }: AuthShellLayoutProps) {
+  const isMobile = useMediaQuery(`(max-width: ${em(750)})`);
   return (
     <>
       <AppShell withBorder={false}>
         <AppShell.Main>
-          <Stack
-            h="calc(100vh - var(--app-shell-header-height, 0px) - var(--app-shell-footer-height, 0px) - 0px)"
-            gap="lg"
+          <Group align="flex-end" p="sm">
+            <AuthShellHeader />
+          </Group>
+
+          <Flex
+            h={
+              isMobile
+                ? 'auto'
+                : 'calc(100vh - var(--app-shell-header-height, 0px) - var(--app-shell-footer-height, 0px) - 100px)'
+            }
+            p="xs"
+            mb={100}
+            gap="md"
+            justify="flex-start"
+            align="flex-start"
+            direction="row"
+            wrap="wrap"
           >
-            <Flex style={{ width: '100%', minHeight: '100%' }} align="flex-start">
-              <Box
-                h="calc(100vh - var(--app-shell-header-height, 0px) - var(--app-shell-footer-height, 0px) - 0px)"
-                w="440px"
-              >
-                {children}
-              </Box>
-              <Stack w="calc(100% - 440px)" h="100%" justify="space-between">
-                <Group align="flex-end" p="md" grow>
-                  <AuthShellHeader />
-                </Group>
-                <DiagnosticInfo />
-              </Stack>
-              
-            </Flex>
-          </Stack>
+            <Box pt="10rem" w="450">
+              {children}
+            </Box>
+            <Stack pt="2rem" justify="flex-end" mih={isMobile ? 'auto' : '100%'}>
+              <DiagnosticInfo />
+            </Stack>
+          </Flex>
         </AppShell.Main>
         <AppShell.Footer>
           <AppShellFooter />

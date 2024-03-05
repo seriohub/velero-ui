@@ -140,7 +140,6 @@ export function RestoreData() {
           records={records}
           idAccessor="id"
           totalRecords={dataFiltered.length}
-          paginationActiveBackgroundColor="grape"
           recordsPerPage={pageSize}
           page={page}
           onPageChange={(p) => setPage(p)}

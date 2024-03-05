@@ -52,7 +52,7 @@ export function AuthenticationForm() {
   }
 
   return (
-    <Paper radius="md" p="xl" withBorder style={{ width: '100%', border: 'none' }} mt="10rem">
+    <Paper radius="md" p="sm" withBorder style={{ width: '100%', border: 'none' }}>
       <Text size="22px" fw={800} lightHidden c="white">
         Velero
       </Text>

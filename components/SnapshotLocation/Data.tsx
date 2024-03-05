@@ -81,7 +81,6 @@ export function SnapshotLocation() {
           records={records}
           // idAccessor="id"
           totalRecords={items.length}
-          paginationActiveBackgroundColor="grape"
           recordsPerPage={pageSize}
           page={page}
           onPageChange={(p) => setPage(p)}

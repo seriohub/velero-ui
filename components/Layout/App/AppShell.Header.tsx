@@ -1,26 +1,32 @@
-import { Group, ActionIcon, Alert, Box, Indicator } from '@mantine/core';
+import { Group, ActionIcon, Alert, Box, Burger } from '@mantine/core';
 
-import { IconInfoCircle, IconBrandGithub, IconBug } from '@tabler/icons-react';
+import { IconInfoCircle, IconBrandGithub } from '@tabler/icons-react';
 
 import Link from 'next/link';
 
 import SwitchColorScheme from '../../SwitchColorScheme/SwitchColorScheme';
 
-export function AppShellHeader() {
+export function AppShellHeader({ opened, toggle }: any) {
+  
   return (
-    <Group w="100%" justify="flex-end">
-      <Box h={30}>
-        <Alert
-          variant="filled"
-          color="yellow"
-          title="Development version. Not optimized on mobile screen. recommended at least 1920 width screen"
-          icon={<IconInfoCircle />}
-          p={8}
-        />
-      </Box>
-      <Group>
-        <Group ml={50} gap={15} visibleFrom="sm">
-          {/*<Indicator position="bottom-end" radius="xs" size={20} label="API">
+    <Group justify="space-between" p={5}>
+      <div>
+        <Burger opened={opened} onClick={toggle} hiddenFrom="xs" size="sm" />
+      </div>
+      <Group justify="flex-end">
+        <Box h={30}>
+          <Alert
+            visibleFrom="md"
+            variant="filled"
+            color="yellow"
+            title="Develop version: UI not fully responsive."
+            icon={<IconInfoCircle />}
+            p={8}
+          />
+        </Box>
+        <Group>
+          <Group ml={50} gap={15} visibleFrom="sm">
+            {/*<Indicator position="bottom-end" radius="xs" size={20} label="API">
             <ActionIcon
               component={Link}
               target="_blank"
@@ -41,7 +47,7 @@ export function AppShellHeader() {
             >
               <IconBrandGithub />
             </ActionIcon>
-          {/*</Indicator>
+            {/*</Indicator>
           <ActionIcon
             component={Link}
             target="_blank"
@@ -51,9 +57,10 @@ export function AppShellHeader() {
           >
             <IconBug />
           </ActionIcon>*/}
+          </Group>
         </Group>
+        <SwitchColorScheme />
       </Group>
-      <SwitchColorScheme />
     </Group>
   );
 }

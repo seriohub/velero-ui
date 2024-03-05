@@ -37,7 +37,7 @@ export function Dashboard() {
 
   return (
     <>
-      <Stack h="100%" gap={0}>
+      <Stack h="100%" gap={15}>
         <Stack>
           <Toolbar title="Dashboard">
             <RefreshDatatable setReload={setReload} reload={reload} />

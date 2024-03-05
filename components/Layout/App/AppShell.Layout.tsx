@@ -20,34 +20,26 @@ export default function AppShellLayout({ children }: AppShellLayoutProps) {
     <>
       <AppShell
         header={{ height: 60 }}
-        navbar={{ width: 240, breakpoint: 'sm', collapsed: { mobile: !opened } }}
+        navbar={{ width: { xs:160, sm: 180, lg: 240 }, breakpoint: 'xs', collapsed: { mobile: !opened } }}
         layout="alt"
       >
         <AppShell.Header>
-          <Group h="100%" px="md">
-            <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
-            <AppShellHeader />
-          </Group>
+            <AppShellHeader opened={opened} toggle={toggle} />
         </AppShell.Header>
         <AppShell.Navbar>
-          <AppShellNavbar />
+          <AppShellNavbar opened={opened} toggle={toggle} />
         </AppShell.Navbar>
         <AppShell.Main>
           <Stack
-            h="calc(100vh - var(--app-shell-header-height, 0px) - var(--app-shell-footer-height, 0px) - 20px)"
             justify="space-between"
-            gap="lg"
+            h="calc(100vh - var(--app-shell-header-height, 0px) - var(--app-shell-footer-height, 0px) - 20px)"
           >
-            <ScrollArea p="md" style={{ height: 'calc(100% - 350px)' }}>
+            {/*<ScrollArea p={10} style={{ height: 'calc(100% - 350px)' }} offsetScrollbars bg='cyan'>*/}
+            <ScrollArea p={10} style={{ height: '100%' }} offsetScrollbars>
               {children}
             </ScrollArea>
 
-            <Accordion
-              multiple
-              variant="contained"
-              radius={0}
-              defaultValue={['RecentTask']}
-            >
+            <Accordion multiple variant="contained" radius={0} defaultValue={['RecentTask']}>
               <TaskInProgress />
               <AppShellMainFooter />
             </Accordion>

@@ -80,7 +80,6 @@ export function BackupLocation() {
           highlightOnHover
           records={records}
           totalRecords={items.length}
-          paginationActiveBackgroundColor="grape"
           recordsPerPage={pageSize}
           page={page}
           onPageChange={(p) => setPage(p)}
