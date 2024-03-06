@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 
 ***
 
+## [v0.1.6] - 2024-03-06
+
+- Added restic features (check locks, unlock, unlock --remove-all)
+- Improved responsive UI
+
 ## [v0.1.5] - 2024-03-02
 
 - Improved debug feature
@@ -34,6 +39,8 @@ All notable changes to this project will be documented in this file.
 - 🎉 first release!
 
 ***
+
+[v0.1.6] : [https://github.com/seriohub/velero-ui/releases/tag/v0.1.6](https://github.com/seriohub/velero-ui/releases/tag/v0.1.6)
 
 [v0.1.5] : [https://github.com/seriohub/velero-ui/releases/tag/v0.1.5](https://github.com/seriohub/velero-ui/releases/tag/v0.1.5)
 
