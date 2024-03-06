@@ -23,7 +23,9 @@ const data = [
   { link: '/backups', label: 'Backups', icon: IconDeviceFloppy },
   { link: '/restores', label: 'Restores', icon: IconRestore },
   { link: '/schedules', label: 'Schedules', icon: IconCalendarEvent },
-  { link: '/storage', label: 'Storage', icon: IconDatabase },
+  { link: '/backup-locations', label: 'Backup Location', icon: IconDatabase },
+  { link: '/storage-locations', label: 'Storage Location', icon: IconDatabase },
+  { link: '/repos', label: 'Repositories', icon: IconDatabase },
   { link: '/sc-mapping', label: 'SC mapping', icon: IconLink },
 ];
 
@@ -53,7 +55,7 @@ export function AppShellNavbar({ opened, toggle }: any) {
 
   return (
     <>
-    
+    <ScrollArea p={0} style={{ height: '100hv', w:'100vw' }} maw="100vw" scrollbars="y">
       <Stack justify="space-between" style={{ height: '100vh' }} p={0}>
         <nav className={classes.navbar}>
           <div className={classes.navbarMain}>
@@ -62,7 +64,9 @@ export function AppShellNavbar({ opened, toggle }: any) {
               <Burger opened={opened} onClick={toggle} hiddenFrom="xs" size="sm" />
             </Group>
             <UserInfo />
+            
             {links}
+            
           </div>
           <Version />
           <div className={classes.footer}>
@@ -87,7 +91,7 @@ export function AppShellNavbar({ opened, toggle }: any) {
           </div>
         </nav>
       </Stack>
-    
+      </ScrollArea>
     </>
   );
 }

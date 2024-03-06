@@ -26,7 +26,7 @@ export function AppShellFooter() {
         <Box visibleFrom="lg">
           {pathname != '/' && pathname != '/login' && <DiagnosticLink ApiURL={ApiURLenv} />}
         </Box>
-        <Group justify="flex-end" gap={5}>
+        <Group justify="flex-end" gap={5} visibleFrom="lg">
           {data && data?.payload && (
             <>
               <Code>

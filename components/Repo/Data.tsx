@@ -97,7 +97,7 @@ export function RepoLocation() {
 
   return (
     <>
-      <Stack h="100%" gap={0}>
+      <Stack h="100%" gap={0} p={5}>
         <Toolbar title="Repo">
           <RefreshDatatable setReload={setReload} reload={reload} />
         </Toolbar>
