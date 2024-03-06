@@ -66,7 +66,7 @@ export function BackupLocation() {
 
   return (
     <>
-      <Stack h="100%" gap={0}>
+      <Stack h="100%" gap={0} p={5}>
         <Toolbar title="Backup Location">
           <RefreshDatatable setReload={setReload} reload={reload} />
         </Toolbar>
@@ -80,7 +80,6 @@ export function BackupLocation() {
           highlightOnHover
           records={records}
           totalRecords={items.length}
-          paginationActiveBackgroundColor="grape"
           recordsPerPage={pageSize}
           page={page}
           onPageChange={(p) => setPage(p)}

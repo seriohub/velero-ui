@@ -13,6 +13,7 @@ import {
   Code,
   Box,
   Pill,
+  Stack,
 } from '@mantine/core';
 
 import { IconCopy, IconCheck } from '@tabler/icons-react';
@@ -30,7 +31,8 @@ export default function InfoNotification() {
   };
 
   const commands = value.state.notificationHistory.map((item: any, index: number) => (
-    <Group gap={5} key={index}>
+    <Stack gap={0} key={index} mb={15}>
+      <Group gap={2}>
       <CopyButton value={`${item.statusCode}: ${item.title}: ${item.description}`} timeout={2000}>
         {({ copied, copy }) => (
           <Tooltip label={copied ? 'Copied' : 'Copy'} withArrow position="right">
@@ -44,16 +46,22 @@ export default function InfoNotification() {
           </Tooltip>
         )}
       </CopyButton>
-      <Pill radius={0} fw={700} bg={item.statusCode>=200 && item.statusCode<=299 ? 'green': 'red'}>
+      <Pill
+        radius={0}
+        fw={700}
+        bg={item.statusCode >= 200 && item.statusCode <= 299 ? 'green' : 'red'}
+      >
         {item.statusCode}
       </Pill>
       <Text c="white" size="sm">
-        {item.title}:
+        {item.title}
       </Text>
+      </Group>
+
       <Text c="white" size="sm">
         {item.description}
       </Text>
-    </Group>
+    </Stack>
   ));
 
   useEffect(() => {

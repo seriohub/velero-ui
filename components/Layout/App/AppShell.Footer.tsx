@@ -2,7 +2,7 @@ import { useContext, useEffect } from 'react';
 import { env } from 'next-runtime-env';
 import VeleroAppContexts from '@/contexts/VeleroAppContexts';
 import { useApiGet } from '@/hooks/useApiGet';
-import { Code, Group } from '@mantine/core';
+import { Box, Code, Group } from '@mantine/core';
 import { ClusterInfo } from '@/components/ClusterInfo';
 import { DiagnosticLink } from '@/components/DiagnosticLink';
 import { usePathname } from 'next/navigation';
@@ -21,24 +21,22 @@ export function AppShellFooter() {
 
   return (
     <>
-      <Group mx={5} justify="space-between">
+      <Group justify="space-between" gap={5}>
         <ClusterInfo />
-        {pathname != '/' && pathname != '/login' && <DiagnosticLink ApiURL={ApiURLenv} />}
-        <Group justify="flex-end">
+        <Box visibleFrom="lg">
+          {pathname != '/' && pathname != '/login' && <DiagnosticLink ApiURL={ApiURLenv} />}
+        </Box>
+        <Group justify="flex-end" gap={5} visibleFrom="lg">
           {data && data?.payload && (
             <>
-              <Group gap={5}>
-                <Code>
-                  API: {data.payload['release_version']} ({data.payload['release_date']})
-                </Code>
-              </Group>
+              <Code>
+                API: {data.payload['release_version']} ({data.payload['release_date']})
+              </Code>
             </>
           )}
-          <Group gap={5}>
-            <Code>
-              UI: {NEXT_PUBLIC_FRONT_END_BUILD_VERSION} ({NEXT_PUBLIC_FRONT_END_BUILD_DATE})
-            </Code>
-          </Group>
+          <Code>
+            UI: {NEXT_PUBLIC_FRONT_END_BUILD_VERSION} ({NEXT_PUBLIC_FRONT_END_BUILD_DATE})
+          </Code>
         </Group>
       </Group>
     </>

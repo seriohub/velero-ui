@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 
-import { Space, Stack, Table } from '@mantine/core';
+import { ScrollArea, Space, Stack, Table } from '@mantine/core';
 
 import { useApiGet } from '@/hooks/useApiGet';
 import RefreshDatatable from '../Actions/ToolbarActionIcons/RefreshDatatable';
@@ -59,7 +59,8 @@ export function Configuration() {
 
   return (
     <>
-      <Stack h="100%" gap={0}>
+      <ScrollArea p={0} style={{ height: '100%'}} offsetScrollbars >
+      <Stack h="100%" gap={0} p={5}>
         <Toolbar title="API Configuration">
           <RefreshDatatable setReload={setReload} reload={reload} />
         </Toolbar>
@@ -88,6 +89,7 @@ export function Configuration() {
           <Table.Tbody>{rowUiConfiguration}</Table.Tbody>
         </Table>
       </Stack>
+      </ScrollArea>
     </>
   );
 }

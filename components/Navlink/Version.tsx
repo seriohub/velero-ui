@@ -16,14 +16,14 @@ export const Version = () => {
 
   return (
     <>
-      <Stack p={15}>
-        <Group justify="space-between">
+      <Stack py={10} visibleFrom='sm'>
+        <Group justify="space-between" gap={0}>
           <Text fw={700} size="sm">
             Velero Client:
           </Text>
           <Code fw={700}>{data.payload?.client?.version}</Code>
         </Group>
-        <Group justify="space-between">
+        <Group justify="space-between" gap={0}>
           <Text fw={700} size="sm">
             Velero Server:
           </Text>

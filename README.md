@@ -32,6 +32,10 @@ This project was created to simplify through a user interface some velero backup
 
   6. Storage class map
 
+  7. Restic features (check locks, unlock, unlock --remove-all)
+
+  see [changelog](CHANGELOG) for details.
+
 ## Configuration
 
 | FIELD                                 | TYPE   | DEFAULT                   | DESCRIPTION                                                              |

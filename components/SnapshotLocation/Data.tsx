@@ -66,7 +66,7 @@ export function SnapshotLocation() {
 
   return (
     <>
-      <Stack h="100%" gap={0}>
+      <Stack h="100%" gap={0} p={5}>
         <Toolbar title="Snapshot Location">
           <RefreshDatatable setReload={setReload} reload={reload} />
         </Toolbar>
@@ -81,7 +81,6 @@ export function SnapshotLocation() {
           records={records}
           // idAccessor="id"
           totalRecords={items.length}
-          paginationActiveBackgroundColor="grape"
           recordsPerPage={pageSize}
           page={page}
           onPageChange={(p) => setPage(p)}

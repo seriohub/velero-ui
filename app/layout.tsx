@@ -1,23 +1,28 @@
 'use client';
 
-import '@mantine/core/styles.css';
-// import '@mantine/core/styles.layer.css';
-import '@mantine/notifications/styles.css';
-import 'mantine-datatable/styles.layer.css';
-// import './global.css'
-// import './layout.css';
-
 import React, { useState } from 'react';
 import { MantineProvider, ColorSchemeScript } from '@mantine/core';
+
 import { PublicEnvScript, env } from 'next-runtime-env';
 import { theme } from '../theme';
 
 import VeleroAppContexts from '@/contexts/VeleroAppContexts';
 
+import { ContextMenuProvider } from 'mantine-contextmenu';
+
+import '@mantine/core/styles.layer.css';
+import '@mantine/dates/styles.layer.css';
+import '@mantine/notifications/styles.layer.css';
+
+import 'mantine-contextmenu/styles.layer.css';
+import 'mantine-datatable/styles.layer.css';
+
+import './layout.css';
+
 export default function RootLayout({ children }: { children: any }) {
   const [appApiRequest, setAppApiRequest] = useState<Array<any>>([]);
   const [appApiResponse, setAppApiResponse] = useState<Array<any>>([]);
-  
+
   const [appNotificationHistory, setAppNotificationHistory] = useState<Array<any>>([]);
 
   const NEXT_PUBLIC_REFRESH_DATATABLE_AFTER = env('NEXT_PUBLIC_REFRESH_DATATABLE_AFTER');
@@ -57,10 +62,10 @@ export default function RootLayout({ children }: { children: any }) {
               setApiResponse: setAppApiResponse,
               setRefreshDatatableAfter: setAppRefreshDatatableAfter,
               setRefreshRecent: setAppRefreshRecent,
-              setNotificationHistory: setAppNotificationHistory
+              setNotificationHistory: setAppNotificationHistory,
             }}
           >
-            {children}
+            <ContextMenuProvider>{children}</ContextMenuProvider>
           </VeleroAppContexts.Provider>
         </MantineProvider>
       </body>

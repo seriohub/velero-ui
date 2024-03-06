@@ -109,21 +109,26 @@ export default function TaskInProgress() {
             records={records}
             sortStatus={sortStatus}
             onSortStatusChange={setSortStatus}
+            pinLastColumn
             columns={[
               {
                 accessor: 'id',
-                title: 'Number',
+                title: 'Nr',
                 sortable: true,
-                width: 105,
+                width: 50,
               },
               {
                 accessor: 'kind',
                 title: 'Kind',
+                width: 100,
+                ellipsis: true
               },
               {
                 accessor: 'metadata.name',
                 title: 'Name',
                 sortable: true,
+                width: 400,
+                ellipsis: true
               },
               {
                 accessor: 'metadata.labels["velero.io/schedule-name"]',
@@ -138,13 +143,21 @@ export default function TaskInProgress() {
                   return <></>;
                 },
                 sortable: true,
+                width: 250,
+                ellipsis: true
               },
-              { accessor: 'status.phase', title: 'Status', sortable: true },
-              { accessor: 'status.errors', title: 'Errors', sortable: true },
-              { accessor: 'status.warnings', title: 'Warnings', sortable: true },
-              { accessor: 'status.startTimestamp', title: 'Start', sortable: true },
-              { accessor: 'status.completionTimestamp', title: 'Completion', sortable: true },
-              { accessor: 'status.expiration', title: 'Expires', sortable: true },
+              { accessor: 'status.phase', title: 'Status', sortable: true, width: 100,
+              ellipsis: true },
+              { accessor: 'status.errors', title: 'Errors', sortable: true ,width: 100,
+              ellipsis: true},
+              { accessor: 'status.warnings', title: 'Warnings', sortable: true,width: 100,
+              ellipsis: true },
+              { accessor: 'status.startTimestamp', title: 'Start', sortable: true, width: 200,
+              ellipsis: true },
+              { accessor: 'status.completionTimestamp', title: 'Completion', sortable: true, width: 200,
+              ellipsis: true },
+              { accessor: 'status.expiration', title: 'Expires', sortable: true,width: 200,
+              ellipsis: true },
               {
                 accessor: 'status.expire_in',
                 title: 'Expires in',
@@ -154,6 +167,8 @@ export default function TaskInProgress() {
                     <ExpireIn expiration={status.expiration} />
                   </>
                 ),
+                width: 200,
+              ellipsis: true
               },
               {
                 accessor: 'actions',

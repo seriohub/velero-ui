@@ -84,7 +84,7 @@ export function ScheduleData() {
 
   return (
     <>
-      <Stack h="100%" gap={0}>
+      <Stack h="100%" gap={0} p={5}>
         <Toolbar title="Schedule">
           <CreateSecheduleToolbarIcon setReload={setReload} reload={reload} />
           <RefreshDatatable setReload={setReload} reload={reload} />
@@ -100,7 +100,6 @@ export function ScheduleData() {
           records={records}
           idAccessor="id"
           totalRecords={items.length}
-          paginationActiveBackgroundColor="grape"
           recordsPerPage={pageSize}
           page={page}
           onPageChange={(p) => setPage(p)}

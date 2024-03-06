@@ -41,7 +41,7 @@ export function SCMappingData() {
 
   return (
     <>
-      <Stack h="100%" gap={0}>
+      <Stack h="100%" gap={0} p={5}>
         <Toolbar title="Storage Class Mapping">
           <CreateSCMappingIcon setReload={setReload} reload={reload} />
           <RefreshDatatable setReload={setReload} reload={reload} />

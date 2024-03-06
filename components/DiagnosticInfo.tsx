@@ -41,11 +41,11 @@ export const DiagnosticInfo = () => {
   }, [ApiOrigins]);
   
   return (
-    <Box p="lg">
+    <Box>
       <Text size="sm" fw={800}>
         Diagnostic:
       </Text>
-      <Space h={20} />
+      <Space h={10} />
       <List
         spacing="xs"
         size="sm"

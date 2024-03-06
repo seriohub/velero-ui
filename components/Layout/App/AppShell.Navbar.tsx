@@ -1,4 +1,4 @@
-import { Group, Code, Stack, NavLink, Divider, Avatar } from '@mantine/core';
+import { Group, Stack, NavLink, Divider, Avatar, Burger, ScrollArea } from '@mantine/core';
 import {
   IconDashboard,
   IconRestore,
@@ -23,11 +23,13 @@ const data = [
   { link: '/backups', label: 'Backups', icon: IconDeviceFloppy },
   { link: '/restores', label: 'Restores', icon: IconRestore },
   { link: '/schedules', label: 'Schedules', icon: IconCalendarEvent },
-  { link: '/storage', label: 'Storage', icon: IconDatabase },
+  { link: '/backup-locations', label: 'Backup Location', icon: IconDatabase },
+  { link: '/storage-locations', label: 'Storage Location', icon: IconDatabase },
+  { link: '/repos', label: 'Repositories', icon: IconDatabase },
   { link: '/sc-mapping', label: 'SC mapping', icon: IconLink },
 ];
 
-export function AppShellNavbar() {
+export function AppShellNavbar({ opened, toggle }: any) {
   const router = useRouter();
   const pathname = usePathname();
 
@@ -44,8 +46,8 @@ export function AppShellNavbar() {
       }
       onClick={(event) => {
         event.preventDefault();
-
         router.push(item.link);
+        toggle();
       }}
       variant="filled"
     />
@@ -53,18 +55,21 @@ export function AppShellNavbar() {
 
   return (
     <>
-      <Stack justify="space-between" style={{ height: '100%' }}>
+    <ScrollArea p={0} style={{ height: '100hv', w:'100vw' }} maw="100vw" scrollbars="y">
+      <Stack justify="space-between" style={{ height: '100vh' }} p={0}>
         <nav className={classes.navbar}>
           <div className={classes.navbarMain}>
             <Group className={classes.header} justify="space-between">
               <Logo />
+              <Burger opened={opened} onClick={toggle} hiddenFrom="xs" size="sm" />
             </Group>
             <UserInfo />
+            
             {links}
+            
           </div>
+          <Version />
           <div className={classes.footer}>
-            <Version />
-            <Divider />
             <NavLink
               className={classes.link}
               key="configuration"
@@ -86,6 +91,7 @@ export function AppShellNavbar() {
           </div>
         </nav>
       </Stack>
+      </ScrollArea>
     </>
   );
 }

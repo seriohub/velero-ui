@@ -77,11 +77,11 @@ export function BackupData({ limit = -1 }: BackupDataProps) {
   }, [data]);
 
   useEffect(() => {
-    getData('/api/v1/backup/get', onlyLast4Schedule==true?'only_last_for_schedule=true':'');
+    getData('/api/v1/backup/get', onlyLast4Schedule == true ? 'only_last_for_schedule=true' : '');
   }, [reload, onlyLast4Schedule]);
 
   useEffect(() => {
-    getData('/api/v1/backup/get', onlyLast4Schedule==true?'only_last_for_schedule=true':'');
+    getData('/api/v1/backup/get', onlyLast4Schedule == true ? 'only_last_for_schedule=true' : '');
   }, []);
 
   useEffect(() => {
@@ -151,9 +151,13 @@ export function BackupData({ limit = -1 }: BackupDataProps) {
 
   return (
     <>
-      <Stack h="100%" gap={0}>
+      <Stack h="100%" gap={0} p={5}>
         <Toolbar title="Backup">
-          <LastBackup4Schedule setReload={setReload} reload={reload} setOnlyLast4Schedule={setOnlyLast4Schedule}/>
+          <LastBackup4Schedule
+            setReload={setReload}
+            reload={reload}
+            setOnlyLast4Schedule={setOnlyLast4Schedule}
+          />
           <CreateBackupToolbarIcon setReload={setReload} reload={reload} />
           <RefreshDatatable setReload={setReload} reload={reload} />
         </Toolbar>
@@ -168,7 +172,6 @@ export function BackupData({ limit = -1 }: BackupDataProps) {
           records={records}
           idAccessor="id"
           totalRecords={dataFiltered.length}
-          paginationActiveBackgroundColor="grape"
           recordsPerPage={pageSize}
           page={page}
           onPageChange={(p) => setPage(p)}
@@ -177,20 +180,25 @@ export function BackupData({ limit = -1 }: BackupDataProps) {
           sortStatus={sortStatus}
           onSortStatusChange={setSortStatus}
           fetching={fetching}
+          pinLastColumn
           columns={[
             {
               accessor: 'id',
-              title: 'Number',
+              title: 'Nr',
               sortable: true,
-              width: 105,
+              width: 50,
             },
             {
               accessor: 'metadata.name',
               title: 'Name',
               sortable: true,
+              width: 400,
+              ellipsis: true,
             },
             {
               accessor: 'metadata.labels["velero.io/schedule-name"]',
+              width: 300,
+              ellipsis: true,
               render: ({ metadata }: any) => (
                 <>
                   {metadata.labels && metadata.labels['velero.io/schedule-name']
@@ -233,10 +241,30 @@ export function BackupData({ limit = -1 }: BackupDataProps) {
                 />
               ),
               filtering: selectedPhase.length > 0,
+              width: 160,
+              ellipsis: true,
             },
-            { accessor: 'status.errors', title: 'Errors', sortable: true },
-            { accessor: 'status.warnings', title: 'Warnings', sortable: true },
-            { accessor: 'metadata.creationTimestamp', title: 'Created', sortable: true },
+            {
+              accessor: 'status.errors',
+              title: 'Errors',
+              sortable: true,
+              width: 160,
+              ellipsis: true,
+            },
+            {
+              accessor: 'status.warnings',
+              title: 'Warnings',
+              sortable: true,
+              width: 160,
+              ellipsis: true,
+            },
+            {
+              accessor: 'metadata.creationTimestamp',
+              title: 'Created',
+              sortable: true,
+              width: 200,
+              ellipsis: true,
+            },
             {
               accessor: 'status.expiration',
               title: 'Expires in',
@@ -246,6 +274,8 @@ export function BackupData({ limit = -1 }: BackupDataProps) {
                   <ExpireIn expiration={status.expiration} />
                 </>
               ),
+              width: 200,
+              ellipsis: true,
             },
             {
               accessor: 'metadata.labels["velero.io/storage-location"]',
@@ -254,6 +284,8 @@ export function BackupData({ limit = -1 }: BackupDataProps) {
               ),
               title: 'Storage Location',
               sortable: true,
+              width: 250,
+              ellipsis: true
             },
             {
               accessor: 'actions',

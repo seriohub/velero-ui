@@ -73,7 +73,7 @@ export function BackupLatest({ reload, setReload, latest = [] }: BackupLatestPro
 
   return (
     <>
-      <Stack h="100%" gap={0}>
+      <Stack gap={0} p={5}>
         <Toolbar title="Recent Backup">
           <CreateBackupToolbarIcon setReload={setReload} reload={reload} />
         </Toolbar>
@@ -88,7 +88,6 @@ export function BackupLatest({ reload, setReload, latest = [] }: BackupLatestPro
           records={records}
           idAccessor="id"
           totalRecords={records.length}
-          paginationActiveBackgroundColor="grape"
           recordsPerPage={pageSize}
           page={page}
           onPageChange={(p) => setPage(p)}
