@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: velero-ui-config
+data:
+    NEXT_PUBLIC_REFRESH_DATATABLE_AFTER: "1500"
+    NEXT_PUBLIC_REFRESH_RECENT: "5000"
+    NEXT_PUBLIC_VELERO_API_URL: "http://10.10.0.100"
+    NEXT_PUBLIC_VELERO_API_WS: "ws://10.10.0.100"

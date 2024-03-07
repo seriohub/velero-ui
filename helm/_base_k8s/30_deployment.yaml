@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: velero-api
+  labels:
+    app: velero-api
+    tier: backend
+    layer: api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: velero-api
+      tier: backend
+      layer: api
+  template:
+    metadata:
+      labels:
+        app: velero-api
+        tier: backend
+        layer: api
+    spec:
+      serviceAccountName: velero-api-sa
+      containers:
+        - name: api-server
+          image: docker.io/dserio83/velero-api:0.1.6
+          imagePullPolicy: IfNotPresent
+          envFrom:
+            - configMapRef:
+                name: velero-api-config
+          ports:
+            - containerPort: 8001
+              name: api
+          env:
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace

@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: velero-api-config
+data:
+    DEBUG_LEVEL: "info"
+    K8S_IN_CLUSTER_MODE: "True"
+    K8S_VELERO_NAMESPACE: "velero"
+    K8S_VELERO_UI_NAMESPACE: "velero-ui"
+    ORIGINS_1: "*"
+    API_ENDPOINT_URL: "0.0.0.0"
+    API_ENDPOINT_PORT: "8001"
+    VELERO_CLI_VERSION: "v1.12.2"
+    VELERO_CLI_PATH: "./velero-client"
+    VELERO_CLI_PATH_CUSTOM: "./velero-client-binary"
+    VELERO_CLI_DEST_PATH: "/usr/local/bin"
+    API_ENABLE_DOCUMENTATION: "1"
+    API_TOKEN_EXPIRATION_MIN: "30"
+    SECURITY_PATH_DATABASE: "./data"
+    SECURITY_TOKEN_KEY: "<your-token>"
+    SECURITY_DISABLE_USERS_PWD_RATE: "1"
+    API_RATE_LIMITER_L1: "60:20"
+    API_RATE_LIMITER_CUSTOM_1: "Security:xxx:60:20"
+    DOWNLOAD_TMP_FOLDER: "/tmp/velero-api"
+    RESTIC_PASSWORD: "static-passw0rd"
+    AWS_ACCESS_KEY_ID: "<AWS_ACCESS_KEY_ID>"
+    AWS_SECRET_ACCESS_KEY: "<AWS_SECRET_ACCESS_KEY>"

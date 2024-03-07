@@ -75,7 +75,13 @@ Clone the repository:
     yarn run dev
     ```
 
-### Run in Kubernetes
+### Run in Kubernetes 
+
+#### Install with HELM
+
+   See [helm readme](helm/README.md)
+
+#### Install with Kubernetes YAML
 
 1. Setup docker image:
 
