@@ -1,3 +1,5 @@
+global:
+  veleroNamespace: velero
 api:
   apiServer:
     image:
