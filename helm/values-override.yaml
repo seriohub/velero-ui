@@ -1,13 +1,13 @@
 global:
   veleroNamespace: velero
 apiIngress:
-  host: api.velero2.your-domain
+  host: api.velero.your-domain
 uiIngress:
-  host: velero2.your-domain
+  host: velero.your-domain
 apiConfig:
   securityTokenKey: <security token key get from "openssl rand -hex 32">
   awsAccessKeyId: <awsAccessKeyId>
   awsSecretAccessKey: <awsSecretAccessKey>
 uiConfig:
-  nextPublicVeleroApiUrl: "https://api.velero2.your-domain"
-  nextPublicVeleroApiWs: "wss://api.velero2.your-domain"
+  nextPublicVeleroApiUrl: "https://api.velero.your-domain"
+  nextPublicVeleroApiWs: "wss://api.velero.your-domain"
