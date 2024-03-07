@@ -34,7 +34,7 @@ This project was created to simplify through a user interface some velero backup
 
   7. Restic features (check locks, unlock, unlock --remove-all)
 
-  see [changelog](CHANGELOG) for details.
+  see [changelog](CHANGELOG.md) for details.
 
 ## Configuration
 
