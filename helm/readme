@@ -1,0 +1,4 @@
+git clone https://github.com/seriohub/velero-ui.git
+cd velero-ui/helm
+kubectl create ns velero-ui
+helm install -f values-override.yaml seriohub-velero ./seriohub-velero/ -n velero-ui

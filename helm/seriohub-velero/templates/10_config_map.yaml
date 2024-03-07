@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "seriohub-velero.fullname" . }}-api-config
+  labels:
+  {{- include "seriohub-velero.labels" . | nindent 4 }}
+data:
+  API_ENABLE_DOCUMENTATION: {{ .Values.apiConfig.apiEnableDocumentation | quote }}
+  API_ENDPOINT_PORT: {{ .Values.apiConfig.apiEndpointPort | quote }}
+  API_ENDPOINT_URL: {{ .Values.apiConfig.apiEndpointUrl | quote }}
+  API_RATE_LIMITER_CUSTOM_1: {{ .Values.apiConfig.apiRateLimiterCustom1 | quote }}
+  API_RATE_LIMITER_L1: {{ .Values.apiConfig.apiRateLimiterL1 | quote }}
+  API_TOKEN_EXPIRATION_MIN: {{ .Values.apiConfig.apiTokenExpirationMin | quote }}
+  AWS_ACCESS_KEY_ID: {{ .Values.apiConfig.awsAccessKeyId | quote }}
+  AWS_SECRET_ACCESS_KEY: {{ .Values.apiConfig.awsSecretAccessKey | quote }}
+  DEBUG_LEVEL: {{ .Values.apiConfig.debugLevel | quote }}
+  DOWNLOAD_TMP_FOLDER: {{ .Values.apiConfig.downloadTmpFolder | quote }}
+  K8S_IN_CLUSTER_MODE: {{ .Values.apiConfig.k8SInClusterMode | quote }}
+  K8S_VELERO_NAMESPACE: {{ .Values.global.veleroNamespace }}
+  K8S_VELERO_UI_NAMESPACE: {{ .Release.Namespace }}
+  ORIGINS_1: {{ .Values.apiConfig.origins1 | quote }}
+  RESTIC_PASSWORD: {{ .Values.apiConfig.resticPassword | quote }}
+  SECURITY_DISABLE_USERS_PWD_RATE: {{ .Values.apiConfig.securityDisableUsersPwdRate | quote }}
+  SECURITY_PATH_DATABASE: {{ .Values.apiConfig.securityPathDatabase | quote }}
+  SECURITY_TOKEN_KEY: {{ .Values.apiConfig.securityTokenKey | quote }}
+  VELERO_CLI_DEST_PATH: {{ .Values.apiConfig.veleroCliDestPath | quote }}
+  VELERO_CLI_PATH: {{ .Values.apiConfig.veleroCliPath | quote }}
+  VELERO_CLI_PATH_CUSTOM: {{ .Values.apiConfig.veleroCliPathCustom | quote }}
+  VELERO_CLI_VERSION: {{ .Values.apiConfig.veleroCliVersion | quote }}

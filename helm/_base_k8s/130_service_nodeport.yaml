@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: velero-ui-nodeport
+spec:
+  type: NodePort
+  selector:
+    layer: webserver
+  ports:
+    - nodePort: 30002
+      port: 3000
+      targetPort: 3000
+
+
