@@ -79,7 +79,7 @@ Clone the repository:
 
 #### Install with HELM
 
-   See [helm readme](helm/README.md)
+   See [helm readme](https://github.com/seriohub/velero-ui/tree/main/helm)
 
 #### Install with Kubernetes YAML
 
