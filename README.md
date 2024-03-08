@@ -7,13 +7,6 @@ Thank you for your understanding and cooperation.
 
 ![alt text](/screenshots/velero-ui.gif)
 
-Other screenshots:
-
-* [Schedules managment](/screenshots/schedules.png)
-* [Create/Edit Schedule](/screenshots/create_schedule.png)
-* [Storage Class Map](/screenshots/storage_class_map.png)
-* [Login](/screenshots/login.png)
-
 ## Description
 
 This project was created to simplify through a user interface some velero backup operations. This project needs the [velero-api](https://github.com/seriohub/velero-api) project.
