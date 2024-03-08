@@ -5,7 +5,7 @@
 We highly recommend thoroughly testing the project in non-production or sandbox environments before implementing it in critical or production systems. Your feedback is invaluable to us; if you encounter any issues or have suggestions for improvement, please feel free to [report them](https://github.com/seriohub/velero-ui/issues). Your input helps us enhance the project's performance and user experience.
 Thank you for your understanding and cooperation.
 
-![alt text](/screenshots/dashboard.png)
+![alt text](/screenshots/velero-ui.gif)
 
 Other screenshots:
 
