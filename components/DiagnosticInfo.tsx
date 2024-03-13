@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 
-import { Box, Group, List, Space, Text, ThemeIcon, rem } from '@mantine/core';
+import { ActionIcon, Box, Group, List, Space, Text, ThemeIcon, rem } from '@mantine/core';
 import { useApiGet } from '@/hooks/useApiGet';
-import { IconCheck, IconCircleCheck, IconX } from '@tabler/icons-react';
+import { IconCheck, IconCircleCheck, IconExternalLink, IconX } from '@tabler/icons-react';
 import { env } from 'next-runtime-env';
 import { useUrlAvailability } from '@/hooks/checkUrlAvailability';
 import { DiagnosticLink } from './DiagnosticLink';
@@ -22,7 +22,7 @@ export const DiagnosticInfo = () => {
   useEffect(() => {
     getDataK8sHealth('/info/health-k8s');
     getApiOrigins('/info/origins');
-    getApiArch('/info/arch')
+    getApiArch('/info/arch');
 
     if (window) {
       const currentURL = new URL(window.location.href);
@@ -39,7 +39,7 @@ export const DiagnosticInfo = () => {
       setOrigins(ApiOrigins.payload);
     }
   }, [ApiOrigins]);
-  
+
   return (
     <Box>
       <Text size="sm" fw={800}>
@@ -92,6 +92,17 @@ export const DiagnosticInfo = () => {
             <Text size="sm" fw={800}>
               {ApiURL}
             </Text>
+            {ApiURL != undefined && (
+              <ActionIcon
+                component="a"
+                href={ApiURL}
+                size="sm"
+                aria-label="Open in a new tab"
+                target="_blank"
+              >
+                <IconExternalLink size={20} />
+              </ActionIcon>
+            )}
           </Group>
         </List.Item>
         {/* API reachable */}
@@ -118,16 +129,20 @@ export const DiagnosticInfo = () => {
         <List.Item
           icon={
             <ThemeIcon color="dimmed" size={24} radius="xl">
-              {isUrlAvailable && ApiArch?.payload?.platform == undefined &&(
+              {isUrlAvailable && ApiArch?.payload?.platform == undefined && (
                 <IconCheck color="green" style={{ width: rem(16), height: rem(16) }} />
               )}
-              {(!isUrlAvailable || ApiArch?.payload?.platform?.length > 0) && <IconX color="red" style={{ width: rem(16), height: rem(16) }} />}
+              {(!isUrlAvailable || ApiArch?.payload?.platform?.length > 0) && (
+                <IconX color="red" style={{ width: rem(16), height: rem(16) }} />
+              )}
             </ThemeIcon>
           }
         >
           <Group gap={10}>
             <Text size="sm">Get API architecture:</Text>
-            <Text size="sm" fw={800}>{ApiArch?.payload.arch} {ApiArch?.payload.platform}</Text>
+            <Text size="sm" fw={800}>
+              {ApiArch?.payload.arch} {ApiArch?.payload.platform}
+            </Text>
           </Group>
         </List.Item>
         {/* Origins */}
@@ -160,7 +175,6 @@ export const DiagnosticInfo = () => {
               {(origins.length == 0 || (origins.length > 0 && !origins.includes(UiURL))) && (
                 <IconX color="red" style={{ width: rem(16), height: rem(16) }} />
               )}
-              
             </ThemeIcon>
           }
         >

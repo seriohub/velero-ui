@@ -3,12 +3,13 @@ import { useContext, useState } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 
 import { notifications } from '@mantine/notifications';
-
+import { modals } from '@mantine/modals';
 import { IconExclamationMark, IconInfoCircle } from '@tabler/icons-react';
 
 import { env } from 'next-runtime-env';
 
 import VeleroAppContexts from '@/contexts/VeleroAppContexts';
+import { Code } from '@mantine/core';
 
 export const useApiGet = () => {
   const router = useRouter();
@@ -87,8 +88,8 @@ export const useApiGet = () => {
         } else if ('data' in data) {
           setData(data.data);
         }
-        if ('messages' in data) {
-          data.messages.map((message: any) => {
+        if ('notifications' in data) {
+          data.notifications.map((message: any) => {
             notifications.show({
               icon: <IconInfoCircle />,
               color: 'blue',
@@ -103,6 +104,17 @@ export const useApiGet = () => {
               })
             );
             return null;
+          });
+        }
+        if ('messages' in data) {
+          data.messages.map((message: any) => {
+            modals.open({
+              title: message.title,
+              size: 'lg',
+              children: <Code block color="#010101">
+              {message.description.join("\n")}
+            </Code>
+            });
           });
         }
         setFetching(false);

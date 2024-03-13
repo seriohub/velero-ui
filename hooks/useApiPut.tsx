@@ -92,8 +92,8 @@ export const useApiPut = () => {
           });
           setError(true);
         }
-        if ('messages' in res) {
-          data.messages.map((message: any) => {
+        if ('notifications' in res) {
+          data.notifications.map((message: any) => {
             notifications.show({
               icon: <IconInfoCircle />,
               color: 'blue',

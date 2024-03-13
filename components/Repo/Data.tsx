@@ -26,6 +26,7 @@ export function RepoLocation() {
   const { data, getData, error, fetching } = useApiGet();
   const { data: locks, getData: getLocks } = useApiGet();
   const { data: unlock, getData: tryUnlock } = useApiGet();
+  const { data: dateCheck, getData: check } = useApiGet();
 
   const [items, setItems] = useState<Array<any>>([]);
   const [reload, setReload] = useState(1);
@@ -122,8 +123,19 @@ export function RepoLocation() {
           onRowContextMenu={({ record, event }) =>
             showContextMenu([
               {
+                key: 'Check',
+                icon: <IconAnalyze size={16} />,
+                disabled: record.spec.repositoryType != 'restic',
+                onClick: () =>
+                  check(
+                    '/api/v1/repo/check',
+                    `repository_url=${record.spec.resticIdentifier}`
+                  ),
+              },
+              {
                 key: 'Check if locked',
                 icon: <IconAnalyze size={16} />,
+                disabled: record.spec.repositoryType != 'restic',
                 onClick: () =>
                   getLocks(
                     '/api/v1/repo/locks/get',
@@ -133,6 +145,7 @@ export function RepoLocation() {
               {
                 key: 'Unlock',
                 icon: <IconLockOpen size={16} />,
+                disabled: record.spec.repositoryType != 'restic',
                 onClick: () =>
                   tryUnlock(
                     '/api/v1/repo/unlock',
@@ -143,6 +156,7 @@ export function RepoLocation() {
                 key: 'Unlock --remove-all',
                 title: 'Unlock --remove-all',
                 icon: <IconLockOpen size={16} />,
+                disabled: record.spec.repositoryType != 'restic',
                 onClick: () =>
                   tryUnlock(
                     '/api/v1/repo/unlock',
