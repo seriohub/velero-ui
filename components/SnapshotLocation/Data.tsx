@@ -55,7 +55,7 @@ export function SnapshotLocation() {
         ? data_sorted.reverse().slice(from, to)
         : data_sorted.slice(from, to)
     );
-  }, [page, pageSize, sortStatus, data]);
+  }, [page, pageSize, sortStatus, items]);
 
   const renderActions: DataTableColumn<any>['render'] = (record) => (
     <Group gap={4} justify="right" wrap="nowrap">
