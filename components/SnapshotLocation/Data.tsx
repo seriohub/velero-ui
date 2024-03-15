@@ -35,9 +35,9 @@ export function SnapshotLocation() {
     getData('/api/v1/snapshot-location/get');
   }, [reload]);
 
-  useEffect(() => {
-    getData('/api/v1/snapshot-location/get');
-  }, []);
+  //useEffect(() => {
+  //  getData('/api/v1/snapshot-location/get');
+  //}, []);
 
   useEffect(() => {
     if (data !== undefined) {

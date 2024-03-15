@@ -35,9 +35,9 @@ export function BackupLocation() {
     getData('/api/v1/backup-location/get');
   }, [reload]);
 
-  useEffect(() => {
-    getData('/api/v1/backup-location/get');
-  }, []);
+  //useEffect(() => {
+  //  getData('/api/v1/backup-location/get');
+  //}, []);
 
   useEffect(() => {
     if (data !== undefined) {

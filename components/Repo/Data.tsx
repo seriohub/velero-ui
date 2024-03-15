@@ -45,9 +45,9 @@ export function RepoLocation() {
     getData('/api/v1/repo/get');
   }, [reload]);
 
-  useEffect(() => {
-    getData('/api/v1/repo/get');
-  }, []);
+  //useEffect(() => {
+  //  getData('/api/v1/repo/get');
+  //}, []);
 
   useEffect(() => {
     if (data !== undefined) {
