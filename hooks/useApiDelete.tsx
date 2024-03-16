@@ -83,10 +83,10 @@ export const useApiDelete = () => {
         } else if ('data' in res) {
           setData(res);
         }
-        if ('messages' in res) {
+        if ('notifications' in res) {
           const data = res.data;
           const statusCode = res.status;
-          data.messages.map((message: any) => {
+          data.notifications.map((message: any) => {
             notifications.show({
               icon: <IconInfoCircle />,
               color: 'blue',

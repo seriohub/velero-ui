@@ -18,9 +18,9 @@ export function Dashboard() {
   const { data, getData } = useApiGet();
   const [reload, setReload] = useState(1);
 
-  useEffect(() => {
-    getData('/api/v1/stats/get');
-  }, []);
+  //useEffect(() => {
+  //  getData('/api/v1/stats/get');
+  //}, []);
 
   useEffect(() => {
     getData('/api/v1/stats/get');

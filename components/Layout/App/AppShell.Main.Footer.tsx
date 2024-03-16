@@ -16,7 +16,7 @@ export function AppShellMainFooter() {
           <Tabs defaultValue="Shell" orientation="vertical">
             <Tabs.List>
               <Tabs.Tab value="Shell" leftSection={<IconTerminal2 />}>
-                Shell
+                Shell & K8s
               </Tabs.Tab>
               <Tabs.Tab value="API-Request" leftSection={<IconApi />}>
                 Request

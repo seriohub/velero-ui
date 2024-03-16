@@ -40,9 +40,9 @@ export function ScheduleData() {
     getData('/api/v1/schedule/get');
   }, [reload]);
 
-  useEffect(() => {
-    getData('/api/v1/schedule/get');
-  }, []);
+  //useEffect(() => {
+  //  getData('/api/v1/schedule/get');
+  //}, []);
 
   useEffect(() => {
     if (data !== undefined) {

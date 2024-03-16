@@ -3,10 +3,10 @@
 With Helm, you can install [Velero API](https://github.com/seriohub/velero-api) and [Velero UI](https://github.com/seriohub/velero-ui) together. Follow these steps:
 
 1. Clone the repository:
-    
+
     ``` bash
     git clone https://github.com/seriohub/velero-ui.git
-    ``` 
+    ```
 
 2. Navigate to the Helm folder:
 
@@ -25,6 +25,7 @@ With Helm, you can install [Velero API](https://github.com/seriohub/velero-api) 
     ``` bash
     kubectl create ns velero-ui
     ```
+
 5. Install using Helm:
 
     ``` bash

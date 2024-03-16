@@ -22,6 +22,11 @@ export const useAppWebSocket = () => {
     shouldReconnect: (closeEvent) => didUnmount.current === false,
     reconnectAttempts: 10,
     reconnectInterval: 3000,
+    onOpen: () => {
+      // "client ready"
+      if (jwtToken)
+        sendMessage(jwtToken);
+    },
   });
 
   useEffect(() => {

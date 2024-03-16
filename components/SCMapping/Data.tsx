@@ -22,9 +22,9 @@ export function SCMappingData() {
     getConfigMap('/api/v1/sc/change-storage-classes-config-map/get');
   }, [reload]);
 
-  useEffect(() => {
-    getConfigMap('/api/v1/sc/change-storage-classes-config-map/get');
-  }, []);
+  //useEffect(() => {
+  //  getConfigMap('/api/v1/sc/change-storage-classes-config-map/get');
+  //}, []);
 
   useEffect(() => {
     if (configMap?.payload !== undefined) {

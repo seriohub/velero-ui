@@ -35,9 +35,9 @@ export function SnapshotLocation() {
     getData('/api/v1/snapshot-location/get');
   }, [reload]);
 
-  useEffect(() => {
-    getData('/api/v1/snapshot-location/get');
-  }, []);
+  //useEffect(() => {
+  //  getData('/api/v1/snapshot-location/get');
+  //}, []);
 
   useEffect(() => {
     if (data !== undefined) {
@@ -55,7 +55,7 @@ export function SnapshotLocation() {
         ? data_sorted.reverse().slice(from, to)
         : data_sorted.slice(from, to)
     );
-  }, [page, pageSize, sortStatus, data]);
+  }, [page, pageSize, sortStatus, items]);
 
   const renderActions: DataTableColumn<any>['render'] = (record) => (
     <Group gap={4} justify="right" wrap="nowrap">

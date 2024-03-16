@@ -66,9 +66,9 @@ export function RestoreData() {
     getData('/api/v1/restore/get');
   }, [reload]);
 
-  useEffect(() => {
-    getData('/api/v1/restore/get');
-  }, []);
+  //useEffect(() => {
+  //  getData('/api/v1/restore/get');
+  //}, []);
 
   useEffect(() => {
     if (data !== undefined) setItems(data.payload);
