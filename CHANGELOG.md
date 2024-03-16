@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 
 ***
 
+## [v0.1.7] - 2024-03-16
+
+- Added websocket authentication
+- Added restic check features
+- Improved notifications and messages system
+- Fixed issue of multiple API calls upon page load
+
 ## [v0.1.6] - 2024-03-06
 
 - Added restic features (check locks, unlock, unlock --remove-all)
@@ -39,6 +46,8 @@ All notable changes to this project will be documented in this file.
 - 🎉 first release!
 
 ***
+
+[v0.1.7] : [https://github.com/seriohub/velero-ui/releases/tag/v0.1.7](https://github.com/seriohub/velero-ui/releases/tag/v0.1.7)
 
 [v0.1.6] : [https://github.com/seriohub/velero-ui/releases/tag/v0.1.6](https://github.com/seriohub/velero-ui/releases/tag/v0.1.6)
 
