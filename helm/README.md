@@ -32,4 +32,17 @@ With Helm, you can install [Velero API](https://github.com/seriohub/velero-api) 
     helm install -f values-override.yaml seriohub-velero ./seriohub-velero/ -n velero-ui
     ```
 
-Make sure to customize the values in the values-override.yaml file according to your requirements before running the installation command.V
+6. Upgrade
+
+    ``` bash
+    helm upgrade -f values-override.yaml seriohub-velero ./seriohub-velero/ -n velero-ui-helm
+    ```
+
+7. Uninstall
+
+    ``` bash
+    helm uninstall seriohub-velero -n velero-ui
+    kubectl delete ns velero-ui
+    ```
+
+Make sure to customize the values in the values-override.yaml file according to your requirements before running the installation command.
