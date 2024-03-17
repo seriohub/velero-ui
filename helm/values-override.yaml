@@ -12,3 +12,11 @@ apiConfig:
 uiConfig:
   nextPublicVeleroApiUrl: "https://api.velero.your-domain"
   nextPublicVeleroApiWs: "wss://api.velero.your-domain"
+#api:
+#  apiServer:
+#    image:
+#      tag: 0.1.7
+#ui:
+#  webserver:
+#    image:
+#      tag: 0.1.7

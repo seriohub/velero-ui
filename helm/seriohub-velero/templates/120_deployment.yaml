@@ -26,7 +26,7 @@ spec:
           value: {{ quote .Values.kubernetesClusterDomain }}
         envFrom:
         - configMapRef:
-            name: {{ include "seriohub-velero.fullname" . }}-ui-config
+            name: velero-ui-config
         image: {{ .Values.ui.webserver.image.repository }}:{{ .Values.ui.webserver.image.tag
           | default .Chart.AppVersion }}
         imagePullPolicy: {{ .Values.ui.webserver.imagePullPolicy }}
