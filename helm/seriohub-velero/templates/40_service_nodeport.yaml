@@ -1,3 +1,4 @@
+{{- if .Values.apiNp.enabled }}
 apiVersion: v1
 kind: Service
 metadata:
@@ -7,9 +8,10 @@ metadata:
 spec:
   type: {{ .Values.apiNp.type }}
   selector:
-    app: velero-api-np
+    app: velero-api
     layer: api
     tier: backend
   {{- include "seriohub-velero.selectorLabels" . | nindent 4 }}
   ports:
 	{{- .Values.apiNp.ports | toYaml | nindent 2 }}
+{{- end }}

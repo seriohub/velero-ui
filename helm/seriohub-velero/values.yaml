@@ -37,9 +37,10 @@ apiConfig:
   veleroCliPathCustom: ./velero-client-binary
   veleroCliVersion: v1.12.2
 apiNp:
+  enabled: true
   ports:
   - nodePort: 30001
-    port: 8001
+    port: 80
     targetPort: api
   type: NodePort
 apiSa:
@@ -65,8 +66,15 @@ uiConfig:
   nextPublicVeleroApiUrl: http://10.10.0.100
   nextPublicVeleroApiWs: ws://10.10.0.100
 uiNp:
+  enabled: true
   ports:
   - nodePort: 30002
     port: 3000
     targetPort: run
   type: NodePort
+apiIngress:
+  enabled: false
+  host: api.velero.your-cluster-domain
+uiIngress:
+  enabled: false
+  host: velero.your-cluster-domain
