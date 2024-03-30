@@ -19,8 +19,6 @@ COPY package.json yarn.lock* .yarnrc.yml ./
 COPY .yarn/. ./.yarn/
 
 RUN yarn --immutable --network-timeout 100000;
-RUN echo $(yarn --version)
-RUN ls -lah 
 
 ######################################################################
 #
