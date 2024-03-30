@@ -18,8 +18,8 @@ RUN mkdir /app/.yarn
 COPY package.json yarn.lock* .yarnrc.yml ./
 COPY .yarn/. ./.yarn/
 
-# RUN yarn --immutable --network-timeout 100000;
-RUN yarn
+RUN yarn --immutable --network-timeout 100000;
+# RUN yarn
 
 ######################################################################
 #
@@ -39,7 +39,7 @@ COPY .env.build .env
 # Uncomment the following line in case you want to disable telemetry during the build.
 ENV NEXT_TELEMETRY_DISABLED 1
 
-RUN yarn --network-timeout 100000 
+# RUN yarn --network-timeout 100000 
 # RUN yarn build
 
 ######################################################################
