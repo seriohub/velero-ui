@@ -39,8 +39,8 @@ COPY .env.build .env
 # Uncomment the following line in case you want to disable telemetry during the build.
 ENV NEXT_TELEMETRY_DISABLED 1
 
-# RUN yarn --network-timeout 100000 
-RUN yarn build
+RUN yarn --network-timeout 100000 
+# RUN yarn build
 
 ######################################################################
 #
