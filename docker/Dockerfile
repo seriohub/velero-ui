@@ -18,7 +18,8 @@ RUN mkdir /app/.yarn
 COPY package.json yarn.lock* .yarnrc.yml ./
 COPY .yarn/. ./.yarn/
 
-RUN yarn --immutable --network-timeout 100000;
+# RUN yarn --immutable --network-timeout 100000;
+RUN yarn
 
 ######################################################################
 #
