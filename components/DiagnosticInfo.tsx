@@ -41,7 +41,7 @@ export const DiagnosticInfo = () => {
       setOrigins(ApiOrigins.payload);
     }
   }, [ApiOrigins]);
-  console.log(watchdog)
+  
   return (
     <Box>
       <Text size="sm" fw={800}>

@@ -53,7 +53,6 @@ export function AppShellNavbar({ opened, toggle }: any) {
       variant="filled"
     />
   ));
-  console.log(pathname)
 
   return (
     <>
