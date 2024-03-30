@@ -32,6 +32,9 @@ export function AppShellFooter() {
               <Code>
                 API: {data.payload['release_version']} ({data.payload['release_date']})
               </Code>
+              <Code>
+                Watchdog: {data.payload['watchdog_release_version']} ({data.payload['watchdog_release_date']})
+              </Code>
             </>
           )}
           <Code>
