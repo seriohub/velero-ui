@@ -40,7 +40,7 @@ COPY .env.build .env
 ENV NEXT_TELEMETRY_DISABLED 1
 
 # RUN yarn --network-timeout 100000 
-# RUN yarn build
+RUN yarn build
 
 ######################################################################
 #
