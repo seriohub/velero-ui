@@ -17,6 +17,7 @@ import classes from './AppShell.Navbar.module.css';
 import { UserInfo } from '@/components/Navlink/UserInfo';
 import { UpdatePassword } from '@/components/Navlink/UpdatePassword';
 import { Logout } from '@/components/Navlink/Logout';
+import path from 'path';
 
 const data = [
   { link: '/dashboard', label: 'Dashboard', icon: IconDashboard },
@@ -73,7 +74,7 @@ export function AppShellNavbar({ opened, toggle }: any) {
             <NavLink
               className={classes.link}
               key="configuration"
-              active={'configuration' === pathname || undefined}
+              active={'/configuration' === pathname || undefined}
               label="Configuration"
               leftSection={
                 <Avatar color="blue" radius="md">
@@ -83,6 +84,22 @@ export function AppShellNavbar({ opened, toggle }: any) {
               onClick={(event) => {
                 event.preventDefault();
                 router.push('/configuration');
+              }}
+              variant="filled"
+            />
+            <NavLink
+              className={classes.link}
+              key="watchdog"
+              active={'/watchdog' === pathname || undefined}
+              label="Watchdog"
+              leftSection={
+                <Avatar color="blue" radius="md">
+                  <IconSettings size="1.5rem" />
+                </Avatar>
+              }
+              onClick={(event) => {
+                event.preventDefault();
+                router.push('/watchdog');
               }}
               variant="filled"
             />

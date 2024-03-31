@@ -11,6 +11,7 @@ export const DiagnosticInfo = () => {
   const { data: k8sHealth, getData: getDataK8sHealth } = useApiGet();
   const { data: ApiOrigins, getData: getApiOrigins } = useApiGet();
   const { data: ApiArch, getData: getApiArch } = useApiGet();
+  const { data: watchdog, getData: getWatchdog } = useApiGet();
 
   const [UiURL, setUiHost] = useState('');
   const ApiURL = env('NEXT_PUBLIC_VELERO_API_URL');
@@ -23,6 +24,7 @@ export const DiagnosticInfo = () => {
     getDataK8sHealth('/info/health-k8s');
     getApiOrigins('/info/origins');
     getApiArch('/info/arch');
+    getWatchdog('/info/watchdog');
 
     if (window) {
       const currentURL = new URL(window.location.href);
@@ -39,7 +41,7 @@ export const DiagnosticInfo = () => {
       setOrigins(ApiOrigins.payload);
     }
   }, [ApiOrigins]);
-
+  
   return (
     <Box>
       <Text size="sm" fw={800}>
@@ -194,6 +196,28 @@ export const DiagnosticInfo = () => {
                 <Text size="sm">If you have problems you can try to use *</Text>
               </Group>
             )}
+          </Group>
+        </List.Item>
+        {/* Watchdog */}
+        <List.Item
+          icon={
+            <ThemeIcon color="dimmed" size={24} radius="xl">
+              {watchdog && watchdog?.payload && (
+                <IconCheck color="green" style={{ width: rem(16), height: rem(16) }} />
+              )}
+              {!watchdog && (
+                <IconX color="red" style={{ width: rem(16), height: rem(16) }} />
+              )}
+            </ThemeIcon>
+          }
+        >
+          <Group gap={10}>
+            <Text size="sm">Check Watchdog</Text>
+            <Text size="sm" fw={800}>
+              {watchdog && watchdog?.payload && ( 
+                <>ok</>
+                )}
+            </Text>
           </Group>
         </List.Item>
         {/* Cluster Online */}
