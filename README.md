@@ -5,11 +5,20 @@
 We highly recommend thoroughly testing the project in non-production or sandbox environments before implementing it in critical or production systems. Your feedback is invaluable to us; if you encounter any issues or have suggestions for improvement, please feel free to [report them](https://github.com/seriohub/velero-ui/issues). Your input helps us enhance the project's performance and user experience.
 Thank you for your understanding and cooperation.
 
+> [!IMPORTANT]
+> Velero-UI project is part of a project consisting of three modules:
+> - [Velero-API](https://github.com/seriohub/velero-api/)
+> - Velero-UI
+> - [Velero-Watchdog](https://github.com/seriohub/velero-watchdog/)
+
+> [!TIP]
+> [Helm installation is recommended](https://github.com/seriohub/velero-helm/)
+
 ![alt text](/screenshots/velero-ui.gif)
 
 ## Description
 
-This project was created to simplify through a user interface some velero backup operations. This project needs the [velero-api](https://github.com/seriohub/velero-api) project.
+This project was created to simplify through a user interface some velero backup operations.
 
 ## Features
 
