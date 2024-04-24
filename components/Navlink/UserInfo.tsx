@@ -3,13 +3,7 @@ import { useEffect } from 'react';
 import { Avatar, Group, Text, useComputedColorScheme } from '@mantine/core';
 
 import { useApiGet } from '@/hooks/useApiGet';
-import {
-  IconAt,
-  IconPhoneCall,
-  IconUser,
-  IconUserCircle,
-  IconUserSquare,
-} from '@tabler/icons-react';
+import { IconUserCircle } from '@tabler/icons-react';
 
 export const UserInfo = () => {
   const { data, getData } = useApiGet();
@@ -20,12 +14,12 @@ export const UserInfo = () => {
   }, []);
 
   if (data === undefined) return <></>;
-  
+
   return (
     <>
-      <Group wrap="nowrap" mb={10}>
-        <Avatar color={computedColorScheme === 'dark' ? 'white':'blue'} size={64} radius={0}>
-          <IconUserSquare size={64} stroke={1} />
+      <Group wrap="nowrap" px={5} mt={25} mb={10} gap={6}>
+        <Avatar size={46}>
+          <IconUserCircle size={46} stroke={1} />
         </Avatar>
         <div>
           <Text fz="xs" tt="uppercase" fw={700} c="dimmed">
@@ -35,20 +29,6 @@ export const UserInfo = () => {
           <Text fz="lg" fw={500}>
             {data.username}
           </Text>
-
-          {/*<Group wrap="nowrap" gap={10} mt={3}>
-            <IconAt stroke={1.5} size="1rem" />
-            <Text fz="xs" c="dimmed">
-             
-            </Text>
-          </Group>
-
-          <Group wrap="nowrap" gap={10} mt={5}>
-            <IconPhoneCall stroke={1.5} size="1rem" />
-            <Text fz="xs" c="dimmed">
-             
-            </Text>
-  </Group>*/}
         </div>
       </Group>
     </>

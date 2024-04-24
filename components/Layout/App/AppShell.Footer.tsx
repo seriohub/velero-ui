@@ -30,7 +30,7 @@ export function AppShellFooter() {
           {data && data?.payload && (
             <>
               <Code>
-                API: {data.payload['release_version']} ({data.payload['release_date']})
+                API: {data.payload['api_release_version']} ({data.payload['api_release_date']})
               </Code>
               <Code>
                 Watchdog: {data.payload['watchdog_release_version']} ({data.payload['watchdog_release_date']})

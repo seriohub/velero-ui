@@ -10,9 +10,10 @@ import classes from './StatsSegments.module.css';
 
 interface UnscheduledNamespacesProps {
   namespaces: string;
+  total: number;
 }
 
-export function UnscheduledNamespaces({ namespaces }: UnscheduledNamespacesProps) {
+export function UnscheduledNamespaces({ namespaces, total }: UnscheduledNamespacesProps) {
   const values = () =>
     Object.entries(namespaces)
       .sort(([, valueA], [, valueB]) => valueA.localeCompare(valueB))
@@ -26,7 +27,7 @@ export function UnscheduledNamespaces({ namespaces }: UnscheduledNamespacesProps
             Unscheduled namespaces
           </Text>
           <Text size="xs" fw={800}>
-            {namespaces.length}
+            {namespaces.length} / {total}
           </Text>
         </Group>
         {namespaces.length === 0 && (
@@ -49,7 +50,7 @@ export function UnscheduledNamespaces({ namespaces }: UnscheduledNamespacesProps
         )}
         {namespaces.length > 0 && (
           <>
-            <ScrollArea h={250} mt={25}>
+            <ScrollArea h={180} mt={25}>
               <List
                 spacing="xs"
                 size="sm"

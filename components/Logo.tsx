@@ -4,7 +4,8 @@ import React from 'react';
 
 import { useRouter } from 'next/navigation';
 
-import { Anchor, Text } from '@mantine/core';
+import { Anchor, Box, Group, Text } from '@mantine/core';
+import { IconBackhoe, IconSailboat } from '@tabler/icons-react';
 
 export function Logo() {
   const router = useRouter();
@@ -18,13 +19,22 @@ export function Logo() {
         }}
         underline="never"
       >
-        <Text fz="xl" size={"xl"} fw={800} c="white" lightHidden>
-          Velero UI
-        </Text>
-        <Text fz="xl" size="xl" fw={800} c="blue" darkHidden>
-          Velero UI
-        </Text>
-
+        <Box lightHidden>
+          <Group p={5} gap={5}>
+            <IconSailboat size={48} stroke="1.5" color="white" />
+            <Text fz="xl" size={'xl'} fw={800} c="white">
+              Velero UI
+            </Text>
+          </Group>
+        </Box>
+        <Box darkHidden>
+          <Group p={5} gap={5}>
+            <IconSailboat size={48} stroke="1.5" />
+            <Text fz="xl" size="xl" fw={800} c="blue">
+              Velero UI
+            </Text>
+          </Group>
+        </Box>
       </Anchor>
     </>
   );

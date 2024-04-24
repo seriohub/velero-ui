@@ -1,14 +1,12 @@
 import { useEffect } from 'react';
 
-import { Avatar, NavLink } from '@mantine/core';
+import { NavLink } from '@mantine/core';
 
 import { IconPassword } from '@tabler/icons-react';
 import { openModal } from '@mantine/modals';
 
 import { useApiGet } from '@/hooks/useApiGet';
 import { UpdatePasswordForm } from './UpdatePasswordForm';
-
-import classes from '@/components/Layout/App/AppShell.Navbar.module.css';
 
 export const UpdatePassword = () => {
   const { data, getData } = useApiGet();
@@ -21,14 +19,9 @@ export const UpdatePassword = () => {
 
   return (
     <NavLink
-      className={classes.link}
       key="logout"
       label="Change Password"
-      leftSection={
-        <Avatar color="blue" radius="md">
-          <IconPassword size="1.5rem" />
-        </Avatar>
-      }
+      leftSection={<IconPassword size="1.2rem" stroke={1.5} />}
       onClick={(event) => {
         event.preventDefault();
         openModal({

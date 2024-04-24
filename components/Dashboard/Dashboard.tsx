@@ -69,7 +69,7 @@ export function Dashboard() {
                 title="Schedules"
                 icon={<IconCalendarEvent />}
               />
-              <UnscheduledNamespaces namespaces={data.payload?.namespaces?.unscheduled} />
+              <UnscheduledNamespaces namespaces={data.payload?.namespaces?.unscheduled} total={data.payload?.namespaces?.total} />
             </SimpleGrid>
             
           </Stack>

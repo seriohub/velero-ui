@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 
 ***
 
+## [v0.1.9] - 2024-04-24
+
+- Added test channel notifications
+- Added new versions available notification
+
 ## [v0.1.8] - 2024-03-31
 
 - Added watchdog feature
