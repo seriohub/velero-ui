@@ -6,8 +6,8 @@ All notable changes to this project will be documented in this file.
 
 ## [v0.1.9] - 2024-04-24
 
-- Added test channel notification
-- Added a new endpoint to obtain the current version (from GitHub) of Velero-UI complementary projects
+- Added test channel notifications
+- Added new versions available notification
 
 ## [v0.1.8] - 2024-03-31
 
