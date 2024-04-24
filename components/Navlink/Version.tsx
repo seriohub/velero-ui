@@ -16,15 +16,15 @@ export const Version = () => {
 
   return (
     <>
-      <Stack py={10} visibleFrom='sm'>
+      <Stack p={10} visibleFrom="sm">
         <Group justify="space-between" gap={0}>
-          <Text fw={700} size="sm">
+          <Text fw={400} size="sm">
             Velero Client:
           </Text>
           <Code fw={700}>{data.payload?.client?.version}</Code>
         </Group>
         <Group justify="space-between" gap={0}>
-          <Text fw={700} size="sm">
+          <Text fw={400} size="sm">
             Velero Server:
           </Text>
           <Code fw={700}>{data.payload?.server?.version}</Code>

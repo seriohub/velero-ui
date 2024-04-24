@@ -18,6 +18,7 @@ import CreateBackupToolbarIcon from '../Actions/ToolbarActionIcons/CreateBackupT
 import Toolbar from '../Toolbar';
 import UpdateExpirationActionIcon from '../Actions/DatatableActionsIcons/UpdateExpirationActionIcon';
 import ExpireIn from './ExpireIn';
+import Duration from './Duration';
 import LastBackup4Schedule from '../Actions/ToolbarActionIcons/LastBackup4Schedule';
 
 const PAGE_SIZES = [10, 15, 20];
@@ -262,6 +263,18 @@ export function BackupData({ limit = -1 }: BackupDataProps) {
               accessor: 'metadata.creationTimestamp',
               title: 'Created',
               sortable: true,
+              width: 200,
+              ellipsis: true,
+            },
+            {
+              accessor: 'Duration',
+              title: 'Duration',
+              // sortable: true,
+              render: ({ status }) => (
+                <>
+                  <Duration startTimestamp={status.startTimestamp} completionTimestamp={status.completionTimestamp} />
+                </>
+              ),
               width: 200,
               ellipsis: true,
             },

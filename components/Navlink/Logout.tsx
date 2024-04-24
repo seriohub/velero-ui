@@ -2,21 +2,17 @@ import { Avatar, NavLink } from '@mantine/core';
 
 import { IconLogout } from '@tabler/icons-react';
 import { useRouter } from 'next/navigation';
-import classes from '@/components/Layout/App/AppShell.Navbar.module.css';
+// import classes from '@/components/Layout/App/AppShell.Navbar.module.css';
 
 export const Logout = () => {
   const router = useRouter();
 
   return (
     <NavLink
-      className={classes.link}
+      //className={classes.link}
       key="logout"
       label="Logout"
-      leftSection={
-        <Avatar color="blue" radius="md">
-          <IconLogout size="1.5rem" />
-        </Avatar>
-      }
+      leftSection={<IconLogout size="1.2rem" stroke={1.5} />}
       onClick={(event) => {
         event.preventDefault();
         localStorage.removeItem('token');

@@ -2,13 +2,13 @@
 
 import { useEffect, useState } from 'react';
 
-import { Group, ScrollArea, Text, Stack, Table } from '@mantine/core';
+import { Group, ScrollArea, Text, Stack, Table, Divider } from '@mantine/core';
 
 import { useApiGet } from '@/hooks/useApiGet';
 import RefreshDatatable from '../Actions/ToolbarActionIcons/RefreshDatatable';
 import Toolbar from '../Toolbar';
-import { env } from 'next-runtime-env';
 import SendReport from '../Actions/ToolbarActionIcons/SendReport';
+import { WatchdogTestChannel } from './watchdogTestChannel';
 
 export function Watchdog() {
   const { data: configuration, getData: getConfiguration, fetching } = useApiGet();
@@ -42,6 +42,8 @@ export function Watchdog() {
   return (
     <>
       <ScrollArea p={0} style={{ height: '100%' }} offsetScrollbars>
+        <WatchdogTestChannel configuration={configuration} />
+
         <Stack h="100%" gap={0} p={5}>
           <Toolbar title="Watchdog Configuration">
             <RefreshDatatable setReload={setReload} reload={reload} />

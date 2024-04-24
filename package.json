@@ -18,13 +18,14 @@
     "storybook:build": "storybook build"
   },
   "dependencies": {
-    "@mantine/core": "^7.6.1",
-    "@mantine/dates": "^7.6.1",
-    "@mantine/form": "^7.6.1",
-    "@mantine/hooks": "^7.6.1",
-    "@mantine/modals": "^7.6.1",
-    "@mantine/notifications": "^7.6.1",
-    "@mantine/nprogress": "^7.6.1",
+    "@mantine/charts": "^7.8.1",
+    "@mantine/core": "^7.8.1",
+    "@mantine/dates": "^7.8.1",
+    "@mantine/form": "^7.8.1",
+    "@mantine/hooks": "^7.8.1",
+    "@mantine/modals": "^7.8.1",
+    "@mantine/notifications": "^7.8.1",
+    "@mantine/nprogress": "^7.8.1",
     "@next/bundle-analyzer": "^14.1.2",
     "@tabler/icons-react": "^2.47.0",
     "clsx": "^2.1.0",
@@ -41,6 +42,7 @@
     "react-imask": "^7.5.0",
     "react-json-view-lite": "^1.2.1",
     "react-use-websocket": "^4.8.1",
+    "recharts": "2",
     "socket.io-client": "^4.7.4"
   },
   "devDependencies": {
