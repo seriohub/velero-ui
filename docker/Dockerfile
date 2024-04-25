@@ -19,7 +19,7 @@ COPY package.json yarn.lock* .yarnrc.yml ./
 COPY .yarn/. ./.yarn/
 
 # RUN yarn --immutable --network-timeout 100000;
-RUN yarn install
+RUN yarn install --production=false
 RUN yarn
 
 ######################################################################
