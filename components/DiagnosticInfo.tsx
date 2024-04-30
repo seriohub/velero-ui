@@ -21,10 +21,10 @@ export const DiagnosticInfo = () => {
   const { isUrlAvailable, loading, checkAvailability } = useUrlAvailability();
 
   useEffect(() => {
-    getDataK8sHealth('/info/health-k8s');
-    getApiOrigins('/info/origins');
-    getApiArch('/info/arch');
-    getWatchdog('/info/watchdog');
+    getDataK8sHealth('/api/info/health-k8s');
+    getApiOrigins('/api/info/origins');
+    getApiArch('/api/info/arch');
+    getWatchdog('/api/info/watchdog');
 
     if (window) {
       const currentURL = new URL(window.location.href);
@@ -33,7 +33,7 @@ export const DiagnosticInfo = () => {
   }, []);
 
   useEffect(() => {
-    if (ApiURL !== undefined) checkAvailability(ApiURL + '/info/health');
+    if (ApiURL !== undefined) checkAvailability(ApiURL + '/api/info/health');
   }, [ApiURL]);
 
   useEffect(() => {
