@@ -24,7 +24,7 @@ export function ResourceDelete({
   const { getData } = useApiGet();
 
   function delete_backup() {
-    getData(`/api/v1/${resourceType}/delete`, `resource_name=${resourceName}`);
+    getData(`/v1/${resourceType}/delete`, `resource_name=${resourceName}`);
 
     const interval = setInterval(() => {
       setReload(reload + 1);
