@@ -32,11 +32,11 @@ export function BackupLocation() {
   const [records, setRecords] = useState(items.slice(0, pageSize));
 
   useEffect(() => {
-    getData('/api/v1/backup-location/get');
+    getData('/v1/backup-location/get');
   }, [reload]);
 
   //useEffect(() => {
-  //  getData('/api/v1/backup-location/get');
+  //  getData('/v1/backup-location/get');
   //}, []);
 
   useEffect(() => {

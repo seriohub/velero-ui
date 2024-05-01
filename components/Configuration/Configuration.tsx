@@ -15,11 +15,11 @@ export function Configuration() {
   const [rowApiConfiguration, setRowApiConfiguration] = useState<React.ReactNode[]>([]);
 
   useEffect(() => {
-    getConfiguration('/api/v1/setup/get-config');
+    getConfiguration('/v1/setup/get-config');
   }, [reload]);
 
   useEffect(() => {
-    getConfiguration('/api/v1/setup/get-config');
+    getConfiguration('/v1/setup/get-config');
   }, []);
 
   const uiConfiguration = [

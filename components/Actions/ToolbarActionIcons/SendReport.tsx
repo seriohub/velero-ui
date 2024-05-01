@@ -8,7 +8,7 @@ export default function SendReport({ sendReport, fetching = false }: any) {
     <Button
       onClick={(e) => {
         e.stopPropagation();
-        sendReport('/api/v1/watchdog/send-report');
+        sendReport('/v1/watchdog/send-report');
       }}
       
       variant={fetching ? 'filled' : 'default'}

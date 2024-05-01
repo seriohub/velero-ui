@@ -29,7 +29,7 @@ export function WatchdogTestChannel({ configuration }: WatchdogTestChannelProps)
               onClick={(event) => {
                 event.preventDefault();
                 getData(
-                  '/api/v1/watchdog/send-test-notification',
+                  '/v1/watchdog/send-test-notification',
                   'email=true&slack=False&telegram=False'
                 );
               }}
@@ -48,7 +48,7 @@ export function WatchdogTestChannel({ configuration }: WatchdogTestChannelProps)
               onClick={(event) => {
                 event.preventDefault();
                 getData(
-                  '/api/v1/watchdog/send-test-notification',
+                  '/v1/watchdog/send-test-notification',
                   'email=False&slack=True&telegram=False'
                 );
               }}
@@ -67,7 +67,7 @@ export function WatchdogTestChannel({ configuration }: WatchdogTestChannelProps)
               onClick={(event) => {
                 event.preventDefault();
                 getData(
-                  '/api/v1/watchdog/send-test-notification',
+                  '/v1/watchdog/send-test-notification',
                   'email=False&slack=False&telegram=True'
                 );
               }}

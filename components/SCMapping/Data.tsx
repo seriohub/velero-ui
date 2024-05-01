@@ -19,11 +19,11 @@ export function SCMappingData() {
   const [reload, setReload] = useState(1);
 
   useEffect(() => {
-    getConfigMap('/api/v1/sc/change-storage-classes-config-map/get');
+    getConfigMap('/v1/sc/change-storage-classes-config-map/get');
   }, [reload]);
 
   //useEffect(() => {
-  //  getConfigMap('/api/v1/sc/change-storage-classes-config-map/get');
+  //  getConfigMap('/v1/sc/change-storage-classes-config-map/get');
   //}, []);
 
   useEffect(() => {

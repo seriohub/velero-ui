@@ -37,11 +37,11 @@ export function ScheduleData() {
   const [records, setRecords] = useState(items.slice(0, pageSize));
 
   useEffect(() => {
-    getData('/api/v1/schedule/get');
+    getData('/v1/schedule/get');
   }, [reload]);
 
   //useEffect(() => {
-  //  getData('/api/v1/schedule/get');
+  //  getData('/v1/schedule/get');
   //}, []);
 
   useEffect(() => {

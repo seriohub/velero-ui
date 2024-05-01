@@ -28,7 +28,7 @@ export function UpdatePasswordForm() {
   });
 
   function onDone(password: string) {
-    putData('/api/v1/users/me/update/pwd', { password });
+    putData('/v1/users/me/update/pwd', { password });
   }
 
   useEffect(() => {

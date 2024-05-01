@@ -24,7 +24,7 @@ export const DiagnosticLink = ({ ApiURL }: DiagnosticLinkProps) => {
           </ActionIcon>
           <ActionIcon
             component="a"
-            href={ApiURL + '/api/docs'}
+            href={ApiURL + '/docs'}
             size="sm"
             aria-label="Docs"
             target="_blank"
@@ -33,7 +33,7 @@ export const DiagnosticLink = ({ ApiURL }: DiagnosticLinkProps) => {
           </ActionIcon>
           <ActionIcon
             component="a"
-            href={ApiURL + '/api/redoc'}
+            href={ApiURL + '/redoc'}
             size="sm"
             aria-label="Docs"
             target="_blank"
@@ -46,7 +46,7 @@ export const DiagnosticLink = ({ ApiURL }: DiagnosticLinkProps) => {
           <Text size="sm">info</Text>
           <ActionIcon
             component="a"
-            href={ApiURL + '/api/info/docs'}
+            href={ApiURL + '/info/docs'}
             size="sm"
             aria-label="Docs"
             target="_blank"
@@ -55,7 +55,7 @@ export const DiagnosticLink = ({ ApiURL }: DiagnosticLinkProps) => {
           </ActionIcon>
           <ActionIcon
             component="a"
-            href={ApiURL + '/api/info/redoc'}
+            href={ApiURL + '/info/redoc'}
             size="sm"
             aria-label="Docs"
             target="_blank"
@@ -69,7 +69,7 @@ export const DiagnosticLink = ({ ApiURL }: DiagnosticLinkProps) => {
           <Text size="sm">v1</Text>
           <ActionIcon
             component="a"
-            href={ApiURL + '/api/v1/docs'}
+            href={ApiURL + '/v1/docs'}
             size="sm"
             aria-label="Docs"
             target="_blank"
@@ -78,7 +78,7 @@ export const DiagnosticLink = ({ ApiURL }: DiagnosticLinkProps) => {
           </ActionIcon>
           <ActionIcon
             component="a"
-            href={ApiURL + '/api/v1/redoc'}
+            href={ApiURL + '/v1/redoc'}
             size="sm"
             aria-label="Docs"
             target="_blank"

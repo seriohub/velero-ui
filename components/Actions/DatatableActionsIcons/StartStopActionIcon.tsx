@@ -25,7 +25,7 @@ export default function StartStopActionIcon({
   const { getData } = useApiGet();
 
   function unpause_schedule() {
-    getData('/api/v1/schedule/unpause', `resource_name=${resourceName}`);
+    getData('/v1/schedule/unpause', `resource_name=${resourceName}`);
     const interval = setInterval(() => {
       setReload(reload + 1);
       clearInterval(interval);
@@ -33,7 +33,7 @@ export default function StartStopActionIcon({
   }
 
   function pause_schedule() {
-    getData('/api/v1/schedule/pause', `resource_name=${resourceName}`);
+    getData('/v1/schedule/pause', `resource_name=${resourceName}`);
     const interval = setInterval(() => {
       setReload(reload + 1);
       clearInterval(interval);

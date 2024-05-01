@@ -16,7 +16,7 @@ export function AppShellFooter() {
   const pathname = usePathname();
 
   useEffect(() => {
-    getData('/api/info/get');
+    getData('/info/get');
   }, []);
 
   return (

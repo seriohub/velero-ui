@@ -39,9 +39,9 @@ export function Credential({
 
   useEffect(() => {
     if (!cloudCredential) {
-      getData('/api/v1/k8s/credential/get', `secret_name=${secretName}&secret_key=${secretKey}`);
+      getData('/v1/k8s/credential/get', `secret_name=${secretName}&secret_key=${secretKey}`);
     } else {
-      getData('/api/v1/k8s/credential/default/get');
+      getData('/v1/k8s/credential/default/get');
     }
   }, []);
 

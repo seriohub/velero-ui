@@ -10,7 +10,7 @@ export const UserInfo = () => {
   const computedColorScheme = useComputedColorScheme('light', { getInitialValueInEffect: true });
 
   useEffect(() => {
-    getData('/api/v1/users/me/info');
+    getData('/v1/users/me/info');
   }, []);
 
   if (data === undefined) return <></>;

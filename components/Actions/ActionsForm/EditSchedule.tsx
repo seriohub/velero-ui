@@ -56,7 +56,7 @@ export function EditSchedule({ record, reload, setReload }: EditScheduleProps) {
   });
 
   useEffect(() => {
-    getData('/api/v1/schedule/create/settings');
+    getData('/v1/schedule/create/settings');
   }, []);
 
   useEffect(() => {
@@ -68,7 +68,7 @@ export function EditSchedule({ record, reload, setReload }: EditScheduleProps) {
   }, [data]);
 
   function createSchedule(values: any) {
-    postData('/api/v1/schedule/update', {
+    postData('/v1/schedule/update', {
       values,
     });
     closeAllModals();

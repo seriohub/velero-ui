@@ -49,7 +49,7 @@ export function CreateSchedule({ reload, setReload }: CreateScheduleProps) {
   });
 
   useEffect(() => {
-    getData('/api/v1/schedule/create/settings');
+    getData('/v1/schedule/create/settings');
   }, []);
 
   useEffect(() => {
@@ -61,7 +61,7 @@ export function CreateSchedule({ reload, setReload }: CreateScheduleProps) {
   }, [data]);
 
   function createSchedule(values: any) {
-    postData('/api/v1/schedule/create',
+    postData('/v1/schedule/create',
       values,
     );
     closeAllModals();

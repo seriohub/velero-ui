@@ -63,7 +63,7 @@ export function RestoreBackup({
   });
 
   function restore_backup() {
-    postData('/api/v1/restore/create', {
+    postData('/v1/restore/create', {
       resource_name: `${resourceName}`,
       resource_type: `${resourceType}`,
       mapping_namespaces: form.values.mappingNamespace,
@@ -96,9 +96,9 @@ export function RestoreBackup({
   // load data
   useEffect(() => {
     getDataRestore(`/api/v1/${resourceType}/describe`, `resource_name=${resourceName}`); // object
-    getPvc('/api/v1/backup/get-storage-classes', `backup_name=${resourceName}`); // list of object of pvc data
-    getStorageClasses('/api/v1/k8s/sc/get'); // { storage-class : { name: ..., provisioner: ..., parameteres: ...}}
-    getConfigMap('/api/v1/sc/change-storage-classes-config-map/get'); // list of object [{<oldStorageClass>: <newStorageClass>}, ...]
+    getPvc('/v1/backup/get-storage-classes', `backup_name=${resourceName}`); // list of object of pvc data
+    getStorageClasses('/v1/k8s/sc/get'); // { storage-class : { name: ..., provisioner: ..., parameteres: ...}}
+    getConfigMap('/v1/sc/change-storage-classes-config-map/get'); // list of object [{<oldStorageClass>: <newStorageClass>}, ...]
   }, []);
 
   useEffect(() => {

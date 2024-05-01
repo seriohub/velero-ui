@@ -42,11 +42,11 @@ export function RepoLocation() {
   const [records, setRecords] = useState(items.slice(0, pageSize));
 
   useEffect(() => {
-    getData('/api/v1/repo/get');
+    getData('/v1/repo/get');
   }, [reload]);
 
   //useEffect(() => {
-  //  getData('/api/v1/repo/get');
+  //  getData('/v1/repo/get');
   //}, []);
 
   useEffect(() => {
@@ -92,7 +92,7 @@ export function RepoLocation() {
 
   useEffect(() => {
     if (unlock !== undefined) {
-      getLocks('/api/v1/repo/locks/get', `repository_url=${Object.keys(unlock.payload)[0]}`);
+      getLocks('/v1/repo/locks/get', `repository_url=${Object.keys(unlock.payload)[0]}`);
     }
   }, [unlock]);
 
@@ -128,7 +128,7 @@ export function RepoLocation() {
                 disabled: record.spec.repositoryType != 'restic',
                 onClick: () =>
                   check(
-                    '/api/v1/repo/check',
+                    '/v1/repo/check',
                     `repository_url=${record.spec.resticIdentifier}`
                   ),
               },
@@ -138,7 +138,7 @@ export function RepoLocation() {
                 disabled: record.spec.repositoryType != 'restic',
                 onClick: () =>
                   getLocks(
-                    '/api/v1/repo/locks/get',
+                    '/v1/repo/locks/get',
                     `repository_url=${record.spec.resticIdentifier}`
                   ),
               },
@@ -148,7 +148,7 @@ export function RepoLocation() {
                 disabled: record.spec.repositoryType != 'restic',
                 onClick: () =>
                   tryUnlock(
-                    '/api/v1/repo/unlock',
+                    '/v1/repo/unlock',
                     `repository_url=${record.spec.resticIdentifier}`
                   ),
               },
@@ -159,7 +159,7 @@ export function RepoLocation() {
                 disabled: record.spec.repositoryType != 'restic',
                 onClick: () =>
                   tryUnlock(
-                    '/api/v1/repo/unlock',
+                    '/v1/repo/unlock',
                     `repository_url=${record.spec.resticIdentifier}&remove_all=True`
                   ),
               },

@@ -9,7 +9,7 @@ export const ClusterInfo = () => {
   const pathname = usePathname();
 
   useEffect(() => {
-    if (pathname != '/' && pathname != '/login') getData('/api/info/health-k8s');
+    if (pathname != '/' && pathname != '/login') getData('/info/health-k8s');
   }, []);
 
   if (pathname == '/' || pathname == '/login')
