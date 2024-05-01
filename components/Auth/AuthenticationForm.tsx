@@ -38,7 +38,7 @@ export function AuthenticationForm() {
     const formData = new FormData();
     formData.append('username', form.values.username);
     formData.append('password', form.values.password);
-    const res = await fetch(`${NEXT_PUBLIC_VELERO_API_URL}/api/v1/token`, {
+    const res = await fetch(`${NEXT_PUBLIC_VELERO_API_URL}/v1/token`, {
       method: 'POST',
       body: formData,
     });
