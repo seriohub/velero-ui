@@ -12,7 +12,7 @@ export const DiagnosticLink = ({ ApiURL }: DiagnosticLinkProps) => {
       {/* online */}
       <Group gap={20}>
         <Group gap={5}>
-          <Text size="sm">docs</Text>
+          <Text size="sm">status</Text>
           <ActionIcon
             component="a"
             href={ApiURL}
@@ -22,7 +22,7 @@ export const DiagnosticLink = ({ ApiURL }: DiagnosticLinkProps) => {
           >
             <IconPlugConnected size={20} />
           </ActionIcon>
-          <ActionIcon
+          {/*<ActionIcon
             component="a"
             href={ApiURL + '/docs'}
             size="sm"
@@ -39,7 +39,7 @@ export const DiagnosticLink = ({ ApiURL }: DiagnosticLinkProps) => {
             target="_blank"
           >
             <IconSettings size={20} />
-          </ActionIcon>
+          </ActionIcon>*/}
         </Group>
         {/* info */}
         <Group gap={5}>
