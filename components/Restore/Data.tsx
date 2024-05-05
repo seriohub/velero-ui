@@ -63,11 +63,11 @@ export function RestoreData() {
   }, [data]);
 
   useEffect(() => {
-    getData('/api/v1/restore/get');
+    getData('/v1/restore/get');
   }, [reload]);
 
   //useEffect(() => {
-  //  getData('/api/v1/restore/get');
+  //  getData('/v1/restore/get');
   //}, []);
 
   useEffect(() => {

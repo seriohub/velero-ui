@@ -26,7 +26,7 @@ export function UpdateExpiration({ record = {} }: UpdateExpirationProps) {
   });
 
   useEffect(() => {
-    getData('/api/v1/backup/get-expiration', `backup_name=${record.metadata.name}`);
+    getData('/v1/backup/get-expiration', `backup_name=${record.metadata.name}`);
   }, []);
 
   useEffect(() => {
@@ -44,7 +44,7 @@ export function UpdateExpiration({ record = {} }: UpdateExpirationProps) {
   }
   function onDone(values: any) {
     getData2(
-      '/api/v1/backup/update-expiration',
+      '/v1/backup/update-expiration',
       `backup_name=${record.metadata.name}&expiration=${values.expiration}`
     );
   }

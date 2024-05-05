@@ -17,7 +17,7 @@ export function ResourceLogs({ resourceType, resourceName }: ResourceLogsProps) 
   const { data, getData, error, fetching } = useApiGet();
 
   useEffect(() => {
-    getData(`/api/v1/${resourceType}/logs`, `resource_name=${resourceName}`);
+    getData(`/v1/${resourceType}/logs`, `resource_name=${resourceName}`);
   }, [resourceName]);
 
   return (

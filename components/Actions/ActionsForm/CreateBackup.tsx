@@ -48,7 +48,7 @@ export function CreateBackup({ reload, setReload }: CreateBackupProps) {
   });
 
   useEffect(() => {
-    getData('/api/v1/backup/create/settings');
+    getData('/v1/backup/create/settings');
   }, []);
 
   useEffect(() => {
@@ -60,7 +60,7 @@ export function CreateBackup({ reload, setReload }: CreateBackupProps) {
   }, [data]);
 
   function createBackup(values: any) {
-    postData('/api/v1/backup/create', 
+    postData('/v1/backup/create', 
       values,
     );
     closeAllModals();

@@ -19,11 +19,11 @@ export function Dashboard() {
   const [reload, setReload] = useState(1);
 
   //useEffect(() => {
-  //  getData('/api/v1/stats/get');
+  //  getData('/v1/stats/get');
   //}, []);
 
   useEffect(() => {
-    getData('/api/v1/stats/get');
+    getData('/v1/stats/get');
   }, [reload]);
 
   if (data === undefined) {

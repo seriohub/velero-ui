@@ -12,7 +12,7 @@ export const UpdatePassword = () => {
   const { data, getData } = useApiGet();
 
   useEffect(() => {
-    getData('/api/v1/users/me/info');
+    getData('/v1/users/me/info');
   }, []);
 
   if (data === undefined) return <></>;

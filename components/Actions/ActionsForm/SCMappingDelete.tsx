@@ -19,7 +19,7 @@ export function SCMappingDelete({ record, reload, setReload }: SCMappingDeletePr
   const { deleteData } = useApiDelete();
 
   function delete_backup() {
-    deleteData('/api/v1/sc/change-storage-classes-config-map/delete', {
+    deleteData('/v1/sc/change-storage-classes-config-map/delete', {
       storageClassMapping: {
         oldStorageClass: record['oldStorageClass'],
         newStorageClass: record['newStorageClass'],

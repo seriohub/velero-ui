@@ -13,7 +13,7 @@ export function CreateBackupFromSchedule({ scheduleName }: CreateBackupFromSched
   const { postData } = useApiPost();
 
   function createBackupFromSchedule() {
-    postData('/api/v1/backup/create-from-schedule', { scheduleName: `${scheduleName}` });
+    postData('/v1/backup/create-from-schedule', { scheduleName: `${scheduleName}` });
   }
 
   return (

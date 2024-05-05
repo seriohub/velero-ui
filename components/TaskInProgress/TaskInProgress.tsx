@@ -31,7 +31,7 @@ export default function TaskInProgress() {
   });
 
   useEffect(() => {
-    getData('/api/v1/stats/in-progress');
+    getData('/v1/stats/in-progress');
   }, [reload]);
 
   useEffect(() => {
@@ -52,7 +52,7 @@ export default function TaskInProgress() {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      getData('/api/v1/stats/in-progress', '', false);
+      getData('/v1/stats/in-progress', '', false);
     }, appValues.state.refreshRecent);
     return () => clearInterval(interval);
   }, []);

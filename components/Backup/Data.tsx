@@ -78,11 +78,11 @@ export function BackupData({ limit = -1 }: BackupDataProps) {
   }, [data]);
 
   useEffect(() => {
-    getData('/api/v1/backup/get', onlyLast4Schedule == true ? 'only_last_for_schedule=true' : '');
+    getData('/v1/backup/get', onlyLast4Schedule == true ? 'only_last_for_schedule=true' : '');
   }, [reload, onlyLast4Schedule]);
 
   //useEffect(() => {
-  //  getData('/api/v1/backup/get', onlyLast4Schedule == true ? 'only_last_for_schedule=true' : '');
+  //  getData('/v1/backup/get', onlyLast4Schedule == true ? 'only_last_for_schedule=true' : '');
   //}, []);
 
   useEffect(() => {

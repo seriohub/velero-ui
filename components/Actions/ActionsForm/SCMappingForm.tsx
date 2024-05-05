@@ -42,17 +42,17 @@ export function SCMappingForm({
   });
 
   useEffect(() => {
-    getStorageClasses('/api/v1/k8s/sc/get');
+    getStorageClasses('/v1/k8s/sc/get');
   }, []);
 
   function onDone(values: any) {
 
     if (mode == 'create') {
-      postData('/api/v1/sc/change-storage-classes-config-map/create', {
+      postData('/v1/sc/change-storage-classes-config-map/create', {
         storageClassMapping: values,
       });
     } else {
-      patchData('/api/v1/sc/change-storage-classes-config-map/update', {
+      patchData('/v1/sc/change-storage-classes-config-map/update', {
         storageClassMapping: values,
       });
     }
