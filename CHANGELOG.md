@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ***
 
+## [v0.1.10] - 2024-05-05
+
+- Updated API url mount point
+
 ## [v0.1.9] - 2024-04-24
 
 - Added test channel notifications
