@@ -20,6 +20,24 @@ Thank you for your understanding and cooperation.
 
 This project was created to simplify through a user interface some velero backup operations.
 
+Some screenshots:
+
+- [dashboard](./screenshots/01_dashboard.png)
+- [login](./screenshots/02_login.png)
+- [backups](./screenshots/03_backups.png)
+- [create new backup](./screenshots/04_create_backup.png)
+- [create restore](./screenshots/05_create_restore.png)
+- [schedule](./screenshots/06_schedule.png)
+- [create schedule](./screenshots/07_create_schedule.png)
+- [backup location](./screenshots/08_backup_location.png)
+- [storage location](./screenshots/09_storage_location.png)
+- [repo](./screenshots/10_repo.png)
+- [storage class map](./screenshots/11_sc_map.png)
+- [backup describe](./screenshots/12_backup_describe.png)
+- [backup logs](./screenshots/13_backup_logs.png)
+- [configuration](./screenshots/14_configuration.png)
+- [watchdog configuration](./screenshots/15_watchdog.png)
+
 ## Features
 
   1. Intuitive usability
