@@ -1,0 +1,17 @@
+{{- if .Values.apiNp.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "seriohub-velero.fullname" . }}-api-np
+  labels:
+  {{- include "seriohub-velero.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.apiNp.type }}
+  selector:
+    app: velero-api
+    layer: api
+    tier: backend
+  {{- include "seriohub-velero.selectorLabels" . | nindent 4 }}
+  ports:
+	{{- .Values.apiNp.ports | toYaml | nindent 2 }}
+{{- end }}

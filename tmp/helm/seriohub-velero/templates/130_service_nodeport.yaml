@@ -1,0 +1,15 @@
+{{- if .Values.uiNp.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "seriohub-velero.fullname" . }}-ui-np
+  labels:
+  {{- include "seriohub-velero.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.uiNp.type }}
+  selector:
+    layer: webserver
+  {{- include "seriohub-velero.selectorLabels" . | nindent 4 }}
+  ports:
+	{{- .Values.uiNp.ports | toYaml | nindent 2 }}
+{{- end }}
