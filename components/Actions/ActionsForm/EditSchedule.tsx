@@ -24,6 +24,7 @@ export function EditSchedule({ record, reload, setReload }: EditScheduleProps) {
   const [namespaces, setNamespaces] = useState([]);
   const [backupLocation, setBackupLocation] = useState([]);
   const [snapshotLocation, setSnapshotLocation] = useState([]);
+  const [resources, setResources] = useState([]);
 
   const form = useForm({
     initialValues: {
@@ -64,6 +65,7 @@ export function EditSchedule({ record, reload, setReload }: EditScheduleProps) {
       setNamespaces(data.payload.namespaces);
       setBackupLocation(data.payload.backup_location);
       setSnapshotLocation(data.payload.snapshot_location);
+      setResources(data.payload.resources);
     }
   }, [data]);
 
@@ -86,6 +88,7 @@ export function EditSchedule({ record, reload, setReload }: EditScheduleProps) {
       namespaces={namespaces}
       backupLocation={backupLocation}
       snapshotLocation={snapshotLocation}
+      resources={resources}
       onDone={createSchedule}
     />
   );
