@@ -27,6 +27,7 @@ interface CreateBackupScheduleFormProps {
   namespaces: string[];
   backupLocation: string[];
   snapshotLocation: string[];
+  resources: string[];
   onDone: any;
   mode: string;
 }
@@ -37,6 +38,7 @@ export default function CreateBackupScheduleForm({
   namespaces,
   backupLocation = [],
   snapshotLocation = [],
+  resources = [],
   onDone,
   mode,
 }: CreateBackupScheduleFormProps) {
@@ -97,7 +99,7 @@ export default function CreateBackupScheduleForm({
             />
             <MultiSelectCreatable
               label="Include Resources"
-              content={['deployments', 'configmaps', 'secrets', 'rolebindings']}
+              content={resources}
               form={form}
               fieldName="includedResources"
               defaultValue={form.values.includedResources}
@@ -110,7 +112,7 @@ export default function CreateBackupScheduleForm({
             />
             <MultiSelectCreatable
               label="Exclude Resources"
-              content={['deployments', 'configmaps', 'secrets', 'rolebindings']}
+              content={resources}
               form={form}
               fieldName="excludedResources"
               defaultValue={form.values.excludedResources}

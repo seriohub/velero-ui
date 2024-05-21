@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ***
 
+## [v0.1.11] - 2024-05-21
+
+- Updated the dropdown for resources available on the cluster
+
 ## [v0.1.10] - 2024-05-05
 
 - Updated API url mount point
