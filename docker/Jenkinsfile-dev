@@ -2,10 +2,20 @@ pipeline {
     agent any
 
     environment {
+        // Environment variables
+
+        // Source code repository
         evGit_Source_Code = 'https://github.com/seriohub/velero-ui'
+
+        // Default docker registry  (Global environment variable setting)
         evDocker_HUB = "${env.DEFAULT_DOCKER_REGISTRY}"
+
+        // Author name
         evDocker_Project = "${env.DOCKER_AUTHOR}"
+
+        // Credential stored in Jenkins Credential for logging in the HUB
         evDocker_HUB_Credentials = credentials('DEFAULT_DOCKER_CREDENTIALS')
+
         evTarget = 'velero-ui'
         evLatestTag = 'dev'
         evCommitChangeset = ''
@@ -15,31 +25,54 @@ pipeline {
             steps {
                 script {
                     echo 'Clone Git repository...'
+
+                    // Clone the GitHub repository
                     checkout([$class: "GitSCM", branches: [[name: "*/dev"]], userRemoteConfigs: [[url: evGit_Source_Code]]])
+
+                    // Set the latest tag as an environment variable for later use
                     GIT_TAG = evLatestTag
+
+                    // Get commit changes
                     evCommitChangeset = sh(returnStdout: true, script: "git log -1 --pretty='%s'").trim()
                 }
             }
         }
 
-        stage('Build Docker Image and Push to Registry') {
+        stage('Build Docker Image and Push Image to Registry') {
             steps {
                 script {
                     def dockerfilePath = 'docker/Dockerfile'
-                    def dockerHubProject = "${evDocker_Project}/${evTarget}"
+                    def dockerHubProject = "$evDocker_Project/$evTarget"
 
-                    if (evDocker_HUB) {
-                        def urlWithoutProtocol = evDocker_HUB.replaceAll('^https?://', '')
-                        dockerHubProject = "${urlWithoutProtocol}/${evDocker_Project}/${evTarget}"
+                    if (evDocker_HUB != null) {
+                        if (evDocker_HUB != '' && !evDocker_HUB.contains('null')) {
+                            def urlWithoutProtocol = "$evDocker_HUB".replaceAll('^https?://', '')
+                            dockerHubProject = "$urlWithoutProtocol/$evDocker_Project/$evTarget"
+                        }
                     }
                     
-                    def now = new Date()
+                    def now=new Date()
+
                     echo "Docker registry: ${evDocker_HUB}"
-                    def pushTo = evDocker_HUB ?: ''
+                    def pushTo = ''
+                    if (evDocker_HUB != null) {
+                        if (evDocker_HUB != '' && !evDocker_HUB.contains('null')) {
+                            pushTo = "$evDocker_HUB"
+                        }
+                    }
 
                     sh "echo ${evDocker_HUB_Credentials_PSW} | docker login -u ${evDocker_HUB_Credentials_USR} --password-stdin ${pushTo}"
 
-                    echo "Build Docker Image ${dockerHubProject}:${GIT_TAG} -"
+                    def dockerImageName = "$evDocker_Project/$evTarget"
+
+                    if (evDocker_HUB != null) {
+                        if (evDocker_HUB != '' && !evDocker_HUB.contains('null')) {
+                            def urlWithoutProtocol = "$evDocker_HUB".replaceAll('^https?://', '')
+                            dockerImageName = "$urlWithoutProtocol/$evDocker_Project/$evTarget"
+                        }
+                    }
+                    echo "Build Docker Image ${dockerImageName} -"
+                    
                     sh "docker build --target base -f ${dockerfilePath} ."
                     sh "docker build --target deps -f ${dockerfilePath} ."
                     sh "docker build --target builder -f ${dockerfilePath} ."
@@ -53,9 +86,13 @@ pipeline {
         always {
             script {
                 def pipelineName = currentBuild.fullProjectName
-                def message = currentBuild.resultIsBetterOrEqualTo('SUCCESS') 
-                    ? "Jenkins Pipeline ${pipelineName} : Your image version ${evLatestTag} has been successfully pushed to the Docker Registry.\nCommit changes:\n ${evCommitChangeset}" 
-                    : "Jenkins Pipeline ${pipelineName}: Build failed"
+                def message = ''
+
+                if (currentBuild.resultIsBetterOrEqualTo('SUCCESS')) {
+                    message = "Jenkins Pipeline ${pipelineName} : Your image version ${evLatestTag} has been successfully pushed to the Docker Registry.\nCommit changes:\n ${evCommitChangeset}"
+                } else {
+                    message = "Jenkins Pipeline ${pipelineName}: Build failed"
+                }
 
                 def url = "https://api.telegram.org/bot${env.TELEGRAM_TOKEN}/sendMessage"
                 def payload = [
