@@ -18,6 +18,7 @@ import CreateBackupFromScheduleActionIcon from '../Actions/DatatableActionsIcons
 import CreateSecheduleToolbarIcon from '../Actions/ToolbarActionIcons/CreateScheduleToolbarIcon';
 import EditScheduleActionIcon from '../Actions/DatatableActionsIcons/EditScheduleActionIcon';
 import Toolbar from '../Toolbar';
+import SchedulesHeatmapToolbarIcon from '../Actions/ToolbarActionIcons/SchedulesHeatmap';
 
 const PAGE_SIZES = [10, 15, 20];
 
@@ -86,6 +87,7 @@ export function ScheduleData() {
     <>
       <Stack h="100%" gap={0} p={5}>
         <Toolbar title="Schedule">
+        <SchedulesHeatmapToolbarIcon />
           <CreateSecheduleToolbarIcon setReload={setReload} reload={reload} />
           <RefreshDatatable setReload={setReload} reload={reload} />
         </Toolbar>

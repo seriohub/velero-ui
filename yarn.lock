@@ -14412,6 +14412,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-grid-heatmap@npm:^1.3.0":
+  version: 1.3.0
+  resolution: "react-grid-heatmap@npm:1.3.0"
+  peerDependencies:
+    react: ^17 || ^18
+  checksum: 5d8e06dfa5a2f7638c9f17910c87295db7c90ee745d7489369a63e416302183e56ad65d5c202c5afb37369cf15d4aceca973053eb2b94b64508b779977a52cda
+  languageName: node
+  linkType: hard
+
 "react-imask@npm:^7.5.0":
   version: 7.5.0
   resolution: "react-imask@npm:7.5.0"
@@ -17023,6 +17032,7 @@ __metadata:
     prettier: "npm:^3.2.5"
     react: "npm:^18.2.0"
     react-dom: "npm:18.2.0"
+    react-grid-heatmap: "npm:^1.3.0"
     react-imask: "npm:^7.5.0"
     react-json-view-lite: "npm:^1.2.1"
     react-use-websocket: "npm:^4.8.1"

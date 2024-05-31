@@ -37,6 +37,7 @@ Some screenshots:
 - [backup logs](./screenshots/13_backup_logs.png)
 - [configuration](./screenshots/14_configuration.png)
 - [watchdog configuration](./screenshots/15_watchdog.png)
+- [cron schedule heatmap](./screenshots/16_cron_schedule_heatmap.png)
 
 ## Features
 
