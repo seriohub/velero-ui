@@ -17,6 +17,7 @@ import { useApiGet } from '@/hooks/useApiGet';
 import DetailActionIcon from '../Actions/DatatableActionsIcons/DetailActionIcon';
 import RefreshDatatable from '../Actions/ToolbarActionIcons/RefreshDatatable';
 import Toolbar from '../Toolbar';
+import InfoRepository from '../Actions/DatatableActionsIcons/InfoRepository';
 
 const PAGE_SIZES = [5, 10, 15, 20];
 
@@ -70,6 +71,13 @@ export function RepoLocation() {
   const renderActions: DataTableColumn<any>['render'] = (record) => (
     <Group gap={4} justify="right" wrap="nowrap">
       <DetailActionIcon name={record.metadata.name} record={record} />
+      <InfoRepository
+        repositoryURL={record.spec.resticIdentifier}
+        backupStorageLocation={record.spec.backupStorageLocation}
+        repositoryName={record.metadata.name}
+        repositoryType={record.spec.repositoryType}
+        volumeNamespace={record.spec.volumeNamespace}
+      />
     </Group>
   );
 
@@ -127,30 +135,21 @@ export function RepoLocation() {
                 icon: <IconAnalyze size={16} />,
                 disabled: record.spec.repositoryType != 'restic',
                 onClick: () =>
-                  check(
-                    '/v1/repo/check',
-                    `repository_url=${record.spec.resticIdentifier}`
-                  ),
+                  check('/v1/repo/check', `repository_url=${record.spec.resticIdentifier}`),
               },
               {
                 key: 'Check if locked',
                 icon: <IconAnalyze size={16} />,
                 disabled: record.spec.repositoryType != 'restic',
                 onClick: () =>
-                  getLocks(
-                    '/v1/repo/locks/get',
-                    `repository_url=${record.spec.resticIdentifier}`
-                  ),
+                  getLocks('/v1/repo/locks/get', `repository_url=${record.spec.resticIdentifier}`),
               },
               {
                 key: 'Unlock',
                 icon: <IconLockOpen size={16} />,
                 disabled: record.spec.repositoryType != 'restic',
                 onClick: () =>
-                  tryUnlock(
-                    '/v1/repo/unlock',
-                    `repository_url=${record.spec.resticIdentifier}`
-                  ),
+                  tryUnlock('/v1/repo/unlock', `repository_url=${record.spec.resticIdentifier}`),
               },
               {
                 key: 'Unlock --remove-all',

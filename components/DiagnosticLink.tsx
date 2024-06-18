@@ -1,3 +1,4 @@
+import { useAppWebSocket } from '@/hooks/useAppWebSocket';
 import { ActionIcon, Group, Text } from '@mantine/core';
 
 import { IconApi, IconPlugConnected, IconSettings } from '@tabler/icons-react';
@@ -7,10 +8,15 @@ interface DiagnosticLinkProps {
 }
 
 export const DiagnosticLink = ({ ApiURL }: DiagnosticLinkProps) => {
+  const { connectionStatus } = useAppWebSocket();
   return (
     <>
       {/* online */}
       <Group gap={20}>
+        <Group gap={5}>
+          <Text size="sm">ws</Text>
+          <Text size="sm">{connectionStatus}</Text>
+        </Group>
         <Group gap={5}>
           <Text size="sm">status</Text>
           <ActionIcon

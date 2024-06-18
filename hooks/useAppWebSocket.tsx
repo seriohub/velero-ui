@@ -51,7 +51,7 @@ export const useAppWebSocket = () => {
 
   return {
     // lastMessage,
-    // connectionStatus,
+    connectionStatus,
     messageHistory,
   };
 };

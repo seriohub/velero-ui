@@ -25,7 +25,7 @@ export function StatsSegments({ data, title, icon }: StatsSegmentsProps) {
     tooltip: segment.label,
     name: segment.label,
   }));
-  console.log(sections);
+  // console.log(sections);
 
   const descriptions = data.stats.map((stat: any) => (
     <Box key={stat.label} style={{ borderBottomColor: stat.color }} className={classes.stat}>

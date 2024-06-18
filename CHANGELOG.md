@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 
 ***
 
+## [v0.1.13] - 2024-06-18
+
+- Added new feature backup size
+- Added sparkline response time
+
 ## [v0.1.12] - 2024-05-31
 
 - Added Cron Schedule Heatmap
