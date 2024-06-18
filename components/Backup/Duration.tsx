@@ -40,7 +40,7 @@ export default function Duration({ startTimestamp, completionTimestamp }: Expire
   const values = expirationString(startTimestamp, completionTimestamp)
   const formattedDuration = values.formattedDuration
   const duration = values.duration.toString()
-  console.log(values)
+  // console.log(values)
 
   return (
     <>

@@ -6,6 +6,7 @@ import { Box, Code, Group } from '@mantine/core';
 import { ClusterInfo } from '@/components/ClusterInfo';
 import { DiagnosticLink } from '@/components/DiagnosticLink';
 import { usePathname } from 'next/navigation';
+import { ProcessTime } from '@/components/ProcessTime';
 
 export function AppShellFooter() {
   const value = useContext(VeleroAppContexts);
@@ -26,6 +27,9 @@ export function AppShellFooter() {
         <Box visibleFrom="lg">
           {pathname != '/' && pathname != '/login' && <DiagnosticLink ApiURL={ApiURLenv} />}
         </Box>
+        <Box visibleFrom="lg">
+          <ProcessTime />
+        </Box>
         <Group justify="flex-end" gap={5} visibleFrom="lg">
           {data && data?.payload && (
             <>
@@ -33,7 +37,8 @@ export function AppShellFooter() {
                 API: {data.payload['api_release_version']} ({data.payload['api_release_date']})
               </Code>
               <Code>
-                Watchdog: {data.payload['watchdog_release_version']} ({data.payload['watchdog_release_date']})
+                Watchdog: {data.payload['watchdog_release_version']} (
+                {data.payload['watchdog_release_date']})
               </Code>
             </>
           )}

@@ -23,10 +23,10 @@ export default function CheckAppVersion() {
   }, []);
 
   useEffect(() => {
-    console.log(data?.payload?.helm_version, repoVersion?.payload?.helm);
+    // console.log(data?.payload?.helm_version, repoVersion?.payload?.helm);
     if (data?.payload?.helm_version && repoVersion?.payload?.helm) {
       const cmp = compareVersions(data?.payload?.helm_version, repoVersion?.payload?.helm);
-      console.log(cmp);
+      // console.log(cmp);
       if (cmp == 'githubRelease') {
         setUpdateAvailabe(true);
       }
