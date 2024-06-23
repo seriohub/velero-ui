@@ -22,6 +22,8 @@ import './layout.css';
 export default function RootLayout({ children }: { children: any }) {
   const [appApiRequest, setAppApiRequest] = useState<Array<any>>([]);
   const [appApiResponse, setAppApiResponse] = useState<Array<any>>([]);
+  
+  const [appSocketStatus, setAppSocketStatus] = useState<string>("");
 
   const [appNotificationHistory, setAppNotificationHistory] = useState<Array<any>>([]);
 
@@ -57,12 +59,14 @@ export default function RootLayout({ children }: { children: any }) {
                 refreshDatatableAfter: appRefreshDatatableAfter,
                 refreshRecent: appRefreshRecent,
                 notificationHistory: appNotificationHistory,
+                socketStatus: appSocketStatus,
               },
               setApiRequest: setAppApiRequest,
               setApiResponse: setAppApiResponse,
               setRefreshDatatableAfter: setAppRefreshDatatableAfter,
               setRefreshRecent: setAppRefreshRecent,
               setNotificationHistory: setAppNotificationHistory,
+              setSocketStatus: setAppSocketStatus
             }}
           >
             <ContextMenuProvider>{children}</ContextMenuProvider>

@@ -1,21 +1,27 @@
-import { useAppWebSocket } from '@/hooks/useAppWebSocket';
+
+import { useContext } from 'react';
+
 import { ActionIcon, Group, Text } from '@mantine/core';
 
 import { IconApi, IconPlugConnected, IconSettings } from '@tabler/icons-react';
+
+import VeleroAppContexts from '@/contexts/VeleroAppContexts';
 
 interface DiagnosticLinkProps {
   ApiURL: string;
 }
 
 export const DiagnosticLink = ({ ApiURL }: DiagnosticLinkProps) => {
-  const { connectionStatus } = useAppWebSocket();
+  // const { connectionStatus } = useAppWebSocket();
+  const appValues = useContext(VeleroAppContexts);
+
   return (
     <>
       {/* online */}
       <Group gap={20}>
         <Group gap={5}>
           <Text size="sm">ws</Text>
-          <Text size="sm">{connectionStatus}</Text>
+          <Text size="sm">{appValues.state.socketStatus}</Text>
         </Group>
         <Group gap={5}>
           <Text size="sm">status</Text>
