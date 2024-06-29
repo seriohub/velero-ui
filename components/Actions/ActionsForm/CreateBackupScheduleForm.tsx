@@ -62,7 +62,7 @@ export default function CreateBackupScheduleForm({
     }
   }
 
-  if (backupLocation.length === 0 || snapshotLocation.length === 0) return <></>;
+  //if (backupLocation.length === 0 || snapshotLocation.length === 0) return <></>;
 
   return (
     <>

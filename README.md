@@ -59,12 +59,20 @@ Some screenshots:
 
 ## Configuration
 
-| FIELD                                 | TYPE   | DEFAULT                   | DESCRIPTION                                                              |
-|---------------------------------------|--------|---------------------------|--------------------------------------------------------------------------|
-| `NEXT_PUBLIC_REFRESH_DATATABLE_AFTER` | Number | 1500                      | Milliseconds delay for datatable update after each operation.            |
-| `NEXT_PUBLIC_REFRESH_RECENT`          | Number | 5000                      | Polling **task in progress** updates in milliseconds.                    |
-| `NEXT_PUBLIC_VELERO_API_URL`          | String | <http://127.0.0.1:8001>   | Url to http [velero-api](https://github.com/seriohub/velero-api) project |
-| `NEXT_PUBLIC_VELERO_API_WS`           | String | ws://127.0.0.1:8001       | Url to ws [velero-api](https://github.com/seriohub/velero-api) project   |
+| FIELD                                 | TYPE   | DEFAULT                   | DESCRIPTION                                                                            |
+|---------------------------------------|--------|---------------------------|----------------------------------------------------------------------------------------|
+| `NEXT_PUBLIC_REFRESH_DATATABLE_AFTER` | Number | 1500                      | Milliseconds delay for datatable update after each operation.                          |
+| `NEXT_PUBLIC_REFRESH_RECENT`          | Number | 5000                      | Polling **task in progress** updates in milliseconds.                                  |
+| `NEXT_PUBLIC_VELERO_API_NAME`         | String |                           | Name for cluster                                                                       |
+| `NEXT_PUBLIC_VELERO_API_URL`          | String | <http://127.0.0.1:8001>   | Url to http [velero-api](https://github.com/seriohub/velero-api) project               |
+| `NEXT_PUBLIC_VELERO_API_WS`           | String | ws://127.0.0.1:8001       | Url to ws [velero-api](https://github.com/seriohub/velero-api) project                 |
+| `NEXT_PUBLIC_LOGIN_CLUSTERS_SWITCH`   | Bool   | false                     | EXPERIMENTAL: Displays or hides the cluster selection menu on the login page.          |
+| `NEXT_PUBLIC_VELERO_API_NAME_1`       | String |                           | EXPERIMENTAL: Name for cluster 1                                                       |
+| `NEXT_PUBLIC_VELERO_API_URL_1`        | String |                           | EXPERIMENTAL: Url to http [velero-api](https://github.com/seriohub/velero-api) project |
+| `NEXT_PUBLIC_VELERO_API_WS_1`         | String |                           | EXPERIMENTAL: Url to ws [velero-api](https://github.com/seriohub/velero-api) project   |
+| `NEXT_PUBLIC_VELERO_API_NAME_2`       | String |                           | EXPERIMENTAL: Name for cluster 2                                                       |
+| `NEXT_PUBLIC_VELERO_API_URL_2`        | String |                           | EXPERIMENTAL: Url to http [velero-api](https://github.com/seriohub/velero-api) project |
+| `NEXT_PUBLIC_VELERO_API_WS_2`         | String |                           | EXPERIMENTAL: Url to ws [velero-api](https://github.com/seriohub/velero-api) project   |
 
 ## Installation
 
@@ -79,8 +87,8 @@ Clone the repository:
 
 #### Requirements
 
-* Nodejs
-* YARN
+- Nodejs
+- YARN
 
 1. Navigate to the [src](src) folder
 
@@ -96,7 +104,7 @@ Clone the repository:
     yarn run dev
     ```
 
-### Run in Kubernetes 
+### Run in Kubernetes
 
 #### Install with HELM
 
@@ -106,7 +114,7 @@ Clone the repository:
 
 1. Setup docker image:
 
-    >   [!INFO]  
+    > [!INFO]  
     You can use skip the *Setup docker image* and use a deployed image published on DockerHub.</br>
     Docker hub: <https://hub.docker.com/r/dserio83/velero-ui>
 
@@ -123,7 +131,7 @@ Clone the repository:
         docker push <your-register>/<your-user>/velero-ui --all-tags
         ```
 
-      >   [!INFO]  
+      > [!INFO]  
       In case you run the custom build of the image and use the files inside the k8s folder to deploy to kubernetes, remember to update in the 20_deployment.yaml file with references for the built image
 
 2. Kubernetes create objects
@@ -138,7 +146,7 @@ Clone the repository:
 
    3. Create the ConfigMap:
 
-      >   [!WARNING]  
+      > [!WARNING]  
       Set the parameters in the [10_config_map.yaml](k8s/10_config_map.yaml) file before applying it according to your environment.</br>
       You need to set **NEXT_PUBLIC_VELERO_API_URL** and **NEXT_PUBLIC_VELERO_API_WS** to the port of the Velero API service.
 
@@ -154,7 +162,7 @@ Clone the repository:
 
    5. Create the service:
 
-      >   [!WARNING]  
+      > [!WARNING]  
       Customizes the [30_service_lb.yaml](k8s/30_service_lb.yaml) or [30_service_nodeport.yaml](k8s/30_service_nodeport.yaml) file before applying it according to your environment.
 
       ``` bash

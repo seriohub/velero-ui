@@ -39,7 +39,7 @@ export default function AuthShellLayout({ children }: AuthShellLayoutProps) {
               {children}
             </Box>
             <Stack pt="2rem" justify="flex-end" mih={isMobile ? 'auto' : '100%'}>
-              <DiagnosticInfo />
+              
             </Stack>
           </Flex>
         </AppShell.Main>

@@ -1,47 +1,30 @@
-import { useEffect } from 'react';
+import { useEffect, useContext } from 'react';
 
-import { Group, Text } from '@mantine/core';
+import { Avatar, Group, Text } from '@mantine/core';
 import { usePathname } from 'next/navigation';
 import { useApiGet } from '@/hooks/useApiGet';
 
+import VeleroAppContexts from '@/contexts/VeleroAppContexts';
+import { IconServer } from '@tabler/icons-react';
+
 export const ClusterInfo = () => {
-  const { data, getData, error, fetching } = useApiGet();
-  const pathname = usePathname();
-
-  useEffect(() => {
-    if (pathname != '/' && pathname != '/login') getData('/info/health-k8s');
-  }, []);
-
-  if (pathname == '/' || pathname == '/login')
-    return (
-      <>
-        <div></div>
-      </>
-    );
-
-  if (data === undefined) return <>-</>;
-
+  const appValues = useContext(VeleroAppContexts);
   return (
     <>
-      <Group justify="space-between">
-        <Group gap={5}>
-          <Text size="sm">Cluster Online:</Text>
-          <Text size="sm" fw={700}>
-            {data?.payload?.cluster_online ? 'true' : 'false'}
+      <Group wrap="nowrap" px={5} mt={25} mb={10} gap={6}>
+        <Avatar size={46}>
+          <IconServer size={46} stroke={1} />
+        </Avatar>
+        <div>
+          <Text fz="xs" tt="uppercase" fw={700} c="dimmed">
+            {appValues.state.currentBackend.name}
           </Text>
-        </Group>
-        <Group gap={5}>
-          <Text size="sm">Nodes:</Text>
-          <Text size="sm" fw={700}>
-            {data?.payload?.nodes?.total}
-          </Text>
-        </Group>
-        <Group gap={5}>
-          <Text size="sm">Nodes in error:</Text>
-          <Text size="sm" fw={700}>
-            {data?.payload?.nodes?.in_error}
-          </Text>
-        </Group>
+        
+      
+        <Text size="xs" fw={700}>
+          {appValues.state.currentBackend.url}
+        </Text>
+        </div>
       </Group>
     </>
   );

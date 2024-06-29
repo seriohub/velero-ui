@@ -12,10 +12,13 @@ import VeleroAppContexts from '@/contexts/VeleroAppContexts';
 import { Code } from '@mantine/core';
 
 export const useApiGet = () => {
+  const appValues = useContext(VeleroAppContexts);
   const router = useRouter();
   const pathname = usePathname();
   const value = useContext(VeleroAppContexts);
-  const NEXT_PUBLIC_VELERO_API_URL = env('NEXT_PUBLIC_VELERO_API_URL');
+  
+  // const NEXT_PUBLIC_VELERO_API_URL = env('NEXT_PUBLIC_VELERO_API_URL');
+  const NEXT_PUBLIC_VELERO_API_URL = appValues.state.currentBackend?.url;
 
   const [fetching, setFetching] = useState(false);
   const [data, setData] = useState<Record<string, any> | undefined>(undefined);

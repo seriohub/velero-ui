@@ -13,8 +13,10 @@ import VeleroAppContexts from '@/contexts/VeleroAppContexts';
 export const useApiOptions = () => {
   const router = useRouter();
   const pathname = usePathname();
-  const value = useContext(VeleroAppContexts);
-  const NEXT_PUBLIC_VELERO_API_URL = env('NEXT_PUBLIC_VELERO_API_URL');
+  const appValues = useContext(VeleroAppContexts);
+  
+  // const NEXT_PUBLIC_VELERO_API_URL = env('NEXT_PUBLIC_VELERO_API_URL');
+  const NEXT_PUBLIC_VELERO_API_URL = appValues.state.currentBackend?.url;
 
   const [fetching, setFetching] = useState(false);
   const [data, setData] = useState<Record<string, any> | undefined>(undefined);
@@ -39,7 +41,7 @@ export const useApiOptions = () => {
     }
 
     if (addInHistory === true) {
-      value.setApiRequest((prev: Array<any>) =>
+      appValues.setApiRequest((prev: Array<any>) =>
         prev.concat({
           method: 'OPTIONS',
           headers,
@@ -77,7 +79,7 @@ export const useApiOptions = () => {
           });
           setData(undefined);
           setError(true);
-          value.setNotificationHistory((prev: Array<any>) =>
+          appValues.setNotificationHistory((prev: Array<any>) =>
             prev.concat({
               statusCode: statusCode,
               title: data.error.title,
@@ -95,7 +97,7 @@ export const useApiOptions = () => {
               title: message.title,
               message: message.description,
             });
-            value.setNotificationHistory((prev: Array<any>) =>
+            appValues.setNotificationHistory((prev: Array<any>) =>
               prev.concat({
                 statusCode: statusCode,
                 title: message.title,
@@ -107,7 +109,7 @@ export const useApiOptions = () => {
         }
         setFetching(false);
 
-        value.setApiResponse((prev: Array<any>) =>
+        appValues.setApiResponse((prev: Array<any>) =>
           prev.concat({
             method: 'OPTIONS',
             url: `${NEXT_PUBLIC_VELERO_API_URL}${url}?${param}`,

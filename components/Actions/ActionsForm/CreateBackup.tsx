@@ -62,9 +62,7 @@ export function CreateBackup({ reload, setReload }: CreateBackupProps) {
   }, [data]);
 
   function createBackup(values: any) {
-    postData('/v1/backup/create', 
-      values,
-    );
+    postData('/v1/backup/create', values);
     closeAllModals();
     const interval = setInterval(() => {
       setReload(reload + 1);
@@ -73,17 +71,15 @@ export function CreateBackup({ reload, setReload }: CreateBackupProps) {
   }
 
   return (
-    <>
-      <CreateBackupScheduleForm
-        resource="backup"
-        mode="create"
-        form={form}
-        namespaces={namespaces}
-        backupLocation={backupLocation}
-        snapshotLocation={snapshotLocation}
-        resources={resources}
-        onDone={createBackup}
-      />
-    </>
+    <CreateBackupScheduleForm
+      resource="backup"
+      mode="create"
+      form={form}
+      namespaces={namespaces}
+      backupLocation={backupLocation}
+      snapshotLocation={snapshotLocation}
+      resources={resources}
+      onDone={createBackup}
+    />
   );
 }
