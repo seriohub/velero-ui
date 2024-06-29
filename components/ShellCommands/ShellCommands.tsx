@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useContext } from 'react';
 
 import {
   Text,
@@ -14,10 +14,13 @@ import {
   Group,
 } from '@mantine/core';
 import { IconCopy, IconCheck } from '@tabler/icons-react';
-import { useAppWebSocket } from '@/hooks/useAppWebSocket';
+/// import { useAppWebSocket } from '@/hooks/useAppWebSocket';
+import VeleroAppContexts from '@/contexts/VeleroAppContexts';
 
 export default function ShellCommands() {
-  const { messageHistory } = useAppWebSocket();
+  // const { messageHistory } = useAppWebSocket();
+  const appValues = useContext(VeleroAppContexts);
+
   const viewport = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -26,7 +29,7 @@ export default function ShellCommands() {
     }
   };
 
-  const commands = messageHistory.map((item: any, index: number) => (
+  const commands = appValues.state.messagesHistory.map((item: any, index: number) => (
     <Group gap={0} key={index}>
       <CopyButton value={item} timeout={2000}>
         {({ copied, copy }) => (
@@ -49,7 +52,7 @@ export default function ShellCommands() {
 
   useEffect(() => {
     scrollToBottom();
-  }, [messageHistory]);
+  }, [appValues.state.messagesHistory]);
 
   /*if (lastMessage === null || lastMessage === undefined || !('data' in lastMessage)) {
     return <></>;

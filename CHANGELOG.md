@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ***
 
+## [v0.1.14] - 2024-06-28
+
+- Added the feature to select a cluster to connect to before logging in
+
 ## [v0.1.13] - 2024-06-18
 
 - Added new feature backup size
@@ -72,6 +76,18 @@ All notable changes to this project will be documented in this file.
 - 🎉 first release!
 
 ***
+
+[v0.1.14] : [https://github.com/seriohub/velero-ui/releases/tag/v0.1.14](https://github.com/seriohub/velero-ui/releases/tag/v0.1.14)
+
+[v0.1.13] : [https://github.com/seriohub/velero-ui/releases/tag/v0.1.13](https://github.com/seriohub/velero-ui/releases/tag/v0.1.13)
+
+[v0.1.12] : [https://github.com/seriohub/velero-ui/releases/tag/v0.1.12](https://github.com/seriohub/velero-ui/releases/tag/v0.1.12)
+
+[v0.1.11] : [https://github.com/seriohub/velero-ui/releases/tag/v0.1.11](https://github.com/seriohub/velero-ui/releases/tag/v0.1.11)
+
+[v0.1.10] : [https://github.com/seriohub/velero-ui/releases/tag/v0.1.10](https://github.com/seriohub/velero-ui/releases/tag/v0.1.10)
+
+[v0.1.9] : [https://github.com/seriohub/velero-ui/releases/tag/v0.1.9](https://github.com/seriohub/velero-ui/releases/tag/v0.1.9)
 
 [v0.1.8] : [https://github.com/seriohub/velero-ui/releases/tag/v0.1.8](https://github.com/seriohub/velero-ui/releases/tag/v0.1.8)
 

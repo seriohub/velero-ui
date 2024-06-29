@@ -19,7 +19,7 @@ export const UpdatePassword = () => {
 
   return (
     <NavLink
-      key="logout"
+      key="change password"
       label="Change Password"
       leftSection={<IconPassword size="1.2rem" stroke={1.5} />}
       onClick={(event) => {

@@ -25,7 +25,7 @@ export const ProcessTime = () => {
 
   return (
     <>
-      <Group>
+      <Group gap={8}>
         <Sparkline
           w={200}
           h={24}
@@ -35,7 +35,7 @@ export const ProcessTime = () => {
           fillOpacity={0.6}
           strokeWidth={2}
         />
-        <Text>avg: {Math.trunc(xProcessTimeAvg * 100) / 100}ms</Text>
+        <Text size="sm">avg: {Math.trunc(xProcessTimeAvg * 100) / 100}ms</Text>
       </Group>
     </>
   );

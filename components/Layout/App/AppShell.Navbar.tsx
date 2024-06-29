@@ -8,7 +8,7 @@ import {
   IconLink,
   IconSettings,
 } from '@tabler/icons-react';
-
+import { env } from 'next-runtime-env';
 import { useRouter, usePathname } from 'next/navigation';
 
 import { Logo } from '../../Logo';
@@ -17,6 +17,10 @@ import { Version } from '@/components/Navlink/Version';
 import { UserInfo } from '@/components/Navlink/UserInfo';
 import { UpdatePassword } from '@/components/Navlink/UpdatePassword';
 import { Logout } from '@/components/Navlink/Logout';
+import { ClusterInfo } from '@/components/ClusterInfo';
+import { SwitchCluster } from '@/components/SwitchCluster/SwitchCluster';
+import { SwitchCluster2 } from '@/components/SwitchCluster/SwitchCluster2';
+import { UserInfo2 } from '@/components/Navlink/UserInfo2';
 
 const data = [
   { link: '/dashboard', label: 'Dashboard', icon: IconDashboard },
@@ -33,9 +37,12 @@ export function AppShellNavbar({ opened, toggle }: any) {
   const router = useRouter();
   const pathname = usePathname();
 
+  const WorkaroundClustersSwitch =
+    env('NEXT_PUBLIC_WORKAROUND_CLUSTERS_SWITCH')?.toLowerCase() === 'true' ? true : false;
+
   const links = data.map((item: any) => (
     <NavLink
-      //className={classes.link}
+      // className={classes.link}
       key={item.label}
       active={item.link === pathname || undefined}
       label={item.label}
@@ -59,7 +66,7 @@ export function AppShellNavbar({ opened, toggle }: any) {
                 <Logo />
                 <Burger opened={opened} onClick={toggle} hiddenFrom="xs" size="sm" />
               </Group>
-              <UserInfo />
+
               <Divider />
 
               {links}
@@ -91,8 +98,11 @@ export function AppShellNavbar({ opened, toggle }: any) {
               }}
               variant="filled"
             />
-            <UpdatePassword />
+
             <Divider />
+            {/*<UserInfo />*/}
+            <UserInfo2 />
+
             <Logout />
           </Box>
         </Stack>

@@ -11,8 +11,10 @@ import VeleroAppContexts from '@/contexts/VeleroAppContexts';
 
 export const useApiPatch = () => {
   const router = useRouter();
-  const value = useContext(VeleroAppContexts);
-  const NEXT_PUBLIC_VELERO_API_URL = env('NEXT_PUBLIC_VELERO_API_URL');
+  const appValues = useContext(VeleroAppContexts);
+  
+  // const NEXT_PUBLIC_VELERO_API_URL = env('NEXT_PUBLIC_VELERO_API_URL');
+  const NEXT_PUBLIC_VELERO_API_URL = appValues.state.currentBackend?.url;
 
   const [fetching, setFetching] = useState(false);
   const [data, setData] = useState<Record<string, any> | undefined>(undefined);
@@ -42,7 +44,7 @@ export const useApiPatch = () => {
     };
 
     setFetching(true);
-    value.setApiRequest((prev: Array<any>) =>
+    appValues.setApiRequest((prev: Array<any>) =>
       // prev.concat({ method: 'POST', url: `${process.env.NEXT_PUBLIC_VELERO_API_URL}${url}`, params: values })
       prev.concat({ method: 'PATCH', url: `${NEXT_PUBLIC_VELERO_API_URL}${url}`, params: values })
     );
@@ -74,7 +76,7 @@ export const useApiPatch = () => {
           });
           setData({});
           setError(true);
-          value.setNotificationHistory((prev: Array<any>) =>
+          appValues.setNotificationHistory((prev: Array<any>) =>
             prev.concat({
               statusCode: statusCode,
               title: data.error.title,
@@ -92,7 +94,7 @@ export const useApiPatch = () => {
               title: message.title,
               message: message.description,
             });
-            value.setNotificationHistory((prev: Array<any>) =>
+            appValues.setNotificationHistory((prev: Array<any>) =>
               prev.concat({
                 statusCode: statusCode,
                 title: message.title,
@@ -104,7 +106,7 @@ export const useApiPatch = () => {
         }
         setFetching(false);
 
-        value.setApiResponse((prev: Array<any>) =>
+        appValues.setApiResponse((prev: Array<any>) =>
           prev.concat({
             method: 'PATCH',
             url: `${NEXT_PUBLIC_VELERO_API_URL}${url}`,

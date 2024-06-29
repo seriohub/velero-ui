@@ -16,10 +16,21 @@ import {
 
 import { IconLock, IconUser } from '@tabler/icons-react';
 import { env } from 'next-runtime-env';
+import { SwitchCluster } from '@/components/SwitchCluster/SwitchCluster';
+import { useContext } from 'react';
+import VeleroAppContexts from '@/contexts/VeleroAppContexts';
+import { SwitchCluster2 } from '../SwitchCluster/SwitchCluster2';
 
 export function AuthenticationForm() {
+  const appValues = useContext(VeleroAppContexts);
+
   const router = useRouter();
-  const NEXT_PUBLIC_VELERO_API_URL = env('NEXT_PUBLIC_VELERO_API_URL');
+  
+  const LoginClustersSwitch = env('NEXT_PUBLIC_LOGIN_CLUSTERS_SWITCH')?.toLowerCase() === 'true' ? true: false;
+
+  //const NEXT_PUBLIC_VELERO_API_URL = env('NEXT_PUBLIC_VELERO_API_URL');
+  const NEXT_PUBLIC_VELERO_API_URL = appValues.state.currentBackend?.url;
+
   const form = useForm({
     initialValues: {
       username: '',
@@ -65,6 +76,10 @@ export function AuthenticationForm() {
       </Text>
 
       <Space h="xl" />
+
+      {LoginClustersSwitch && (
+      <SwitchCluster2 />
+    )}
 
       <form onSubmit={handleSubmit}>
         <Stack>

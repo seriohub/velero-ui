@@ -1,24 +1,30 @@
-import { useAppWebSocket } from '@/hooks/useAppWebSocket';
+import { useContext } from 'react';
+
 import { ActionIcon, Group, Text } from '@mantine/core';
 
 import { IconApi, IconPlugConnected, IconSettings } from '@tabler/icons-react';
+
+import VeleroAppContexts from '@/contexts/VeleroAppContexts';
 
 interface DiagnosticLinkProps {
   ApiURL: string;
 }
 
 export const DiagnosticLink = ({ ApiURL }: DiagnosticLinkProps) => {
-  const { connectionStatus } = useAppWebSocket();
+  const appValues = useContext(VeleroAppContexts);
+
   return (
     <>
       {/* online */}
-      <Group gap={20}>
-        <Group gap={5}>
-          <Text size="sm">ws</Text>
-          <Text size="sm">{connectionStatus}</Text>
+      <Group gap={8}>
+        <Group gap={0}>
+          <Text size="sm">ws:</Text>
+          <Text size="sm" fw={800}>
+            {appValues.state.socketStatus}
+          </Text>
         </Group>
-        <Group gap={5}>
-          <Text size="sm">status</Text>
+        <Group gap={2}>
+          <Text size="sm">status:</Text>
           <ActionIcon
             component="a"
             href={ApiURL}
@@ -28,28 +34,10 @@ export const DiagnosticLink = ({ ApiURL }: DiagnosticLinkProps) => {
           >
             <IconPlugConnected size={20} />
           </ActionIcon>
-          {/*<ActionIcon
-            component="a"
-            href={ApiURL + '/docs'}
-            size="sm"
-            aria-label="Docs"
-            target="_blank"
-          >
-            <IconApi size={20} />
-          </ActionIcon>
-          <ActionIcon
-            component="a"
-            href={ApiURL + '/redoc'}
-            size="sm"
-            aria-label="Docs"
-            target="_blank"
-          >
-            <IconSettings size={20} />
-          </ActionIcon>*/}
         </Group>
         {/* info */}
-        <Group gap={5}>
-          <Text size="sm">info</Text>
+        <Group gap={2}>
+          <Text size="sm">info:</Text>
           <ActionIcon
             component="a"
             href={ApiURL + '/info/docs'}
@@ -71,8 +59,8 @@ export const DiagnosticLink = ({ ApiURL }: DiagnosticLinkProps) => {
         </Group>
 
         {/* v1 */}
-        <Group gap={5}>
-          <Text size="sm">v1</Text>
+        <Group gap={2}>
+          <Text size="sm">v1:</Text>
           <ActionIcon
             component="a"
             href={ApiURL + '/v1/docs'}

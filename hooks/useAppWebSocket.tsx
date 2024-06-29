@@ -1,20 +1,24 @@
 import { env } from 'next-runtime-env';
 
-import { useState, useEffect, useRef } from 'react';
+import { useContext, useState, useEffect, useRef } from 'react';
 import useWebSocket, { ReadyState } from 'react-use-websocket';
 
+import VeleroAppContexts from '@/contexts/VeleroAppContexts';
+
 export const useAppWebSocket = () => {
+  const appValues = useContext(VeleroAppContexts);
+
   // Public API that will echo messages sent to it back to the client
-  const NEXT_PUBLIC_VELERO_API_WS = env('NEXT_PUBLIC_VELERO_API_WS');
+  // const NEXT_PUBLIC_VELERO_API_WS = env('NEXT_PUBLIC_VELERO_API_WS');
+  const NEXT_PUBLIC_VELERO_API_WS = appValues.state.currentBackend?.ws;
 
   //const [socketUrl, setSocketUrl] = useState(`${process.env.NEXT_PUBLIC_VELERO_API_WS}/ws`);
   const socketUrl = `${NEXT_PUBLIC_VELERO_API_WS}/ws`;
 
-  const [messageHistory, setMessageHistory] = useState<Array<any>>([]);
+  // const [messageHistory, setMessageHistory] = useState<Array<any>>([]);
   const didUnmount = useRef(false);
 
   const jwtToken = typeof localStorage !== 'undefined' ? localStorage.getItem('token') : '';
-
   const { sendMessage, lastMessage, readyState } = useWebSocket(socketUrl, {
     //queryParams: {
     //  token: `${jwtToken}`,
@@ -24,19 +28,29 @@ export const useAppWebSocket = () => {
     reconnectInterval: 3000,
     onOpen: () => {
       // "client ready"
-      if (jwtToken)
+      if (jwtToken) {
+        console.log("WebSocket connected, sending JWT token.");
         sendMessage(jwtToken);
+      }
+    },
+    onError: (event) => {
+      console.error('WebSocket error observed:', event);
+    },
+    onClose: (event) => {
+      console.log('WebSocket closed:', event);
     },
   });
 
   useEffect(() => {
+    //console.log(lastMessage)
     if (lastMessage !== null) {
       if (
         typeof lastMessage === 'object' &&
         lastMessage.data !== undefined &&
         typeof lastMessage.data === 'string'
       ) {
-        setMessageHistory((prev) => prev.concat(lastMessage.data));
+        appValues.setMessageHistory(appValues.state.messagesHistory.concat(lastMessage.data))
+        //setMessageHistory((prev) => prev.concat(lastMessage.data));
       }
     }
   }, [lastMessage]);
@@ -48,10 +62,10 @@ export const useAppWebSocket = () => {
     [ReadyState.CLOSED]: 'Closed',
     [ReadyState.UNINSTANTIATED]: 'Uninstantiated',
   }[readyState];
-
-  return {
-    // lastMessage,
+  
+  appValues.setSocketStatus(connectionStatus);
+  
+  return {}/*{
     connectionStatus,
-    messageHistory,
-  };
+  };*/
 };
