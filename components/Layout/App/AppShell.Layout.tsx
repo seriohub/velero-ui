@@ -33,8 +33,9 @@ export default function AppShellLayout({ children }: AppShellLayoutProps) {
 
   useEffect(() => {
     setInitialized(true);
+    const accordionValue = localStorage.getItem('accordion');
     setValue(
-      localStorage.getItem('accordion') != null ? localStorage.getItem('accordion').split(',') : []
+      accordionValue != null ? accordionValue.split(',') : []
     );
   }, []);
 
