@@ -55,6 +55,8 @@ Some screenshots:
 
   7. Restic features (check locks, unlock, unlock --remove-all)
 
+  8. Multi cluster (Experimental feature)
+
   see [changelog](CHANGELOG.md) for details.
 
 ## Configuration
