@@ -2,7 +2,7 @@
 
 import { Loader, Stack } from '@mantine/core';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 
 export default function LoginPage() {
   const router = useRouter();

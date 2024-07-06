@@ -17,8 +17,10 @@ export const useAppWebSocket = () => {
 
   // const [messageHistory, setMessageHistory] = useState<Array<any>>([]);
   const didUnmount = useRef(false);
+  const mounted = useRef(false);
 
   const jwtToken = typeof localStorage !== 'undefined' ? localStorage.getItem('token') : '';
+
   const { sendMessage, lastMessage, readyState } = useWebSocket(socketUrl, {
     //queryParams: {
     //  token: `${jwtToken}`,
@@ -29,7 +31,7 @@ export const useAppWebSocket = () => {
     onOpen: () => {
       // "client ready"
       if (jwtToken) {
-        console.log("WebSocket connected, sending JWT token.");
+        console.log('WebSocket connected, sending JWT token.');
         sendMessage(jwtToken);
       }
     },
@@ -49,7 +51,7 @@ export const useAppWebSocket = () => {
         lastMessage.data !== undefined &&
         typeof lastMessage.data === 'string'
       ) {
-        appValues.setMessageHistory(appValues.state.messagesHistory.concat(lastMessage.data))
+        appValues.setMessageHistory(appValues.state.messagesHistory.concat(lastMessage.data));
         //setMessageHistory((prev) => prev.concat(lastMessage.data));
       }
     }
@@ -62,10 +64,10 @@ export const useAppWebSocket = () => {
     [ReadyState.CLOSED]: 'Closed',
     [ReadyState.UNINSTANTIATED]: 'Uninstantiated',
   }[readyState];
-  
-  appValues.setSocketStatus(connectionStatus);
-  
-  return {}/*{
-    connectionStatus,
-  };*/
+
+  mounted.current = true;
+
+  if (!mounted) appValues.setSocketStatus(connectionStatus);
+
+  return {};
 };

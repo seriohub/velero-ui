@@ -10,9 +10,10 @@ import { useApiGet } from '@/hooks/useApiGet';
 import VeleroAppContexts from '@/contexts/VeleroAppContexts';
 
 import { ClusterStatus } from '@/components/ClusterStatus';
-import { DiagnosticLink } from '@/components/DiagnosticLink';
+import { DiagnosticLink } from '@/components/Diagnostic/DiagnosticLink';
 import { ProcessTime } from '@/components/ProcessTime';
-import { DiagnosticInfo } from '@/components/DiagnosticInfo';
+import { DiagnosticAgentInfo } from '@/components/Diagnostic/DiagnosticAgentInfo';
+import { DiagnosticCoreInfo } from '@/components/Diagnostic/DiagnosticCoreInfo';
 
 export function AppShellFooter() {
   const appValues = useContext(VeleroAppContexts);
@@ -30,7 +31,12 @@ export function AppShellFooter() {
     <>
       <Group justify="space-between" gap={5}>
         <Group gap={5}>
-          <DiagnosticInfo />
+          {appValues.state.isCore && (
+          <DiagnosticCoreInfo />
+        )}
+        { (appValues.state.logged || appValues.state.isCore==false) && (
+          <DiagnosticAgentInfo />
+        )}
         </Group>
 
         {pathname != '/' && pathname != '/login' && (

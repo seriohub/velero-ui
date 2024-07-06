@@ -6,17 +6,21 @@ import { notifications } from '@mantine/notifications';
 
 import { IconExclamationMark, IconInfoCircle } from '@tabler/icons-react';
 
-import { env } from 'next-runtime-env';
+// import { env } from 'next-runtime-env';
 
 import VeleroAppContexts from '@/contexts/VeleroAppContexts';
+import { useBackend } from './useBackend';
 
-export const useApiOptions = () => {
+interface UseApiOptionsProps {
+  target?: 'core' | 'agent' | 'static';
+}
+
+export const useApiOptions = ({ target = 'agent' }: UseApiOptionsProps = {}) => {
+  const appValues = useContext(VeleroAppContexts);
   const router = useRouter();
   const pathname = usePathname();
-  const appValues = useContext(VeleroAppContexts);
-  
-  // const NEXT_PUBLIC_VELERO_API_URL = env('NEXT_PUBLIC_VELERO_API_URL');
-  const NEXT_PUBLIC_VELERO_API_URL = appValues.state.currentBackend?.url;
+
+  const backendUrl = useBackend({ target: target });
 
   const [fetching, setFetching] = useState(false);
   const [data, setData] = useState<Record<string, any> | undefined>(undefined);
@@ -45,20 +49,19 @@ export const useApiOptions = () => {
         prev.concat({
           method: 'OPTIONS',
           headers,
-          url: `${NEXT_PUBLIC_VELERO_API_URL}${url}?${param}`,
+          url: `${backendUrl}${url}?${param}`,
           params: param,
         })
       );
     }
 
-    
-    fetch(`${NEXT_PUBLIC_VELERO_API_URL}${url}?${param}`, { method: 'OPTIONS', headers })
+    fetch(`${backendUrl}${url}?${param}`, { method: 'OPTIONS', headers })
       .then(async (res) => {
         if (res.status === 401) {
           localStorage.removeItem('token');
           if (pathname !== '/login' && pathname !== '/') router.push('/');
         }
-        
+
         return res.json().then((response) => {
           return {
             data: response,
@@ -112,7 +115,7 @@ export const useApiOptions = () => {
         appValues.setApiResponse((prev: Array<any>) =>
           prev.concat({
             method: 'OPTIONS',
-            url: `${NEXT_PUBLIC_VELERO_API_URL}${url}?${param}`,
+            url: `${backendUrl}${url}?${param}`,
             data: data,
             statusCode: statusCode,
             xProcessTime: res.xProcessTime,

@@ -9,7 +9,7 @@ import { useApiGet } from '@/hooks/useApiGet';
 import { UpdatePasswordForm } from './UpdatePasswordForm';
 
 export const UpdatePassword = () => {
-  const { data, getData } = useApiGet();
+  const { data, getData } = useApiGet({target: 'static'});
 
   useEffect(() => {
     getData('/v1/users/me/info');

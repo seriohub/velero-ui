@@ -29,7 +29,7 @@ export function AppShellHeader({ opened, toggle }: any) {
           <ActionIcon
             component={Link}
             target="_blank"
-            size={34}
+            size={40}
             variant="default"
             radius={8}
             href="https://github.com/seriohub/velero-ui"

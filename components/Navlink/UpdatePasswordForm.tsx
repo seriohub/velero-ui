@@ -10,7 +10,7 @@ import { PasswordStrength } from '@/components/Auth/PasswordStrength';
 import { useApiPut } from '@/hooks/useApiPut';
 
 export function UpdatePasswordForm() {
-  const { putData, responseStatus } = useApiPut();
+  const { putData, responseStatus } = useApiPut({target: 'static'});
 
   const form = useForm({
     initialValues: {

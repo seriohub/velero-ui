@@ -1,14 +1,15 @@
 'use client';
 
-import React, { use, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { MantineProvider, ColorSchemeScript } from '@mantine/core';
 
 import { PublicEnvScript, env } from 'next-runtime-env';
 import { theme } from '../theme';
 
-import VeleroAppContexts from '@/contexts/VeleroAppContexts';
+//import VeleroAppContexts from '@/contexts/VeleroAppContexts';
 
 import { VeleroApiConfig, loadVeleroApiConfigs } from '@/components/BackendApi';
+import { AgentApiConfig } from '@/hooks/useAgentConfigs';
 
 import { ContextMenuProvider } from 'mantine-contextmenu';
 
@@ -20,11 +21,18 @@ import 'mantine-contextmenu/styles.layer.css';
 import 'mantine-datatable/styles.layer.css';
 
 import './layout.css';
+import { AppStateProvider } from '@/contexts/AppStateContext';
+// import { ServerError } from '@/components/ServerError/ServerError';
 
 export default function RootLayout({ children }: { children: any }) {
-  const veleroApiConfigs: VeleroApiConfig[] = loadVeleroApiConfigs();
+  /*const veleroApiConfigs: VeleroApiConfig[] = loadVeleroApiConfigs();
   const [appBackends, setAppBackends] = useState<Array<VeleroApiConfig>>(veleroApiConfigs);
-  const [appCurrentBackend, setAppCurrentBackend] = useState<VeleroApiConfig>(veleroApiConfigs[0]);
+  const [appCurrentBackend, setAppCurrentBackend] = useState<VeleroApiConfig | undefined>(
+    undefined
+  );
+
+  const [appAgents, setAppAgents] = useState<Array<AgentApiConfig> | null>(null);
+  const [appCurrentAgent, setAppCurrentAgent] = useState<AgentApiConfig | undefined>(undefined);
 
   const [appApiRequest, setAppApiRequest] = useState<Array<any>>([]);
   const [appApiResponse, setAppApiResponse] = useState<Array<any>>([]);
@@ -32,6 +40,10 @@ export default function RootLayout({ children }: { children: any }) {
   const [appSocketStatus, setAppSocketStatus] = useState<string>('');
 
   const [appNotificationHistory, setAppNotificationHistory] = useState<Array<any>>([]);
+
+  const [appInitialized, setAppInitialized] = useState(false);
+  const [appLogged, setAppLogged] = useState(false);
+  const [appOnline, setAppOnline] = useState(true);
 
   const [appMessagesHistory, setAppMessagesHistory] = useState<Array<string>>([]);
 
@@ -45,7 +57,9 @@ export default function RootLayout({ children }: { children: any }) {
     Number(`${NEXT_PUBLIC_REFRESH_RECENT}`)
   );
 
-  const [initialized, setInitialized] = useState(false)
+  const [appIsCore, setAppIsCore] = useState<Boolean | undefined>(undefined);
+
+  const [init, setInit] = useState(false);
 
   useEffect(() => {
     const clusterIndex =
@@ -54,9 +68,9 @@ export default function RootLayout({ children }: { children: any }) {
         ? Number(localStorage.getItem('cluster'))
         : 0;
     setAppCurrentBackend(veleroApiConfigs[clusterIndex]);
-    setInitialized(true);
-  }, []);
-  
+    setInit(true);
+  }, []);*/
+
   return (
     <html lang="en">
       <head>
@@ -71,7 +85,7 @@ export default function RootLayout({ children }: { children: any }) {
       </head>
       <body>
         <MantineProvider theme={theme}>
-          <VeleroAppContexts.Provider
+          {/*<VeleroAppContexts.Provider
             value={{
               state: {
                 messagesHistory: appMessagesHistory,
@@ -83,6 +97,12 @@ export default function RootLayout({ children }: { children: any }) {
                 refreshRecent: appRefreshRecent,
                 notificationHistory: appNotificationHistory,
                 socketStatus: appSocketStatus,
+                isCore: appIsCore,
+                currentAgent: appCurrentAgent,
+                agents: appAgents,
+                initialized: appInitialized,
+                online: appOnline,
+                logged: appLogged,
               },
               setMessageHistory: setAppMessagesHistory,
               setApiBackends: setAppBackends,
@@ -93,10 +113,21 @@ export default function RootLayout({ children }: { children: any }) {
               setRefreshRecent: setAppRefreshRecent,
               setNotificationHistory: setAppNotificationHistory,
               setSocketStatus: setAppSocketStatus,
+              setIsCore: setAppIsCore,
+              setCurrentAgent: setAppCurrentAgent,
+              setAgents: setAppAgents,
+              setInitialized: setAppInitialized,
+              setOnline: setAppOnline,
+              setLogged: setAppLogged,
             }}
           >
-            <ContextMenuProvider>{initialized && children}</ContextMenuProvider>
-          </VeleroAppContexts.Provider>
+            <ContextMenuProvider>{init && children}</ContextMenuProvider>
+          </VeleroAppContexts.Provider>*/}
+           <AppStateProvider>
+            <ContextMenuProvider>{children}</ContextMenuProvider>
+          </AppStateProvider>
+
+
         </MantineProvider>
       </body>
     </html>

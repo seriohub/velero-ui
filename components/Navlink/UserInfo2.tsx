@@ -53,7 +53,7 @@ const UserButton = forwardRef<HTMLButtonElement, UserButtonProps>(
 );
 
 export const UserInfo2 = () => {
-  const { data, getData } = useApiGet();
+  const { data, getData } = useApiGet({target: 'static'});
   const computedColorScheme = useComputedColorScheme('light', { getInitialValueInEffect: true });
 
   useEffect(() => {

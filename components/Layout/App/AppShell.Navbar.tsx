@@ -1,4 +1,15 @@
-import { Group, Stack, NavLink, Divider, Avatar, Burger, ScrollArea, Box } from '@mantine/core';
+import {
+  Group,
+  Stack,
+  NavLink,
+  Divider,
+  Avatar,
+  Burger,
+  ScrollArea,
+  Box,
+  Text,
+  Space,
+} from '@mantine/core';
 import {
   IconDashboard,
   IconRestore,
@@ -7,6 +18,8 @@ import {
   IconDatabase,
   IconLink,
   IconSettings,
+  IconServer,
+  IconHome,
 } from '@tabler/icons-react';
 import { env } from 'next-runtime-env';
 import { useRouter, usePathname } from 'next/navigation';
@@ -21,6 +34,9 @@ import { ClusterInfo } from '@/components/ClusterInfo';
 import { SwitchCluster } from '@/components/SwitchCluster/SwitchCluster';
 import { SwitchCluster2 } from '@/components/SwitchCluster/SwitchCluster2';
 import { UserInfo2 } from '@/components/Navlink/UserInfo2';
+import { useContext } from 'react';
+import VeleroAppContexts from '@/contexts/VeleroAppContexts';
+import { SwitchAgent } from '@/components/SwitchCluster/SwitchAgent';
 
 const data = [
   { link: '/dashboard', label: 'Dashboard', icon: IconDashboard },
@@ -33,14 +49,24 @@ const data = [
   { link: '/sc-mapping', label: 'SC mapping', icon: IconLink },
 ];
 
-export function AppShellNavbar({ opened, toggle }: any) {
-  const router = useRouter();
-  const pathname = usePathname();
+const settings = [{ link: '/environments', label: 'Environments', icon: IconServer }];
 
-  const WorkaroundClustersSwitch =
-    env('NEXT_PUBLIC_WORKAROUND_CLUSTERS_SWITCH')?.toLowerCase() === 'true' ? true : false;
+const home = [{ link: '/home', label: 'Home', icon: IconHome }];
 
-  const links = data.map((item: any) => (
+interface NavItem {
+  label: string;
+  link: string;
+  icon: React.ElementType;
+}
+
+interface Props {
+  data: NavItem[];
+  pathname: string;
+  router: any;
+  toggle: () => void;
+}
+const generateNavLinks = (data: NavItem[], pathname: string, router: any, toggle: () => void) => {
+  return data.map((item: NavItem) => (
     <NavLink
       // className={classes.link}
       key={item.label}
@@ -55,6 +81,18 @@ export function AppShellNavbar({ opened, toggle }: any) {
       variant="filled"
     />
   ));
+};
+
+export function AppShellNavbar({ opened, toggle }: any) {
+  const appValues = useContext(VeleroAppContexts);
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const isCore = appValues.state.isCore;
+
+  const links = generateNavLinks(data, pathname, router, toggle);
+  const homeLink = generateNavLinks(home, pathname, router, toggle);
+  const settingsLinks = generateNavLinks(settings, pathname, router, toggle);
 
   return (
     <>
@@ -66,12 +104,36 @@ export function AppShellNavbar({ opened, toggle }: any) {
                 <Logo />
                 <Burger opened={opened} onClick={toggle} hiddenFrom="xs" size="sm" />
               </Group>
-
-              <Divider />
+              {isCore && (
+                <Box p={5} mt={5} mb={5}>
+                  {homeLink}
+                </Box>
+              )}
+              {/*<Divider />*/}
+              {/*<SwitchCluster2 />*/}
+              {isCore && (
+                <Box p={5} mt={5} mb={5}>
+                  <>
+                    {/*<SwitchCluster />*/}
+                    <SwitchAgent />
+                  </>
+                </Box>
+              )}
 
               {links}
+
+              <Space h={20} />
+              {isCore && (
+                <>
+                  <Text ml="12" size="sm">
+                    Settings
+                  </Text>
+                  {settingsLinks}
+                </>
+              )}
             </>
           </Box>
+
           <Box>
             <Divider />
             <Version />

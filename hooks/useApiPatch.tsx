@@ -5,20 +5,24 @@ import { notifications } from '@mantine/notifications';
 
 import { IconInfoCircle, IconExclamationMark } from '@tabler/icons-react';
 
-import { env } from 'next-runtime-env';
+// import { env } from 'next-runtime-env';
 
 import VeleroAppContexts from '@/contexts/VeleroAppContexts';
+import { useBackend } from './useBackend';
 
-export const useApiPatch = () => {
-  const router = useRouter();
+interface UseApiPatchProps {
+  target?: 'core' | 'agent' | 'static';
+}
+
+export const useApiPatch = ({ target = 'agent' }: UseApiPatchProps = {}) => {
   const appValues = useContext(VeleroAppContexts);
-  
-  // const NEXT_PUBLIC_VELERO_API_URL = env('NEXT_PUBLIC_VELERO_API_URL');
-  const NEXT_PUBLIC_VELERO_API_URL = appValues.state.currentBackend?.url;
+  const router = useRouter();
 
   const [fetching, setFetching] = useState(false);
   const [data, setData] = useState<Record<string, any> | undefined>(undefined);
   const [error, setError] = useState(false);
+
+  const backendUrl = useBackend({ target: target });
 
   const patchData = async (url: string, values: any) => {
     if (error) {
@@ -46,16 +50,16 @@ export const useApiPatch = () => {
     setFetching(true);
     appValues.setApiRequest((prev: Array<any>) =>
       // prev.concat({ method: 'POST', url: `${process.env.NEXT_PUBLIC_VELERO_API_URL}${url}`, params: values })
-      prev.concat({ method: 'PATCH', url: `${NEXT_PUBLIC_VELERO_API_URL}${url}`, params: values })
+      prev.concat({ method: 'PATCH', url: `${backendUrl}${url}`, params: values })
     );
     // fetch(`${process.env.NEXT_PUBLIC_VELERO_API_URL}${url}`, requestOptions)
-    fetch(`${NEXT_PUBLIC_VELERO_API_URL}${url}`, requestOptions)
+    fetch(`${backendUrl}${url}`, requestOptions)
       .then(async (res) => {
         if (res.status === 401) {
           localStorage.removeItem('token');
           router.push('/');
         }
-        
+
         return res.json().then((response) => {
           return {
             data: response,
@@ -109,7 +113,7 @@ export const useApiPatch = () => {
         appValues.setApiResponse((prev: Array<any>) =>
           prev.concat({
             method: 'PATCH',
-            url: `${NEXT_PUBLIC_VELERO_API_URL}${url}`,
+            url: `${backendUrl}${url}`,
             params: values,
             data: data,
             statusCode: statusCode,

@@ -7,16 +7,20 @@ import { IconInfoCircle, IconExclamationMark } from '@tabler/icons-react';
 import { env } from 'next-runtime-env';
 
 import VeleroAppContexts from '@/contexts/VeleroAppContexts';
+import { useBackend } from './useBackend';
 
-export const useApiPut = () => {
+interface UseApiPutProps {
+  target?: 'core' | 'agent' | 'static';
+}
+
+export const useApiPut = ({ target = 'agent' }: UseApiPutProps = {}) => {
   const appValues = useContext(VeleroAppContexts);
-  
-  // const NEXT_PUBLIC_VELERO_API_URL = env('NEXT_PUBLIC_VELERO_API_URL');
-  const NEXT_PUBLIC_VELERO_API_URL = appValues.state.currentBackend?.url;
 
   const [fetching, setFetching] = useState(false);
   const [error, setError] = useState(false);
   const [responseStatus, setResponseStatus] = useState(-1);
+
+  const backendUrl = useBackend({ target: target });
 
   const putData = async (url: string, values: any) => {
     setResponseStatus(-1);
@@ -43,10 +47,10 @@ export const useApiPut = () => {
 
     setFetching(true);
     appValues.setApiRequest((prev: Array<any>) =>
-      prev.concat({ method: 'PUT', url: `${NEXT_PUBLIC_VELERO_API_URL}${url}`, params: values })
+      prev.concat({ method: 'PUT', url: `${backendUrl}${url}`, params: values })
     );
 
-    fetch(`${NEXT_PUBLIC_VELERO_API_URL}${url}`, requestOptions)
+    fetch(`${backendUrl}${url}`, requestOptions)
       .then(async (res) => {
         setResponseStatus(res.status);
         if (res.status !== 200) {
@@ -117,7 +121,7 @@ export const useApiPut = () => {
         appValues.setApiResponse((prev: Array<any>) =>
           prev.concat({
             method: 'POST',
-            url: `${NEXT_PUBLIC_VELERO_API_URL}${url}`,
+            url: `${backendUrl}${url}`,
             params: values,
             data: data,
             statusCode: statusCode,

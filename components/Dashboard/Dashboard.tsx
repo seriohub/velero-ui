@@ -2,7 +2,7 @@
 
 import React, { useContext, useEffect, useState } from 'react';
 
-import { Stack, Group, Grid, Loader, Center, ScrollArea, SimpleGrid } from '@mantine/core';
+import { Stack, Group, Grid, Loader, Center, ScrollArea, SimpleGrid, Space } from '@mantine/core';
 
 import { IconClock, IconDeviceFloppy, IconRestore, IconCalendarEvent } from '@tabler/icons-react';
 import { useViewportSize } from '@mantine/hooks';
@@ -14,8 +14,6 @@ import Toolbar from '../Toolbar';
 import RefreshDatatable from '../Actions/ToolbarActionIcons/RefreshDatatable';
 
 export function Dashboard() {
-  
-
   const { height: vpHeight, width: vpWidth } = useViewportSize();
   const { data, getData } = useApiGet();
   const [reload, setReload] = useState(1);
@@ -40,8 +38,8 @@ export function Dashboard() {
 
   return (
     <>
-      <ScrollArea p={0} style={{ height: '100%'}} scrollbars="y" offsetScrollbars>
-        <Stack p={5} w={vpWidth < 768 ? "100vw" : "calc(100vw - 240px)"}>
+      <ScrollArea p={0} style={{ height: '100%' }} scrollbars="y" offsetScrollbars>
+        <Stack p={5} w={vpWidth < 768 ? '100vw' : 'calc(100vw - 240px)'}>
           <Stack>
             <Toolbar title="Dashboard">
               <RefreshDatatable setReload={setReload} reload={reload} />
@@ -71,20 +69,15 @@ export function Dashboard() {
                 title="Schedules"
                 icon={<IconCalendarEvent />}
               />
-              <UnscheduledNamespaces namespaces={data.payload?.namespaces?.unscheduled} total={data.payload?.namespaces?.total} />
-            </SimpleGrid>
-            
-          </Stack>
-
-          
-         
-          
-          
-        </Stack> <BackupLatest
-                latest={data.payload.backups.latest}
-                reload={reload}
-                setReload={setReload}
+              <UnscheduledNamespaces
+                namespaces={data.payload?.namespaces?.unscheduled}
+                total={data.payload?.namespaces?.total}
               />
+            </SimpleGrid>
+          </Stack>
+        </Stack>
+        <Space h={20}/>
+        <BackupLatest latest={data.payload.backups.latest} reload={reload} setReload={setReload} />
       </ScrollArea>
     </>
   );

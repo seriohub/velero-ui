@@ -5,20 +5,24 @@ import { notifications } from '@mantine/notifications';
 
 import { IconInfoCircle, IconExclamationMark } from '@tabler/icons-react';
 
-import { env } from 'next-runtime-env';
+// import { env } from 'next-runtime-env';
 
 import VeleroAppContexts from '@/contexts/VeleroAppContexts';
+import { useBackend } from './useBackend';
 
-export const useApiPost = () => {
+interface UseApiPostProps {
+  target?: 'core' | 'agent' | 'static';
+}
+
+export const useApiPost = ({ target = 'agent' }: UseApiPostProps = {}) => {
   const router = useRouter();
   const appValues = useContext(VeleroAppContexts);
-  
-  // const NEXT_PUBLIC_VELERO_API_URL = env('NEXT_PUBLIC_VELERO_API_URL');
-  const NEXT_PUBLIC_VELERO_API_URL = appValues.state.currentBackend?.url;
 
   const [fetching, setFetching] = useState(false);
   const [data, setData] = useState<Record<string, any> | undefined>(undefined);
   const [error, setError] = useState(false);
+
+  const backendUrl = useBackend({ target: target });
 
   const postData = async (url: string, values: any) => {
     if (error) {
@@ -45,10 +49,10 @@ export const useApiPost = () => {
 
     setFetching(true);
     appValues.setApiRequest((prev: Array<any>) =>
-      prev.concat({ method: 'POST', url: `${NEXT_PUBLIC_VELERO_API_URL}${url}`, params: values })
+      prev.concat({ method: 'POST', url: `${backendUrl}${url}`, params: values })
     );
 
-    fetch(`${NEXT_PUBLIC_VELERO_API_URL}${url}`, requestOptions)
+    fetch(`${backendUrl}${url}`, requestOptions)
       .then(async (res) => {
         if (res.status === 401) {
           localStorage.removeItem('token');
@@ -104,11 +108,11 @@ export const useApiPost = () => {
           });
         }
         setFetching(false);
-        
+
         appValues.setApiResponse((prev: Array<any>) =>
           prev.concat({
             method: 'POST',
-            url: `${NEXT_PUBLIC_VELERO_API_URL}${url}`,
+            url: `${backendUrl}${url}`,
             params: values,
             data: data,
             statusCode: statusCode,

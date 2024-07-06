@@ -2,7 +2,7 @@ import { useApiGet } from '@/hooks/useApiGet';
 import { ActionIcon, Indicator, Modal } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 
-import { IconRefresh } from '@tabler/icons-react';
+import { IconApps, IconRefresh } from '@tabler/icons-react';
 
 import { useEffect, useState } from 'react';
 import TableVersion from './TableVersion';
@@ -41,13 +41,13 @@ export default function CheckAppVersion() {
       <Indicator processing inline disabled={!updateAvailable} color='red' position='bottom-end'>
         <ActionIcon
           variant="default"
-          size={36}
+          size={40}
           radius={8}
           aria-label="Toggle color scheme"
           onClick={open}
         >
-          {updateAvailable && <IconRefresh color="orange" stroke={1.5} />}
-          {!updateAvailable && <IconRefresh color="green" stroke={1.5} />}
+          {updateAvailable && <IconApps color="orange" stroke={1.5} />}
+          {!updateAvailable && <IconApps color="green" stroke={1.5} />}
         </ActionIcon>
       </Indicator>
     </>

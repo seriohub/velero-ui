@@ -5,7 +5,6 @@ import { useMediaQuery } from '@mantine/hooks';
 
 import { AuthShellHeader } from './AuthShell.Header';
 import { AppShellFooter } from '../App/AppShell.Footer';
-import { DiagnosticInfo } from '@/components/DiagnosticInfo';
 
 interface AuthShellLayoutProps {
   children: any;

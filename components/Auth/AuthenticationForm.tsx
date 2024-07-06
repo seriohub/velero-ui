@@ -56,6 +56,7 @@ export function AuthenticationForm() {
     if (res.status === 200) {
       const json = await res.json();
       localStorage.setItem('token', json.access_token);
+      appValues.setLogged(true);
       router.push('/dashboard');
     } else {
       form.setErrors({ username: true, password: true });

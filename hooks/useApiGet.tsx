@@ -6,23 +6,26 @@ import { notifications } from '@mantine/notifications';
 import { modals } from '@mantine/modals';
 import { IconExclamationMark, IconInfoCircle } from '@tabler/icons-react';
 
-import { env } from 'next-runtime-env';
+// import { env } from 'next-runtime-env';
 
 import VeleroAppContexts from '@/contexts/VeleroAppContexts';
 import { Code } from '@mantine/core';
+import { useBackend } from './useBackend';
 
-export const useApiGet = () => {
+interface UseApiGetProps {
+  target?: 'core' | 'agent' | 'static';
+}
+
+export const useApiGet = ({ target = 'agent' }: UseApiGetProps = {}) => {
   const appValues = useContext(VeleroAppContexts);
   const router = useRouter();
   const pathname = usePathname();
-  const value = useContext(VeleroAppContexts);
-  
-  // const NEXT_PUBLIC_VELERO_API_URL = env('NEXT_PUBLIC_VELERO_API_URL');
-  const NEXT_PUBLIC_VELERO_API_URL = appValues.state.currentBackend?.url;
 
   const [fetching, setFetching] = useState(false);
   const [data, setData] = useState<Record<string, any> | undefined>(undefined);
   const [error, setError] = useState(false);
+
+  const backendUrl = useBackend({ target: target });
 
   const getData = async (url: string, param: string = '', addInHistory: boolean = true) => {
     if (error) {
@@ -43,17 +46,17 @@ export const useApiGet = () => {
     }
 
     if (addInHistory === true) {
-      value.setApiRequest((prev: Array<any>) =>
+      appValues.setApiRequest((prev: Array<any>) =>
         prev.concat({
           method: 'GET',
           headers,
-          url: `${NEXT_PUBLIC_VELERO_API_URL}${url}?${param}`,
+          url: `${backendUrl}${url}?${param}`,
           params: param,
         })
       );
     }
 
-    fetch(`${NEXT_PUBLIC_VELERO_API_URL}${url}?${param}`, { method: 'GET', headers })
+    fetch(`${backendUrl}${url}?${param}`, { method: 'GET', headers })
       .then(async (res) => {
         if (res.status === 401) {
           localStorage.removeItem('token');
@@ -81,7 +84,7 @@ export const useApiGet = () => {
           });
           setData(undefined);
           setError(true);
-          value.setNotificationHistory((prev: Array<any>) =>
+          appValues.setNotificationHistory((prev: Array<any>) =>
             prev.concat({
               statusCode: statusCode,
               title: data.error.title,
@@ -99,7 +102,7 @@ export const useApiGet = () => {
               title: message.title,
               message: message.description,
             });
-            value.setNotificationHistory((prev: Array<any>) =>
+            appValues.setNotificationHistory((prev: Array<any>) =>
               prev.concat({
                 statusCode: statusCode,
                 title: message.title,
@@ -114,18 +117,20 @@ export const useApiGet = () => {
             modals.open({
               title: message.title,
               size: 'lg',
-              children: <Code block color="#010101">
-              {message.description.join("\n")}
-            </Code>
+              children: (
+                <Code block color="#010101">
+                  {message.description.join('\n')}
+                </Code>
+              ),
             });
           });
         }
         setFetching(false);
         if (addInHistory === true) {
-          value.setApiResponse((prev: Array<any>) =>
+          appValues.setApiResponse((prev: Array<any>) =>
             prev.concat({
               method: 'GET',
-              url: `${NEXT_PUBLIC_VELERO_API_URL}${url}?${param}`,
+              url: `${backendUrl}${url}?${param}`,
               data: data,
               statusCode: statusCode,
               xProcessTime: res.xProcessTime,
