@@ -9,10 +9,10 @@ import { useApiGet } from '@/hooks/useApiGet';
 import { UpdatePasswordForm } from './UpdatePasswordForm';
 
 export const UpdatePassword = () => {
-  const { data, getData } = useApiGet({target: 'static'});
+  const { data, getData } = useApiGet();
 
   useEffect(() => {
-    getData('/v1/users/me/info');
+    getData({url:'/v1/users/me/info',target: 'static'});
   }, []);
 
   if (data === undefined) return <></>;

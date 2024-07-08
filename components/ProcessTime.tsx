@@ -4,14 +4,15 @@ import { usePathname } from 'next/navigation';
 
 import { Sparkline } from '@mantine/charts';
 
-import VeleroAppContexts from '@/contexts/VeleroAppContexts';
+import { useAppState } from '@/contexts/AppStateContext';
 import { Group, Text } from '@mantine/core';
 
 export const ProcessTime = () => {
-  const value = useContext(VeleroAppContexts);
+  //const value = useContext(VeleroAppContexts);
+  const appValues = useAppState()
   const pathname = usePathname();
 
-  const xProcessTimeArray = value.state.apiResponse.map(
+  const xProcessTimeArray = appValues.apiResponse.map(
     (item: { xProcessTime: Number }) => item.xProcessTime
   );
   // console.log(xProcessTimeArray);

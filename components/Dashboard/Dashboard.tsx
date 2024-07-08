@@ -23,7 +23,7 @@ export function Dashboard() {
   //}, []);
 
   useEffect(() => {
-    getData('/v1/stats/get');
+    getData({url:'/v1/stats/get'});
   }, [reload]);
 
   if (data === undefined) {

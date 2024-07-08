@@ -32,7 +32,7 @@ export function BackupLocation() {
   const [records, setRecords] = useState(items.slice(0, pageSize));
 
   useEffect(() => {
-    getData('/v1/backup-location/get');
+    getData({url:'/v1/backup-location/get'});
   }, [reload]);
 
   //useEffect(() => {

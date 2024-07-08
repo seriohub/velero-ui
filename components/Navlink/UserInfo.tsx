@@ -6,11 +6,11 @@ import { useApiGet } from '@/hooks/useApiGet';
 import { IconUserCircle } from '@tabler/icons-react';
 
 export const UserInfo = () => {
-  const { data, getData } = useApiGet({target: 'static'});
+  const { data, getData } = useApiGet();
   const computedColorScheme = useComputedColorScheme('light', { getInitialValueInEffect: true });
 
   useEffect(() => {
-    getData('/v1/users/me/info');
+    getData({url:'/v1/users/me/info', target: 'static'});
   }, []);
 
   if (data === undefined) return <></>;

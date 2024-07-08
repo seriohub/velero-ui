@@ -7,7 +7,7 @@ import { IconInfoCircle, IconExclamationMark } from '@tabler/icons-react';
 
 import { env } from 'next-runtime-env';
 
-import VeleroAppContexts from '@/contexts/VeleroAppContexts';
+import { useAppState } from '@/contexts/AppStateContext';
 import { useBackend } from './useBackend';
 
 interface UseApiGetProps {
@@ -16,10 +16,10 @@ interface UseApiGetProps {
 
 export const useApiDelete = ({ target = 'agent' }: UseApiGetProps = {}) => {
   const router = useRouter();
-  const appValues = useContext(VeleroAppContexts);
+  const appValues = useAppState();
 
   // const NEXT_PUBLIC_VELERO_API_URL = env('NEXT_PUBLIC_VELERO_API_URL');
-  // const NEXT_PUBLIC_VELERO_API_URL = appValues.state.currentBackend?.url;;
+  // const NEXT_PUBLIC_VELERO_API_URL = appValues.currentBackend?.url;;
 
   const [fetching, setFetching] = useState(false);
   const [data, setData] = useState<Record<string, any> | undefined>(undefined);

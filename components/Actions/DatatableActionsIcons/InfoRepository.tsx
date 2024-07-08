@@ -44,10 +44,10 @@ export default function InfoRepository({
         variant="transparent"
         onClick={(e) => {
           e.stopPropagation();
-          checkRepository(
-            '/v1/repo/size/get',
-            `repository_url=${repositoryURL}&backup_storage_location=${backupStorageLocation}&repository_name=${repositoryName}&repository_type=${repositoryType}&volume_namespace=${volumeNamespace}`
-          );
+          checkRepository({
+            url:'/v1/repo/size/get',
+            param:`repository_url=${repositoryURL}&backup_storage_location=${backupStorageLocation}&repository_name=${repositoryName}&repository_type=${repositoryType}&volume_namespace=${volumeNamespace}`
+        });
         }}
       >
         <IconCalculator size={16} color='green'/>

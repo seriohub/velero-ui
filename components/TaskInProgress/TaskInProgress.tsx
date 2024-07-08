@@ -16,10 +16,10 @@ import LogsActionIcon from '../Actions/DatatableActionsIcons/LogsActionIcon';
 import ExpireIn from '../Backup/ExpireIn';
 import DeleteActionIcon from '../Actions/DatatableActionsIcons/DeleteActionIcon';
 
-import VeleroAppContexts from '@/contexts/VeleroAppContexts';
+import { useAppState } from '@/contexts/AppStateContext';
 
 export default function TaskInProgress() {
-  const appValues = useContext(VeleroAppContexts);
+  const appValues = useAppState();
   const { data, getData, fetching } = useApiGet();
   const [reload, setReload] = useState(1);
 
@@ -31,7 +31,7 @@ export default function TaskInProgress() {
   });
 
   useEffect(() => {
-    getData('/v1/stats/in-progress');
+    getData({url:'/v1/stats/in-progress', target:'agent'});
   }, [reload]);
 
   useEffect(() => {
@@ -52,8 +52,8 @@ export default function TaskInProgress() {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      getData('/v1/stats/in-progress', '', false);
-    }, appValues.state.refreshRecent);
+      getData({url:'/v1/stats/in-progress', addInHistory:false, target:'agent'});
+    }, appValues.refreshRecent);
     return () => clearInterval(interval);
   }, []);
 

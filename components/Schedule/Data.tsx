@@ -38,7 +38,7 @@ export function ScheduleData() {
   const [records, setRecords] = useState(items.slice(0, pageSize));
 
   useEffect(() => {
-    getData('/v1/schedule/get');
+    getData({url:'/v1/schedule/get'});
   }, [reload]);
 
   //useEffect(() => {

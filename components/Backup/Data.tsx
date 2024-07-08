@@ -78,7 +78,7 @@ export function BackupData({ limit = -1 }: BackupDataProps) {
   }, [data]);
 
   useEffect(() => {
-    getData('/v1/backup/get', onlyLast4Schedule == true ? 'only_last_for_schedule=true' : '');
+    getData({url:'/v1/backup/get', param:onlyLast4Schedule == true ? 'only_last_for_schedule=true' : ''});
   }, [reload, onlyLast4Schedule]);
 
   //useEffect(() => {

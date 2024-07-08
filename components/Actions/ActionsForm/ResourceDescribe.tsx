@@ -17,7 +17,7 @@ export function ResourceDescribe({ resourceType, resourceName }: ResourceDescrib
   const { data, getData, error, fetching } = useApiGet();
 
   useEffect(() => {
-    getData(`/v1/${resourceType}/describe`, `resource_name=${resourceName}`);
+    getData({url:`/v1/${resourceType}/describe`, param:`resource_name=${resourceName}`});
   }, [resourceName]);
 
   return (

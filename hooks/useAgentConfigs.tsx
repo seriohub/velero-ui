@@ -1,6 +1,9 @@
 import { useContext, useEffect } from 'react';
-import VeleroAppContexts from '@/contexts/VeleroAppContexts';
+import { useAppState } from '@/contexts/AppStateContext';
 import { useApiGet } from '@/hooks/useApiGet';
+import { useServerStatus } from '@/contexts/ServerStatusContext';
+import { notifications } from '@mantine/notifications';
+import { IconExclamationMark } from '@tabler/icons-react';
 
 export interface AgentApiConfig {
   name: string;
@@ -9,17 +12,24 @@ export interface AgentApiConfig {
 }
 
 export const useAgentApiConfigs = () => {
-  const appValues = useContext(VeleroAppContexts);
+  const appValues = useAppState();
+  const isConnected = useServerStatus();
 
-  const { data: dataAgent, getData: getDataAgent } = useApiGet({ target: 'core' });
+  const { data: dataAgent, getData: getDataAgent } = useApiGet();
 
   useEffect(() => {
-    if (appValues.state.currentBackend !== undefined && appValues.state.isCore) {
-      getDataAgent('/v1/cluster/get');
+    // console.log("appValues",appValues)
+    if (appValues.currentServer !== undefined && appValues.isCurrentServerControlPlane!=undefined){
+      if (appValues.isCurrentServerControlPlane) {
+        getDataAgent({ url: '/v1/cluster/get', target: 'core' });
+      } else {
+        appValues.setCurrentAgent(appValues.currentServer);
+      }
     }
-  }, [appValues.state.currentBackend, appValues.state.isCore, appValues.state.online]);
+  }, [appValues.currentServer, appValues.isCurrentServerControlPlane, isConnected]);
 
   useEffect(() => {
+     console.log("dataAgent",dataAgent)
     if (dataAgent !== undefined) {
       console.log('agents', dataAgent?.payload);
       appValues.setAgents(dataAgent?.payload);
@@ -29,6 +39,14 @@ export const useAgentApiConfigs = () => {
           ? Number(localStorage.getItem('agent'))
           : 0;
       appValues.setCurrentAgent(dataAgent?.payload[agentIndex]);
+    }
+    if (dataAgent?.payload.length==0){
+      notifications.show({
+        icon: <IconExclamationMark />,
+        color: 'red',
+        title: 'Agents error',
+        message: 'No agent registered in the control plane',
+      });
     }
   }, [dataAgent]);
 

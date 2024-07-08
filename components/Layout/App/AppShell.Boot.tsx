@@ -7,9 +7,12 @@ import { useClusterConfigs } from '@/hooks/useClusterConfig';
 
 import AppShellLayout from '@/components/Layout/App/AppShell.Layout';
 import { useContext, useEffect, useState } from 'react';
-import VeleroAppContexts from '@/contexts/VeleroAppContexts';
-import { Center, Loader, Stack } from '@mantine/core';
+import { useAppState } from '@/contexts/AppStateContext';
+import { Center, Loader } from '@mantine/core';
 import { ServerError } from '@/components/ServerError/ServerError';
+import { ServerStatusProvider, useServerStatus } from '@/contexts/ServerStatusContext';
+import { AgentError } from '@/components/AgentError/AgentError';
+import { useAgentStatus } from '@/contexts/AgentStatusContext';
 
 interface AppShellBootProps {
   children: any;
@@ -17,40 +20,55 @@ interface AppShellBootProps {
 //import AppShellLayout from '@/components/Layout/App/AppShell.Layout';
 
 export default function AppShellBoot({ children }: AppShellBootProps) {
-  const appValues = useContext(VeleroAppContexts);
+  const appValues = useAppState();
   useClusterConfigs();
   useAgentApiConfigs();
   useAppWebSocket();
-  //const [initialized, setInitialized] = useState(false);
-  useEffect(() => {
-    if (
-      !appValues.state.initialized &&
-      appValues.state.isCore !== undefined &&
-      appValues.state.isCore == false
-    ) {
-      appValues.setInitialized(true);
+  
+  const isServerAvailable = useServerStatus()
+  const isAgentAvailable = useAgentStatus()
+
+  /*useEffect(() => {
+    if (!appValues.isAppInitialized && appValues.isCurrentServerControlPlane == false) {
+      appValues.setAppInitialized(true);
     }
-  }, [appValues.state.initialized, appValues.state.isCore]);
+  }, [appValues.isAppInitialized, appValues.isCurrentServerControlPlane]);
 
   useEffect(() => {
-    if (!appValues.state.initialized && appValues.state.currentAgent !== undefined) {
-      appValues.setInitialized(true);
+    if (
+      !appValues.isAppInitialized &&
+      appValues.isCurrentServerControlPlane == true &&
+      appValues.currentAgent !== undefined
+    ) {
+      appValues.setAppInitialized(true);
     }
-  }, [appValues.state.initialized, appValues.state.currentAgent]);
+  }, [appValues.isAppInitialized, appValues.isCurrentServerControlPlane, appValues.currentAgent]);
+
+  /*useEffect(() => {
+    if (!appValues.isAppInitialized && appValues.currentServerIsControlPlane !== undefined) {
+      appValues.setAppInitialized(true);
+    }
+  }, [appValues.isAppInitialized, appValues.currentServerIsControlPlane]);*/
+
+  useEffect(()=>{
+      if (isServerAvailable && isAgentAvailable){
+        console.log("@@@",isServerAvailable,isAgentAvailable)
+        appValues.setAppInitialized(true);
+      }
+  }, [isServerAvailable, isAgentAvailable])
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const jwtToken = localStorage.getItem('token');
       if (jwtToken !== null) {
-
-        appValues.setLogged(true)
+        appValues.setAuthenticated(true);
       } else {
-        appValues.setLogged(false)
+        appValues.setAuthenticated(false);
       }
     }
   }, []);
 
-  if (appValues.state.initialized == false)
+  /*if (appValues.initialized == false)
     return (
       <>
         <ServerError />
@@ -60,12 +78,19 @@ export default function AppShellBoot({ children }: AppShellBootProps) {
           </Center>
         </Stack>
       </>
-    );
+    );*/
 
   return (
     <>
       <ServerError />
-      <AppShellLayout>{children}</AppShellLayout>
+      {!appValues.isAppInitialized && (
+        <>
+          <Center>
+            <Loader color="blue" size="lg" />
+          </Center>
+        </>
+      )}
+      {appValues.isAppInitialized && <AppShellLayout>{children}</AppShellLayout>}
     </>
   );
 }

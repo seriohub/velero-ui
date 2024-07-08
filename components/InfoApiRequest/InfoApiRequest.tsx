@@ -19,11 +19,12 @@ import Link from 'next/link';
 
 import { IconCopy, IconCheck, IconExternalLink } from '@tabler/icons-react';
 
-import VeleroAppContexts from '@/contexts/VeleroAppContexts';
+import { useAppState } from '@/contexts/AppStateContext';
 import InfoParamActionIcon from './InfoParamActionIcon';
 
 export default function InfoApiRequest() {
-  const value = useContext(VeleroAppContexts);
+  //const value = useContext(VeleroAppContexts);
+  const appValues = useAppState()
   const viewport = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -32,7 +33,7 @@ export default function InfoApiRequest() {
     }
   };
 
-  const commands = value.state.apiRequest.map((item: any, index: number) => (
+  const commands = appValues.apiRequest.map((item: any, index: number) => (
     <Group gap={0} key={index}>
       <CopyButton value={item.url} timeout={2000}>
         {({ copied, copy }) => (
@@ -66,7 +67,7 @@ export default function InfoApiRequest() {
 
   useEffect(() => {
     scrollToBottom();
-  }, [value.state.apiRequest]);
+  }, [appValues.apiRequest]);
 
   return (
     <>

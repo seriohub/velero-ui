@@ -7,7 +7,7 @@ import { closeAllModals } from '@mantine/modals';
 
 import { useApiGet } from '@/hooks/useApiGet';
 import { useApiPost } from '@/hooks/useApiPost';
-import VeleroAppContexts from '@/contexts/VeleroAppContexts';
+import { useAppState } from '@/contexts/AppStateContext';
 import { Box, Button, Group, Select, TextInput } from '@mantine/core';
 import { useApiPatch } from '@/hooks/useApiPatch';
 
@@ -24,7 +24,7 @@ export function SCMappingForm({
   setReload,
   mode = 'create',
 }: SCMappingFormProps) {
-  const appValues = useContext(VeleroAppContexts);
+  const appValues = useAppState();
 
   const { data: storageClasses, getData: getStorageClasses } = useApiGet();
   const { postData } = useApiPost();
@@ -42,7 +42,7 @@ export function SCMappingForm({
   });
 
   useEffect(() => {
-    getStorageClasses('/v1/k8s/sc/get');
+    getStorageClasses({url:'/v1/k8s/sc/get'});
   }, []);
 
   function onDone(values: any) {
@@ -61,7 +61,7 @@ export function SCMappingForm({
     const interval = setInterval(() => {
       setReload(reload + 1);
       clearInterval(interval);
-    }, appValues.state.refreshDatatableAfter);
+    }, appValues.refreshDatatableAfter);
   }
 
   return (

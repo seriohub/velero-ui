@@ -1,17 +1,19 @@
 import { useContext, useEffect, useState } from 'react';
 import { env } from 'next-runtime-env';
 
-import VeleroAppContexts from '@/contexts/VeleroAppContexts';
+import { useAppState } from '@/contexts/AppStateContext';
 import { useApiGet } from '@/hooks/useApiGet';
 import { AgentStateManager } from '@/lib/AgentStateManager';
 
 import { useUrlAvailability } from './useUrlAvailability';
 import { useBackend } from './useBackend';
+import { useAgentStatus } from '@/contexts/AgentStatusContext';
 
 export const useDiagnosticAgent = () => {
-  const appValues = useContext(VeleroAppContexts);
+  const appValues = useAppState();
   const stateManager = new AgentStateManager();
-
+  const isAgentConnected = useAgentStatus();
+  
   const NEXT_PUBLIC_FRONT_END_BUILD_VERSION = env('NEXT_PUBLIC_FRONT_END_BUILD_VERSION');
 
   const [uiURL, setUiHost] = useState('');
@@ -23,26 +25,26 @@ export const useDiagnosticAgent = () => {
   const { data: apiArch, getData: getApiArch } = useApiGet();
   const { data: watchdog, getData: getWatchdog } = useApiGet();
   const { data: compatibility, getData: getCompatibility } = useApiGet();
-  const { isUrlAvailable, checkAvailability } = useUrlAvailability();
+  // const { isUrlAvailable, checkAvailability } = useUrlAvailability();
 
   useEffect(() => {
-    getDataK8sHealth('/info/health-k8s');
-    getApiOrigins('/info/origins');
-    getApiArch('/info/arch');
-    getWatchdog('/info/watchdog');
-    getCompatibility('/info/get-ui-comp', 'version=' + NEXT_PUBLIC_FRONT_END_BUILD_VERSION);
+    getDataK8sHealth({url:'/info/health-k8s'});
+    getApiOrigins({url:'/info/origins'});
+    getApiArch({url:'/info/arch'});
+    getWatchdog({url:'/info/watchdog'});
+    getCompatibility({url:'/info/get-ui-comp', param:'version=' + NEXT_PUBLIC_FRONT_END_BUILD_VERSION});
 
     if (window) {
       const currentURL = new URL(window.location.href);
       setUiHost(currentURL.protocol + '//' + currentURL.host);
     }
-  }, [appValues.state.currentBackend]);
+  }, [appValues.currentAgent]);
 
-  useEffect(() => {
+  /*useEffect(() => {
     if (apiURL !== undefined) {
       checkAvailability(apiURL + '/info/health');
     }
-  }, [apiURL]);
+  }, [apiURL]);*/
 
   useEffect(() => {
     if (apiOrigins !== undefined) {
@@ -52,10 +54,10 @@ export const useDiagnosticAgent = () => {
 
   stateManager.setVariable('getUiURL', uiURL != '');
   stateManager.setVariable('getApiURL', apiURL != '');
-  stateManager.setVariable('checkApiReacheable', isUrlAvailable);
+  stateManager.setVariable('checkApiReacheable', isAgentConnected==true);
   stateManager.setVariable(
     'getArchitecture',
-    isUrlAvailable && apiArch?.payload?.platform == undefined
+    apiArch?.payload?.arch !== undefined
   );
   stateManager.setVariable('getOrigins', origins.length > 0);
   stateManager.setVariable(

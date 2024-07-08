@@ -32,7 +32,7 @@ export function SnapshotLocation() {
   const [records, setRecords] = useState(items.slice(0, pageSize));
 
   useEffect(() => {
-    getData('/v1/snapshot-location/get');
+    getData({url:'/v1/snapshot-location/get'});
   }, [reload]);
 
   //useEffect(() => {

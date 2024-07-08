@@ -5,7 +5,7 @@ import { closeAllModals } from '@mantine/modals';
 import { useContext } from 'react';
 
 import { useApiGet } from '@/hooks/useApiGet';
-import VeleroAppContexts from '@/contexts/VeleroAppContexts';
+import { useAppState } from '@/contexts/AppStateContext';
 import { useApiDelete } from '@/hooks/useApiDelete';
 
 interface SCMappingDeleteProps {
@@ -15,7 +15,7 @@ interface SCMappingDeleteProps {
 }
 
 export function SCMappingDelete({ record, reload, setReload }: SCMappingDeleteProps) {
-  const appValues = useContext(VeleroAppContexts);
+  const appValues = useAppState();
   const { deleteData } = useApiDelete();
 
   function delete_backup() {
@@ -29,7 +29,7 @@ export function SCMappingDelete({ record, reload, setReload }: SCMappingDeletePr
     const interval = setInterval(() => {
       setReload(reload + 1);
       clearInterval(interval);
-    }, appValues.state.refreshDatatableAfter);
+    }, appValues.refreshDatatableAfter);
   }
 
   return (

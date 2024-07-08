@@ -1,6 +1,7 @@
 import { useContext, useEffect } from 'react';
-import VeleroAppContexts from '@/contexts/VeleroAppContexts';
+import { useAppState } from '@/contexts/AppStateContext';
 import { useApiGet } from '@/hooks/useApiGet';
+import { useServerStatus } from '@/contexts/ServerStatusContext';
 
 /*interface AgentApiConfig {
   name: string;
@@ -9,20 +10,21 @@ import { useApiGet } from '@/hooks/useApiGet';
 }*/
 
 export const useClusterConfigs = () => {
-  const appValues = useContext(VeleroAppContexts);
+  const appValues = useAppState();
+  const isConnected = useServerStatus();
 
   const { data, getData } = useApiGet();
 
   useEffect(() => {
-    if (appValues.state.isCore == undefined) getData('/online');
-  }, [appValues.state.isCore, appValues.state.online]);
+    if (appValues.isCurrentServerControlPlane == undefined) getData({url:'/online', target:'static'});
+  }, [appValues.isCurrentServerControlPlane, isConnected]);
 
   useEffect(() => {
     if (data?.payload !== undefined) {
       if (data?.payload?.type == 'control plane') {
-        appValues.setIsCore(true);
+        appValues.setCurrentServerAsControlPlane(true);
       } else {
-        appValues.setIsCore(false);
+        appValues.setCurrentServerAsControlPlane(false);
       }
     }
   }, [data]);

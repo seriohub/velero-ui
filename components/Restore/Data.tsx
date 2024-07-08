@@ -63,7 +63,7 @@ export function RestoreData() {
   }, [data]);
 
   useEffect(() => {
-    getData('/v1/restore/get');
+    getData({url:'/v1/restore/get'});
   }, [reload]);
 
   //useEffect(() => {

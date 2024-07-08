@@ -43,7 +43,7 @@ export function RepoLocation() {
   const [records, setRecords] = useState(items.slice(0, pageSize));
 
   useEffect(() => {
-    getData('/v1/repo/get');
+    getData({url:'/v1/repo/get'});
   }, [reload]);
 
   //useEffect(() => {
@@ -100,7 +100,7 @@ export function RepoLocation() {
 
   useEffect(() => {
     if (unlock !== undefined) {
-      getLocks('/v1/repo/locks/get', `repository_url=${Object.keys(unlock.payload)[0]}`);
+      getLocks({url:'/v1/repo/locks/get', param:`repository_url=${Object.keys(unlock.payload)[0]}`});
     }
   }, [unlock]);
 
@@ -135,21 +135,21 @@ export function RepoLocation() {
                 icon: <IconAnalyze size={16} />,
                 disabled: record.spec.repositoryType != 'restic',
                 onClick: () =>
-                  check('/v1/repo/check', `repository_url=${record.spec.resticIdentifier}`),
+                  check({url:'/v1/repo/check', param:`repository_url=${record.spec.resticIdentifier}`}),
               },
               {
                 key: 'Check if locked',
                 icon: <IconAnalyze size={16} />,
                 disabled: record.spec.repositoryType != 'restic',
                 onClick: () =>
-                  getLocks('/v1/repo/locks/get', `repository_url=${record.spec.resticIdentifier}`),
+                  getLocks({url:'/v1/repo/locks/get', param:`repository_url=${record.spec.resticIdentifier}`}),
               },
               {
                 key: 'Unlock',
                 icon: <IconLockOpen size={16} />,
                 disabled: record.spec.repositoryType != 'restic',
                 onClick: () =>
-                  tryUnlock('/v1/repo/unlock', `repository_url=${record.spec.resticIdentifier}`),
+                  tryUnlock({url:'/v1/repo/unlock', param:`repository_url=${record.spec.resticIdentifier}`}),
               },
               {
                 key: 'Unlock --remove-all',
@@ -157,10 +157,10 @@ export function RepoLocation() {
                 icon: <IconLockOpen size={16} />,
                 disabled: record.spec.repositoryType != 'restic',
                 onClick: () =>
-                  tryUnlock(
-                    '/v1/repo/unlock',
-                    `repository_url=${record.spec.resticIdentifier}&remove_all=True`
-                  ),
+                  tryUnlock({
+                    url:'/v1/repo/unlock',
+                    param:`repository_url=${record.spec.resticIdentifier}&remove_all=True`
+              }),
               },
             ])(event)
           }

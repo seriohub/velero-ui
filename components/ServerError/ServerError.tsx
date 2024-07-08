@@ -4,15 +4,17 @@ import { Avatar, Center, Group, Modal, Stack, Text } from '@mantine/core';
 import { usePathname } from 'next/navigation';
 import { useApiGet } from '@/hooks/useApiGet';
 
-import VeleroAppContexts from '@/contexts/VeleroAppContexts';
+import { useAppState } from '@/contexts/AppStateContext';
 import { IconServer } from '@tabler/icons-react';
-import useBackendConnection from '@/hooks/useBackendConnections';
+
 import { Title,  Button, Container, } from '@mantine/core';
+import { useServerStatus } from '@/contexts/ServerStatusContext';
 
 
 export const ServerError = () => {
-  const appValues = useContext(VeleroAppContexts);
-  const { isConnected } = useBackendConnection();
+  const appValues = useAppState();
+  //const { isConnected } = useBackendConnection();
+  const isConnected = useServerStatus();
 
   return (
     <>

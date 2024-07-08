@@ -5,7 +5,7 @@ import { closeAllModals } from '@mantine/modals';
 import { useContext } from 'react';
 
 import { useApiGet } from '@/hooks/useApiGet';
-import VeleroAppContexts from '@/contexts/VeleroAppContexts';
+import { useAppState } from '@/contexts/AppStateContext';
 
 interface ResourceDeleteProps {
   resourceType: string;
@@ -20,16 +20,16 @@ export function ResourceDelete({
   reload,
   setReload,
 }: ResourceDeleteProps) {
-  const appValues = useContext(VeleroAppContexts);
+  const appValues = useAppState();
   const { getData } = useApiGet();
 
   function delete_backup() {
-    getData(`/v1/${resourceType}/delete`, `resource_name=${resourceName}`);
+    getData({url:`/v1/${resourceType}/delete`, param:`resource_name=${resourceName}`});
 
     const interval = setInterval(() => {
       setReload(reload + 1);
       clearInterval(interval);
-    }, appValues.state.refreshDatatableAfter);
+    }, appValues.refreshDatatableAfter);
   }
 
   return (

@@ -9,20 +9,20 @@ import RefreshDatatable from '../Actions/ToolbarActionIcons/RefreshDatatable';
 import Toolbar from '../Toolbar';
 import { env } from 'next-runtime-env';
 
-import VeleroAppContexts from '@/contexts/VeleroAppContexts';
+import { useAppState } from '@/contexts/AppStateContext';
 
 export function Configuration() {
-  const appValues = useContext(VeleroAppContexts);
+  const appValues = useAppState();
   const { data: configuration, getData: getConfiguration, fetching } = useApiGet();
   const [reload, setReload] = useState(1);
   const [rowApiConfiguration, setRowApiConfiguration] = useState<React.ReactNode[]>([]);
 
   useEffect(() => {
-    getConfiguration('/v1/setup/get-config');
+    getConfiguration({url:'/v1/setup/get-config'});
   }, [reload]);
 
   useEffect(() => {
-    getConfiguration('/v1/setup/get-config');
+    getConfiguration({url:'/v1/setup/get-config'});
   }, []);
 
   const uiConfiguration = [
@@ -31,8 +31,8 @@ export function Configuration() {
       value: env('NEXT_PUBLIC_REFRESH_DATATABLE_AFTER'),
     },
     { name: 'NEXT_PUBLIC_REFRESH_RECENT', value: env('NEXT_PUBLIC_REFRESH_RECENT') },
-    { name: 'NEXT_PUBLIC_VELERO_API_URL', value: appValues.state.currentBackend?.url },
-    { name: 'NEXT_PUBLIC_VELERO_API_WS', value: appValues.state.currentBackend?.ws },
+    { name: 'NEXT_PUBLIC_VELERO_API_URL', value: appValues.currentServer?.url },
+    { name: 'NEXT_PUBLIC_VELERO_API_WS', value: appValues.currentServer?.ws },
     {
       name: 'NEXT_PUBLIC_FRONT_END_BUILD_VERSION',
       value: env('NEXT_PUBLIC_FRONT_END_BUILD_VERSION'),

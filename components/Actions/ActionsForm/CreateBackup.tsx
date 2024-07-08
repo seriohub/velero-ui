@@ -1,6 +1,6 @@
 'use client';
 
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useForm } from '@mantine/form';
 import { closeAllModals } from '@mantine/modals';
@@ -8,7 +8,7 @@ import { closeAllModals } from '@mantine/modals';
 import { useApiGet } from '@/hooks/useApiGet';
 import { useApiPost } from '@/hooks/useApiPost';
 import CreateBackupScheduleForm from './CreateBackupScheduleForm';
-import VeleroAppContexts from '@/contexts/VeleroAppContexts';
+import { useAppState } from '@/contexts/AppStateContext';
 
 interface CreateBackupProps {
   reload: number;
@@ -16,7 +16,7 @@ interface CreateBackupProps {
 }
 
 export function CreateBackup({ reload, setReload }: CreateBackupProps) {
-  const appValues = useContext(VeleroAppContexts);
+  const appValues = useAppState();
   const { data, getData } = useApiGet();
 
   const { postData } = useApiPost();
@@ -49,7 +49,7 @@ export function CreateBackup({ reload, setReload }: CreateBackupProps) {
   });
 
   useEffect(() => {
-    getData('/v1/backup/create/settings');
+    getData({ url: '/v1/backup/create/settings' });
   }, []);
 
   useEffect(() => {
@@ -67,7 +67,7 @@ export function CreateBackup({ reload, setReload }: CreateBackupProps) {
     const interval = setInterval(() => {
       setReload(reload + 1);
       clearInterval(interval);
-    }, appValues.state.refreshDatatableAfter);
+    }, appValues.refreshDatatableAfter);
   }
 
   return (

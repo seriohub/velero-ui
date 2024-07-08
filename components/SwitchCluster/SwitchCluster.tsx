@@ -3,7 +3,7 @@ import { useContext, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Combobox, useCombobox, InputBase, Group, Avatar, Text } from '@mantine/core';
 import { usePathname } from 'next/navigation';
-import VeleroAppContexts from '@/contexts/VeleroAppContexts';
+import { useAppState } from '@/contexts/AppStateContext';
 import { IconServer } from '@tabler/icons-react';
 import { ClusterInfo } from '../ClusterInfo';
 
@@ -13,14 +13,14 @@ export function SwitchCluster() {
     onDropdownClose: () => combobox.resetSelectedOption(),
   });
 
-  const appValues = useContext(VeleroAppContexts);
+  const appValues = useAppState();
 
   {
     /*<Combobox.Option value={index.toString()} key={index}>
       {item.name}
     </Combobox.Option>*/
   }
-  const options = appValues.state?.apiBackends?.map((item: any, index: number) => (
+  const options = appValues?.servers?.map((item: any, index: number) => (
     <Combobox.Option
       value={index.toString()}
       key={index} /*active={index === Number(localStorage.getItem('cluster'))}*/
@@ -35,14 +35,14 @@ export function SwitchCluster() {
   const router = useRouter();
   useEffect(() => {
     // router.push(`${pathname}?id=${new Date().getTime()}`)
-    router.push(`${pathname}?_=${new Date().getTime()}-${appValues.state.currentBackend.name}`);
-  }, [appValues.state.currentBackend?.name]);
+    router.push(`${pathname}?_=${new Date().getTime()}-${appValues?.currentServer?.name}`);
+  }, [appValues.currentServer?.name]);
 
   return (
     <Combobox
       store={combobox}
       onOptionSubmit={(val) => {
-        appValues.setCurrentBackend(appValues.state.apiBackends[val]);
+        appValues.setCurrentBackend(appValues.servers[val]);
         localStorage.setItem('cluster', val);
         combobox.closeDropdown();
         //window.location.reload();
@@ -64,10 +64,10 @@ export function SwitchCluster() {
             </Avatar>
             <div>
               <Text fz="xs" tt="uppercase" fw={700} c="dimmed">
-                {appValues.state.currentBackend.name}
+                {appValues.currentServer.name}
               </Text>
               <Text size="xs" fw={700}>
-                {appValues.state.currentBackend.url}
+                {appValues.currentServer.url}
               </Text>
             </div>
           </Group>

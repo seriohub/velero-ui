@@ -1,7 +1,7 @@
 'use client';
 
 import { useDisclosure } from '@mantine/hooks';
-import { AppShell, em, Stack, Box, Accordion } from '@mantine/core';
+import { AppShell, em, Stack, Box, Accordion, Alert } from '@mantine/core';
 import { useElementSize } from '@mantine/hooks';
 import { useViewportSize } from '@mantine/hooks';
 import { useContext, useEffect, useRef, useState } from 'react';
@@ -13,30 +13,28 @@ import TaskInProgress from '../../TaskInProgress/TaskInProgress';
 import { AppShellMainFooter } from './AppShell.Main.Footer';
 
 import { useAppWebSocket } from '@/hooks/useAppWebSocket';
-import VeleroAppContexts from '@/contexts/VeleroAppContexts';
+import { useAppState } from '@/contexts/AppStateContext';
 import { useApiGet } from '@/hooks/useApiGet';
 import { useAgentApiConfigs } from '@/hooks/useAgentConfigs';
 import { useClusterConfigs } from '@/hooks/useClusterConfig';
 
 import { ServerError } from '@/components/ServerError/ServerError';
+import { AgentError } from '@/components/AgentError/AgentError';
 
 interface AppShellLayoutProps {
   children: any;
 }
 
 export default function AppShellLayout({ children }: AppShellLayoutProps) {
-  const appValues = useContext(VeleroAppContexts);
-  
-  
+  const appValues = useAppState();
+
   /*useClusterConfigs();
   useAgentApiConfigs();
   useAppWebSocket();*/
-  
-  
+
   const [opened, { toggle }] = useDisclosure();
 
   const [value, setValue] = useState<string[]>([]);
-  
 
   const { height: vpHeight, width: vpWidth } = useViewportSize();
   const { ref, width, height } = useElementSize();
@@ -46,11 +44,8 @@ export default function AppShellLayout({ children }: AppShellLayoutProps) {
     setValue(accordionValue != null ? accordionValue.split(',') : []);
   }, []);
 
-  
-
   return (
     <>
-    
       <AppShell
         header={{ height: 60 }}
         navbar={{
@@ -99,6 +94,7 @@ export default function AppShellLayout({ children }: AppShellLayoutProps) {
                   localStorage.setItem('accordion', val.toString());
                 }}
               >
+                <AgentError />
                 <TaskInProgress />
                 <AppShellMainFooter />
               </Accordion>
@@ -109,7 +105,6 @@ export default function AppShellLayout({ children }: AppShellLayoutProps) {
           <AppShellFooter />
         </AppShell.Footer>
       </AppShell>
-      
     </>
   );
 }

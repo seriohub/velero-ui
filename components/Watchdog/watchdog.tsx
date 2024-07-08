@@ -18,12 +18,12 @@ export function Watchdog() {
   const [rowApiConfiguration, setRowApiConfiguration] = useState<React.ReactNode[]>([]);
 
   useEffect(() => {
-    getConfiguration('/v1/watchdog/get-config');
+    getConfiguration({url:'/v1/watchdog/get-config'});
   }, [reload]);
 
   useEffect(() => {
-    getConfiguration('/v1/watchdog/get-config');
-    getCron('/v1/watchdog/get-cron');
+    getConfiguration({url:'/v1/watchdog/get-config'});
+    getCron({url:'/v1/watchdog/get-cron'});
   }, []);
 
   useEffect(() => {

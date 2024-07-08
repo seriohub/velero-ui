@@ -4,14 +4,14 @@ import { ActionIcon, Group, Text } from '@mantine/core';
 
 import { IconApi, IconPlugConnected, IconSettings } from '@tabler/icons-react';
 
-import VeleroAppContexts from '@/contexts/VeleroAppContexts';
+import { useAppState } from '@/contexts/AppStateContext';
 
 interface DiagnosticLinkProps {
   ApiURL: string;
 }
 
 export const DiagnosticLink = ({ ApiURL }: DiagnosticLinkProps) => {
-  const appValues = useContext(VeleroAppContexts);
+  const appValues = useAppState();
 
   return (
     <>
@@ -20,7 +20,7 @@ export const DiagnosticLink = ({ ApiURL }: DiagnosticLinkProps) => {
         <Group gap={0}>
           <Text size="sm">ws:</Text>
           <Text size="sm" fw={800}>
-            {appValues.state.socketStatus}
+            {appValues.socketStatus}
           </Text>
         </Group>
         <Group gap={2}>

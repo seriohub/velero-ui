@@ -28,10 +28,10 @@ export function WatchdogTestChannel({ configuration }: WatchdogTestChannelProps)
               disabled={configuration?.payload?.EMAIL_ENABLE?.toLowerCase() != 'true'}
               onClick={(event) => {
                 event.preventDefault();
-                getData(
-                  '/v1/watchdog/send-test-notification',
-                  'email=true&slack=False&telegram=False'
-                );
+                getData({
+                  url:'/v1/watchdog/send-test-notification',
+                  param:'email=true&slack=False&telegram=False'
+              });
               }}
             >
               Send test message

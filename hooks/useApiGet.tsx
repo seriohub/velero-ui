@@ -8,26 +8,68 @@ import { IconExclamationMark, IconInfoCircle } from '@tabler/icons-react';
 
 // import { env } from 'next-runtime-env';
 
-import VeleroAppContexts from '@/contexts/VeleroAppContexts';
+import { useAppState } from '@/contexts/AppStateContext';
 import { Code } from '@mantine/core';
 import { useBackend } from './useBackend';
+import { useServerStatus } from '@/contexts/ServerStatusContext';
+import { useAgentStatus } from '@/contexts/AgentStatusContext';
 
 interface UseApiGetProps {
   target?: 'core' | 'agent' | 'static';
 }
+type TargetType = 'core' | 'agent' | 'static';
+type GetDataParams = {
+  url: string;
+  param?: string;
+  addInHistory?: boolean;
+  target?: TargetType;
+};
 
-export const useApiGet = ({ target = 'agent' }: UseApiGetProps = {}) => {
-  const appValues = useContext(VeleroAppContexts);
+//export const useApiGet = ({ target = 'agent' }: UseApiGetProps = {}) => {
+export const useApiGet = () => {
   const router = useRouter();
   const pathname = usePathname();
+
+  const appValues = useAppState();
+  const isServerAvailable = useServerStatus();
+  const isAgentAvailable = useAgentStatus()
 
   const [fetching, setFetching] = useState(false);
   const [data, setData] = useState<Record<string, any> | undefined>(undefined);
   const [error, setError] = useState(false);
 
-  const backendUrl = useBackend({ target: target });
+  //const backendUrl = useBackend({ target: target });
 
-  const getData = async (url: string, param: string = '', addInHistory: boolean = true) => {
+  const getData = async ({
+    url,
+    param = '',
+    addInHistory = true,
+    target = 'agent',
+  }: GetDataParams) => {
+    
+    const NEXT_PUBLIC_VELERO_API_URL = appValues?.currentServer?.url;
+    const coreUrl = appValues.isCurrentServerControlPlane
+      ? target === 'core'
+        ? '/core'
+        : target === 'static'
+          ? ''
+          : `/agent/${appValues.currentAgent?.name}`
+      : '';
+
+    const backendUrl = `${NEXT_PUBLIC_VELERO_API_URL}${coreUrl}`;
+    
+    if (!isServerAvailable) {
+      //else {
+      console.log(`Server unavailable: skip request ${backendUrl}${url}?${param}`);
+      return
+      //}
+    }
+    if (target == 'agent' && url!='/online' && (appValues.currentAgent == undefined || !isAgentAvailable) ) {
+      console.log(`Agent unavailable: skip request ${url}?${param}`);
+      return
+    }
+    //const backendUrl = useBackend({ target: target });
+
     if (error) {
       setError(false);
     }
@@ -58,6 +100,10 @@ export const useApiGet = ({ target = 'agent' }: UseApiGetProps = {}) => {
 
     fetch(`${backendUrl}${url}?${param}`, { method: 'GET', headers })
       .then(async (res) => {
+        if (res.status === 400){
+          console.log("400")
+          throw 'Agent Offline'
+        }
         if (res.status === 401) {
           localStorage.removeItem('token');
           if (pathname !== '/login' && pathname !== '/') router.push('/');
@@ -140,15 +186,18 @@ export const useApiGet = ({ target = 'agent' }: UseApiGetProps = {}) => {
       })
 
       .catch((err) => {
+        setFetching(false);
+        setData(undefined);
+        setError(true);
+        if (err == 'Agent Offline')
+          return
         notifications.show({
           icon: <IconExclamationMark />,
           color: 'red',
           title: 'Error',
           message: `Oops, something went wrong. ${err}`,
         });
-        setFetching(false);
-        setData(undefined);
-        setError(true);
+        
       });
   };
 
@@ -157,7 +206,6 @@ export const useApiGet = ({ target = 'agent' }: UseApiGetProps = {}) => {
     data,
     getData,
     setData,
-
     error,
   };
 };

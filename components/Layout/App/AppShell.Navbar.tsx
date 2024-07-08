@@ -35,7 +35,7 @@ import { SwitchCluster } from '@/components/SwitchCluster/SwitchCluster';
 import { SwitchCluster2 } from '@/components/SwitchCluster/SwitchCluster2';
 import { UserInfo2 } from '@/components/Navlink/UserInfo2';
 import { useContext } from 'react';
-import VeleroAppContexts from '@/contexts/VeleroAppContexts';
+import { useAppState } from '@/contexts/AppStateContext';
 import { SwitchAgent } from '@/components/SwitchCluster/SwitchAgent';
 
 const data = [
@@ -84,11 +84,11 @@ const generateNavLinks = (data: NavItem[], pathname: string, router: any, toggle
 };
 
 export function AppShellNavbar({ opened, toggle }: any) {
-  const appValues = useContext(VeleroAppContexts);
+  const appValues = useAppState();
   const router = useRouter();
   const pathname = usePathname();
 
-  const isCore = appValues.state.isCore;
+  const isCore = appValues.isCurrentServerControlPlane;
 
   const links = generateNavLinks(data, pathname, router, toggle);
   const homeLink = generateNavLinks(home, pathname, router, toggle);

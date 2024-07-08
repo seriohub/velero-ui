@@ -6,7 +6,7 @@ import { IconInfoCircle, IconExclamationMark } from '@tabler/icons-react';
 
 import { env } from 'next-runtime-env';
 
-import VeleroAppContexts from '@/contexts/VeleroAppContexts';
+import { useAppState } from '@/contexts/AppStateContext';
 import { useBackend } from './useBackend';
 
 interface UseApiPutProps {
@@ -14,7 +14,7 @@ interface UseApiPutProps {
 }
 
 export const useApiPut = ({ target = 'agent' }: UseApiPutProps = {}) => {
-  const appValues = useContext(VeleroAppContexts);
+  const appValues = useAppState();
 
   const [fetching, setFetching] = useState(false);
   const [error, setError] = useState(false);

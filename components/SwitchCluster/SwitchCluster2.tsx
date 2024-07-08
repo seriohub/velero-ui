@@ -13,23 +13,23 @@ import {
 import { usePathname } from 'next/navigation';
 import { revalidatePath } from 'next/cache';
 import classes from './SwitchCluster.module.css';
-import VeleroAppContexts from '@/contexts/VeleroAppContexts';
+import { useAppState } from '@/contexts/AppStateContext';
 import { useApiGet } from '@/hooks/useApiGet';
 
 export function SwitchCluster2() {
   const pathname = usePathname();
-  const appValues = useContext(VeleroAppContexts);
+  const appValues = useAppState();
   const [opened, setOpened] = useState(false);
   const [icon, setIcon] = useState(<IconLoader size={40} />);
   const router = useRouter();
   //const [selected, setSelected] = useState(data[0]);
-  const items = appValues.state?.apiBackends?.map((item: any, index: number) => (
+  const items = appValues?.servers?.map((item: any, index: number) => (
     <Menu.Item
       leftSection={<IconAffiliate width={18} height={18} />}
       onClick={() => {
-        appValues.setCurrentBackend(appValues.state.apiBackends[index]);
+        appValues.setCurrentBackend(appValues.servers[index]);
         localStorage.setItem('cluster', index.toString());
-        // router.push(`${pathname}?_=${new Date().getTime()}-${appValues.state.currentBackend.name}`);
+        // router.push(`${pathname}?_=${new Date().getTime()}-${appValues.currentBackend.name}`);
         window.location.reload();
       }}
       key={index}
@@ -39,19 +39,19 @@ export function SwitchCluster2() {
   ));
 
   useEffect(() => {
-    //router.push(`${pathname}?c=${new Date().getTime()}-${appValues.state.currentBackend.name}`);
-    router.push(`${pathname}`); //?_=${new Date().getTime()}-${appValues.state.currentBackend.name}`);
-  }, [appValues.state.currentBackend]);
+    //router.push(`${pathname}?c=${new Date().getTime()}-${appValues.currentBackend.name}`);
+    router.push(`${pathname}`); //?_=${new Date().getTime()}-${appValues.currentBackend.name}`);
+  }, [appValues.currentServer]);
 
   /*const { data, getData } = useApiGet();
   useEffect(() => {
     getData('/online');
   }, []);*/
   useEffect(() => {
-    if (appValues.state.isCore == undefined) setIcon(<IconPlugConnectedX size={40} color="lime" />);
-    else if (appValues.state.isCore) setIcon(<IconServer size={40} color="lime" />);
-    else if (!appValues.state.isCore) setIcon(<IconSpy size={40} color="lime" />);
-  }, [appValues.state.isCore]);
+    if (appValues.isCurrentServerControlPlane == undefined) setIcon(<IconPlugConnectedX size={40} color="lime" />);
+    else if (appValues.isCurrentServerControlPlane) setIcon(<IconServer size={40} color="lime" />);
+    else if (!appValues.isCurrentServerControlPlane) setIcon(<IconSpy size={40} color="lime" />);
+  }, [appValues.isCurrentServerControlPlane]);
 
   return (
     <>
@@ -75,10 +75,10 @@ export function SwitchCluster2() {
               {icon}
               <div>
                 <Text fz="sm" tt="uppercase" fw={700} truncate w="100%">
-                  {appValues.state.currentBackend.name}
+                  {appValues?.currentServer?.name}
                 </Text>
                 <Text size="xs" fw={700} truncate w="100%">
-                  {appValues.state.currentBackend.url}
+                  {appValues?.currentServer?.url}
                 </Text>
               </div>
             </Group>

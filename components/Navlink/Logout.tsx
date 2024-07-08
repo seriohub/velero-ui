@@ -1,4 +1,4 @@
-import VeleroAppContexts from '@/contexts/VeleroAppContexts';
+import { useAppState } from '@/contexts/AppStateContext';
 import { Avatar, NavLink } from '@mantine/core';
 
 import { IconLogout } from '@tabler/icons-react';
@@ -7,7 +7,7 @@ import { useContext } from 'react';
 // import classes from '@/components/Layout/App/AppShell.Navbar.module.css';
 
 export const Logout = () => {
-  const appValues = useContext(VeleroAppContexts);
+  const appValues = useAppState();
   const router = useRouter();
 
   return (
@@ -19,7 +19,7 @@ export const Logout = () => {
       onClick={(event) => {
         event.preventDefault();
         localStorage.removeItem('token');
-        appValues.setLogged(false);
+        appValues.setAuthenticated(false);
         router.push('/');
       }}
       variant="filled"

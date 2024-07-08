@@ -4,25 +4,25 @@ import { AgentApiConfig } from '@/hooks/useAgentConfigs';
 import { env } from 'next-runtime-env';
 
 interface AppState {
-  apiBackends: Array<VeleroApiConfig>;
-  currentBackend: VeleroApiConfig | undefined;
+  servers: Array<VeleroApiConfig>;
+  currentServer: VeleroApiConfig | undefined;
   agents: Array<AgentApiConfig> | null;
   currentAgent: AgentApiConfig | undefined;
   apiRequest: Array<any>;
   apiResponse: Array<any>;
   socketStatus: string;
   notificationHistory: Array<any>;
-  initialized: boolean;
-  logged: boolean;
-  online: boolean;
+  isAppInitialized: boolean;
+  isAuthenticated: boolean;
+  //online: boolean;
   messagesHistory: Array<string>;
   refreshDatatableAfter: Number;
   refreshRecent: Number;
-  isCore: Boolean | undefined;
+  isCurrentServerControlPlane: Boolean | undefined;
 }
 
 interface AppStateContextProps extends AppState {
-  setApiBackends: React.Dispatch<React.SetStateAction<Array<VeleroApiConfig>>>;
+  setServers: React.Dispatch<React.SetStateAction<Array<VeleroApiConfig>>>;
   setCurrentBackend: React.Dispatch<React.SetStateAction<VeleroApiConfig | undefined>>;
   setAgents: React.Dispatch<React.SetStateAction<Array<AgentApiConfig> | null>>;
   setCurrentAgent: React.Dispatch<React.SetStateAction<AgentApiConfig | undefined>>;
@@ -30,41 +30,41 @@ interface AppStateContextProps extends AppState {
   setApiResponse: React.Dispatch<React.SetStateAction<Array<any>>>;
   setSocketStatus: React.Dispatch<React.SetStateAction<string>>;
   setNotificationHistory: React.Dispatch<React.SetStateAction<Array<any>>>;
-  setInitialized: React.Dispatch<React.SetStateAction<boolean>>;
-  setLogged: React.Dispatch<React.SetStateAction<boolean>>;
-  setOnline: React.Dispatch<React.SetStateAction<boolean>>;
+  setAppInitialized: React.Dispatch<React.SetStateAction<boolean>>;
+  setAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
+  //setOnline: React.Dispatch<React.SetStateAction<boolean>>;
   setMessageHistory: React.Dispatch<React.SetStateAction<Array<string>>>;
   setRefreshDatatableAfter: React.Dispatch<React.SetStateAction<Number>>;
   setRefreshRecent: React.Dispatch<React.SetStateAction<Number>>;
-  setIsCore: React.Dispatch<React.SetStateAction<Boolean | undefined>>;
+  setCurrentServerAsControlPlane: React.Dispatch<React.SetStateAction<Boolean | undefined>>;
 }
 
 const AppStateContext = createContext<AppStateContextProps | undefined>(undefined);
 
 export const AppStateProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const veleroApiConfigs: VeleroApiConfig[] = loadVeleroApiConfigs();
-  const [appBackends, setAppBackends] = useState<Array<VeleroApiConfig>>(veleroApiConfigs);
-  const [appCurrentBackend, setAppCurrentBackend] = useState<VeleroApiConfig | undefined>(undefined);
-  const [appAgents, setAppAgents] = useState<Array<AgentApiConfig> | null>(null);
-  const [appCurrentAgent, setAppCurrentAgent] = useState<AgentApiConfig | undefined>(undefined);
-  const [appApiRequest, setAppApiRequest] = useState<Array<any>>([]);
-  const [appApiResponse, setAppApiResponse] = useState<Array<any>>([]);
-  const [appSocketStatus, setAppSocketStatus] = useState<string>('');
-  const [appNotificationHistory, setAppNotificationHistory] = useState<Array<any>>([]);
-  const [appInitialized, setAppInitialized] = useState(false);
-  const [appLogged, setAppLogged] = useState(false);
-  const [appOnline, setAppOnline] = useState(true);
-  const [appMessagesHistory, setAppMessagesHistory] = useState<Array<string>>([]);
   const NEXT_PUBLIC_REFRESH_DATATABLE_AFTER = env('NEXT_PUBLIC_REFRESH_DATATABLE_AFTER');
   const NEXT_PUBLIC_REFRESH_RECENT = env('NEXT_PUBLIC_REFRESH_RECENT');
-  const [appRefreshDatatableAfter, setAppRefreshDatatableAfter] = useState<Number>(
+
+  const veleroApiConfigs: VeleroApiConfig[] = loadVeleroApiConfigs();
+  const [servers, setServers] = useState<Array<VeleroApiConfig>>(veleroApiConfigs);
+  const [currentServer, setCurrentBackend] = useState<VeleroApiConfig | undefined>(undefined);
+  const [agents, setAgents] = useState<Array<AgentApiConfig> | null>(null);
+  const [currentAgent, setCurrentAgent] = useState<AgentApiConfig | undefined>(undefined);
+  const [apiRequest, setApiRequest] = useState<Array<any>>([]);
+  const [apiResponse, setApiResponse] = useState<Array<any>>([]);
+  const [socketStatus, setSocketStatus] = useState<string>('');
+  const [notificationHistory, setNotificationHistory] = useState<Array<any>>([]);
+  const [isAppInitialized, setAppInitialized] = useState(false);
+  const [isAuthenticated, setAuthenticated] = useState(false);
+  //const [online, setOnline] = useState(true);
+  const [messagesHistory, setMessageHistory] = useState<Array<string>>([]);
+  const [refreshDatatableAfter, setRefreshDatatableAfter] = useState<Number>(
     Number(`${NEXT_PUBLIC_REFRESH_DATATABLE_AFTER}`)
   );
-  const [appRefreshRecent, setAppRefreshRecent] = useState<Number>(
+  const [refreshRecent, setRefreshRecent] = useState<Number>(
     Number(`${NEXT_PUBLIC_REFRESH_RECENT}`)
   );
-  const [appIsCore, setAppIsCore] = useState<Boolean | undefined>(undefined);
-
+  const [isCurrentServerControlPlane, setCurrentServerAsControlPlane] = useState<Boolean | undefined>(undefined);
   const [init, setInit] = useState(false);
 
   useEffect(() => {
@@ -73,43 +73,41 @@ export const AppStateProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       Number(localStorage.getItem('cluster')) < veleroApiConfigs.length
         ? Number(localStorage.getItem('cluster'))
         : 0;
-    setAppCurrentBackend(veleroApiConfigs[clusterIndex]);
+    setCurrentBackend(veleroApiConfigs[clusterIndex]);
     setInit(true);
-  }, [veleroApiConfigs]);
+  }, []);
 
   return (
     <AppStateContext.Provider
       value={{
-        apiBackends: appBackends,
-        currentBackend: appCurrentBackend,
-        agents: appAgents,
-        currentAgent: appCurrentAgent,
-        apiRequest: appApiRequest,
-        apiResponse: appApiResponse,
-        socketStatus: appSocketStatus,
-        notificationHistory: appNotificationHistory,
-        initialized: appInitialized,
-        logged: appLogged,
-        online: appOnline,
-        messagesHistory: appMessagesHistory,
-        refreshDatatableAfter: appRefreshDatatableAfter,
-        refreshRecent: appRefreshRecent,
-        isCore: appIsCore,
-        setApiBackends: setAppBackends,
-        setCurrentBackend: setAppCurrentBackend,
-        setAgents: setAppAgents,
-        setCurrentAgent: setAppCurrentAgent,
-        setApiRequest: setAppApiRequest,
-        setApiResponse: setAppApiResponse,
-        setSocketStatus: setAppSocketStatus,
-        setNotificationHistory: setAppNotificationHistory,
-        setInitialized: setAppInitialized,
-        setLogged: setAppLogged,
-        setOnline: setAppOnline,
-        setMessageHistory: setAppMessagesHistory,
-        setRefreshDatatableAfter: setAppRefreshDatatableAfter,
-        setRefreshRecent: setAppRefreshRecent,
-        setIsCore: setAppIsCore,
+        servers,
+        currentServer,
+        agents,
+        currentAgent,
+        apiRequest,
+        apiResponse,
+        socketStatus,
+        notificationHistory,
+        isAppInitialized,
+        isAuthenticated,
+        messagesHistory,
+        refreshDatatableAfter,
+        refreshRecent,
+        isCurrentServerControlPlane,
+        setServers,
+        setCurrentBackend,
+        setAgents,
+        setCurrentAgent,
+        setApiRequest,
+        setApiResponse,
+        setSocketStatus,
+        setNotificationHistory,
+        setAppInitialized,
+        setAuthenticated,
+        setMessageHistory,
+        setRefreshDatatableAfter,
+        setRefreshRecent,
+        setCurrentServerAsControlPlane,
       }}
     >
       {init && children}

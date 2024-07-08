@@ -18,10 +18,11 @@ import {
 
 import { IconCopy, IconCheck } from '@tabler/icons-react';
 
-import VeleroAppContexts from '@/contexts/VeleroAppContexts';
+import { useAppState } from '@/contexts/AppStateContext';
 
 export default function InfoNotification() {
-  const value = useContext(VeleroAppContexts);
+  //const value = useContext(VeleroAppContexts);
+  const appValues = useAppState()
   const viewport = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -30,7 +31,7 @@ export default function InfoNotification() {
     }
   };
 
-  const commands = value.state.notificationHistory.map((item: any, index: number) => (
+  const commands = appValues.notificationHistory.map((item: any, index: number) => (
     <Stack gap={0} key={index} mb={15}>
       <Group gap={2}>
       <CopyButton value={`${item.statusCode}: ${item.title}: ${item.description}`} timeout={2000}>
@@ -66,7 +67,7 @@ export default function InfoNotification() {
 
   useEffect(() => {
     scrollToBottom();
-  }, [value.state.apiRequest]);
+  }, [appValues.apiRequest]);
 
   return (
     <>

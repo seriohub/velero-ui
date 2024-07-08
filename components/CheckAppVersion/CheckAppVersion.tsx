@@ -18,8 +18,8 @@ export default function CheckAppVersion() {
   const { data: repoVersion, getData: getRepoVersion } = useApiGet();
 
   useEffect(() => {
-    getData('/info/get');
-    getRepoVersion('/info/get-repo-tags');
+    getData({url:'/info/get'});
+    getRepoVersion({url:'/info/get-repo-tags'});
   }, []);
 
   useEffect(() => {

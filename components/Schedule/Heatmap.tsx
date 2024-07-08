@@ -30,7 +30,7 @@ export function Heatmap() {
   const [heatmapScheduleName, setHeatmapScheduleName] = useState([]);
 
   useEffect(() => {
-    getData('/v1/stats/schedules');
+    getData({url:'/v1/stats/schedules'});
   }, []);
 
   useEffect(() => {

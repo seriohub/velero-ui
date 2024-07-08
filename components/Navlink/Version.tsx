@@ -9,7 +9,7 @@ export const Version = () => {
   const { data, getData, error, fetching } = useApiGet();
 
   useEffect(() => {
-    getData('/v1/setup/version');
+    getData({url:'/v1/setup/version'});
   }, []);
 
   if (data === undefined) return <></>;

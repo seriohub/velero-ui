@@ -8,7 +8,7 @@ import { IconExclamationMark, IconInfoCircle } from '@tabler/icons-react';
 
 // import { env } from 'next-runtime-env';
 
-import VeleroAppContexts from '@/contexts/VeleroAppContexts';
+import { useAppState } from '@/contexts/AppStateContext';
 import { useBackend } from './useBackend';
 
 interface UseApiOptionsProps {
@@ -16,7 +16,7 @@ interface UseApiOptionsProps {
 }
 
 export const useApiOptions = ({ target = 'agent' }: UseApiOptionsProps = {}) => {
-  const appValues = useContext(VeleroAppContexts);
+  const appValues = useAppState();
   const router = useRouter();
   const pathname = usePathname();
 
