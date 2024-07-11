@@ -49,10 +49,12 @@ export function CreateBackup({ reload, setReload }: CreateBackupProps) {
   });
 
   useEffect(() => {
+    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 140 has been called`, `color: green; font-weight: bold;`)
     getData({ url: '/v1/backup/create/settings' });
   }, []);
 
   useEffect(() => {
+    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 150 has been called`, `color: green; font-weight: bold;`)
     if (data !== undefined) {
       setNamespaces(data.payload.namespaces);
       setBackupLocation(data.payload.backup_location);

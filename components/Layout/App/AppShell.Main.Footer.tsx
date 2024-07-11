@@ -6,12 +6,11 @@ import ShellCommands from '../../ShellCommands/ShellCommands';
 import InfoApiRequest from '../../InfoApiRequest/InfoApiRequest';
 import InfoNotification from '@/components/InfoNotification/InfoNotification';
 import InfoApiReponse from '@/components/InfoApiResponse/InfoApiResponse';
-import { AgentError } from '@/components/AgentError/AgentError';
 
 export function AppShellMainFooter() {
   return (
     <>
-      <Accordion.Item key="Debug" value="Debug" visibleFrom='xl'>
+      <Accordion.Item key="Debug" value="Debug" visibleFrom="xl">
         <Accordion.Control icon={<IconPrompt />}>Debug</Accordion.Control>
         <Accordion.Panel>
           <Tabs defaultValue="Shell" orientation="vertical">

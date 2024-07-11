@@ -3,15 +3,24 @@ import { useContext, useState, useEffect, useRef } from 'react';
 import useWebSocket, { ReadyState } from 'react-use-websocket';
 import { useAppState } from '@/contexts/AppStateContext';
 import { useServerStatus } from '@/contexts/ServerStatusContext';
+import { useAgentStatus } from '@/contexts/AgentStatusContext';
+import { usePathname } from 'next/navigation';
 
 export const useAppWebSocket = () => {
   const appValues = useAppState();
-  
-  const [isServerAvailable, setIsServerAvailable] = useState(true);
-  const [isAgentAvailable, setAgentIsAvailable] = useState(true);
+  const serverValues = useServerStatus();
+  const agentValues = useAgentStatus();
+  const pathname = usePathname();
 
-  const NEXT_PUBLIC_VELERO_API_WS = appValues.currentServer?.ws;
-  const socketUrl = `${NEXT_PUBLIC_VELERO_API_WS}/ws`;
+  // const NEXT_PUBLIC_VELERO_API_WS = serverValues.currentServer?.ws;
+  const socketUrl = appValues.isAuthenticated
+    ? `${serverValues?.currentServer?.ws}/ws`
+    : `${serverValues?.currentServer?.ws}/online`;
+  
+    // console.log("socketUrl", socketUrl)
+  /*useEffect(() => {
+    console.log("socketUrl", socketUrl)
+  }, [appValues.isAuthenticated]);*/
 
   const didUnmount = useRef(false);
   const mounted = useRef(false);
@@ -23,56 +32,60 @@ export const useAppWebSocket = () => {
     reconnectAttempts: 10,
     reconnectInterval: 3000,
     onOpen: () => {
+      // console.log('WebSocket open');
       if (jwtToken) {
         console.log('WebSocket connected, sending JWT token.');
         sendMessage(jwtToken);
       }
-      setIsServerAvailable(true);
+      serverValues.setIsServerAvailable(true);
     },
     onError: (event) => {
       console.error('WebSocket error observed:', event);
-      setIsServerAvailable(false);
+      serverValues.setIsServerAvailable(false);
+      agentValues.setIsAgentAvailable(false);
     },
     onClose: (event) => {
       console.log('WebSocket closed:', event);
-      setIsServerAvailable(false);
+      console.log('pathname', pathname);
+      // if (pathname == '/login') return; // tmp workaround
+      serverValues.setIsServerAvailable(false);
+      agentValues.setIsAgentAvailable(false);
     },
-  }) //, isServerAvailable==true);  // Pass isServerAvailable as a dependency to only connect when true
+  }, serverValues.currentServer!==undefined);  // Pass isServerAvailable as a dependency to only connect when true
 
   useEffect(() => {
+    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 1000 has been called ${lastMessage?.data}`, `color: green; font-weight: bold;`)
+    // console.log('lastMessage', lastMessage);
     //if (!isServerAvailable) {
     //  return;
     //}
 
     if (lastMessage !== null) {
       // console.log(lastMessage, lastMessage.data)
-      if (typeof lastMessage === 'object' && lastMessage.data !== undefined && typeof lastMessage.data === 'string') {
+      if (
+        typeof lastMessage === 'object' &&
+        lastMessage.data !== undefined &&
+        typeof lastMessage.data === 'string'
+      ) {
         const response = JSON.parse(lastMessage.data);
-        appValues.setMessageHistory(appValues.messagesHistory.concat(lastMessage.data));
-        if (response['response_type']=='agent_alive'){
-          // console.log("Response agent ", response['agent_name'], "available", response['is_alive'])
-          if (appValues.currentAgent?.name == response['agent_name'] && response['is_alive']){
-            setAgentIsAvailable(true)
+
+        if (response['response_type'] != 'agent_alive') {
+          appValues.setMessageHistory(appValues.messagesHistory.concat(lastMessage.data));
+        }
+
+        if (response['response_type'] == 'agent_alive') {
+          if (agentValues?.currentAgent?.name == response['agent_name'] && response['is_alive']) {
+            agentValues.setIsAgentAvailable(true);
+            console.log(`${response['agent_name']} available`);
           }
-          if (appValues.currentAgent?.name == response['agent_name'] && !response['is_alive']){
-            setAgentIsAvailable(false)
+          if (agentValues.currentAgent?.name == response['agent_name'] && !response['is_alive']) {
+            agentValues.setIsAgentAvailable(false);
+            console.log(`${response['agent_name']} not available`);
           }
-        }        
+        }
       }
     }
-  }, [lastMessage, /*isServerAvailable*/]);
-
-  useEffect(()=>{
-    if (appValues.isCurrentServerControlPlane==false){
-      setAgentIsAvailable(isServerAvailable==true)
-    }
-  }, [isServerAvailable])
-
-  useEffect(()=>{
-    if (appValues.currentAgent?.name == undefined){
-      setAgentIsAvailable(false)
-    }
-  }, [appValues.currentServer, appValues.currentAgent])
+  }, [lastMessage /*isServerAvailable*/]);
 
   const connectionStatus = {
     [ReadyState.CONNECTING]: 'Connecting',
@@ -83,16 +96,20 @@ export const useAppWebSocket = () => {
   }[readyState];
 
   useEffect(() => {
+    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 1100 has been called`, `color: green; font-weight: bold;`)
+    console.log('connectionStatus', connectionStatus);
     if (mounted.current) {
       appValues.setSocketStatus(connectionStatus);
     }
   }, [connectionStatus]);
 
   useEffect(() => {
+    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 1200 has been called`, `color: green; font-weight: bold;`)
+    console.log('didUnmount', didUnmount);
     return () => {
       didUnmount.current = true;
     };
   }, []);
 
-  return {sendMessage, isServerAvailable, isAgentAvailable} ;
+  return { sendMessage };
 };

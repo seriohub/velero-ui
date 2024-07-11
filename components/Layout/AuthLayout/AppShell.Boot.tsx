@@ -1,29 +1,27 @@
 'use client';
-
-import { useAgentApiConfigs } from '@/hooks/useAgentConfigs';
-import { useClusterConfigs } from '@/hooks/useClusterConfig';
+import { useEffect } from 'react';
 
 import AppShellLayout from '@/components/Layout/AuthLayout/AuthShell.Layout';
-import { useContext, useEffect, useState } from 'react';
+
 import { useAppState } from '@/contexts/AppStateContext';
+
+import { useAgentApiConfigs } from '@/hooks/useAgentConfigs';
+import { useServerConfig } from '@/hooks/useServerConfig';
+import { useAppWebSocket } from '@/hooks/useAppWebSocket';
 
 interface AppShellBootProps {
   children: any;
 }
-//import AppShellLayout from '@/components/Layout/App/AppShell.Layout';
 
 export default function AppShellBoot({ children }: AppShellBootProps) {
-  const appValues = useAppState();
-  useClusterConfigs();
+  useServerConfig();
   useAgentApiConfigs();
-  //const [initialized, setInitialized] = useState(false);
-  useEffect(() => {
-    if (!appValues.isAppInitialized && appValues.isCurrentServerControlPlane !== undefined) {
-      appValues.setAppInitialized(true);
-    }
-  }, [appValues.isAppInitialized, appValues.isCurrentServerControlPlane]);
+  useAppWebSocket();
+
+  const appValues = useAppState();
 
   useEffect(() => {
+    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 570 has been called`, `color: green; font-weight: bold;`)
     if (typeof window !== 'undefined') {
       const jwtToken = localStorage.getItem('token');
       if (jwtToken !== null) {
@@ -33,6 +31,5 @@ export default function AppShellBoot({ children }: AppShellBootProps) {
       }
     }
   }, []);
-  //if (!initialized) return null;
   return <AppShellLayout>{children}</AppShellLayout>;
 }

@@ -2,7 +2,6 @@
 
 import { Button, Group, Text } from '@mantine/core';
 import { closeAllModals } from '@mantine/modals';
-import { useContext } from 'react';
 
 import { useApiGet } from '@/hooks/useApiGet';
 import { useAppState } from '@/contexts/AppStateContext';
@@ -24,7 +23,7 @@ export function ResourceDelete({
   const { getData } = useApiGet();
 
   function delete_backup() {
-    getData({url:`/v1/${resourceType}/delete`, param:`resource_name=${resourceName}`});
+    getData({ url: `/v1/${resourceType}/delete`, param: `resource_name=${resourceName}` });
 
     const interval = setInterval(() => {
       setReload(reload + 1);

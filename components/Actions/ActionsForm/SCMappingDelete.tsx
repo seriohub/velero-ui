@@ -2,9 +2,6 @@
 
 import { Button, Group, Text } from '@mantine/core';
 import { closeAllModals } from '@mantine/modals';
-import { useContext } from 'react';
-
-import { useApiGet } from '@/hooks/useApiGet';
 import { useAppState } from '@/contexts/AppStateContext';
 import { useApiDelete } from '@/hooks/useApiDelete';
 

@@ -1,6 +1,6 @@
 'use client';
 
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useForm } from '@mantine/form';
 import { closeAllModals } from '@mantine/modals';
@@ -57,10 +57,12 @@ export function EditSchedule({ record, reload, setReload }: EditScheduleProps) {
   });
 
   useEffect(() => {
+    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 210 has been called`, `color: green; font-weight: bold;`)
     getData({url:'/v1/schedule/create/settings'});
   }, []);
 
   useEffect(() => {
+    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 220 has been called`, `color: green; font-weight: bold;`)
     if (data !== undefined) {
       setNamespaces(data.payload.namespaces);
       setBackupLocation(data.payload.backup_location);

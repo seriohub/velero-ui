@@ -19,11 +19,13 @@ import CreateSecheduleToolbarIcon from '../Actions/ToolbarActionIcons/CreateSche
 import EditScheduleActionIcon from '../Actions/DatatableActionsIcons/EditScheduleActionIcon';
 import Toolbar from '../Toolbar';
 import SchedulesHeatmapToolbarIcon from '../Actions/ToolbarActionIcons/SchedulesHeatmap';
+import { useAgentStatus } from '@/contexts/AgentStatusContext';
 
 const PAGE_SIZES = [10, 15, 20];
 
 export function ScheduleData() {
   const { data, getData, fetching } = useApiGet();
+  const agentValues = useAgentStatus();
   const [items = [], setItems] = useState<Array<any>>([]);
   const [reload, setReload] = useState(1);
 
@@ -38,20 +40,19 @@ export function ScheduleData() {
   const [records, setRecords] = useState(items.slice(0, pageSize));
 
   useEffect(() => {
-    getData({url:'/v1/schedule/get'});
-  }, [reload]);
-
-  //useEffect(() => {
-  //  getData('/v1/schedule/get');
-  //}, []);
+    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 730 has been called`, `color: green; font-weight: bold;`)
+    getData({ url: '/v1/schedule/get' });
+  }, [reload, agentValues.isAgentAvailable]);
 
   useEffect(() => {
+    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 740 has been called`, `color: green; font-weight: bold;`)
     if (data !== undefined) {
       setItems(data.payload);
     } else setItems([]);
   }, [data]);
 
   useEffect(() => {
+    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 750 has been called`, `color: green; font-weight: bold;`)
     const from = (page - 1) * pageSize;
     const to = from + pageSize;
     const data_sorted = sortBy(items, sortStatus.columnAccessor);
@@ -87,7 +88,7 @@ export function ScheduleData() {
     <>
       <Stack h="100%" gap={0} p={5}>
         <Toolbar title="Schedule">
-        <SchedulesHeatmapToolbarIcon />
+          <SchedulesHeatmapToolbarIcon />
           <CreateSecheduleToolbarIcon setReload={setReload} reload={reload} />
           <RefreshDatatable setReload={setReload} reload={reload} />
         </Toolbar>

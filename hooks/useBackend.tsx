@@ -1,7 +1,9 @@
 // import { useContext } from 'react';
 
 // import { useAppState } from '@/contexts/AppStateContext';
+import { useAgentStatus } from '@/contexts/AgentStatusContext';
 import { useAppState } from '@/contexts/AppStateContext';
+import { useServerStatus } from '@/contexts/ServerStatusContext';
 
 interface UseApiGetProps {
   target?: 'core' | 'agent' | 'static';
@@ -9,20 +11,22 @@ interface UseApiGetProps {
 
 export const useBackend = ({ target = 'agent' }: UseApiGetProps = {}) => {
   //const appValues = useAppState();
-  const appValues = useAppState()
+  
+  const serverValues = useServerStatus();
+  const agentValues = useAgentStatus();
 
   // const NEXT_PUBLIC_VELERO_API_URL = env('NEXT_PUBLIC_VELERO_API_URL');
-  const NEXT_PUBLIC_VELERO_API_URL = appValues?.currentServer?.url;
+  // console.log(serverValues,agentValues)
 
-  const coreUrl = appValues.isCurrentServerControlPlane
+  const coreUrl = serverValues.isCurrentServerControlPlane
     ? target === 'core'
       ? '/core'
       : target === 'static'
         ? ''
-        : `/agent/${appValues.currentAgent?.name}`
+        : `/agent/${agentValues?.currentAgent?.name}`
     : '';
 
-  const backendUrl = `${NEXT_PUBLIC_VELERO_API_URL}${coreUrl}`;
+  const backendUrl = `${serverValues?.currentServer?.url}${coreUrl}`;
 
   return backendUrl;
 };

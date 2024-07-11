@@ -13,6 +13,7 @@ import RefreshDatatable from '../Actions/ToolbarActionIcons/RefreshDatatable';
 import DetailActionIcon from '../Actions/DatatableActionsIcons/DetailActionIcon';
 import Toolbar from '../Toolbar';
 import CredentialActionIcon from '../Actions/DatatableActionsIcons/CredentialActionIcon';
+import { useAgentStatus } from '@/contexts/AgentStatusContext';
 
 const PAGE_SIZES = [5];
 
@@ -20,6 +21,7 @@ export function BackupLocation() {
   const { data, getData, fetching } = useApiGet();
   const [items, setItems] = useState<Array<any>>([]);
   const [reload, setReload] = useState(1);
+  const agentValues = useAgentStatus();
 
   const [sortStatus, setSortStatus] = useState<DataTableSortStatus>({
     columnAccessor: 'Number',
@@ -32,20 +34,23 @@ export function BackupLocation() {
   const [records, setRecords] = useState(items.slice(0, pageSize));
 
   useEffect(() => {
+    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 430 has been called`, `color: green; font-weight: bold;`)
     getData({url:'/v1/backup-location/get'});
-  }, [reload]);
+  }, [reload, agentValues.isAgentAvailable]);
 
   //useEffect(() => {
   //  getData('/v1/backup-location/get');
   //}, []);
 
   useEffect(() => {
+    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 440 has been called`, `color: green; font-weight: bold;`)
     if (data !== undefined) {
       setItems(data.payload);
     } else setItems([]);
   }, [data]);
 
   useEffect(() => {
+    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 450 has been called`, `color: green; font-weight: bold;`)
     const from = (page - 1) * pageSize;
     const to = from + pageSize;
     const data_sorted = sortBy(items, sortStatus.columnAccessor);

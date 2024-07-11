@@ -10,17 +10,15 @@ import { PasswordStrength } from '@/components/Auth/PasswordStrength';
 import { useApiPut } from '@/hooks/useApiPut';
 
 export function UpdatePasswordForm() {
-  const { putData, responseStatus } = useApiPut({target: 'static'});
+  const { putData, responseStatus } = useApiPut({ target: 'static' });
 
   const form = useForm({
     initialValues: {
-      // password: '',
       newPassword: '',
       confirmPassword: '',
     },
 
     validate: {
-      // password: (value) => (value.length === 0 ? 'Invalid password' : null),
       newPassword: (value) => (value.length === 0 ? 'Invalid new password' : null),
       confirmPassword: (value, values) =>
         value !== values.newPassword ? 'Passwords did not match' : null,
@@ -32,6 +30,7 @@ export function UpdatePasswordForm() {
   }
 
   useEffect(() => {
+    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 610 has been called`, `color: green; font-weight: bold;`)
     if (responseStatus === 200) {
       closeAllModals();
     }

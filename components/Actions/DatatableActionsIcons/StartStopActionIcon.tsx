@@ -6,7 +6,6 @@ import { IconPlayerPause, IconPlayerPlay } from '@tabler/icons-react';
 
 import { useApiGet } from '@/hooks/useApiGet';
 import { useAppState } from '@/contexts/AppStateContext';
-import { useContext } from 'react';
 
 interface StartStopActionIconProps {
   resourceName: string;

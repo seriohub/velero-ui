@@ -8,7 +8,6 @@ export default function RootLayout({ children }: { children: any }) {
   return (
     <>
       <AppShellBoot>{children}</AppShellBoot>
-      {/*<AuthShellLayout>{children}</AuthShellLayout>*/}
     </>
   );
 }

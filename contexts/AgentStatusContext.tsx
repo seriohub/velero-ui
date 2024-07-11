@@ -1,38 +1,51 @@
-import React, { createContext, useContext, useEffect } from 'react';
-import { useAppState } from './AppStateContext';
-import { useAppWebSocket } from '@/hooks/useAppWebSocket';
+import React, { createContext, useContext, useEffect, useState } from 'react';
+import { AgentApiConfig } from '@/hooks/useAgentConfigs';
 
-const ServerStatusContext = createContext();
+interface AgentStatus {
+  agents: Array<AgentApiConfig> | null;
+  currentAgent: AgentApiConfig | undefined;
+  isAgentAvailable: Boolean | undefined;
+  reload: number;
+}
+interface AgentStatusContextProps extends AgentStatus {
+  setAgents: React.Dispatch<React.SetStateAction<Array<AgentApiConfig> | null>>;
+  setCurrentAgent: React.Dispatch<React.SetStateAction<AgentApiConfig | undefined>>;
+  setIsAgentAvailable: React.Dispatch<React.SetStateAction<Boolean | undefined>>;
+  reloadAgents: React.Dispatch<React.SetStateAction<number>>;
+}
 
-export const AgentStatusProvider = ({ children }: any) => {
-  const appValues = useAppState();
+const AgentStatusContext = createContext<AgentStatusContextProps | undefined>(undefined);
 
-  const { sendMessage, isAgentAvailable } = useAppWebSocket();
+export const AgentStatusProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  // console.log('AgentStatusProvider');
 
-  const checkAgentStatus = async () => {
-    console.log("---", appValues?.isCurrentServerControlPlane)
-    if (appValues.isCurrentServerControlPlane) {
-      if (appValues.currentAgent?.name !== undefined) {
-        console.log('Server is control plane. Request is agent available');
-        const message = { request_type: 'agent_alive', agent_name: appValues.currentAgent?.name };
-        sendMessage(JSON.stringify(message));
-      }
-    }
-  };
-
-  useEffect(() => {
-    checkAgentStatus();
-    const interval = setInterval(checkAgentStatus, 5000);
-    return () => clearInterval(interval);
-  }, []);
-
-  useEffect(()=>{
-    checkAgentStatus()
-  }, [appValues.isCurrentServerControlPlane, appValues.currentAgent])
+  const [agents, setAgents] = useState<Array<AgentApiConfig> | null>(null);
+  const [currentAgent, setCurrentAgent] = useState<AgentApiConfig | undefined>(undefined);
+  const [isAgentAvailable, setIsAgentAvailable] = useState<Boolean | undefined>(undefined);
+  const [reload, reloadAgents] = useState<number>(1);
 
   return (
-    <ServerStatusContext.Provider value={isAgentAvailable}>{children}</ServerStatusContext.Provider>
+    <AgentStatusContext.Provider
+      value={{
+        agents,
+        currentAgent,
+        isAgentAvailable,
+        reload,
+        setAgents,
+        setCurrentAgent,
+        setIsAgentAvailable,
+        reloadAgents
+      }}
+    >
+      {children}
+    </AgentStatusContext.Provider>
   );
 };
 
-export const useAgentStatus = () => useContext(ServerStatusContext);
+export const useAgentStatus = (): AgentStatusContextProps => {
+  const context = useContext(AgentStatusContext);
+  if (context === undefined) {
+    throw new Error('AgentStatusContext must be used within an AgentStateProvider');
+  }
+  return context;
+};

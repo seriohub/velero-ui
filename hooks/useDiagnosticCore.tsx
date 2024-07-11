@@ -1,21 +1,20 @@
 import { useContext, useEffect, useState } from 'react';
 import { env } from 'next-runtime-env';
 
-import { useAppState } from '@/contexts/AppStateContext';
 import { useApiGet } from '@/hooks/useApiGet';
 import { CoreStateManager } from '@/lib/CoreStateManager';
 
-import { useUrlAvailability } from './useUrlAvailability';
 import { useBackend } from './useBackend';
 import { useServerStatus } from '@/contexts/ServerStatusContext';
 
 export const useDiagnosticCore = () => {
-  const appValues = useAppState();
+  const serverValues = useServerStatus();
   const stateManager = new CoreStateManager();
 
   const NEXT_PUBLIC_FRONT_END_BUILD_VERSION = env('NEXT_PUBLIC_FRONT_END_BUILD_VERSION');
 
   const [uiURL, setUiHost] = useState('');
+  const [reload, setReload] = useState(1);
   const [origins, setOrigins] = useState<string | any>('');
   const apiURL = useBackend({ target: 'core' });
 
@@ -24,24 +23,29 @@ export const useDiagnosticCore = () => {
   const { data: apiArch, getData: getApiArch } = useApiGet();
   const { data: compatibility, getData: getCompatibility } = useApiGet();
 
-  //const { isUrlAvailable, checkAvailability } = useUrlAvailability();
-  const isConnected = useServerStatus();
-
   useEffect(() => {
-    getDataK8sHealth({ url: '/info/health-k8s', target: 'core' });
-    getApiOrigins({ url: '/info/origins', target: 'core' });
-    getApiArch({ url: '/info/arch', target: 'core' });
-    getCompatibility({
-      url: '/info/get-ui-comp',
-      param: 'version=' + NEXT_PUBLIC_FRONT_END_BUILD_VERSION,
-      target: 'core',
-    });
+    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 90 has been called`, `color: green; font-weight: bold;`)
+    if (serverValues.isServerAvailable) {
+      getDataK8sHealth({ url: '/info/health-k8s', target: 'core' });
+      getApiOrigins({ url: '/info/origins', target: 'core' });
+      getApiArch({ url: '/info/arch', target: 'core' });
+      getCompatibility({
+        url: '/info/get-ui-comp',
+        param: 'version=' + NEXT_PUBLIC_FRONT_END_BUILD_VERSION,
+        target: 'core',
+      });
+    }
 
     if (window) {
       const currentURL = new URL(window.location.href);
       setUiHost(currentURL.protocol + '//' + currentURL.host);
     }
-  }, [appValues.currentServer]);
+  }, [
+    //serverValues.currentServer,
+    serverValues.isServerAvailable,
+    //serverValues.isCurrentServerControlPlane,
+    reload
+  ]);
 
   /*useEffect(() => {
     if (apiURL !== undefined) {
@@ -50,6 +54,7 @@ export const useDiagnosticCore = () => {
   }, [apiURL]);*/
 
   useEffect(() => {
+    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 100 has been called`, `color: green; font-weight: bold;`)
     if (apiOrigins !== undefined) {
       setOrigins(apiOrigins.payload);
     }
@@ -57,10 +62,10 @@ export const useDiagnosticCore = () => {
 
   stateManager.setVariable('getUiURL', uiURL != '');
   stateManager.setVariable('getApiURL', apiURL != '');
-  stateManager.setVariable('checkApiReacheable', isConnected==true);
+  stateManager.setVariable('checkApiReacheable', serverValues.isServerAvailable == true);
   stateManager.setVariable(
     'getArchitecture',
-    isConnected==true && apiArch?.payload?.platform == undefined
+    serverValues.isServerAvailable == true && apiArch?.payload?.platform == undefined
   );
   stateManager.setVariable('getOrigins', origins.length > 0);
   stateManager.setVariable(
@@ -70,5 +75,5 @@ export const useDiagnosticCore = () => {
   stateManager.setVariable('getClusterHealth', k8sHealth != undefined);
   stateManager.hasWarnings = origins.length > 0 && origins.includes('*');
   stateManager.setVariable('getUiApiVerCompatibility', compatibility?.payload?.compatibility);
-  return { uiURL, apiURL, apiArch, origins, k8sHealth, stateManager };
+  return { uiURL, apiURL, apiArch, origins, k8sHealth, stateManager, reload, setReload };
 };

@@ -1,5 +1,3 @@
-import { useContext } from 'react';
-
 import { ActionIcon, Group, Text } from '@mantine/core';
 
 import { IconApi, IconPlugConnected, IconSettings } from '@tabler/icons-react';

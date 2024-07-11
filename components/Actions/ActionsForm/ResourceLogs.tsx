@@ -17,6 +17,7 @@ export function ResourceLogs({ resourceType, resourceName }: ResourceLogsProps) 
   const { data, getData, error, fetching } = useApiGet();
 
   useEffect(() => {
+    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 240 has been called`, `color: green; font-weight: bold;`)
     getData({ url: `/v1/${resourceType}/logs`, param: `resource_name=${resourceName}` });
   }, [resourceName]);
 

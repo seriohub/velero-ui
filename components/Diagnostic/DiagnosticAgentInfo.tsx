@@ -11,7 +11,13 @@ import {
   rem,
 } from '@mantine/core';
 
-import { IconCheck, IconCircleCheck, IconExternalLink } from '@tabler/icons-react';
+import {
+  IconCheck,
+  IconCircleCheck,
+  IconExternalLink,
+  IconPlugConnected,
+  IconRefresh,
+} from '@tabler/icons-react';
 
 import { DiagnosticLink } from './DiagnosticLink';
 
@@ -20,20 +26,29 @@ import { DiagnosticItem } from './DIagnosticItem';
 import { useDisclosure } from '@mantine/hooks';
 
 import { useDiagnosticAgent } from '@/hooks/useDiagnosticAgent';
+import { useAgentStatus } from '@/contexts/AgentStatusContext';
+import { IconPlugConnectedX } from '@tabler/icons-react';
 
 export const DiagnosticAgentInfo = () => {
-  
-  const { uiURL, apiURL, apiArch, origins, k8sHealth, stateManager } = useDiagnosticAgent();
+  const { uiURL, apiURL, apiArch, origins, k8sHealth, stateManager, reload, setReload } =
+    useDiagnosticAgent();
 
   const [opened, { open, close }] = useDisclosure(false);
 
+  const agentValues = useAgentStatus();
+
   return (
     <>
-      <Box>
+      <Group gap={2}>
+        {!agentValues.isAgentAvailable && <IconPlugConnectedX size={20} color="red" />}
+        {agentValues.isAgentAvailable && <IconPlugConnected size={20} color="green" />}
+        <Text size="sm" mr={5}>
+          Agent:
+        </Text>
+        <Text size="sm" mr={5} c="blue">
+          {agentValues?.currentAgent?.name}
+        </Text>
         <Button onClick={open} variant="default" size="compact-xs">
-          <Text size="sm" mr={5}>
-            Agent
-          </Text>
           {stateManager.allTrue && !stateManager.hasWarnings && (
             <>
               <Group gap={0}>
@@ -65,7 +80,18 @@ export const DiagnosticAgentInfo = () => {
             </>
           )}
         </Button>
-      </Box>
+
+        <ActionIcon
+          variant="subtle"
+          size="compact-xs"
+          aria-label="Settings"
+          onClick={() => {
+            setReload(reload + 1);
+          }}
+        >
+          <IconRefresh size={16} stroke={1.5} />
+        </ActionIcon>
+      </Group>
       <Modal
         opened={opened}
         onClose={close}

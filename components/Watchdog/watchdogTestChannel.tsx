@@ -47,9 +47,10 @@ export function WatchdogTestChannel({ configuration }: WatchdogTestChannelProps)
               disabled={configuration?.payload?.SLACK_ENABLE?.toLowerCase() != 'true'}
               onClick={(event) => {
                 event.preventDefault();
-                getData(
-                  '/v1/watchdog/send-test-notification',
-                  'email=False&slack=True&telegram=False'
+                getData({
+                  url:'/v1/watchdog/send-test-notification',
+                  param:'email=False&slack=True&telegram=False'
+                }
                 );
               }}
             >
@@ -66,10 +67,10 @@ export function WatchdogTestChannel({ configuration }: WatchdogTestChannelProps)
               disabled={configuration?.payload?.TELEGRAM_ENABLE.toLowerCase() != 'true'}
               onClick={(event) => {
                 event.preventDefault();
-                getData(
-                  '/v1/watchdog/send-test-notification',
-                  'email=False&slack=False&telegram=True'
-                );
+                getData({
+                  url:'/v1/watchdog/send-test-notification',
+                  param:'email=False&slack=False&telegram=True'
+              });
               }}
             >
               Send test message

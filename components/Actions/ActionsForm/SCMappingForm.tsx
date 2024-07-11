@@ -1,6 +1,6 @@
 'use client';
 
-import { useContext, useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 import { useForm } from '@mantine/form';
 import { closeAllModals } from '@mantine/modals';
@@ -42,11 +42,11 @@ export function SCMappingForm({
   });
 
   useEffect(() => {
-    getStorageClasses({url:'/v1/k8s/sc/get'});
+    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 305 has been called`, `color: green; font-weight: bold;`)
+    getStorageClasses({ url: '/v1/k8s/sc/get' });
   }, []);
 
   function onDone(values: any) {
-
     if (mode == 'create') {
       postData('/v1/sc/change-storage-classes-config-map/create', {
         storageClassMapping: values,

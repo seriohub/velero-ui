@@ -1,9 +1,12 @@
-import { useContext, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useAppState } from '@/contexts/AppStateContext';
 import { useApiGet } from '@/hooks/useApiGet';
 import { useServerStatus } from '@/contexts/ServerStatusContext';
 import { notifications } from '@mantine/notifications';
 import { IconExclamationMark } from '@tabler/icons-react';
+import { useAgentStatus } from '@/contexts/AgentStatusContext';
+
+import { useAppWebSocket } from './useAppWebSocket';
 
 export interface AgentApiConfig {
   name: string;
@@ -13,42 +16,84 @@ export interface AgentApiConfig {
 
 export const useAgentApiConfigs = () => {
   const appValues = useAppState();
-  const isConnected = useServerStatus();
+  const agentValues = useAgentStatus();
+  const serverValues = useServerStatus();
+
+  const { sendMessage } = useAppWebSocket();
 
   const { data: dataAgent, getData: getDataAgent } = useApiGet();
 
+  // get agent list
   useEffect(() => {
-    // console.log("appValues",appValues)
-    if (appValues.currentServer !== undefined && appValues.isCurrentServerControlPlane!=undefined){
-      if (appValues.isCurrentServerControlPlane) {
+    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 40 has been called`, `color: green; font-weight: bold;`)
+    if (serverValues.isServerAvailable && serverValues.isCurrentServerControlPlane !== undefined) {
+      if (serverValues.isCurrentServerControlPlane && appValues.isAuthenticated) {
         getDataAgent({ url: '/v1/cluster/get', target: 'core' });
       } else {
-        appValues.setCurrentAgent(appValues.currentServer);
+        agentValues.setCurrentAgent(serverValues.currentServer);
+        agentValues.setIsAgentAvailable(serverValues.isServerAvailable);
       }
     }
-  }, [appValues.currentServer, appValues.isCurrentServerControlPlane, isConnected]);
+  }, [
+    // serverValues.currentServer,
+    serverValues.isCurrentServerControlPlane,
+    // serverValues.isServerAvailable,
+    agentValues.reload,
+  ]);
 
+  // set initial agent
   useEffect(() => {
-     console.log("dataAgent",dataAgent)
+    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 50 has been called`, `color: green; font-weight: bold;`)
+    // console.log("dataAgent",dataAgent)
     if (dataAgent !== undefined) {
-      console.log('agents', dataAgent?.payload);
-      appValues.setAgents(dataAgent?.payload);
+      // console.log('agents', dataAgent?.payload);
+      agentValues.setAgents(dataAgent?.payload);
       const agentIndex =
         localStorage.getItem('agent') &&
         Number(localStorage.getItem('agent')) < dataAgent?.payload.length
           ? Number(localStorage.getItem('agent'))
           : 0;
-      appValues.setCurrentAgent(dataAgent?.payload[agentIndex]);
+
+      agentValues.setCurrentAgent(dataAgent?.payload[agentIndex]);
+      //checkAgentStatus();
     }
-    if (dataAgent?.payload.length==0){
+    if (dataAgent?.payload.length == 0) {
       notifications.show({
         icon: <IconExclamationMark />,
         color: 'red',
         title: 'Agents error',
-        message: 'No agent registered in the control plane',
+        message: 'No agent registered in the core',
       });
     }
   }, [dataAgent]);
 
-  return;
+  useEffect(() => {
+    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 60 has been called`, `color: green; font-weight: bold;`)
+    if (serverValues.isCurrentServerControlPlane) {
+      const checkAgentStatus = async () => {
+        // console.log('checkAgentStatus');
+        if (
+          serverValues.isServerAvailable &&
+          serverValues.isCurrentServerControlPlane &&
+          agentValues.currentAgent?.name !== undefined &&
+          appValues.isAuthenticated
+        ) {
+          console.log(
+            `Server is core type. Check ${agentValues.currentAgent?.name} agent is available`
+          );
+          const message = {
+            request_type: 'agent_alive',
+            agent_name: agentValues.currentAgent?.name,
+          };
+          sendMessage(JSON.stringify(message));
+        }
+      };
+      checkAgentStatus();
+      const interval = setInterval(checkAgentStatus, 8000);
+      return () => clearInterval(interval);
+    } else {
+      agentValues.setCurrentAgent(serverValues.currentServer);
+      agentValues.setIsAgentAvailable(serverValues.isServerAvailable);      
+    }
+  }, [agentValues.currentAgent, serverValues.isServerAvailable]);
 };

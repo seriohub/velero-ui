@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useEffect, useContext } from 'react';
+import { useRef, useEffect } from 'react';
 
 import {
   CopyButton,
@@ -24,7 +24,7 @@ import InfoParamActionIcon from './InfoParamActionIcon';
 
 export default function InfoApiRequest() {
   //const value = useContext(VeleroAppContexts);
-  const appValues = useAppState()
+  const appValues = useAppState();
   const viewport = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -66,6 +66,7 @@ export default function InfoApiRequest() {
   ));
 
   useEffect(() => {
+    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 505 has been called`, `color: green; font-weight: bold;`)
     scrollToBottom();
   }, [appValues.apiRequest]);
 

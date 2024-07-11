@@ -51,6 +51,7 @@ export default function ShellCommands() {
   ));
 
   useEffect(() => {
+    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 875 has been called`, `color: green; font-weight: bold;`)
     scrollToBottom();
   }, [appValues.messagesHistory]);
 

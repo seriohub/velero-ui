@@ -18,11 +18,13 @@ import DetailActionIcon from '../Actions/DatatableActionsIcons/DetailActionIcon'
 import RefreshDatatable from '../Actions/ToolbarActionIcons/RefreshDatatable';
 import Toolbar from '../Toolbar';
 import InfoRepository from '../Actions/DatatableActionsIcons/InfoRepository';
+import { useAgentStatus } from '@/contexts/AgentStatusContext';
 
 const PAGE_SIZES = [5, 10, 15, 20];
 
 export function RepoLocation() {
   const { showContextMenu } = useContextMenu();
+  const agentValues = useAgentStatus();
 
   const { data, getData, error, fetching } = useApiGet();
   const { data: locks, getData: getLocks } = useApiGet();
@@ -43,20 +45,19 @@ export function RepoLocation() {
   const [records, setRecords] = useState(items.slice(0, pageSize));
 
   useEffect(() => {
-    getData({url:'/v1/repo/get'});
-  }, [reload]);
-
-  //useEffect(() => {
-  //  getData('/v1/repo/get');
-  //}, []);
+    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 640 has been called`, `color: green; font-weight: bold;`)
+    getData({ url: '/v1/repo/get' });
+  }, [reload, agentValues.isAgentAvailable]);
 
   useEffect(() => {
+    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 650 has been called`, `color: green; font-weight: bold;`)
     if (data !== undefined) {
       setItems(data.payload);
     } else setItems([]);
   }, [data]);
 
   useEffect(() => {
+    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 660 has been called`, `color: green; font-weight: bold;`)
     const from = (page - 1) * pageSize;
     const to = from + pageSize;
     const data_sorted = sortBy(items, sortStatus.columnAccessor);
@@ -82,6 +83,7 @@ export function RepoLocation() {
   );
 
   useEffect(() => {
+    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 670 has been called`, `color: green; font-weight: bold;`)
     if (locks !== undefined) {
       setRecords(
         records.filter(function (obj) {
@@ -99,8 +101,12 @@ export function RepoLocation() {
   }, [locks]);
 
   useEffect(() => {
+    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 680 has been called`, `color: green; font-weight: bold;`)
     if (unlock !== undefined) {
-      getLocks({url:'/v1/repo/locks/get', param:`repository_url=${Object.keys(unlock.payload)[0]}`});
+      getLocks({
+        url: '/v1/repo/locks/get',
+        param: `repository_url=${Object.keys(unlock.payload)[0]}`,
+      });
     }
   }, [unlock]);
 
@@ -135,21 +141,30 @@ export function RepoLocation() {
                 icon: <IconAnalyze size={16} />,
                 disabled: record.spec.repositoryType != 'restic',
                 onClick: () =>
-                  check({url:'/v1/repo/check', param:`repository_url=${record.spec.resticIdentifier}`}),
+                  check({
+                    url: '/v1/repo/check',
+                    param: `repository_url=${record.spec.resticIdentifier}`,
+                  }),
               },
               {
                 key: 'Check if locked',
                 icon: <IconAnalyze size={16} />,
                 disabled: record.spec.repositoryType != 'restic',
                 onClick: () =>
-                  getLocks({url:'/v1/repo/locks/get', param:`repository_url=${record.spec.resticIdentifier}`}),
+                  getLocks({
+                    url: '/v1/repo/locks/get',
+                    param: `repository_url=${record.spec.resticIdentifier}`,
+                  }),
               },
               {
                 key: 'Unlock',
                 icon: <IconLockOpen size={16} />,
                 disabled: record.spec.repositoryType != 'restic',
                 onClick: () =>
-                  tryUnlock({url:'/v1/repo/unlock', param:`repository_url=${record.spec.resticIdentifier}`}),
+                  tryUnlock({
+                    url: '/v1/repo/unlock',
+                    param: `repository_url=${record.spec.resticIdentifier}`,
+                  }),
               },
               {
                 key: 'Unlock --remove-all',
@@ -158,9 +173,9 @@ export function RepoLocation() {
                 disabled: record.spec.repositoryType != 'restic',
                 onClick: () =>
                   tryUnlock({
-                    url:'/v1/repo/unlock',
-                    param:`repository_url=${record.spec.resticIdentifier}&remove_all=True`
-              }),
+                    url: '/v1/repo/unlock',
+                    param: `repository_url=${record.spec.resticIdentifier}&remove_all=True`,
+                  }),
               },
             ])(event)
           }

@@ -12,21 +12,25 @@ import { IconClick } from '@tabler/icons-react';
 import CreateSCMappingIcon from '../Actions/ToolbarActionIcons/CreateSCMappingIcon';
 import EditSCMapping from '../Actions/DatatableActionsIcons/EditSCMapping';
 import DeleteSCMappingActionIcon from '../Actions/DatatableActionsIcons/DeleteSCMappingActionIcon';
+import { useAgentStatus } from '@/contexts/AgentStatusContext';
 
 export function SCMappingData() {
   const { data: configMap, getData: getConfigMap, fetching } = useApiGet();
   const [items, setItems] = useState<any>([]);
   const [reload, setReload] = useState(1);
+  const agentValues = useAgentStatus();
 
   useEffect(() => {
+    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 790 has been called`, `color: green; font-weight: bold;`)
     getConfigMap({url:'/v1/sc/change-storage-classes-config-map/get'});
-  }, [reload]);
+  }, [reload, agentValues.isAgentAvailable]);
 
   //useEffect(() => {
   //  getConfigMap('/v1/sc/change-storage-classes-config-map/get');
   //}, []);
 
   useEffect(() => {
+    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 885 has been called`, `color: green; font-weight: bold;`)
     if (configMap?.payload !== undefined) {
       setItems(configMap.payload);
     }

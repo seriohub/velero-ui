@@ -70,6 +70,7 @@ export function MultiSelectCreatable({
     ));
 
   useEffect(() => {
+    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 460 has been called`, `color: green; font-weight: bold;`)
     form.setFieldValue(fieldName, value);
   }, [value]);
 

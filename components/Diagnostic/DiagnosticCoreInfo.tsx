@@ -1,17 +1,13 @@
-import {
-  ActionIcon,
-  Anchor,
-  Box,
-  Button,
-  Group,
-  List,
-  Modal,
-  Text,
-  ThemeIcon,
-  rem,
-} from '@mantine/core';
+import { ActionIcon, Box, Button, Group, List, Modal, Text, ThemeIcon, rem } from '@mantine/core';
 
-import { IconCheck, IconCircleCheck, IconExternalLink } from '@tabler/icons-react';
+import {
+  IconCheck,
+  IconCircleCheck,
+  IconExternalLink,
+  IconPlugConnected,
+  IconPlugConnectedX,
+  IconRefresh,
+} from '@tabler/icons-react';
 
 import { DiagnosticLink } from './DiagnosticLink';
 
@@ -20,19 +16,26 @@ import { DiagnosticItem } from './DIagnosticItem';
 import { useDisclosure } from '@mantine/hooks';
 
 import { useDiagnosticCore } from '@/hooks/useDiagnosticCore';
+import { useServerStatus } from '@/contexts/ServerStatusContext';
 
 export const DiagnosticCoreInfo = () => {
-  const { uiURL, apiURL, apiArch, origins, k8sHealth, stateManager } = useDiagnosticCore();
+  const { uiURL, apiURL, apiArch, origins, k8sHealth, stateManager, reload, setReload } =
+    useDiagnosticCore();
 
   const [opened, { open, close }] = useDisclosure(false);
-  
+  const serverValues = useServerStatus();
   return (
     <>
-      <Box>
+      <Group gap={2}>
+        {!serverValues.isServerAvailable && <IconPlugConnectedX size={20} color="red" />}
+        {serverValues.isServerAvailable && <IconPlugConnected size={20} color="green" />}
+        <Text size="sm" mr={5}>
+          Core:
+        </Text>
+        <Text size="sm" mr={5} c="blue">
+          {serverValues?.currentServer?.name}
+        </Text>
         <Button onClick={open} variant="default" size="compact-xs">
-          <Text size="sm" mr={5}>
-            Core
-          </Text>
           {stateManager.allTrue && !stateManager.hasWarnings && (
             <>
               <Group gap={0}>
@@ -63,8 +66,18 @@ export const DiagnosticCoreInfo = () => {
               </Group>
             </>
           )}
-        </Button>
-      </Box>
+        </Button>{' '}
+        <ActionIcon
+          variant="subtle"
+          size="compact-xs"
+          aria-label="Settings"
+          onClick={() => {
+            setReload(reload + 1);
+          }}
+        >
+          <IconRefresh size={16} stroke={1.5} />
+        </ActionIcon>
+      </Group>
       <Modal
         opened={opened}
         onClose={close}

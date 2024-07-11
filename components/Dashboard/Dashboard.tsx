@@ -1,8 +1,8 @@
 'use client';
 
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-import { Stack, Group, Grid, Loader, Center, ScrollArea, SimpleGrid, Space } from '@mantine/core';
+import { Stack, Loader, Center, ScrollArea, SimpleGrid, Space } from '@mantine/core';
 
 import { IconClock, IconDeviceFloppy, IconRestore, IconCalendarEvent } from '@tabler/icons-react';
 import { useViewportSize } from '@mantine/hooks';
@@ -12,21 +12,24 @@ import { UnscheduledNamespaces } from './items/UnscheduledNamspaces';
 import { BackupLatest } from '../Backup/Latest';
 import Toolbar from '../Toolbar';
 import RefreshDatatable from '../Actions/ToolbarActionIcons/RefreshDatatable';
+import { useAgentStatus } from '@/contexts/AgentStatusContext';
+import { useServerStatus } from '@/contexts/ServerStatusContext';
 
 export function Dashboard() {
   const { height: vpHeight, width: vpWidth } = useViewportSize();
-  const { data, getData } = useApiGet();
+  const { data, getData, fetching } = useApiGet();
   const [reload, setReload] = useState(1);
 
-  //useEffect(() => {
-  //  getData('/v1/stats/get');
-  //}, []);
+  const agentValues = useAgentStatus();
 
   useEffect(() => {
-    getData({url:'/v1/stats/get'});
-  }, [reload]);
+    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 100 has been called`, `color: green; font-weight: bold;`)
+    if (agentValues.isAgentAvailable) {
+      getData({ url: '/v1/stats/get' });
+    }
+  }, [reload, agentValues.isAgentAvailable]);
 
-  if (data === undefined) {
+  if (data === undefined || fetching) {
     return (
       <Stack h="100%" justify="center">
         <Center>
@@ -76,7 +79,7 @@ export function Dashboard() {
             </SimpleGrid>
           </Stack>
         </Stack>
-        <Space h={20}/>
+        <Space h={20} />
         <BackupLatest latest={data.payload.backups.latest} reload={reload} setReload={setReload} />
       </ScrollArea>
     </>

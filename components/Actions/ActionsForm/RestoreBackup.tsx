@@ -8,7 +8,6 @@ import {
   Divider,
   Group,
   List,
-  Select,
   Space,
   Text,
   TextInput,
@@ -90,11 +89,13 @@ export function RestoreBackup({
   }
 
   useEffect(() => {
+    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 250 has been called`, `color: green; font-weight: bold;`)
     form.values.mappingNamespace = mapNamespace;
   }, [mapNamespace]);
 
   // load data
   useEffect(() => {
+    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 260 has been called`, `color: green; font-weight: bold;`)
     getDataRestore({ url: `/v1/${resourceType}/describe`, param: `resource_name=${resourceName}` }); // object
     getPvc({ url: '/v1/backup/get-storage-classes', param: `backup_name=${resourceName}` }); // list of object of pvc data
     getStorageClasses({ url: '/v1/k8s/sc/get' }); // { storage-class : { name: ..., provisioner: ..., parameteres: ...}}
@@ -102,6 +103,7 @@ export function RestoreBackup({
   }, []);
 
   useEffect(() => {
+    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 270 has been called`, `color: green; font-weight: bold;`)
     if (
       //dataRestore !== undefined &&
       //dataRestore['payload']['status']['resourceList']['v1/Namespace'] !== null
@@ -125,6 +127,7 @@ export function RestoreBackup({
   }, [dataRestore]);
 
   useEffect(() => {
+    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 280 has been called`, `color: green; font-weight: bold;`)
     if (storageClasses !== undefined) {
       const values = Object.keys(storageClasses.payload).map((item: any) => (
         <List.Item key={item}>
@@ -136,6 +139,7 @@ export function RestoreBackup({
   }, [storageClasses]);
 
   useEffect(() => {
+    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 290 has been called`, `color: green; font-weight: bold;`)
     if (configMap?.payload !== undefined) {
       const values = configMap?.payload.map((item: any) => (
         <List.Item key={item['oldStorageClass']}>
@@ -149,6 +153,7 @@ export function RestoreBackup({
   }, [configMap]);
 
   useEffect(() => {
+    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 295 has been called`, `color: green; font-weight: bold;`)
     if (pvc !== undefined) {
       const values = pvc.payload.map((item: any) => (
         <>
@@ -202,6 +207,7 @@ export function RestoreBackup({
   }, [pvc, storageClasses, configMap]);
 
   useEffect(() => {
+    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 300 has been called`, `color: green; font-weight: bold;`)
     if (configMap?.payload !== undefined && pvc !== undefined) {
       const cm: any[] = [];
       configMap?.payload.map((item: any) =>

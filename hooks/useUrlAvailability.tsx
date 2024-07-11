@@ -23,10 +23,10 @@ const checkUrlAvailability = async (url: string) => {
 export const useUrlAvailability = () => {
   const [isUrlAvailable, setIsUrlAvailable] = useState(false);
   const [loading, setLoading] = useState(false);
-  const isServerAvailable = useServerStatus();
+  const serverValues = useServerStatus();
 
   const checkAvailability = async (url: string) => {
-    if (isServerAvailable == true) {
+    if (serverValues.isServerAvailable == true) {
       setLoading(true);
       const result = await checkUrlAvailability(url);
       setIsUrlAvailable(result);

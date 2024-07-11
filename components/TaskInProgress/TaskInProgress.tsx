@@ -18,8 +18,12 @@ import DeleteActionIcon from '../Actions/DatatableActionsIcons/DeleteActionIcon'
 
 import { useAppState } from '@/contexts/AppStateContext';
 
+import { useAgentStatus } from '@/contexts/AgentStatusContext';
+
 export default function TaskInProgress() {
   const appValues = useAppState();
+  const agentValues = useAgentStatus();
+  
   const { data, getData, fetching } = useApiGet();
   const [reload, setReload] = useState(1);
 
@@ -31,10 +35,12 @@ export default function TaskInProgress() {
   });
 
   useEffect(() => {
-    getData({url:'/v1/stats/in-progress', target:'agent'});
-  }, [reload]);
+    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 860 has been called`, `color: green; font-weight: bold;`)
+    if (agentValues.isAgentAvailable) getData({url:'/v1/stats/in-progress', target:'agent'});
+  }, [reload, agentValues.isAgentAvailable]);
 
   useEffect(() => {
+    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 870 has been called`, `color: green; font-weight: bold;`)
     if (data !== undefined) {
       
       const data_sorted = sortBy(data?.payload, sortStatus.columnAccessor);
@@ -46,16 +52,18 @@ export default function TaskInProgress() {
   }, [data, sortStatus]);
 
   useEffect(() => {
+    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 880 has been called`, `color: green; font-weight: bold;`)
     const data_sorted = sortBy(records, sortStatus.columnAccessor);
     setRecords(sortStatus.direction === 'desc' ? records.reverse() : data_sorted);
   }, [sortStatus]);
 
   useEffect(() => {
+    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 890 has been called`, `color: green; font-weight: bold;`)
     const interval = setInterval(() => {
-      getData({url:'/v1/stats/in-progress', addInHistory:false, target:'agent'});
+      if (agentValues.isAgentAvailable) getData({url:'/v1/stats/in-progress', addInHistory:false, target:'agent'});
     }, appValues.refreshRecent);
     return () => clearInterval(interval);
-  }, []);
+  }, [agentValues.currentAgent, agentValues.isAgentAvailable]);
 
   const renderActions: DataTableColumn<any>['render'] = (record) => (
     <Group gap={4} justify="left" wrap="nowrap">

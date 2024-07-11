@@ -2,27 +2,31 @@ import { useApiGet } from '@/hooks/useApiGet';
 import { ActionIcon, Indicator, Modal } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 
-import { IconApps, IconRefresh } from '@tabler/icons-react';
+import { IconApps } from '@tabler/icons-react';
 
 import { useEffect, useState } from 'react';
 import TableVersion from './TableVersion';
 
 import { compareVersions } from './CompareVersion';
-
+import { useAgentStatus } from '@/contexts/AgentStatusContext';
 
 export default function CheckAppVersion() {
   const [updateAvailable, setUpdateAvailabe] = useState(false);
   const [opened, { open, close }] = useDisclosure(false);
-
+  const agentValues = useAgentStatus();
   const { data, getData } = useApiGet();
   const { data: repoVersion, getData: getRepoVersion } = useApiGet();
 
   useEffect(() => {
-    getData({url:'/info/get'});
-    getRepoVersion({url:'/info/get-repo-tags'});
-  }, []);
+    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 480 has been called`, `color: green; font-weight: bold;`)
+    if (agentValues.isAgentAvailable) {
+      getData({ url: '/info/get' });
+      getRepoVersion({ url: '/info/get-repo-tags' });
+    }
+  }, [agentValues.isAgentAvailable]);
 
   useEffect(() => {
+    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 480 has been called`, `color: green; font-weight: bold;`)
     // console.log(data?.payload?.helm_version, repoVersion?.payload?.helm);
     if (data?.payload?.helm_version && repoVersion?.payload?.helm) {
       const cmp = compareVersions(data?.payload?.helm_version, repoVersion?.payload?.helm);
@@ -38,7 +42,7 @@ export default function CheckAppVersion() {
       <Modal opened={opened} onClose={close} title="App Version" size="lg">
         <TableVersion app={data?.payload} githubRelease={repoVersion?.payload} />
       </Modal>
-      <Indicator processing inline disabled={!updateAvailable} color='red' position='bottom-end'>
+      <Indicator processing inline disabled={!updateAvailable} color="red" position="bottom-end">
         <ActionIcon
           variant="default"
           size={40}

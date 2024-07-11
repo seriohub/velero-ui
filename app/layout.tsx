@@ -16,9 +16,9 @@ import 'mantine-contextmenu/styles.layer.css';
 import 'mantine-datatable/styles.layer.css';
 
 import './layout.css';
-import { AppStateProvider } from '@/contexts/AppStateContext';
 import { ServerStatusProvider } from '@/contexts/ServerStatusContext';
 import { AgentStatusProvider } from '@/contexts/AgentStatusContext';
+import { AppStateProvider } from '@/contexts/AppStateContext';
 
 export default function RootLayout({ children }: { children: any }) {
   return (
@@ -35,13 +35,13 @@ export default function RootLayout({ children }: { children: any }) {
       </head>
       <body>
         <MantineProvider theme={theme}>
-          <AppStateProvider>
-            <ServerStatusProvider>
-              <AgentStatusProvider>
+          <ServerStatusProvider>
+            <AgentStatusProvider>
+              <AppStateProvider>
                 <ContextMenuProvider>{children}</ContextMenuProvider>
-              </AgentStatusProvider>
-            </ServerStatusProvider>
-          </AppStateProvider>
+              </AppStateProvider>
+            </AgentStatusProvider>
+          </ServerStatusProvider>
         </MantineProvider>
       </body>
     </html>

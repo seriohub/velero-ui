@@ -1,24 +1,19 @@
 'use client';
 
 import { useDisclosure } from '@mantine/hooks';
-import { AppShell, em, Stack, Box, Accordion, Alert } from '@mantine/core';
+import { AppShell, Stack, Box, Accordion } from '@mantine/core';
 import { useElementSize } from '@mantine/hooks';
 import { useViewportSize } from '@mantine/hooks';
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { AppShellHeader } from './AppShell.Header';
 import { AppShellNavbar } from './AppShell.Navbar';
 import { AppShellFooter } from './AppShell.Footer';
-import TaskInProgress from '../../TaskInProgress/TaskInProgress';
 import { AppShellMainFooter } from './AppShell.Main.Footer';
 
-import { useAppWebSocket } from '@/hooks/useAppWebSocket';
-import { useAppState } from '@/contexts/AppStateContext';
-import { useApiGet } from '@/hooks/useApiGet';
-import { useAgentApiConfigs } from '@/hooks/useAgentConfigs';
-import { useClusterConfigs } from '@/hooks/useClusterConfig';
+import TaskInProgress from '../../TaskInProgress/TaskInProgress';
 
-import { ServerError } from '@/components/ServerError/ServerError';
+import { useAppState } from '@/contexts/AppStateContext';
 import { AgentError } from '@/components/AgentError/AgentError';
 
 interface AppShellLayoutProps {
@@ -28,10 +23,6 @@ interface AppShellLayoutProps {
 export default function AppShellLayout({ children }: AppShellLayoutProps) {
   const appValues = useAppState();
 
-  /*useClusterConfigs();
-  useAgentApiConfigs();
-  useAppWebSocket();*/
-
   const [opened, { toggle }] = useDisclosure();
 
   const [value, setValue] = useState<string[]>([]);
@@ -40,6 +31,7 @@ export default function AppShellLayout({ children }: AppShellLayoutProps) {
   const { ref, width, height } = useElementSize();
 
   useEffect(() => {
+    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 560 has been called`, `color: green; font-weight: bold;`)
     const accordionValue = localStorage.getItem('accordion');
     setValue(accordionValue != null ? accordionValue.split(',') : []);
   }, []);

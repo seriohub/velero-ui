@@ -37,9 +37,7 @@ export default function AuthShellLayout({ children }: AuthShellLayoutProps) {
             <Box pt="10rem" w="450">
               {children}
             </Box>
-            <Stack pt="2rem" justify="flex-end" mih={isMobile ? 'auto' : '100%'}>
-              
-            </Stack>
+            <Stack pt="2rem" justify="flex-end" mih={isMobile ? 'auto' : '100%'}></Stack>
           </Flex>
         </AppShell.Main>
         <AppShell.Footer>

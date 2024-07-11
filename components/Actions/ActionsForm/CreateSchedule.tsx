@@ -50,10 +50,12 @@ export function CreateSchedule({ reload, setReload }: CreateScheduleProps) {
   });
 
   useEffect(() => {
+    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 170 has been called`, `color: green; font-weight: bold;`)
     getData({url:'/v1/schedule/create/settings'});
   }, []);
 
   useEffect(() => {
+    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 180 has been called`, `color: green; font-weight: bold;`)
     if (data !== undefined) {
       setNamespaces(data.payload.namespaces);
       setBackupLocation(data.payload.backup_location);

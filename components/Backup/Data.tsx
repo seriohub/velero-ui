@@ -20,6 +20,7 @@ import UpdateExpirationActionIcon from '../Actions/DatatableActionsIcons/UpdateE
 import ExpireIn from './ExpireIn';
 import Duration from './Duration';
 import LastBackup4Schedule from '../Actions/ToolbarActionIcons/LastBackup4Schedule';
+import { useAgentStatus } from '@/contexts/AgentStatusContext';
 
 const PAGE_SIZES = [10, 15, 20];
 
@@ -31,6 +32,7 @@ export function BackupData({ limit = -1 }: BackupDataProps) {
   const { data, getData, fetching } = useApiGet();
   const [items, setItems] = useState<Record<string, any>>([]);
   const [reload, setReload] = useState(1);
+  const agentValues = useAgentStatus();
 
   const [onlyLast4Schedule, setOnlyLast4Schedule] = useState(false);
 
@@ -78,14 +80,16 @@ export function BackupData({ limit = -1 }: BackupDataProps) {
   }, [data]);
 
   useEffect(() => {
+    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 360 has been called`, `color: green; font-weight: bold;`)
     getData({url:'/v1/backup/get', param:onlyLast4Schedule == true ? 'only_last_for_schedule=true' : ''});
-  }, [reload, onlyLast4Schedule]);
+  }, [reload, onlyLast4Schedule, agentValues.isAgentAvailable]);
 
   //useEffect(() => {
   //  getData('/v1/backup/get', onlyLast4Schedule == true ? 'only_last_for_schedule=true' : '');
   //}, []);
 
   useEffect(() => {
+    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 370 has been called`, `color: green; font-weight: bold;`)
     if (data !== undefined) {
       if (limit === -1) {
         setItems(data.payload);
@@ -96,6 +100,7 @@ export function BackupData({ limit = -1 }: BackupDataProps) {
   }, [data]);
 
   useEffect(() => {
+    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 380 has been called`, `color: green; font-weight: bold;`)
     const from = (page - 1) * pageSize;
     const to = from + pageSize;
     const data_sorted = sortBy(items, sortStatus.columnAccessor);
@@ -127,6 +132,7 @@ export function BackupData({ limit = -1 }: BackupDataProps) {
   }, [page, pageSize, sortStatus, selectedSchedule, selectedPhase, items]);
 
   useEffect(() => {
+    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 390 has been called`, `color: green; font-weight: bold;`)
     setPage(1);
   }, [selectedSchedule, sortStatus, onlyLast4Schedule]);
 

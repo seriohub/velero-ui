@@ -31,8 +31,11 @@ export const useApiGet = () => {
   const pathname = usePathname();
 
   const appValues = useAppState();
-  const isServerAvailable = useServerStatus();
-  const isAgentAvailable = useAgentStatus()
+  const serverValues = useServerStatus()
+  const agentValues = useAgentStatus()
+
+  // const isServerAvailable = useServerStatus();
+  // const isAgentAvailable = useAgentStatus()
 
   const [fetching, setFetching] = useState(false);
   const [data, setData] = useState<Record<string, any> | undefined>(undefined);
@@ -47,24 +50,24 @@ export const useApiGet = () => {
     target = 'agent',
   }: GetDataParams) => {
     
-    const NEXT_PUBLIC_VELERO_API_URL = appValues?.currentServer?.url;
-    const coreUrl = appValues.isCurrentServerControlPlane
+    const coreUrl = serverValues.isCurrentServerControlPlane
       ? target === 'core'
         ? '/core'
         : target === 'static'
           ? ''
-          : `/agent/${appValues.currentAgent?.name}`
+          : `/agent/${agentValues?.currentAgent?.name}`
       : '';
-
-    const backendUrl = `${NEXT_PUBLIC_VELERO_API_URL}${coreUrl}`;
+    const backendUrl = `${serverValues?.currentServer?.url}${coreUrl}`;
     
-    if (!isServerAvailable) {
+    // console.log(`Server request ${backendUrl}${url}?${param}`)
+    if (!serverValues.isServerAvailable || serverValues.isServerAvailable==undefined) {
       //else {
       console.log(`Server unavailable: skip request ${backendUrl}${url}?${param}`);
       return
       //}
     }
-    if (target == 'agent' && url!='/online' && (appValues.currentAgent == undefined || !isAgentAvailable) ) {
+    
+    if (target == 'agent' && url!='/online' && (agentValues.currentAgent == undefined || !agentValues.isAgentAvailable) ) {
       console.log(`Agent unavailable: skip request ${url}?${param}`);
       return
     }
@@ -97,11 +100,11 @@ export const useApiGet = () => {
         })
       );
     }
-
+    console.log(`GET: ${backendUrl}${url}?${param}`)
     fetch(`${backendUrl}${url}?${param}`, { method: 'GET', headers })
       .then(async (res) => {
         if (res.status === 400){
-          console.log("400")
+          console.log("Agent Offline")
           throw 'Agent Offline'
         }
         if (res.status === 401) {
