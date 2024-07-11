@@ -14,8 +14,8 @@ export const useAppWebSocket = () => {
 
   // const NEXT_PUBLIC_VELERO_API_WS = serverValues.currentServer?.ws;
   const socketUrl = appValues.isAuthenticated
-    ? `${serverValues?.currentServer?.ws}/ws`
-    : `${serverValues?.currentServer?.ws}/online`;
+    ? `${serverValues?.currentServer?.ws}/ws/auth`
+    : `${serverValues?.currentServer?.ws}/ws/online`;
   
     // console.log("socketUrl", socketUrl)
   /*useEffect(() => {
