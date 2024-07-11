@@ -27,7 +27,7 @@ pipeline {
                     echo 'Clone Git repository...'
 
                     // Clone the GitHub repository
-                    checkout([$class: "GitSCM", branches: [[name: "*/dev"]], userRemoteConfigs: [[url: evGit_Source_Code]]])
+                    checkout([$class: "GitSCM", branches: [[name: "*/dev-core"]], userRemoteConfigs: [[url: evGit_Source_Code]]])
 
                     // Set the latest tag as an environment variable for later use
                     GIT_TAG = evLatestTag
