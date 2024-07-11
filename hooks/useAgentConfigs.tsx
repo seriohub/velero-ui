@@ -28,7 +28,7 @@ export const useAgentApiConfigs = () => {
     if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 40 has been called`, `color: green; font-weight: bold;`)
     if (serverValues.isServerAvailable && serverValues.isCurrentServerControlPlane !== undefined) {
       if (serverValues.isCurrentServerControlPlane && appValues.isAuthenticated) {
-        getDataAgent({ url: '/v1/cluster/get', target: 'core' });
+        getDataAgent({ url: '/v1/agent/get', target: 'core' });
       } else {
         agentValues.setCurrentAgent(serverValues.currentServer);
         agentValues.setIsAgentAvailable(serverValues.isServerAvailable);
