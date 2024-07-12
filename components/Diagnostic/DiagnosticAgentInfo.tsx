@@ -28,6 +28,7 @@ import { useDisclosure } from '@mantine/hooks';
 import { useDiagnosticAgent } from '@/hooks/useDiagnosticAgent';
 import { useAgentStatus } from '@/contexts/AgentStatusContext';
 import { IconPlugConnectedX } from '@tabler/icons-react';
+import { useServerStatus } from '@/contexts/ServerStatusContext';
 
 export const DiagnosticAgentInfo = () => {
   const { uiURL, apiURL, apiArch, origins, k8sHealth, stateManager, reload, setReload } =
@@ -36,6 +37,7 @@ export const DiagnosticAgentInfo = () => {
   const [opened, { open, close }] = useDisclosure(false);
 
   const agentValues = useAgentStatus();
+  const serverValues = useServerStatus();
 
   return (
     <>
@@ -143,10 +145,16 @@ export const DiagnosticAgentInfo = () => {
 
             {/* API reachable */}
             <DiagnosticItem
-              label="Check API reachable"
+              label="API available"
               value=""
               ok={stateManager.getVariable('checkApiReacheable')}
-              actionIcon={<DiagnosticLink ApiURL={apiURL} />}
+              actionIcon={
+                !serverValues.isCurrentServerControlPlane ? (
+                  <DiagnosticLink ApiURL={apiURL} />
+                ) : (
+                  <></>
+                )
+              }
             />
 
             {/* API arch */}
@@ -164,26 +172,27 @@ export const DiagnosticAgentInfo = () => {
             />
 
             {/* Validate Origins */}
-            <DiagnosticItem
-              label="Validate Origins"
-              value=""
-              ok={stateManager.getVariable('validateOrigins')}
-              warning={origins.length > 0 && origins.includes('*')}
-              message={
-                origins.length > 0 && origins.includes('*') ? 'Warning: ORIGINS contains "*"' : ''
-              }
-              message2={
-                origins.length == 0 || (origins.length > 0 && !origins.includes(uiURL))
-                  ? `Error: Origins must contain ${uiURL}`
-                  : ''
-              }
-              message3={
-                !origins.includes('*') && origins.length > 0 && !origins.includes(uiURL)
-                  ? "If you have problems you can try to use '*'"
-                  : ''
-              }
-            />
-
+            {!serverValues.isCurrentServerControlPlane && (
+              <DiagnosticItem
+                label="Validate Origins"
+                value=""
+                ok={stateManager.getVariable('validateOrigins')}
+                warning={origins.length > 0 && origins.includes('*')}
+                message={
+                  origins.length > 0 && origins.includes('*') ? 'Warning: ORIGINS contains "*"' : ''
+                }
+                message2={
+                  origins.length == 0 || (origins.length > 0 && !origins.includes(uiURL))
+                    ? `Error: Origins must contain ${uiURL}`
+                    : ''
+                }
+                message3={
+                  !origins.includes('*') && origins.length > 0 && !origins.includes(uiURL)
+                    ? "If you have problems you can try to use '*'"
+                    : ''
+                }
+              />
+            )}
             {/* Watchdog */}
             <DiagnosticItem
               label="Check Watchdog"

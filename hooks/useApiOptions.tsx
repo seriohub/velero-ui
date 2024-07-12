@@ -73,7 +73,8 @@ export const useApiOptions = ({ target = 'agent' }: UseApiOptionsProps = {}) => 
       .then((res) => {
         const data = res.data;
         const statusCode = res.status;
-        if ('error' in res) {
+
+        if ('error' in data) {
           notifications.show({
             icon: <IconExclamationMark />,
             color: 'red',
@@ -89,10 +90,10 @@ export const useApiOptions = ({ target = 'agent' }: UseApiOptionsProps = {}) => 
               description: data.error.description,
             })
           );
-        } else if ('data' in res) {
-          setData(res.data);
+        } else if ('data' in data) {
+          setData(data.data);
         }
-        if ('notifications' in res) {
+        if ('notifications' in data) {
           data.notifications.map((message: any) => {
             notifications.show({
               icon: <IconInfoCircle />,

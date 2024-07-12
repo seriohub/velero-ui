@@ -16,7 +16,7 @@ export const useDiagnosticCore = () => {
   const [uiURL, setUiHost] = useState('');
   const [reload, setReload] = useState(1);
   const [origins, setOrigins] = useState<string | any>('');
-  const apiURL = useBackend({ target: 'core' });
+  const apiURL = useBackend({ target: 'static' });
 
   const { data: k8sHealth, getData: getDataK8sHealth } = useApiGet();
   const { data: apiOrigins, getData: getApiOrigins } = useApiGet();

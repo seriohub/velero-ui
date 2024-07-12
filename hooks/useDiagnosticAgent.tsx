@@ -67,15 +67,18 @@ export const useDiagnosticAgent = () => {
   stateManager.setVariable('getOrigins', origins.length > 0);
   stateManager.setVariable(
     'validateOrigins',
-    origins.length > 0 && (origins.includes(uiURL) || origins.includes('*'))
+    serverValues.isCurrentServerControlPlane || (origins.length > 0 && (origins.includes(uiURL) || origins.includes('*')))
   );
   stateManager.setVariable(
     'getWatchdogInfo',
     watchdog && watchdog?.payload !== undefined ? true : false
   );
   stateManager.setVariable('getClusterHealth', k8sHealth != undefined);
-  stateManager.hasWarnings = origins.length > 0 && origins.includes('*');
+  
   stateManager.setVariable('getUiApiVerCompatibility', compatibility?.payload?.compatibility);
+
+
+  stateManager.hasWarnings = (!serverValues.isCurrentServerControlPlane && origins.length > 0 && origins.includes('*'));
 
   return { uiURL, apiURL, apiArch, origins, k8sHealth, stateManager, reload, setReload };
 };

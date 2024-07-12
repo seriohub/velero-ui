@@ -71,7 +71,8 @@ export const useApiPatch = ({ target = 'agent' }: UseApiPatchProps = {}) => {
       .then((res) => {
         const data = res.data;
         const statusCode = res.status;
-        if ('error' in res) {
+
+        if ('error' in data) {
           notifications.show({
             icon: <IconExclamationMark />,
             color: 'red',
@@ -87,10 +88,10 @@ export const useApiPatch = ({ target = 'agent' }: UseApiPatchProps = {}) => {
               description: data.error.description,
             })
           );
-        } else if ('data' in res) {
-          setData(res);
+        } else if ('data' in data) {
+          setData(data.data);
         }
-        if ('notifications' in res) {
+        if ('notifications' in data) {
           data.notifications.map((message: any) => {
             notifications.show({
               icon: <IconInfoCircle />,

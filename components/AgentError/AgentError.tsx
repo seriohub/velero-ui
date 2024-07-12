@@ -12,7 +12,7 @@ export const AgentError = () => {
     <>
       {agentValues.isAgentAvailable==false && (
         <Alert variant="light" color="pink" title="Error" icon={icon}>
-          {agentValues.currentAgent?.name} agent disconnected!
+          {agentValues.currentAgent?.name} agent disconnected
         </Alert>
       )}
       {agentValues.isAgentAvailable==undefined && (

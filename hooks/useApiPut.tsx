@@ -73,7 +73,8 @@ export const useApiPut = ({ target = 'agent' }: UseApiPutProps = {}) => {
       .then((res) => {
         const data = res.data;
         const statusCode = res.status;
-        if ('detail' in res) {
+
+        if ('detail' in data) {
           notifications.show({
             icon: <IconExclamationMark />,
             color: 'red',
@@ -89,7 +90,7 @@ export const useApiPut = ({ target = 'agent' }: UseApiPutProps = {}) => {
             })
           );
         }
-        if ('error' in res) {
+        if ('error' in data) {
           notifications.show({
             icon: <IconExclamationMark />,
             color: 'red',
@@ -98,7 +99,7 @@ export const useApiPut = ({ target = 'agent' }: UseApiPutProps = {}) => {
           });
           setError(true);
         }
-        if ('notifications' in res) {
+        if ('notifications' in data) {
           data.notifications.map((message: any) => {
             notifications.show({
               icon: <IconInfoCircle />,
