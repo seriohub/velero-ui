@@ -51,7 +51,6 @@ export function Environments() {
 
   useEffect(() => {
     if (data !== undefined) {
-      console.log("nbbbbbbbbbbbbbbbbb", data)
       const jsonData = require('/mockdata/data.json');
       if (mockData) setAgentStats({ ...data.payload.agent_stats, ...jsonData });
       else setAgentStats(data.payload.agent_stats);
