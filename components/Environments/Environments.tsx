@@ -30,30 +30,11 @@ export function Environments() {
     }
   }, [reload, agentValues.isAgentAvailable]);
 
-  /*if (data === undefined || fetching) {
-    return (
-      <Stack h="100%" justify="center">
-        <Center>
-          <Loader color="blue" />
-        </Center>
-      </Stack>
-    );
-  }
-  console.log(data);
-
-  /*const [dataTest, setDataTest] = useState({})
-  useEffect(()=>{
-  
-    const jsonData = require('./data.json');
-    setDataTest(jsonData.payload)
-    console.log(jsonData.payload)
-  }, [])*/
-
   useEffect(() => {
     if (data !== undefined) {
-      const jsonData = require('/mockdata/data.json');
+      /*const jsonData = require('/mockdata/data.json');
       if (mockData) setAgentStats({ ...data.payload.agent_stats, ...jsonData });
-      else setAgentStats(data.payload.agent_stats);
+      else*/ setAgentStats(data.payload.agent_stats);
     }
   }, [data]);
 
