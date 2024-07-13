@@ -17,7 +17,7 @@ export function Environments() {
   const { height: vpHeight, width: vpWidth } = useViewportSize();
   const { data, getData, fetching } = useApiGet();
   const [reload, setReload] = useState(1);
-  const [mockData, setMockData] = useState(1);
+  const [mockData, setMockData] = useState(false);
 
   const [agentStats, setAgentStats] = useState({});
   const [agentK8sHealth, setAgentK8sHealth] = useState({});
