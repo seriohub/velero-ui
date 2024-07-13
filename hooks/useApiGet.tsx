@@ -31,8 +31,8 @@ export const useApiGet = () => {
   const pathname = usePathname();
 
   const appValues = useAppState();
-  const serverValues = useServerStatus()
-  const agentValues = useAgentStatus()
+  const serverValues = useServerStatus();
+  const agentValues = useAgentStatus();
 
   // const isServerAvailable = useServerStatus();
   // const isAgentAvailable = useAgentStatus()
@@ -49,7 +49,6 @@ export const useApiGet = () => {
     addInHistory = true,
     target = 'agent',
   }: GetDataParams) => {
-    
     const coreUrl = serverValues.isCurrentServerControlPlane
       ? target === 'core'
         ? '/core'
@@ -58,18 +57,29 @@ export const useApiGet = () => {
           : `/agent/${agentValues?.currentAgent?.name}`
       : '';
     const backendUrl = `${serverValues?.currentServer?.url}${coreUrl}`;
-    
+
     // console.log(`Server request ${backendUrl}${url}?${param}`)
-    if (!serverValues.isServerAvailable || serverValues.isServerAvailable==undefined) {
+    if (!serverValues.isServerAvailable || serverValues.isServerAvailable == undefined) {
       //else {
       console.log(`Server unavailable: skip request ${backendUrl}${url}?${param}`);
-      return
+      return;
       //}
     }
-    
-    if (target == 'agent' && url!='/online' && (agentValues.currentAgent == undefined || !agentValues.isAgentAvailable) ) {
+
+    //if (target=='core' && (!serverValues.isServerAvailable || serverValues.isCurrentServerControlPlane==undefined)){
+    if (target == 'core' && !serverValues.isServerAvailable) {
+      // || serverValues.isCurrentServerControlPlane==undefined)){
+      console.log(`Server unavailable: skip request ${url}?${param}`);
+      return;
+    }
+
+    if (
+      target == 'agent' &&
+      url != '/online' &&
+      (agentValues.currentAgent == undefined || !agentValues.isAgentAvailable)
+    ) {
       console.log(`Agent unavailable: skip request ${url}?${param}`);
-      return
+      return;
     }
     //const backendUrl = useBackend({ target: target });
 
@@ -100,12 +110,12 @@ export const useApiGet = () => {
         })
       );
     }
-    console.log(`GET: ${backendUrl}${url}?${param}`)
+    console.log(`GET: ${backendUrl}${url}?${param}`);
     fetch(`${backendUrl}${url}?${param}`, { method: 'GET', headers })
       .then(async (res) => {
-        if (res.status === 400){
-          console.log("Agent Offline")
-          throw 'Agent Offline'
+        if (res.status === 400) {
+          console.log('Agent Offline');
+          throw 'Agent Offline';
         }
         if (res.status === 401) {
           localStorage.removeItem('token');
@@ -192,15 +202,13 @@ export const useApiGet = () => {
         setFetching(false);
         setData(undefined);
         setError(true);
-        if (err == 'Agent Offline')
-          return
+        if (err == 'Agent Offline') return;
         notifications.show({
           icon: <IconExclamationMark />,
           color: 'red',
           title: 'Error',
           message: `Oops, something went wrong. ${err}`,
         });
-        
       });
   };
 

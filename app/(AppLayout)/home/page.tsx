@@ -1,5 +1,6 @@
-import { Dashboard } from '@/components/Dashboard/Dashboard';
+
+import { Environments } from '@/components/Environments/Environments';
 
 export default function HomePage() {
-  return <>home</>;
+  return <><Environments/></>;
 }

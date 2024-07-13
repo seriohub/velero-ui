@@ -1,5 +1,5 @@
-import { Dashboard } from '@/components/Dashboard/Dashboard';
+import { Nats } from '@/components/Nats/Data';
 
 export default function HomePage() {
-  return <>nats</>;
+  return <Nats/>;
 }

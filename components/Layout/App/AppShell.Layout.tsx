@@ -31,9 +31,10 @@ export default function AppShellLayout({ children }: AppShellLayoutProps) {
   const { ref, width, height } = useElementSize();
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 560 has been called`, `color: green; font-weight: bold;`)
+    if (process.env.NODE_ENV === 'development')
+      console.log(`%cuseEffect 560 has been called`, `color: green; font-weight: bold;`);
     const accordionValue = localStorage.getItem('accordion');
-    setValue(accordionValue != null ? accordionValue.split(',') : []);
+    setValue(accordionValue !== null ? accordionValue.split(',') : []);
   }, []);
 
   return (
@@ -80,6 +81,7 @@ export default function AppShellLayout({ children }: AppShellLayoutProps) {
                 variant="contained"
                 radius={0}
                 defaultValue={value}
+                value={value}
                 pt={0}
                 onChange={(val) => {
                   setValue(val);
