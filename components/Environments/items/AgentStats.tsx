@@ -11,9 +11,9 @@ import { useRouter } from 'next/navigation';
 
 interface AgentStatsProps {
   name: string;
-  stats: any;
+  data: any;
 }
-export function AgentStats({ name, stats }: AgentStatsProps) {
+export function AgentStats({ name, data }: AgentStatsProps) {
   const agentValues = useAgentStatus();
 
   const router = useRouter();
@@ -59,7 +59,7 @@ export function AgentStats({ name, stats }: AgentStatsProps) {
                 <Group>
                   <Group gap={2}>
                     <div>
-                      <Text fw={800}>{stats?.backups.stats?.all?.stats[0].count}</Text>
+                      <Text fw={800}>{data?.stats?.backups?.stats?.all?.stats[0].count}</Text>
                       <Text fz="xs" c="dimmed">
                         Completed
                       </Text>
@@ -67,7 +67,7 @@ export function AgentStats({ name, stats }: AgentStatsProps) {
                   </Group>
                   <Group gap={2}>
                     <div>
-                      <Text fw={800}>{stats?.backups.stats?.all?.stats[1].count}</Text>
+                      <Text fw={800}>{data?.stats?.backups?.stats?.all?.stats[1].count}</Text>
                       <Text fz="xs" c="dimmed">
                         Partial Failed
                       </Text>
@@ -75,7 +75,7 @@ export function AgentStats({ name, stats }: AgentStatsProps) {
                   </Group>
                   <Group gap={2}>
                     <div>
-                      <Text fw={800}>{stats?.backups.stats?.all?.stats[2].count}</Text>
+                      <Text fw={800}>{data?.stats?.backups?.stats?.all?.stats[2].count}</Text>
                       <Text fz="xs" c="dimmed">
                         Partial
                       </Text>
@@ -91,7 +91,7 @@ export function AgentStats({ name, stats }: AgentStatsProps) {
                 <Group>
                   <Group gap={2}>
                     <div>
-                      <Text fw={800}>{stats?.backups.stats?.latest?.stats[0].count}</Text>
+                      <Text fw={800}>{data?.stats?.backups?.stats?.latest?.stats[0].count}</Text>
                       <Text fz="xs" c="dimmed">
                         Completed
                       </Text>
@@ -99,7 +99,7 @@ export function AgentStats({ name, stats }: AgentStatsProps) {
                   </Group>
                   <Group gap={2}>
                     <div>
-                      <Text fw={800}>{stats?.backups.stats?.latest?.stats[1].count}</Text>
+                      <Text fw={800}>{data?.stats?.backups?.stats?.latest?.stats[1].count}</Text>
                       <Text fz="xs" c="dimmed">
                         Partial Failed
                       </Text>
@@ -107,7 +107,7 @@ export function AgentStats({ name, stats }: AgentStatsProps) {
                   </Group>
                   <Group gap={2}>
                     <div>
-                      <Text fw={800}>{stats?.backups.stats?.latest?.stats[2].count}</Text>
+                      <Text fw={800}>{data?.stats?.backups?.stats?.latest?.stats[2].count}</Text>
                       <Text fz="xs" c="dimmed">
                         Partial
                       </Text>
@@ -123,7 +123,7 @@ export function AgentStats({ name, stats }: AgentStatsProps) {
                 <Group>
                   <Group gap={2}>
                     <div>
-                      <Text fw={800}>{stats?.restores.all?.stats[0].count}</Text>
+                      <Text fw={800}>{data?.stats?.restores?.all?.stats[0].count}</Text>
                       <Text fz="xs" c="dimmed">
                         Completed
                       </Text>
@@ -131,7 +131,7 @@ export function AgentStats({ name, stats }: AgentStatsProps) {
                   </Group>
                   <Group gap={2}>
                     <div>
-                      <Text fw={800}>{stats?.restores.all?.stats[1].count}</Text>
+                      <Text fw={800}>{data?.stats?.restores?.all?.stats[1].count}</Text>
                       <Text fz="xs" c="dimmed">
                         Partial Failed
                       </Text>
@@ -139,7 +139,7 @@ export function AgentStats({ name, stats }: AgentStatsProps) {
                   </Group>
                   <Group gap={2}>
                     <div>
-                      <Text fw={800}>{stats?.restores.all?.stats[2].count}</Text>
+                      <Text fw={800}>{data?.stats?.restores?.all?.stats[2].count}</Text>
                       <Text fz="xs" c="dimmed">
                         Partial
                       </Text>
@@ -155,7 +155,7 @@ export function AgentStats({ name, stats }: AgentStatsProps) {
                 <Group>
                   <Group gap={2}>
                     <div>
-                      <Text fw={500}>{stats?.schedules.all?.count}</Text>
+                      <Text fw={500}>{data?.stats?.schedules?.all?.count}</Text>
                       <Text fz="xs" c="dimmed">
                         Total
                       </Text>
@@ -163,7 +163,7 @@ export function AgentStats({ name, stats }: AgentStatsProps) {
                   </Group>
                   <Group gap={2}>
                     <div>
-                      <Text fw={500}>{stats?.schedules.all?.stats[0].count}</Text>
+                      <Text fw={500}>{data?.stats?.schedules?.all?.stats[0].count}</Text>
                       <Text fz="xs" c="dimmed">
                         Unpaused
                       </Text>
@@ -171,7 +171,7 @@ export function AgentStats({ name, stats }: AgentStatsProps) {
                   </Group>
                   <Group gap={2}>
                     <div>
-                      <Text fw={500}>{stats?.schedules.all?.stats[1].count}</Text>
+                      <Text fw={500}>{data?.stats?.schedules?.all?.stats[1].count}</Text>
                       <Text fz="xs" c="dimmed">
                         Paused
                       </Text>
@@ -189,12 +189,12 @@ export function AgentStats({ name, stats }: AgentStatsProps) {
               <Group gap ={5}>
                 <IconServer size={18}/>
                 <Text size="sm" fw={500}>nodes</Text>
-                <Text size="sm" fw={500}>{stats?.health?.nodes?.total}</Text>
+                <Text size="sm" fw={500}>{data?.health?.nodes?.total}</Text>
               </Group>
               <Group gap ={5}>
                 <IconServer size={18}/>
                 <Text size="sm" fw={500}>in error</Text>
-                <Text size="sm" fw={500}>{stats?.health?.nodes?.in_error}</Text>
+                <Text size="sm" fw={500}>{data?.health?.nodes?.in_error}</Text>
               </Group>
             </Group>
           </Stack>

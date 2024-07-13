@@ -17,10 +17,8 @@ export function Environments() {
   const { height: vpHeight, width: vpWidth } = useViewportSize();
   const { data, getData, fetching } = useApiGet();
   const [reload, setReload] = useState(1);
-  const [mockData, setMockData] = useState(false);
 
   const [agentStats, setAgentStats] = useState({});
-  const [agentK8sHealth, setAgentK8sHealth] = useState({});
 
   useEffect(() => {
     if (process.env.NODE_ENV === 'development')
@@ -31,15 +29,18 @@ export function Environments() {
   }, [reload, agentValues.isAgentAvailable]);
 
   useEffect(() => {
-    if (data !== undefined) {
+    console.log("3000-1", data)
+    if (data?.payload !== undefined) {
       /*const jsonData = require('/mockdata/data.json');
-      if (mockData) setAgentStats({ ...data.payload.agent_stats, ...jsonData });
-      else*/ setAgentStats(data.payload.agent_stats);
+      if (mockData) setAgentStats({ ...data.payload, ...jsonData });
+      else*/ 
+      console.log("3000", data)
+      setAgentStats(data?.payload);
     }
   }, [data]);
 
   const agents = Object.entries(agentStats).map(([key, value]) => {
-    return <AgentStats name={key} stats={value} />;
+    return <AgentStats name={key} data={value} />;
   });
 
   return (
