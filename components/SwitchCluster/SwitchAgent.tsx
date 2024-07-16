@@ -22,6 +22,7 @@ export function SwitchAgent() {
             agentValues.setCurrentAgent(agentValues.agents[index]);
             agentValues.setIsAgentAvailable(undefined)
             localStorage.setItem('agent', index.toString());
+            console.log("10 Set agent available undefined")
             // router.push(`${pathname}?_=${new Date().getTime()}-${appValues.currentBackend.name}`);
             //window.location.reload();
           }

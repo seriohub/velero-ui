@@ -23,7 +23,7 @@ import { useAgentStatus } from '@/contexts/AgentStatusContext';
 export default function TaskInProgress() {
   const appValues = useAppState();
   const agentValues = useAgentStatus();
-  
+
   const { data, getData, fetching } = useApiGet();
   const [reload, setReload] = useState(1);
 
@@ -35,14 +35,18 @@ export default function TaskInProgress() {
   });
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 860 has been called`, `color: green; font-weight: bold;`)
-    if (agentValues.isAgentAvailable) getData({url:'/v1/stats/in-progress', target:'agent'});
+    if (agentValues.isAgentAvailable) {
+      if (process.env.NODE_ENV === 'development')
+        console.log(`%cuseEffect 860 has been called`, `color: green; font-weight: bold;`);
+      getData({ url: '/v1/stats/in-progress', target: 'agent' });
+    }
   }, [reload, agentValues.isAgentAvailable]);
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 870 has been called`, `color: green; font-weight: bold;`)
     if (data !== undefined) {
-      
+      if (process.env.NODE_ENV === 'development')
+        console.log(`%cuseEffect 870 has been called`, `color: green; font-weight: bold;`);
+
       const data_sorted = sortBy(data?.payload, sortStatus.columnAccessor);
       const data_order = sortStatus.direction === 'desc' ? data_sorted.reverse() : data_sorted;
       setRecords(data_order);
@@ -52,15 +56,20 @@ export default function TaskInProgress() {
   }, [data, sortStatus]);
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 880 has been called`, `color: green; font-weight: bold;`)
-    const data_sorted = sortBy(records, sortStatus.columnAccessor);
-    setRecords(sortStatus.direction === 'desc' ? records.reverse() : data_sorted);
+    if (records.length > 0) {
+      if (process.env.NODE_ENV === 'development')
+        console.log(`%cuseEffect 880 has been called`, `color: green; font-weight: bold;`);
+      const data_sorted = sortBy(records, sortStatus.columnAccessor);
+      setRecords(sortStatus.direction === 'desc' ? records.reverse() : data_sorted);
+    }
   }, [sortStatus]);
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 890 has been called`, `color: green; font-weight: bold;`)
+    if (process.env.NODE_ENV === 'development')
+      console.log(`%cuseEffect 890 has been called`, `color: green; font-weight: bold;`);
     const interval = setInterval(() => {
-      if (agentValues.isAgentAvailable) getData({url:'/v1/stats/in-progress', addInHistory:false, target:'agent'});
+      if (agentValues.isAgentAvailable)
+        getData({ url: '/v1/stats/in-progress', addInHistory: false, target: 'agent' });
     }, appValues.refreshRecent);
     return () => clearInterval(interval);
   }, [agentValues.currentAgent, agentValues.isAgentAvailable]);
@@ -129,14 +138,14 @@ export default function TaskInProgress() {
                 accessor: 'kind',
                 title: 'Kind',
                 width: 100,
-                ellipsis: true
+                ellipsis: true,
               },
               {
                 accessor: 'metadata.name',
                 title: 'Name',
                 sortable: true,
                 width: 400,
-                ellipsis: true
+                ellipsis: true,
               },
               {
                 accessor: 'metadata.labels["velero.io/schedule-name"]',
@@ -152,20 +161,50 @@ export default function TaskInProgress() {
                 },
                 sortable: true,
                 width: 250,
-                ellipsis: true
+                ellipsis: true,
               },
-              { accessor: 'status.phase', title: 'Status', sortable: true, width: 100,
-              ellipsis: true },
-              { accessor: 'status.errors', title: 'Errors', sortable: true ,width: 100,
-              ellipsis: true},
-              { accessor: 'status.warnings', title: 'Warnings', sortable: true,width: 100,
-              ellipsis: true },
-              { accessor: 'status.startTimestamp', title: 'Start', sortable: true, width: 200,
-              ellipsis: true },
-              { accessor: 'status.completionTimestamp', title: 'Completion', sortable: true, width: 200,
-              ellipsis: true },
-              { accessor: 'status.expiration', title: 'Expires', sortable: true,width: 200,
-              ellipsis: true },
+              {
+                accessor: 'status.phase',
+                title: 'Status',
+                sortable: true,
+                width: 100,
+                ellipsis: true,
+              },
+              {
+                accessor: 'status.errors',
+                title: 'Errors',
+                sortable: true,
+                width: 100,
+                ellipsis: true,
+              },
+              {
+                accessor: 'status.warnings',
+                title: 'Warnings',
+                sortable: true,
+                width: 100,
+                ellipsis: true,
+              },
+              {
+                accessor: 'status.startTimestamp',
+                title: 'Start',
+                sortable: true,
+                width: 200,
+                ellipsis: true,
+              },
+              {
+                accessor: 'status.completionTimestamp',
+                title: 'Completion',
+                sortable: true,
+                width: 200,
+                ellipsis: true,
+              },
+              {
+                accessor: 'status.expiration',
+                title: 'Expires',
+                sortable: true,
+                width: 200,
+                ellipsis: true,
+              },
               {
                 accessor: 'status.expire_in',
                 title: 'Expires in',
@@ -176,7 +215,7 @@ export default function TaskInProgress() {
                   </>
                 ),
                 width: 200,
-              ellipsis: true
+                ellipsis: true,
               },
               {
                 accessor: 'actions',

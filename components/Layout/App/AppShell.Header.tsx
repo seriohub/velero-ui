@@ -36,7 +36,7 @@ export function AppShellHeader({ opened, toggle }: any) {
           >
             <IconBrandGithub />
           </ActionIcon>
-          {/*<CheckAppVersion />*/}
+          <CheckAppVersion />
           <SwitchColorScheme />
         </Group>
       </Group>

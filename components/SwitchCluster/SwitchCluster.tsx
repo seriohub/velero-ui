@@ -32,9 +32,10 @@ export function SwitchCluster() {
         serverValues.setIsServerAvailable(undefined);
         agentValues.setIsAgentAvailable(undefined);
         serverValues.setCurrentBackend(serverValues.servers[index]);
-
         localStorage.setItem('cluster', index.toString());
         // router.push(`${pathname}?_=${new Date().getTime()}-${appValues.currentBackend.name}`);
+        console.log("20 Set server available undefined")
+        console.log("20 Set agent available undefined")
         window.location.reload();
       }}
       key={index}

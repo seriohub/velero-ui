@@ -27,7 +27,7 @@ export function Nats() {
 
   const [pageSize, setPageSize] = useState(PAGE_SIZES[0]);
   const [page, setPage] = useState(1);
-
+  
   const [records, setRecords] = useState(items.slice(0, pageSize));
 
   useEffect(() => {
@@ -42,6 +42,7 @@ export function Nats() {
       console.log(`%cuseEffect 1250 has been called`, `color: green; font-weight: bold;`);
     console.log('1250', data);
     if (data !== undefined) {
+      console.log("kk", data.payload)
       setItems(data.payload);
     } else setItems([]);
   }, [data]);

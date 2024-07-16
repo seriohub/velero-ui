@@ -9,7 +9,8 @@ export const useServerConfig = () => {
 
   // 1
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 10 has been called`, `color: green; font-weight: bold;`)
+    if (process.env.NODE_ENV === 'development')
+      console.log(`%cuseEffect 10 has been called`, `color: green; font-weight: bold;`);
     const clusterIndex =
       localStorage.getItem('cluster') &&
       Number(localStorage.getItem('cluster')) < serverValues.servers.length
@@ -21,18 +22,20 @@ export const useServerConfig = () => {
 
   // 2
   useEffect(() => {
-    // check is core or agent server
-    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 20 has been called`, `color: green; font-weight: bold;`)
     if (serverValues.isServerAvailable) {
+      if (process.env.NODE_ENV === 'development')
+        console.log(`%cuseEffect 20 has been called`, `color: green; font-weight: bold;`);
+
       getData({ url: '/online', target: 'static' });
     }
   }, [serverValues.isServerAvailable]);
 
   // 3
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 30 has been called`, `color: green; font-weight: bold;`)
-    // set core or agent server
     if (data?.payload?.type !== undefined) {
+      if (process.env.NODE_ENV === 'development')
+        console.log(`%cuseEffect 30 has been called`, `color: green; font-weight: bold;`);
+      // set core or agent server
       if (data?.payload?.type == 'core') {
         serverValues.setCurrentServerAsControlPlane(true);
       } else {

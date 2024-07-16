@@ -49,8 +49,6 @@ export const AppStateProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     Number(`${NEXT_PUBLIC_REFRESH_RECENT}`)
   );
 
-  const [init, setInit] = useState(false);
-
   return (
     <AppStateContext.Provider
       value={{

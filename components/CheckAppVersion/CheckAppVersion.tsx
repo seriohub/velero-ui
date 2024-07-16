@@ -9,26 +9,48 @@ import TableVersion from './TableVersion';
 
 import { compareVersions } from './CompareVersion';
 import { useAgentStatus } from '@/contexts/AgentStatusContext';
+import { useServerStatus } from '@/contexts/ServerStatusContext';
 
 export default function CheckAppVersion() {
   const [updateAvailable, setUpdateAvailabe] = useState(false);
   const [opened, { open, close }] = useDisclosure(false);
   const agentValues = useAgentStatus();
+  const serverValues = useServerStatus();
   const { data, getData } = useApiGet();
   const { data: repoVersion, getData: getRepoVersion } = useApiGet();
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 480 has been called`, `color: green; font-weight: bold;`)
-    if (agentValues.isAgentAvailable) {
-      getData({ url: '/info/get' });
-      getRepoVersion({ url: '/info/get-repo-tags' });
+    if (process.env.NODE_ENV === 'development') {
+      console.log(`%cuseEffect 481 has been called`, `color: green; font-weight: bold;`);
+
+      if (serverValues.isServerAvailable && serverValues.isCurrentServerControlPlane) {
+        getData({
+          url: '/info/get',
+          target: 'core',
+        });
+        getRepoVersion({
+          url: '/info/get-repo-tags',
+          target: 'core',
+        });
+      }
+      if (agentValues.isAgentAvailable && !serverValues.isCurrentServerControlPlane) {
+        getData({
+          url: '/info/get',
+          target: 'agent',
+        });
+        getRepoVersion({
+          url: '/info/get-repo-tags',
+          target: 'agent',
+        });
+      }
     }
-  }, [agentValues.isAgentAvailable]);
+  }, [serverValues.isCurrentServerControlPlane, agentValues.isAgentAvailable]);
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 480 has been called`, `color: green; font-weight: bold;`)
-    // console.log(data?.payload?.helm_version, repoVersion?.payload?.helm);
     if (data?.payload?.helm_version && repoVersion?.payload?.helm) {
+      if (process.env.NODE_ENV === 'development')
+        console.log(`%cuseEffect 482 has been called`, `color: green; font-weight: bold;`);
+
       const cmp = compareVersions(data?.payload?.helm_version, repoVersion?.payload?.helm);
       // console.log(cmp);
       if (cmp == 'githubRelease') {

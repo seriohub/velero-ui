@@ -24,14 +24,15 @@ export function AppShellFooter() {
   const { data, getData } = useApiGet();
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development')
-      console.log(`%cuseEffect 550 has been called`, `color: green; font-weight: bold;`);
     if (agentValues.isAgentAvailable)
-      getData({
-        url: '/info/get',
-        target: serverValues.isCurrentServerControlPlane ? 'core' : 'agent',
-      });
-  }, [serverValues.isCurrentServerControlPlane, agentValues.isAgentAvailable]);
+      if (process.env.NODE_ENV === 'development')
+        console.log(`%cuseEffect 550 has been called`, `color: green; font-weight: bold;`);
+
+    getData({
+      url: '/info/get',
+      target: serverValues.isCurrentServerControlPlane ? 'core' : 'agent',
+    });
+  }, [agentValues.isAgentAvailable]);
 
   return (
     <>

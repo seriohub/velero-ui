@@ -25,13 +25,16 @@ export const useAgentApiConfigs = () => {
 
   // get agent list
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 40 has been called`, `color: green; font-weight: bold;`)
     if (serverValues.isServerAvailable && serverValues.isCurrentServerControlPlane !== undefined) {
+      if (process.env.NODE_ENV === 'development')
+        console.log(`%cuseEffect 40 has been called`, `color: green; font-weight: bold;`);
+
       if (serverValues.isCurrentServerControlPlane && appValues.isAuthenticated) {
         getDataAgent({ url: '/v1/agent/get', target: 'core' });
       } else {
         agentValues.setCurrentAgent(serverValues.currentServer);
         agentValues.setIsAgentAvailable(serverValues.isServerAvailable);
+        console.log(`30 Set agent available ${serverValues.isServerAvailable}`);
       }
     }
   }, [
@@ -43,9 +46,11 @@ export const useAgentApiConfigs = () => {
 
   // set initial agent
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 50 has been called`, `color: green; font-weight: bold;`)
-    // console.log("dataAgent",dataAgent)
     if (dataAgent !== undefined) {
+      if (process.env.NODE_ENV === 'development')
+        console.log(`%cuseEffect 50 has been called`, `color: green; font-weight: bold;`);
+      // console.log("dataAgent",dataAgent)
+
       // console.log('agents', dataAgent?.payload);
       agentValues.setAgents(dataAgent?.payload);
       const agentIndex =
@@ -68,8 +73,10 @@ export const useAgentApiConfigs = () => {
   }, [dataAgent]);
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 60 has been called`, `color: green; font-weight: bold;`)
     if (serverValues.isCurrentServerControlPlane) {
+      if (process.env.NODE_ENV === 'development')
+        console.log(`%cuseEffect 60 has been called`, `color: green; font-weight: bold;`);
+
       const checkAgentStatus = async () => {
         // console.log('checkAgentStatus');
         if (
@@ -91,9 +98,11 @@ export const useAgentApiConfigs = () => {
       checkAgentStatus();
       const interval = setInterval(checkAgentStatus, 8000);
       return () => clearInterval(interval);
-    } else {
+    }
+    if (serverValues.isCurrentServerControlPlane == false) {
       agentValues.setCurrentAgent(serverValues.currentServer);
-      agentValues.setIsAgentAvailable(serverValues.isServerAvailable);      
+      agentValues.setIsAgentAvailable(serverValues.isServerAvailable);
+      console.log(`40 Set agent available ${serverValues.isServerAvailable}`);
     }
   }, [agentValues.currentAgent, serverValues.isServerAvailable]);
 };

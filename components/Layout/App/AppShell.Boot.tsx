@@ -28,15 +28,19 @@ export default function AppShellBoot({ children }: AppShellBootProps) {
   const appValues = useAppState();
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 530 has been called`, `color: green; font-weight: bold;`)
     if (serverValues.isServerAvailable) {
+      if (process.env.NODE_ENV === 'development')
+        console.log(`%cuseEffect 530 has been called`, `color: green; font-weight: bold;`);
+
       appValues.setAppInitialized(true);
     }
   }, [serverValues.isServerAvailable]);
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 540 has been called`, `color: green; font-weight: bold;`)
     if (typeof window !== 'undefined') {
+      if (process.env.NODE_ENV === 'development')
+        console.log(`%cuseEffect 540 has been called`, `color: green; font-weight: bold;`);
+
       const jwtToken = localStorage.getItem('token');
       if (jwtToken !== null) {
         appValues.setAuthenticated(true);
@@ -57,6 +61,7 @@ export default function AppShellBoot({ children }: AppShellBootProps) {
         </>
       )}
       {appValues.isAppInitialized && <AppShellLayout>{children}</AppShellLayout>}
+      
     </>
   );
 }

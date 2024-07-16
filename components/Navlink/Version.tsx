@@ -10,8 +10,11 @@ export const Version = () => {
   const { data, getData, error, fetching } = useApiGet();
   const agentValues = useAgentStatus();
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 630 has been called`, `color: green; font-weight: bold;`)
-    if (agentValues.isAgentAvailable) getData({ url: '/v1/setup/version' });
+    if (agentValues.isAgentAvailable) {
+      if (process.env.NODE_ENV === 'development')
+        console.log(`%cuseEffect 630 has been called`, `color: green; font-weight: bold;`);
+      getData({ url: '/v1/setup/version' });
+    }
   }, [agentValues.isAgentAvailable]);
 
   if (data === undefined) return <></>;

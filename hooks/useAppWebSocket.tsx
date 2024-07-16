@@ -16,8 +16,8 @@ export const useAppWebSocket = () => {
   const socketUrl = appValues.isAuthenticated
     ? `${serverValues?.currentServer?.ws}/ws/auth`
     : `${serverValues?.currentServer?.ws}/ws/online`;
-  
-    // console.log("socketUrl", socketUrl)
+
+  // console.log("socketUrl", socketUrl)
   /*useEffect(() => {
     console.log("socketUrl", socketUrl)
   }, [appValues.isAuthenticated]);*/
@@ -27,40 +27,51 @@ export const useAppWebSocket = () => {
 
   const jwtToken = typeof localStorage !== 'undefined' ? localStorage.getItem('token') : '';
 
-  const { sendMessage, lastMessage, readyState } = useWebSocket(socketUrl, {
-    shouldReconnect: (closeEvent) => didUnmount.current === false,
-    reconnectAttempts: 10,
-    reconnectInterval: 3000,
-    onOpen: () => {
-      // console.log('WebSocket open');
-      if (jwtToken) {
-        console.log('WebSocket connected, sending JWT token.');
-        sendMessage(jwtToken);
-      }
-      serverValues.setIsServerAvailable(true);
+  const { sendMessage, lastMessage, readyState } = useWebSocket(
+    socketUrl,
+    {
+      shouldReconnect: (closeEvent) => didUnmount.current === false,
+      reconnectAttempts: 10,
+      reconnectInterval: 3000,
+      onOpen: () => {
+        // console.log('WebSocket open');
+        if (jwtToken) {
+          console.log('WebSocket connected, sending JWT token.');
+          sendMessage(jwtToken);
+        }
+        serverValues.setIsServerAvailable(true);
+        console.log("50 Set server available")
+      },
+      onError: (event) => {
+        console.error('WebSocket error observed:', event);
+        serverValues.setIsServerAvailable(false);
+        agentValues.setIsAgentAvailable(false);
+        console.log("60 Set server and agent not available")
+      },
+      onClose: (event) => {
+        console.log('WebSocket closed:', event);
+        console.log('pathname', pathname);
+        // if (pathname == '/login') return; // tmp workaround
+        serverValues.setIsServerAvailable(false);
+        agentValues.setIsAgentAvailable(false);
+        console.log("70 Set server and agent not available")
+      },
     },
-    onError: (event) => {
-      console.error('WebSocket error observed:', event);
-      serverValues.setIsServerAvailable(false);
-      agentValues.setIsAgentAvailable(false);
-    },
-    onClose: (event) => {
-      console.log('WebSocket closed:', event);
-      console.log('pathname', pathname);
-      // if (pathname == '/login') return; // tmp workaround
-      serverValues.setIsServerAvailable(false);
-      agentValues.setIsAgentAvailable(false);
-    },
-  }, serverValues.currentServer!==undefined);  // Pass isServerAvailable as a dependency to only connect when true
+    serverValues.currentServer !== undefined
+  ); // Pass isServerAvailable as a dependency to only connect when true
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 1000 has been called ${lastMessage?.data}`, `color: green; font-weight: bold;`)
-    // console.log('lastMessage', lastMessage);
-    //if (!isServerAvailable) {
-    //  return;
-    //}
-
     if (lastMessage !== null) {
+      if (process.env.NODE_ENV === 'development')
+        console.log(
+          `%cuseEffect 1000 has been called ${lastMessage?.data}`,
+          `color: green; font-weight: bold;`
+        );
+      // console.log('lastMessage', lastMessage);
+      //if (!isServerAvailable) {
+      //  return;
+      //}
+
       // console.log(lastMessage, lastMessage.data)
       if (
         typeof lastMessage === 'object' &&
@@ -96,15 +107,18 @@ export const useAppWebSocket = () => {
   }[readyState];
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 1100 has been called`, `color: green; font-weight: bold;`)
-    console.log('connectionStatus', connectionStatus);
     if (mounted.current) {
+      if (process.env.NODE_ENV === 'development')
+        console.log(`%cuseEffect 1100 has been called`, `color: green; font-weight: bold;`);
+      console.log('connectionStatus', connectionStatus);
+
       appValues.setSocketStatus(connectionStatus);
     }
   }, [connectionStatus]);
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 1200 has been called`, `color: green; font-weight: bold;`)
+    if (process.env.NODE_ENV === 'development')
+      console.log(`%cuseEffect 1200 has been called`, `color: green; font-weight: bold;`);
     console.log('didUnmount', didUnmount);
     return () => {
       didUnmount.current = true;
