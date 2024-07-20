@@ -16,6 +16,7 @@ import DeleteActionIcon from '@/components/Actions/DatatableActionsIcons/DeleteA
 import RefreshDatatable from '../Actions/ToolbarActionIcons/RefreshDatatable';
 import Toolbar from '../Toolbar';
 import { useAgentStatus } from '@/contexts/AgentStatusContext';
+import { DataFetchedInfo } from '../DataFetchedInfo';
 
 const PAGE_SIZES = [10, 15, 20];
 
@@ -66,8 +67,15 @@ export function RestoreData() {
 
   useEffect(() => {
     if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 690 has been called`, `color: green; font-weight: bold;`)
-    getData({ url: '/v1/restore/get' });
-  }, [reload, agentValues.isAgentAvailable]);
+      if(agentValues.isAgentAvailable && reload>1)
+      getData({ url: '/v1/restore/get' , param: 'forced=true'});
+  }, [reload]);
+
+  useEffect(() => {
+    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 690 has been called`, `color: green; font-weight: bold;`)
+    if(agentValues.isAgentAvailable)
+      getData({ url: '/v1/restore/get' });
+  }, [agentValues.isAgentAvailable]);
 
   //useEffect(() => {
   //  getData('/v1/restore/get');
@@ -133,9 +141,9 @@ export function RestoreData() {
     <>
       <Stack h="100%" gap={0} p={5}>
         <Toolbar title="Restore">
-          <RefreshDatatable setReload={setReload} reload={reload} />
+          <RefreshDatatable setReload={setReload} reload={reload}/>
         </Toolbar>
-
+        <DataFetchedInfo metadata={data?.metadata} />
         <DataTable
           minHeight={160}
           withTableBorder

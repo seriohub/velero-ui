@@ -13,6 +13,7 @@ import CreateSCMappingIcon from '../Actions/ToolbarActionIcons/CreateSCMappingIc
 import EditSCMapping from '../Actions/DatatableActionsIcons/EditSCMapping';
 import DeleteSCMappingActionIcon from '../Actions/DatatableActionsIcons/DeleteSCMappingActionIcon';
 import { useAgentStatus } from '@/contexts/AgentStatusContext';
+import { DataFetchedInfo } from '../DataFetchedInfo';
 
 export function SCMappingData() {
   const { data: configMap, getData: getConfigMap, fetching } = useApiGet();
@@ -21,16 +22,26 @@ export function SCMappingData() {
   const agentValues = useAgentStatus();
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 790 has been called`, `color: green; font-weight: bold;`)
-    getConfigMap({url:'/v1/sc/change-storage-classes-config-map/get'});
-  }, [reload, agentValues.isAgentAvailable]);
+    if (process.env.NODE_ENV === 'development')
+      console.log(`%cuseEffect 790 has been called`, `color: green; font-weight: bold;`);
+    if (agentValues.isAgentAvailable && reload>1)
+      getConfigMap({ url: '/v1/sc/change-storage-classes-config-map/get', param: 'forced=true' });
+  }, [reload]);
+
+  useEffect(() => {
+    if (process.env.NODE_ENV === 'development')
+      console.log(`%cuseEffect 790 has been called`, `color: green; font-weight: bold;`);
+    if (agentValues.isAgentAvailable)
+      getConfigMap({ url: '/v1/sc/change-storage-classes-config-map/get' });
+  }, [agentValues.isAgentAvailable]);
 
   //useEffect(() => {
   //  getConfigMap('/v1/sc/change-storage-classes-config-map/get');
   //}, []);
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 885 has been called`, `color: green; font-weight: bold;`)
+    if (process.env.NODE_ENV === 'development')
+      console.log(`%cuseEffect 885 has been called`, `color: green; font-weight: bold;`);
     if (configMap?.payload !== undefined) {
       setItems(configMap.payload);
     }
@@ -50,7 +61,7 @@ export function SCMappingData() {
           <CreateSCMappingIcon setReload={setReload} reload={reload} />
           <RefreshDatatable setReload={setReload} reload={reload} />
         </Toolbar>
-
+        <DataFetchedInfo metadata={configMap?.metadata} />
         <DataTable
           minHeight={160}
           withTableBorder

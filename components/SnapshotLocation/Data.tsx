@@ -14,6 +14,7 @@ import Toolbar from '../Toolbar';
 import DetailActionIcon from '../Actions/DatatableActionsIcons/DetailActionIcon';
 import CredentialActionIcon from '../Actions/DatatableActionsIcons/CredentialActionIcon';
 import { useAgentStatus } from '@/contexts/AgentStatusContext';
+import { DataFetchedInfo } from '../DataFetchedInfo';
 
 const PAGE_SIZES = [5];
 
@@ -35,8 +36,16 @@ export function SnapshotLocation() {
 
   useEffect(() => {
     if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 800 has been called`, `color: green; font-weight: bold;`)
-    getData({url:'/v1/snapshot-location/get'});
-  }, [reload, agentValues.isAgentAvailable]);
+      console.log("reload", reload)
+      if (agentValues.isAgentAvailable && reload>1)
+      getData({url:'/v1/snapshot-location/get', param: 'forced=true'});
+  }, [reload]);
+
+  useEffect(() => {
+    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 801 has been called`, `color: green; font-weight: bold;`)
+    if (agentValues.isAgentAvailable)
+      getData({url:'/v1/snapshot-location/get'});
+  }, [agentValues.isAgentAvailable]);
 
   //useEffect(() => {
   //  getData('/v1/snapshot-location/get');
@@ -73,9 +82,9 @@ export function SnapshotLocation() {
     <>
       <Stack h="100%" gap={0} p={5}>
         <Toolbar title="Snapshot Location">
-          <RefreshDatatable setReload={setReload} reload={reload} />
+          <RefreshDatatable setReload={setReload} reload={reload}/>
         </Toolbar>
-
+        <DataFetchedInfo metadata={data?.metadata} />
         <DataTable
           minHeight={160}
           withTableBorder

@@ -19,6 +19,7 @@ import RefreshDatatable from '../Actions/ToolbarActionIcons/RefreshDatatable';
 import Toolbar from '../Toolbar';
 import InfoRepository from '../Actions/DatatableActionsIcons/InfoRepository';
 import { useAgentStatus } from '@/contexts/AgentStatusContext';
+import { DataFetchedInfo } from '../DataFetchedInfo';
 
 const PAGE_SIZES = [5, 10, 15, 20];
 
@@ -45,19 +46,28 @@ export function RepoLocation() {
   const [records, setRecords] = useState(items.slice(0, pageSize));
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 640 has been called`, `color: green; font-weight: bold;`)
-    getData({ url: '/v1/repo/get' });
-  }, [reload, agentValues.isAgentAvailable]);
+    if (process.env.NODE_ENV === 'development')
+      console.log(`%cuseEffect 640 has been called`, `color: green; font-weight: bold;`);
+    if (agentValues.isAgentAvailable && reload>1) getData({ url: '/v1/repo/get', param: 'forced=true' });
+  }, [reload]);
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 650 has been called`, `color: green; font-weight: bold;`)
+    if (process.env.NODE_ENV === 'development')
+      console.log(`%cuseEffect 640 has been called`, `color: green; font-weight: bold;`);
+    if (agentValues.isAgentAvailable) getData({ url: '/v1/repo/get' });
+  }, [agentValues.isAgentAvailable]);
+
+  useEffect(() => {
+    if (process.env.NODE_ENV === 'development')
+      console.log(`%cuseEffect 650 has been called`, `color: green; font-weight: bold;`);
     if (data !== undefined) {
       setItems(data.payload);
     } else setItems([]);
   }, [data]);
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 660 has been called`, `color: green; font-weight: bold;`)
+    if (process.env.NODE_ENV === 'development')
+      console.log(`%cuseEffect 660 has been called`, `color: green; font-weight: bold;`);
     const from = (page - 1) * pageSize;
     const to = from + pageSize;
     const data_sorted = sortBy(items, sortStatus.columnAccessor);
@@ -83,7 +93,8 @@ export function RepoLocation() {
   );
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 670 has been called`, `color: green; font-weight: bold;`)
+    if (process.env.NODE_ENV === 'development')
+      console.log(`%cuseEffect 670 has been called`, `color: green; font-weight: bold;`);
     if (locks !== undefined) {
       setRecords(
         records.filter(function (obj) {
@@ -101,7 +112,8 @@ export function RepoLocation() {
   }, [locks]);
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 680 has been called`, `color: green; font-weight: bold;`)
+    if (process.env.NODE_ENV === 'development')
+      console.log(`%cuseEffect 680 has been called`, `color: green; font-weight: bold;`);
     if (unlock !== undefined) {
       getLocks({
         url: '/v1/repo/locks/get',
@@ -116,7 +128,7 @@ export function RepoLocation() {
         <Toolbar title="Repo">
           <RefreshDatatable setReload={setReload} reload={reload} />
         </Toolbar>
-
+        <DataFetchedInfo metadata={data?.metadata} />
         <DataTable
           minHeight={160}
           withTableBorder

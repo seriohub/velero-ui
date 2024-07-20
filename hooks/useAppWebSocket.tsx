@@ -5,12 +5,14 @@ import { useAppState } from '@/contexts/AppStateContext';
 import { useServerStatus } from '@/contexts/ServerStatusContext';
 import { useAgentStatus } from '@/contexts/AgentStatusContext';
 import { usePathname } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 export const useAppWebSocket = () => {
   const appValues = useAppState();
   const serverValues = useServerStatus();
   const agentValues = useAgentStatus();
   const pathname = usePathname();
+  const router = useRouter();
 
   // const NEXT_PUBLIC_VELERO_API_WS = serverValues.currentServer?.ws;
   const socketUrl = appValues.isAuthenticated
@@ -55,6 +57,11 @@ export const useAppWebSocket = () => {
         serverValues.setIsServerAvailable(false);
         agentValues.setIsAgentAvailable(false);
         console.log("70 Set server and agent not available")
+        if (event?.code==1001){
+          localStorage.removeItem('token');
+          appValues.setAuthenticated(false);
+          router.push('/');
+        }
       },
     },
     serverValues.currentServer !== undefined

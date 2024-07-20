@@ -21,6 +21,7 @@ import ExpireIn from './ExpireIn';
 import Duration from './Duration';
 import LastBackup4Schedule from '../Actions/ToolbarActionIcons/LastBackup4Schedule';
 import { useAgentStatus } from '@/contexts/AgentStatusContext';
+import { DataFetchedInfo } from '../DataFetchedInfo';
 
 const PAGE_SIZES = [10, 15, 20];
 
@@ -80,16 +81,33 @@ export function BackupData({ limit = -1 }: BackupDataProps) {
   }, [data]);
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 360 has been called`, `color: green; font-weight: bold;`)
-    getData({url:'/v1/backup/get', param:onlyLast4Schedule == true ? 'only_last_for_schedule=true' : ''});
-  }, [reload, onlyLast4Schedule, agentValues.isAgentAvailable]);
+    if (process.env.NODE_ENV === 'development')
+      console.log(`%cuseEffect 360 has been called`, `color: green; font-weight: bold;`);
+    if (agentValues.isAgentAvailable && reload>1)
+      getData({
+        url: '/v1/backup/get',
+        param:
+          onlyLast4Schedule == true ? 'only_last_for_schedule=true&forced=true' : 'forced=true',
+      });
+  }, [reload]);
+
+  useEffect(() => {
+    if (process.env.NODE_ENV === 'development')
+      console.log(`%cuseEffect 360 has been called`, `color: green; font-weight: bold;`);
+    if (agentValues.isAgentAvailable)
+      getData({
+        url: '/v1/backup/get',
+        param: onlyLast4Schedule == true ? 'only_last_for_schedule=true' : '',
+      });
+  }, [onlyLast4Schedule, agentValues.isAgentAvailable]);
 
   //useEffect(() => {
   //  getData('/v1/backup/get', onlyLast4Schedule == true ? 'only_last_for_schedule=true' : '');
   //}, []);
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 370 has been called`, `color: green; font-weight: bold;`)
+    if (process.env.NODE_ENV === 'development')
+      console.log(`%cuseEffect 370 has been called`, `color: green; font-weight: bold;`);
     if (data !== undefined) {
       if (limit === -1) {
         setItems(data.payload);
@@ -100,7 +118,8 @@ export function BackupData({ limit = -1 }: BackupDataProps) {
   }, [data]);
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 380 has been called`, `color: green; font-weight: bold;`)
+    if (process.env.NODE_ENV === 'development')
+      console.log(`%cuseEffect 380 has been called`, `color: green; font-weight: bold;`);
     const from = (page - 1) * pageSize;
     const to = from + pageSize;
     const data_sorted = sortBy(items, sortStatus.columnAccessor);
@@ -132,7 +151,8 @@ export function BackupData({ limit = -1 }: BackupDataProps) {
   }, [page, pageSize, sortStatus, selectedSchedule, selectedPhase, items]);
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 390 has been called`, `color: green; font-weight: bold;`)
+    if (process.env.NODE_ENV === 'development')
+      console.log(`%cuseEffect 390 has been called`, `color: green; font-weight: bold;`);
     setPage(1);
   }, [selectedSchedule, sortStatus, onlyLast4Schedule]);
 
@@ -168,7 +188,7 @@ export function BackupData({ limit = -1 }: BackupDataProps) {
           <CreateBackupToolbarIcon setReload={setReload} reload={reload} />
           <RefreshDatatable setReload={setReload} reload={reload} />
         </Toolbar>
-
+        <DataFetchedInfo metadata={data?.metadata} />
         <DataTable
           minHeight={160}
           withTableBorder
@@ -278,7 +298,10 @@ export function BackupData({ limit = -1 }: BackupDataProps) {
               // sortable: true,
               render: ({ status }) => (
                 <>
-                  <Duration startTimestamp={status.startTimestamp} completionTimestamp={status.completionTimestamp} />
+                  <Duration
+                    startTimestamp={status.startTimestamp}
+                    completionTimestamp={status.completionTimestamp}
+                  />
                 </>
               ),
               width: 200,
@@ -304,7 +327,7 @@ export function BackupData({ limit = -1 }: BackupDataProps) {
               title: 'Storage Location',
               sortable: true,
               width: 250,
-              ellipsis: true
+              ellipsis: true,
             },
             {
               accessor: 'actions',

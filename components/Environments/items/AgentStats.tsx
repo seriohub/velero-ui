@@ -4,10 +4,17 @@ import React from 'react';
 import { Box, Image, Paper, Stack } from '@mantine/core';
 
 import { Card, Text, Group, RingProgress, Center } from '@mantine/core';
-import { IconAffiliate, IconCheck, IconDeviceFloppy, IconPlugConnected, IconServer } from '@tabler/icons-react';
+import {
+  IconAffiliate,
+  IconCheck,
+  IconDeviceFloppy,
+  IconPlugConnected,
+  IconServer,
+} from '@tabler/icons-react';
 import styles from './AgentStats.module.css';
 import { useAgentStatus } from '@/contexts/AgentStatusContext';
 import { useRouter } from 'next/navigation';
+import ExpireIn from '@/components/Backup/ExpireIn';
 
 interface AgentStatsProps {
   name: string;
@@ -77,7 +84,7 @@ export function AgentStats({ name, data }: AgentStatsProps) {
                     <div>
                       <Text fw={800}>{data?.stats?.backups?.stats?.all?.stats[2].count}</Text>
                       <Text fz="xs" c="dimmed">
-                        Partial
+                        Failed
                       </Text>
                     </div>
                   </Group>
@@ -109,7 +116,7 @@ export function AgentStats({ name, data }: AgentStatsProps) {
                     <div>
                       <Text fw={800}>{data?.stats?.backups?.stats?.latest?.stats[2].count}</Text>
                       <Text fz="xs" c="dimmed">
-                        Partial
+                        Failed
                       </Text>
                     </div>
                   </Group>
@@ -141,7 +148,7 @@ export function AgentStats({ name, data }: AgentStatsProps) {
                     <div>
                       <Text fw={800}>{data?.stats?.restores?.all?.stats[2].count}</Text>
                       <Text fz="xs" c="dimmed">
-                        Partial
+                        Failed
                       </Text>
                     </div>
                   </Group>
@@ -180,22 +187,37 @@ export function AgentStats({ name, data }: AgentStatsProps) {
                 </Group>
               </Box>
             </Group>
-            <Group>
-              <Group gap ={5}>
-                <IconPlugConnected size={18}/>
-                <Text size="sm" fw={500}>k8s online</Text>
-                <IconCheck color="green"/>
+            <Group justify="space-between">
+              <Group>
+                <Group gap={5}>
+                  <IconPlugConnected size={18} />
+                  <Text size="sm" fw={500}>
+                    k8s online
+                  </Text>
+                  <IconCheck color="green" />
+                </Group>
+                <Group gap={5}>
+                  <IconServer size={18} />
+                  <Text size="sm" fw={500}>
+                    nodes
+                  </Text>
+                  <Text size="sm" fw={500}>
+                    {data?.health?.nodes?.total}
+                  </Text>
+                </Group>
+                <Group gap={5}>
+                  <IconServer size={18} />
+                  <Text size="sm" fw={500}>
+                    in error
+                  </Text>
+                  <Text size="sm" fw={500}>
+                    {data?.health?.nodes?.in_error}
+                  </Text>
+                </Group>
               </Group>
-              <Group gap ={5}>
-                <IconServer size={18}/>
-                <Text size="sm" fw={500}>nodes</Text>
-                <Text size="sm" fw={500}>{data?.health?.nodes?.total}</Text>
-              </Group>
-              <Group gap ={5}>
-                <IconServer size={18}/>
-                <Text size="sm" fw={500}>in error</Text>
-                <Text size="sm" fw={500}>{data?.health?.nodes?.in_error}</Text>
-              </Group>
+              <Text size="sm" fw={500} c='green'>
+                <ExpireIn expiration={data?.health?.timestamp} />
+              </Text>
             </Group>
           </Stack>
         </Group>

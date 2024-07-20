@@ -29,7 +29,6 @@ export function Environments() {
   }, [reload, agentValues.isAgentAvailable]);
 
   useEffect(() => {
-    console.log("3000-1", data)
     if (data?.payload !== undefined) {
       /*const jsonData = require('/mockdata/data.json');
       if (mockData) setAgentStats({ ...data.payload, ...jsonData });

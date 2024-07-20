@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 
-import { Stack, Loader, Center, ScrollArea, SimpleGrid, Space } from '@mantine/core';
+import { Stack, Loader, Center, ScrollArea, SimpleGrid, Space, Group, Text } from '@mantine/core';
 
 import { IconClock, IconDeviceFloppy, IconRestore, IconCalendarEvent } from '@tabler/icons-react';
 import { useViewportSize } from '@mantine/hooks';
@@ -14,6 +14,8 @@ import Toolbar from '../Toolbar';
 import RefreshDatatable from '../Actions/ToolbarActionIcons/RefreshDatatable';
 import { useAgentStatus } from '@/contexts/AgentStatusContext';
 import { useServerStatus } from '@/contexts/ServerStatusContext';
+import ExpireIn from '../Backup/ExpireIn';
+import { DataFetchedInfo } from '../DataFetchedInfo';
 
 export function Dashboard() {
   const { height: vpHeight, width: vpWidth } = useViewportSize();
@@ -23,11 +25,20 @@ export function Dashboard() {
   const agentValues = useAgentStatus();
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 100 has been called`, `color: green; font-weight: bold;`)
+    if (process.env.NODE_ENV === 'development')
+      console.log(`%cuseEffect 100 has been called`, `color: green; font-weight: bold;`);
+    if (agentValues.isAgentAvailable && reload>1) {
+      getData({ url: '/v1/stats/get', param: 'forced=true' });
+    }
+  }, [reload]);
+
+  useEffect(() => {
+    if (process.env.NODE_ENV === 'development')
+      console.log(`%cuseEffect 101 has been called`, `color: green; font-weight: bold;`);
     if (agentValues.isAgentAvailable) {
       getData({ url: '/v1/stats/get' });
     }
-  }, [reload, agentValues.isAgentAvailable]);
+  }, [agentValues.isAgentAvailable]);
 
   if (data === undefined || fetching) {
     return (
@@ -42,11 +53,12 @@ export function Dashboard() {
   return (
     <>
       <ScrollArea p={0} style={{ height: '100%' }} scrollbars="y" offsetScrollbars>
-        <Stack p={5} w={vpWidth < 768 ? '100vw' : 'calc(100vw - 240px)'}>
-          <Stack>
+        <Stack p={5} w={vpWidth < 768 ? '100vw' : 'calc(100vw - 240px)'} >
+          <Stack gap={0}>
             <Toolbar title="Dashboard">
               <RefreshDatatable setReload={setReload} reload={reload} />
             </Toolbar>
+            <DataFetchedInfo metadata={data?.metadata} />
             <SimpleGrid
               cols={{ base: 1, sm: 3, lg: 5 }}
               spacing={{ base: 5, sm: 10 }}
