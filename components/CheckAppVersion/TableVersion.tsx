@@ -72,7 +72,7 @@ export default function TableVersion({ app, githubRelease }: TableVersionProps) 
       <Group gap={5}>
         {app?.helm_version != '-' && <IconCheck color="green" size={16} />}
         {app?.helm_version == '-' && <IconX color="red" size={16} />}
-        <Text size="sm"> Helm installed (raccomanded)</Text>
+        <Text size="sm"> Helm installed (recommended)</Text>
       </Group>
       <Space h="md" />
       <Table>
