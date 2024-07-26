@@ -12,7 +12,8 @@ export const UpdatePassword = () => {
   const { data, getData } = useApiGet();
 
   useEffect(() => {
-    getData('/v1/users/me/info');
+    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 605 has been called`, `color: green; font-weight: bold;`)
+    getData({ url: '/v1/users/me/info', target: 'static' });
   }, []);
 
   if (data === undefined) return <></>;

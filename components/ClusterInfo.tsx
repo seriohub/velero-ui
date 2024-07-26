@@ -1,14 +1,12 @@
-import { useEffect, useContext } from 'react';
-
 import { Avatar, Group, Text } from '@mantine/core';
-import { usePathname } from 'next/navigation';
-import { useApiGet } from '@/hooks/useApiGet';
 
-import VeleroAppContexts from '@/contexts/VeleroAppContexts';
 import { IconServer } from '@tabler/icons-react';
 
+import { useServerStatus } from '@/contexts/ServerStatusContext';
+
 export const ClusterInfo = () => {
-  const appValues = useContext(VeleroAppContexts);
+  const serverValues = useServerStatus();
+
   return (
     <>
       <Group wrap="nowrap" px={5} mt={25} mb={10} gap={6}>
@@ -17,13 +15,12 @@ export const ClusterInfo = () => {
         </Avatar>
         <div>
           <Text fz="xs" tt="uppercase" fw={700} c="dimmed">
-            {appValues.state.currentBackend.name}
+            {serverValues?.currentServer?.name}
           </Text>
-        
-      
-        <Text size="xs" fw={700}>
-          {appValues.state.currentBackend.url}
-        </Text>
+
+          <Text size="xs" fw={700}>
+            {serverValues?.currentServer?.url}
+          </Text>
         </div>
       </Group>
     </>

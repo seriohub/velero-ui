@@ -2,13 +2,14 @@
 
 import { useEffect, useState } from 'react';
 
-import { Group, ScrollArea, Text, Stack, Table, Divider } from '@mantine/core';
+import { Group, ScrollArea, Text, Stack, Table } from '@mantine/core';
 
 import { useApiGet } from '@/hooks/useApiGet';
 import RefreshDatatable from '../Actions/ToolbarActionIcons/RefreshDatatable';
 import Toolbar from '../Toolbar';
 import SendReport from '../Actions/ToolbarActionIcons/SendReport';
 import { WatchdogTestChannel } from './watchdogTestChannel';
+import { useAgentStatus } from '@/contexts/AgentStatusContext';
 
 export function Watchdog() {
   const { data: configuration, getData: getConfiguration, fetching } = useApiGet();
@@ -16,17 +17,21 @@ export function Watchdog() {
   const { data: cron, getData: getCron } = useApiGet();
   const [reload, setReload] = useState(1);
   const [rowApiConfiguration, setRowApiConfiguration] = useState<React.ReactNode[]>([]);
+  const agentValues = useAgentStatus();
 
   useEffect(() => {
-    getConfiguration('/v1/watchdog/get-config');
-  }, [reload]);
+    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 900 has been called`, `color: green; font-weight: bold;`)
+    getConfiguration({ url: '/v1/watchdog/get-config' });
+    getCron({ url: '/v1/watchdog/get-cron' });
+  }, [reload, agentValues.isAgentAvailable]);
+
+  /*useEffect(() => {
+    getConfiguration({ url: '/v1/watchdog/get-config' });
+    getCron({ url: '/v1/watchdog/get-cron' });
+  }, []);*/
 
   useEffect(() => {
-    getConfiguration('/v1/watchdog/get-config');
-    getCron('/v1/watchdog/get-cron');
-  }, []);
-
-  useEffect(() => {
+    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 910 has been called`, `color: green; font-weight: bold;`)
     if (configuration !== undefined) {
       const rows = Object.keys(configuration?.payload).map((key) => (
         <Table.Tr key={key}>

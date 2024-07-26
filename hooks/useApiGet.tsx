@@ -6,25 +6,83 @@ import { notifications } from '@mantine/notifications';
 import { modals } from '@mantine/modals';
 import { IconExclamationMark, IconInfoCircle } from '@tabler/icons-react';
 
-import { env } from 'next-runtime-env';
+// import { env } from 'next-runtime-env';
 
-import VeleroAppContexts from '@/contexts/VeleroAppContexts';
+import { useAppState } from '@/contexts/AppStateContext';
 import { Code } from '@mantine/core';
+import { useBackend } from './useBackend';
+import { useServerStatus } from '@/contexts/ServerStatusContext';
+import { useAgentStatus } from '@/contexts/AgentStatusContext';
 
+interface UseApiGetProps {
+  target?: 'core' | 'agent' | 'static';
+}
+type TargetType = 'core' | 'agent' | 'static';
+type GetDataParams = {
+  url: string;
+  param?: string;
+  addInHistory?: boolean;
+  target?: TargetType;
+};
+
+//export const useApiGet = ({ target = 'agent' }: UseApiGetProps = {}) => {
 export const useApiGet = () => {
-  const appValues = useContext(VeleroAppContexts);
   const router = useRouter();
   const pathname = usePathname();
-  const value = useContext(VeleroAppContexts);
-  
-  // const NEXT_PUBLIC_VELERO_API_URL = env('NEXT_PUBLIC_VELERO_API_URL');
-  const NEXT_PUBLIC_VELERO_API_URL = appValues.state.currentBackend?.url;
+
+  const appValues = useAppState();
+  const serverValues = useServerStatus();
+  const agentValues = useAgentStatus();
+
+  // const isServerAvailable = useServerStatus();
+  // const isAgentAvailable = useAgentStatus()
 
   const [fetching, setFetching] = useState(false);
   const [data, setData] = useState<Record<string, any> | undefined>(undefined);
   const [error, setError] = useState(false);
 
-  const getData = async (url: string, param: string = '', addInHistory: boolean = true) => {
+  //const backendUrl = useBackend({ target: target });
+
+  const getData = async ({
+    url,
+    param = '',
+    addInHistory = true,
+    target = 'agent',
+  }: GetDataParams) => {
+    const coreUrl = serverValues.isCurrentServerControlPlane
+      ? target === 'core'
+        ? '/core'
+        : target === 'static'
+          ? ''
+          : `/agent/${agentValues?.currentAgent?.name}`
+      : '';
+    const backendUrl = `${serverValues?.currentServer?.url}${coreUrl}`;
+
+    // console.log(`Server request ${backendUrl}${url}?${param}`)
+    if (!serverValues.isServerAvailable || serverValues.isServerAvailable == undefined) {
+      //else {
+      console.log(`Server unavailable: skip request ${backendUrl}${url}?${param}`);
+      return;
+      //}
+    }
+
+    //if (target=='core' && (!serverValues.isServerAvailable || serverValues.isCurrentServerControlPlane==undefined)){
+    if (target == 'core' && !serverValues.isServerAvailable) {
+      // || serverValues.isCurrentServerControlPlane==undefined)){
+      console.log(`Server unavailable: skip request ${url}?${param}`);
+      return;
+    }
+
+    if (
+      target == 'agent' &&
+      url != '/online' &&
+      (agentValues.currentAgent == undefined || !agentValues.isAgentAvailable)
+    ) {
+      console.log(`Agent unavailable: skip request ${url}?${param}`);
+      return;
+    }
+    //const backendUrl = useBackend({ target: target });
+
     if (error) {
       setError(false);
     }
@@ -43,18 +101,22 @@ export const useApiGet = () => {
     }
 
     if (addInHistory === true) {
-      value.setApiRequest((prev: Array<any>) =>
+      appValues.setApiRequest((prev: Array<any>) =>
         prev.concat({
           method: 'GET',
           headers,
-          url: `${NEXT_PUBLIC_VELERO_API_URL}${url}?${param}`,
+          url: `${backendUrl}${url}?${param}`,
           params: param,
         })
       );
     }
-
-    fetch(`${NEXT_PUBLIC_VELERO_API_URL}${url}?${param}`, { method: 'GET', headers })
+    console.log(`GET: ${backendUrl}${url}?${param}`);
+    fetch(`${backendUrl}${url}?${param}`, { method: 'GET', headers })
       .then(async (res) => {
+        if (res.status === 400) {
+          console.log('Agent Offline');
+          throw 'Agent Offline';
+        }
         if (res.status === 401) {
           localStorage.removeItem('token');
           if (pathname !== '/login' && pathname !== '/') router.push('/');
@@ -81,7 +143,7 @@ export const useApiGet = () => {
           });
           setData(undefined);
           setError(true);
-          value.setNotificationHistory((prev: Array<any>) =>
+          appValues.setNotificationHistory((prev: Array<any>) =>
             prev.concat({
               statusCode: statusCode,
               title: data.error.title,
@@ -99,7 +161,7 @@ export const useApiGet = () => {
               title: message.title,
               message: message.description,
             });
-            value.setNotificationHistory((prev: Array<any>) =>
+            appValues.setNotificationHistory((prev: Array<any>) =>
               prev.concat({
                 statusCode: statusCode,
                 title: message.title,
@@ -114,18 +176,20 @@ export const useApiGet = () => {
             modals.open({
               title: message.title,
               size: 'lg',
-              children: <Code block color="#010101">
-              {message.description.join("\n")}
-            </Code>
+              children: (
+                <Code block color="#010101">
+                  {message.description.join('\n')}
+                </Code>
+              ),
             });
           });
         }
         setFetching(false);
         if (addInHistory === true) {
-          value.setApiResponse((prev: Array<any>) =>
+          appValues.setApiResponse((prev: Array<any>) =>
             prev.concat({
               method: 'GET',
-              url: `${NEXT_PUBLIC_VELERO_API_URL}${url}?${param}`,
+              url: `${backendUrl}${url}?${param}`,
               data: data,
               statusCode: statusCode,
               xProcessTime: res.xProcessTime,
@@ -135,15 +199,16 @@ export const useApiGet = () => {
       })
 
       .catch((err) => {
+        setFetching(false);
+        setData(undefined);
+        setError(true);
+        if (err == 'Agent Offline') return;
         notifications.show({
           icon: <IconExclamationMark />,
           color: 'red',
           title: 'Error',
           message: `Oops, something went wrong. ${err}`,
         });
-        setFetching(false);
-        setData(undefined);
-        setError(true);
       });
   };
 
@@ -152,7 +217,6 @@ export const useApiGet = () => {
     data,
     getData,
     setData,
-
     error,
   };
 };

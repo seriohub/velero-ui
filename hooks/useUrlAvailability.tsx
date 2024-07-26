@@ -1,3 +1,4 @@
+import { useServerStatus } from '@/contexts/ServerStatusContext';
 import { useState } from 'react';
 import { RequestInfo } from 'undici-types';
 
@@ -22,12 +23,15 @@ const checkUrlAvailability = async (url: string) => {
 export const useUrlAvailability = () => {
   const [isUrlAvailable, setIsUrlAvailable] = useState(false);
   const [loading, setLoading] = useState(false);
+  const serverValues = useServerStatus();
 
   const checkAvailability = async (url: string) => {
-    setLoading(true);
-    const result = await checkUrlAvailability(url);
-    setIsUrlAvailable(result);
-    setLoading(false);
+    if (serverValues.isServerAvailable == true) {
+      setLoading(true);
+      const result = await checkUrlAvailability(url);
+      setIsUrlAvailable(result);
+      setLoading(false);
+    }
   };
 
   return { isUrlAvailable, loading, checkAvailability };

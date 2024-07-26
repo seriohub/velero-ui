@@ -16,20 +16,20 @@ import {
 
 import { IconLock, IconUser } from '@tabler/icons-react';
 import { env } from 'next-runtime-env';
-import { SwitchCluster } from '@/components/SwitchCluster/SwitchCluster';
-import { useContext } from 'react';
-import VeleroAppContexts from '@/contexts/VeleroAppContexts';
-import { SwitchCluster2 } from '../SwitchCluster/SwitchCluster2';
+
+import { useAppState } from '@/contexts/AppStateContext';
+import { useServerStatus } from '@/contexts/ServerStatusContext';
+
+import { SwitchCluster } from '../SwitchCluster/SwitchCluster';
 
 export function AuthenticationForm() {
-  const appValues = useContext(VeleroAppContexts);
+  const serverValues = useServerStatus();
+  const appValues = useAppState();
 
   const router = useRouter();
-  
-  const LoginClustersSwitch = env('NEXT_PUBLIC_LOGIN_CLUSTERS_SWITCH')?.toLowerCase() === 'true' ? true: false;
 
-  //const NEXT_PUBLIC_VELERO_API_URL = env('NEXT_PUBLIC_VELERO_API_URL');
-  const NEXT_PUBLIC_VELERO_API_URL = appValues.state.currentBackend?.url;
+  const LoginClustersSwitch =
+    env('NEXT_PUBLIC_LOGIN_CLUSTERS_SWITCH')?.toLowerCase() === 'true' ? true : false;
 
   const form = useForm({
     initialValues: {
@@ -49,13 +49,14 @@ export function AuthenticationForm() {
     const formData = new FormData();
     formData.append('username', form.values.username);
     formData.append('password', form.values.password);
-    const res = await fetch(`${NEXT_PUBLIC_VELERO_API_URL}/v1/token`, {
+    const res = await fetch(`${serverValues.currentServer?.url}/v1/token`, {
       method: 'POST',
       body: formData,
     });
     if (res.status === 200) {
       const json = await res.json();
       localStorage.setItem('token', json.access_token);
+      appValues.setAuthenticated(true);
       router.push('/dashboard');
     } else {
       form.setErrors({ username: true, password: true });
@@ -77,9 +78,7 @@ export function AuthenticationForm() {
 
       <Space h="xl" />
 
-      {LoginClustersSwitch && (
-      <SwitchCluster2 />
-    )}
+      {LoginClustersSwitch && <SwitchCluster />}
 
       <form onSubmit={handleSubmit}>
         <Stack>

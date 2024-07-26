@@ -15,11 +15,11 @@ import {
 } from '@mantine/core';
 import { IconCopy, IconCheck } from '@tabler/icons-react';
 /// import { useAppWebSocket } from '@/hooks/useAppWebSocket';
-import VeleroAppContexts from '@/contexts/VeleroAppContexts';
+import { useAppState } from '@/contexts/AppStateContext';
 
 export default function ShellCommands() {
   // const { messageHistory } = useAppWebSocket();
-  const appValues = useContext(VeleroAppContexts);
+  const appValues = useAppState();
 
   const viewport = useRef<HTMLDivElement>(null);
 
@@ -29,7 +29,7 @@ export default function ShellCommands() {
     }
   };
 
-  const commands = appValues.state.messagesHistory.map((item: any, index: number) => (
+  const commands = appValues.messagesHistory.map((item: any, index: number) => (
     <Group gap={0} key={index}>
       <CopyButton value={item} timeout={2000}>
         {({ copied, copy }) => (
@@ -51,8 +51,9 @@ export default function ShellCommands() {
   ));
 
   useEffect(() => {
+    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 875 has been called`, `color: green; font-weight: bold;`)
     scrollToBottom();
-  }, [appValues.state.messagesHistory]);
+  }, [appValues.messagesHistory]);
 
   /*if (lastMessage === null || lastMessage === undefined || !('data' in lastMessage)) {
     return <></>;

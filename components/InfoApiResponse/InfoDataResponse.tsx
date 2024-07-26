@@ -1,6 +1,6 @@
 'use client';
 
-import { JsonView, allExpanded, defaultStyles, collapseAllNested } from 'react-json-view-lite';
+import { JsonView, defaultStyles, collapseAllNested } from 'react-json-view-lite';
 
 import 'react-json-view-lite/dist/index.css';
 

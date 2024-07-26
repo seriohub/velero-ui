@@ -15,16 +15,14 @@ import {
   Pill,
 } from '@mantine/core';
 
-import Link from 'next/link';
+import { IconCopy, IconCheck } from '@tabler/icons-react';
 
-import { IconCopy, IconCheck, IconExternalLink } from '@tabler/icons-react';
-
-import VeleroAppContexts from '@/contexts/VeleroAppContexts';
+import { useAppState } from '@/contexts/AppStateContext';
 import InfoDataResponseIcon from './InfoDataResponseIcon';
 import InfoParamActionIcon from '../InfoApiRequest/InfoParamActionIcon';
 
 export default function InfoApiReponse() {
-  const value = useContext(VeleroAppContexts);
+  const appValues = useAppState();
   const viewport = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -33,7 +31,7 @@ export default function InfoApiReponse() {
     }
   };
 
-  const commands = value.state.apiResponse.map((item: any, index: number) => (
+  const commands = appValues.apiResponse.map((item: any, index: number) => (
     <Group gap={5} key={index}>
       <CopyButton value={item.url} timeout={2000}>
         {({ copied, copy }) => (
@@ -76,8 +74,9 @@ export default function InfoApiReponse() {
   ));
 
   useEffect(() => {
+    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 510 has been called`, `color: green; font-weight: bold;`)
     scrollToBottom();
-  }, [value.state.apiRequest]);
+  }, [appValues.apiRequest]);
 
   return (
     <>

@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 ***
 
+## [v0.1.15] - 2024-07-26
+
+- Added Velero-Core features
+- Several improvements
+- Fix minor bugs
+
 ## [v0.1.14] - 2024-06-28
 
 - Added the feature to select a cluster to connect to before logging in

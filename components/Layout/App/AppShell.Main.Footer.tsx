@@ -10,7 +10,7 @@ import InfoApiReponse from '@/components/InfoApiResponse/InfoApiResponse';
 export function AppShellMainFooter() {
   return (
     <>
-      <Accordion.Item key="Debug" value="Debug" visibleFrom='xl'>
+      <Accordion.Item key="Debug" value="Debug" visibleFrom="xl">
         <Accordion.Control icon={<IconPrompt />}>Debug</Accordion.Control>
         <Accordion.Panel>
           <Tabs defaultValue="Shell" orientation="vertical">

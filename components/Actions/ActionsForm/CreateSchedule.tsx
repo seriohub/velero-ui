@@ -8,7 +8,7 @@ import { closeAllModals } from '@mantine/modals';
 import { useApiGet } from '@/hooks/useApiGet';
 import { useApiPost } from '@/hooks/useApiPost';
 import CreateBackupScheduleForm from './CreateBackupScheduleForm';
-import VeleroAppContexts from '@/contexts/VeleroAppContexts';
+import { useAppState } from '@/contexts/AppStateContext';
 
 interface CreateScheduleProps {
   reload: number;
@@ -16,7 +16,7 @@ interface CreateScheduleProps {
 }
 
 export function CreateSchedule({ reload, setReload }: CreateScheduleProps) {
-  const appValues = useContext(VeleroAppContexts);
+  const appValues = useAppState();
   const { data, getData } = useApiGet();
 
   const { postData } = useApiPost();
@@ -50,10 +50,12 @@ export function CreateSchedule({ reload, setReload }: CreateScheduleProps) {
   });
 
   useEffect(() => {
-    getData('/v1/schedule/create/settings');
+    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 170 has been called`, `color: green; font-weight: bold;`)
+    getData({url:'/v1/schedule/create/settings'});
   }, []);
 
   useEffect(() => {
+    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 180 has been called`, `color: green; font-weight: bold;`)
     if (data !== undefined) {
       setNamespaces(data.payload.namespaces);
       setBackupLocation(data.payload.backup_location);
@@ -70,7 +72,7 @@ export function CreateSchedule({ reload, setReload }: CreateScheduleProps) {
     const interval = setInterval(() => {
       setReload(reload + 1);
       clearInterval(interval);
-    }, appValues.state.refreshDatatableAfter);
+    }, appValues.refreshDatatableAfter);
   }
 
   return (

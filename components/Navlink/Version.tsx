@@ -4,13 +4,18 @@ import { Alert, Code, Group, Stack, Text } from '@mantine/core';
 import { IconAlertTriangle } from '@tabler/icons-react';
 
 import { useApiGet } from '@/hooks/useApiGet';
+import { useAgentStatus } from '@/contexts/AgentStatusContext';
 
 export const Version = () => {
   const { data, getData, error, fetching } = useApiGet();
-
+  const agentValues = useAgentStatus();
   useEffect(() => {
-    getData('/v1/setup/version');
-  }, []);
+    if (agentValues.isAgentAvailable) {
+      if (process.env.NODE_ENV === 'development')
+        console.log(`%cuseEffect 630 has been called`, `color: green; font-weight: bold;`);
+      getData({ url: '/v1/setup/version' });
+    }
+  }, [agentValues.isAgentAvailable]);
 
   if (data === undefined) return <></>;
 

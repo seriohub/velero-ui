@@ -1,18 +1,18 @@
 'use client';
-// apiConfig.ts
 import * as dotenv from 'dotenv';
 import { env } from 'next-runtime-env';
-// Carica le variabili d'ambiente dal file .env
+
+// load enviroments variables from file .env
 dotenv.config();
 
-interface VeleroApiConfig {
+interface ServerApiConfig {
   name: string;
   url: string;
   ws: string;
 }
 
-function loadVeleroApiConfigs(): VeleroApiConfig[] {
-  const configs: VeleroApiConfig[] = [];
+function loadServerApiConfigs(): ServerApiConfig[] {
+  const configs: ServerApiConfig[] = [];
   
     let name = env(`NEXT_PUBLIC_VELERO_API_NAME_1`) || "<cluster name not set>";
     let url = env(`NEXT_PUBLIC_VELERO_API_URL_1`);
@@ -43,5 +43,5 @@ function loadVeleroApiConfigs(): VeleroApiConfig[] {
   return configs;
 }
 
-export { loadVeleroApiConfigs };
-export type { VeleroApiConfig };
+export { loadServerApiConfigs };
+export type { ServerApiConfig };

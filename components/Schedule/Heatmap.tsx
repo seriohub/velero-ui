@@ -30,14 +30,17 @@ export function Heatmap() {
   const [heatmapScheduleName, setHeatmapScheduleName] = useState([]);
 
   useEffect(() => {
-    getData('/v1/stats/schedules');
+    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 735 has been called`, `color: green; font-weight: bold;`)
+    getData({url:'/v1/stats/schedules'});
   }, []);
 
   useEffect(() => {
+    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 745 has been called`, `color: green; font-weight: bold;`)
     if (weekday !== undefined && Object.keys(weekday?.payload?.week_heatmap).length > 0) setDay(0);
   }, [weekday]);
 
   useEffect(() => {
+    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 755 has been called`, `color: green; font-weight: bold;`)
     setHeatmap(weekday?.payload?.week_heatmap[day]);
     setHeatmapScheduleName(weekday?.payload?.heatmap_schedule_name[day]);
   }, [day]);

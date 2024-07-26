@@ -1,17 +1,15 @@
-import { useContext } from 'react';
-
 import { ActionIcon, Group, Text } from '@mantine/core';
 
 import { IconApi, IconPlugConnected, IconSettings } from '@tabler/icons-react';
 
-import VeleroAppContexts from '@/contexts/VeleroAppContexts';
+import { useAppState } from '@/contexts/AppStateContext';
 
 interface DiagnosticLinkProps {
   ApiURL: string;
 }
 
 export const DiagnosticLink = ({ ApiURL }: DiagnosticLinkProps) => {
-  const appValues = useContext(VeleroAppContexts);
+  const appValues = useAppState();
 
   return (
     <>
@@ -20,7 +18,7 @@ export const DiagnosticLink = ({ ApiURL }: DiagnosticLinkProps) => {
         <Group gap={0}>
           <Text size="sm">ws:</Text>
           <Text size="sm" fw={800}>
-            {appValues.state.socketStatus}
+            {appValues.socketStatus}
           </Text>
         </Group>
         <Group gap={2}>
@@ -37,10 +35,10 @@ export const DiagnosticLink = ({ ApiURL }: DiagnosticLinkProps) => {
         </Group>
         {/* info */}
         <Group gap={2}>
-          <Text size="sm">info:</Text>
+          <Text size="sm">docs:</Text>
           <ActionIcon
             component="a"
-            href={ApiURL + '/info/docs'}
+            href={ApiURL + '/docs'}
             size="sm"
             aria-label="Docs"
             target="_blank"
@@ -49,7 +47,7 @@ export const DiagnosticLink = ({ ApiURL }: DiagnosticLinkProps) => {
           </ActionIcon>
           <ActionIcon
             component="a"
-            href={ApiURL + '/info/redoc'}
+            href={ApiURL + '/redoc'}
             size="sm"
             aria-label="Docs"
             target="_blank"
@@ -58,7 +56,7 @@ export const DiagnosticLink = ({ ApiURL }: DiagnosticLinkProps) => {
           </ActionIcon>
         </Group>
 
-        {/* v1 */}
+        {/* v1 
         <Group gap={2}>
           <Text size="sm">v1:</Text>
           <ActionIcon
@@ -79,7 +77,7 @@ export const DiagnosticLink = ({ ApiURL }: DiagnosticLinkProps) => {
           >
             <IconSettings size={20} />
           </ActionIcon>
-        </Group>
+        </Group>*/}
       </Group>
     </>
   );

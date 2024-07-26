@@ -38,14 +38,16 @@ export function Credential({
   });
 
   useEffect(() => {
+    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 190 has been called`, `color: green; font-weight: bold;`)
     if (!cloudCredential) {
-      getData('/v1/k8s/credential/get', `secret_name=${secretName}&secret_key=${secretKey}`);
+      getData({url:'/v1/k8s/credential/get', param:`secret_name=${secretName}&secret_key=${secretKey}`});
     } else {
-      getData('/v1/k8s/credential/default/get');
+      getData({url:'/v1/k8s/credential/default/get'});
     }
   }, []);
 
   useEffect(() => {
+    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 200 has been called`, `color: green; font-weight: bold;`)
     if (data !== undefined) {
       form.setFieldValue('aws_access_key_id', data.payload?.aws_access_key_id);
       form.setFieldValue('aws_secret_access_key', data.payload?.aws_secret_access_key);

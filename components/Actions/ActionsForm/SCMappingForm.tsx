@@ -1,13 +1,13 @@
 'use client';
 
-import { useContext, useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 import { useForm } from '@mantine/form';
 import { closeAllModals } from '@mantine/modals';
 
 import { useApiGet } from '@/hooks/useApiGet';
 import { useApiPost } from '@/hooks/useApiPost';
-import VeleroAppContexts from '@/contexts/VeleroAppContexts';
+import { useAppState } from '@/contexts/AppStateContext';
 import { Box, Button, Group, Select, TextInput } from '@mantine/core';
 import { useApiPatch } from '@/hooks/useApiPatch';
 
@@ -24,7 +24,7 @@ export function SCMappingForm({
   setReload,
   mode = 'create',
 }: SCMappingFormProps) {
-  const appValues = useContext(VeleroAppContexts);
+  const appValues = useAppState();
 
   const { data: storageClasses, getData: getStorageClasses } = useApiGet();
   const { postData } = useApiPost();
@@ -42,11 +42,11 @@ export function SCMappingForm({
   });
 
   useEffect(() => {
-    getStorageClasses('/v1/k8s/sc/get');
+    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 305 has been called`, `color: green; font-weight: bold;`)
+    getStorageClasses({ url: '/v1/k8s/sc/get' });
   }, []);
 
   function onDone(values: any) {
-
     if (mode == 'create') {
       postData('/v1/sc/change-storage-classes-config-map/create', {
         storageClassMapping: values,
@@ -61,7 +61,7 @@ export function SCMappingForm({
     const interval = setInterval(() => {
       setReload(reload + 1);
       clearInterval(interval);
-    }, appValues.state.refreshDatatableAfter);
+    }, appValues.refreshDatatableAfter);
   }
 
   return (

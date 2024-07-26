@@ -13,6 +13,8 @@ import RefreshDatatable from '../Actions/ToolbarActionIcons/RefreshDatatable';
 import Toolbar from '../Toolbar';
 import DetailActionIcon from '../Actions/DatatableActionsIcons/DetailActionIcon';
 import CredentialActionIcon from '../Actions/DatatableActionsIcons/CredentialActionIcon';
+import { useAgentStatus } from '@/contexts/AgentStatusContext';
+import { DataFetchedInfo } from '../DataFetchedInfo';
 
 const PAGE_SIZES = [5];
 
@@ -20,6 +22,7 @@ export function SnapshotLocation() {
   const { data, getData, error, fetching } = useApiGet();
   const [items, setItems] = useState<Array<any>>([]);
   const [reload, setReload] = useState(1);
+  const agentValues = useAgentStatus();
 
   const [sortStatus, setSortStatus] = useState<DataTableSortStatus>({
     columnAccessor: 'Number',
@@ -32,20 +35,31 @@ export function SnapshotLocation() {
   const [records, setRecords] = useState(items.slice(0, pageSize));
 
   useEffect(() => {
-    getData('/v1/snapshot-location/get');
+    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 800 has been called`, `color: green; font-weight: bold;`)
+      console.log("reload", reload)
+      if (agentValues.isAgentAvailable && reload>1)
+      getData({url:'/v1/snapshot-location/get', param: 'forced=true'});
   }, [reload]);
+
+  useEffect(() => {
+    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 801 has been called`, `color: green; font-weight: bold;`)
+    if (agentValues.isAgentAvailable)
+      getData({url:'/v1/snapshot-location/get'});
+  }, [agentValues.isAgentAvailable]);
 
   //useEffect(() => {
   //  getData('/v1/snapshot-location/get');
   //}, []);
 
   useEffect(() => {
+    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 810 has been called`, `color: green; font-weight: bold;`)
     if (data !== undefined) {
       setItems(data.payload);
     } else setItems([]);
   }, [data]);
 
   useEffect(() => {
+    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 820 has been called`, `color: green; font-weight: bold;`)
     const from = (page - 1) * pageSize;
     const to = from + pageSize;
     const data_sorted = sortBy(items, sortStatus.columnAccessor);
@@ -68,9 +82,9 @@ export function SnapshotLocation() {
     <>
       <Stack h="100%" gap={0} p={5}>
         <Toolbar title="Snapshot Location">
-          <RefreshDatatable setReload={setReload} reload={reload} />
+          <RefreshDatatable setReload={setReload} reload={reload}/>
         </Toolbar>
-
+        <DataFetchedInfo metadata={data?.metadata} />
         <DataTable
           minHeight={160}
           withTableBorder

@@ -5,7 +5,6 @@ import { useMediaQuery } from '@mantine/hooks';
 
 import { AuthShellHeader } from './AuthShell.Header';
 import { AppShellFooter } from '../App/AppShell.Footer';
-import { DiagnosticInfo } from '@/components/DiagnosticInfo';
 
 interface AuthShellLayoutProps {
   children: any;
@@ -38,9 +37,7 @@ export default function AuthShellLayout({ children }: AuthShellLayoutProps) {
             <Box pt="10rem" w="450">
               {children}
             </Box>
-            <Stack pt="2rem" justify="flex-end" mih={isMobile ? 'auto' : '100%'}>
-              
-            </Stack>
+            <Stack pt="2rem" justify="flex-end" mih={isMobile ? 'auto' : '100%'}></Stack>
           </Flex>
         </AppShell.Main>
         <AppShell.Footer>

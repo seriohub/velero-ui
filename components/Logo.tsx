@@ -5,7 +5,7 @@ import React from 'react';
 import { useRouter } from 'next/navigation';
 
 import { Anchor, Box, Group, Text } from '@mantine/core';
-import { IconBackhoe, IconSailboat } from '@tabler/icons-react';
+import { IconSailboat } from '@tabler/icons-react';
 
 export function Logo() {
   const router = useRouter();

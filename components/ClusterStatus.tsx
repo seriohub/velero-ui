@@ -3,14 +3,17 @@ import { useEffect } from 'react';
 import { Group, Text } from '@mantine/core';
 import { usePathname } from 'next/navigation';
 import { useApiGet } from '@/hooks/useApiGet';
+import { useAgentStatus } from '@/contexts/AgentStatusContext';
 
 export const ClusterStatus = () => {
   const { data, getData, error, fetching } = useApiGet();
   const pathname = usePathname();
+  const agentValues = useAgentStatus()
 
   useEffect(() => {
-    if (pathname != '/' && pathname != '/login') getData('/info/health-k8s');
-  }, []);
+    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 130 has been called`, `color: green; font-weight: bold;`)
+    if (agentValues.isAgentAvailable && pathname != '/' && pathname != '/login') getData({ url: '/info/health-k8s' });
+  }, [agentValues.isAgentAvailable]);
 
   if (data === undefined) return <>-</>;
 

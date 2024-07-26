@@ -26,10 +26,12 @@ export function UpdateExpiration({ record = {} }: UpdateExpirationProps) {
   });
 
   useEffect(() => {
-    getData('/v1/backup/get-expiration', `backup_name=${record.metadata.name}`);
+    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 330 has been called`, `color: green; font-weight: bold;`)
+    getData({url:'/v1/backup/get-expiration', param:`backup_name=${record.metadata.name}`});
   }, []);
 
   useEffect(() => {
+    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 340 has been called`, `color: green; font-weight: bold;`)
     if (data !== undefined) {
       form.setFieldValue('expiration', data.payload);
     }
@@ -43,10 +45,10 @@ export function UpdateExpiration({ record = {} }: UpdateExpirationProps) {
     );
   }
   function onDone(values: any) {
-    getData2(
-      '/v1/backup/update-expiration',
-      `backup_name=${record.metadata.name}&expiration=${values.expiration}`
-    );
+    getData2({
+      url: '/v1/backup/update-expiration',
+      param: `backup_name=${record.metadata.name}&expiration=${values.expiration}`
+  });
   }
   return (
     <>
