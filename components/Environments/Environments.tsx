@@ -30,11 +30,11 @@ export function Environments() {
 
   useEffect(() => {
     if (data?.payload !== undefined) {
-      /*const jsonData = require('/mockdata/data.json');
-      if (mockData) setAgentStats({ ...data.payload, ...jsonData });
-      else*/ 
-      console.log("3000", data)
       setAgentStats(data?.payload);
+      /*const jsonData = require('/mockdata/data.json');
+      setAgentStats({ ...data.payload, ...jsonData });
+      else
+      console.log("3000", { ...data.payload, ...jsonData })*/
     }
   }, [data]);
 
