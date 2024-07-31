@@ -47,7 +47,7 @@ export default function CheckAppVersion() {
         });
       }
     }
-  }, [serverValues.isCurrentServerControlPlane, agentValues.isAgentAvailable]);
+  }, [serverValues.isServerAvailable, serverValues.isCurrentServerControlPlane, agentValues.isAgentAvailable]);
 
   useEffect(() => {
     if (data?.payload?.helm_version && repoVersion?.payload?.helm) {
