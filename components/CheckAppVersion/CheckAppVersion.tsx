@@ -20,34 +20,35 @@ export default function CheckAppVersion() {
   const { data: repoVersion, getData: getRepoVersion } = useApiGet();
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development') {
+    if (process.env.NODE_ENV === 'development')
       console.log(`%cuseEffect 481 has been called`, `color: green; font-weight: bold;`);
 
-      if (serverValues.isServerAvailable && serverValues.isCurrentServerControlPlane) {
-        getData({
-          url: '/info/get',
-          target: 'core',
-        });
-        getRepoVersion({
-          url: '/info/get-repo-tags',
-          target: 'core',
-        });
-      }
-      console.log("---", agentValues.isAgentAvailable)
-      console.log("---", serverValues.isCurrentServerControlPlane)
-      console.log("---",serverValues.isServerAvailable)
-      if (agentValues.isAgentAvailable && !serverValues.isCurrentServerControlPlane) {
-        getData({
-          url: '/info/get',
-          target: 'agent',
-        });
-        getRepoVersion({
-          url: '/info/get-repo-tags',
-          target: 'agent',
-        });
-      }
+    if (serverValues.isServerAvailable && serverValues.isCurrentServerControlPlane) {
+      getData({
+        url: '/info/get',
+        target: 'core',
+      });
+      getRepoVersion({
+        url: '/info/get-repo-tags',
+        target: 'core',
+      });
     }
-  }, [serverValues.isServerAvailable, serverValues.isCurrentServerControlPlane, agentValues.isAgentAvailable]);
+
+    if (agentValues.isAgentAvailable && !serverValues.isCurrentServerControlPlane) {
+      getData({
+        url: '/info/get',
+        target: 'agent',
+      });
+      getRepoVersion({
+        url: '/info/get-repo-tags',
+        target: 'agent',
+      });
+    }
+  }, [
+    serverValues.isServerAvailable,
+    serverValues.isCurrentServerControlPlane,
+    agentValues.isAgentAvailable,
+  ]);
 
   useEffect(() => {
     if (data?.payload?.helm_version && repoVersion?.payload?.helm) {
