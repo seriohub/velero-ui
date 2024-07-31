@@ -33,6 +33,9 @@ export default function CheckAppVersion() {
           target: 'core',
         });
       }
+      console.log("---", agentValues.isAgentAvailable)
+      console.log("---", serverValues.isCurrentServerControlPlane)
+      console.log("---",serverValues.isServerAvailable)
       if (agentValues.isAgentAvailable && !serverValues.isCurrentServerControlPlane) {
         getData({
           url: '/info/get',

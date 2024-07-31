@@ -128,7 +128,7 @@ export const DiagnosticAgentInfo = () => {
             {/* API URL */}
             <DiagnosticItem
               label="Get API URL"
-              value={apiURL !== undefined ? apiURL : ''}
+              value={apiURL !== undefined ? apiURL+'/s' : ''}
               ok={stateManager.getVariable('getApiURL')}
               actionIcon={
                 <ActionIcon
