@@ -1,11 +1,12 @@
 import { Group, ActionIcon, Alert, Box, Burger, Stack } from '@mantine/core';
 
-import { IconInfoCircle, IconBrandGithub } from '@tabler/icons-react';
+import { IconInfoCircle, IconBrandGithub, IconHelp } from '@tabler/icons-react';
 
 import Link from 'next/link';
 
 import SwitchColorScheme from '../../SwitchColorScheme/SwitchColorScheme';
 import CheckAppVersion from '@/components/CheckAppVersion/CheckAppVersion';
+import Help from '@/components/Help/Help';
 
 export function AppShellHeader({ opened, toggle }: any) {
   return (
@@ -36,6 +37,7 @@ export function AppShellHeader({ opened, toggle }: any) {
           >
             <IconBrandGithub />
           </ActionIcon>
+          <Help />
           <CheckAppVersion />
           <SwitchColorScheme />
         </Group>

@@ -7,8 +7,10 @@ import {
   List,
   Modal,
   Text,
+  CopyButton,
   ThemeIcon,
   rem,
+  Center,
 } from '@mantine/core';
 
 import {
@@ -128,12 +130,12 @@ export const DiagnosticAgentInfo = () => {
             {/* API URL */}
             <DiagnosticItem
               label="Get API URL"
-              value={apiURL !== undefined ? apiURL : ''}
+              value={apiURL !== undefined ? apiURL + '/' : ''}
               ok={stateManager.getVariable('getApiURL')}
               actionIcon={
                 <ActionIcon
                   component="a"
-                  href={apiURL}
+                  href={apiURL + '/'}
                   size="sm"
                   aria-label="Open in a new tab"
                   target="_blank"
@@ -237,6 +239,15 @@ export const DiagnosticAgentInfo = () => {
               }
             />
           </List>
+          <Center mt={10}>
+          <CopyButton value={stateManager.generateMarkdownReport()}>
+            {({ copied, copy }) => (
+              <Button color={copied ? 'teal' : 'blue'} onClick={copy}>
+                {copied ? 'Copied!' : 'Copy diagnostic report to clipboard'}
+              </Button>
+            )}
+          </CopyButton>
+          </Center>
         </Box>
       </Modal>
     </>

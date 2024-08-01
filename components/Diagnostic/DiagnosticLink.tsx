@@ -25,7 +25,7 @@ export const DiagnosticLink = ({ ApiURL }: DiagnosticLinkProps) => {
           <Text size="sm">status:</Text>
           <ActionIcon
             component="a"
-            href={ApiURL}
+            href={ApiURL + '/'}
             size="sm"
             aria-label="Open in a new tab"
             target="_blank"

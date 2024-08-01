@@ -34,6 +34,9 @@ export function AppShellFooter() {
     });
   }, [agentValues.isAgentAvailable]);
 
+  useEffect(()=>{
+    appValues.setBackendInfo(data?.payload)
+  })
   return (
     <>
       <Group justify="space-between" gap={5}>

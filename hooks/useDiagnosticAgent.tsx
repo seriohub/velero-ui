@@ -64,6 +64,15 @@ export const useDiagnosticAgent = () => {
     }
   }, [apiOrigins]);
 
+  stateManager.uiURL = uiURL;
+  stateManager.apiURL = apiURL;
+
+  stateManager.k8sHealth = k8sHealth?.payload;
+  stateManager.arch = apiArch?.payload?.arch;
+  stateManager.watchdog = watchdog?.payload?.status;
+  stateManager.compatibility = compatibility?.payload?.compatibility;
+  if (apiOrigins !== undefined) stateManager.apiOrigins = apiOrigins?.payload;
+
   stateManager.setVariable('getUiURL', uiURL != '');
   stateManager.setVariable('getApiURL', apiURL != '');
   stateManager.setVariable('checkApiReacheable', agentStatus.isAgentAvailable == true);

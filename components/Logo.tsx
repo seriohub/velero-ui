@@ -23,7 +23,7 @@ export function Logo() {
           <Group p={5} gap={5}>
             <IconSailboat size={48} stroke="1.5" color="white" />
             <Text fz="xl" size={'xl'} fw={800} c="white">
-              Velero UI
+              Vui
             </Text>
           </Group>
         </Box>
@@ -31,7 +31,7 @@ export function Logo() {
           <Group p={5} gap={5}>
             <IconSailboat size={48} stroke="1.5" />
             <Text fz="xl" size="xl" fw={800} c="blue">
-              Velero UI
+              Vui
             </Text>
           </Group>
         </Box>
