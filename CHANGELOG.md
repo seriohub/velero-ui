@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 ***
 
+## [v0.1.16] - 2024-08-01
+
+- Added help link
+- Added markdown diagnostic report
+- Fix compare version
+
 ## [v0.1.15] - 2024-07-26
 
 - Added Velero-Core features

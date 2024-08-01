@@ -135,7 +135,7 @@ export const DiagnosticAgentInfo = () => {
               actionIcon={
                 <ActionIcon
                   component="a"
-                  href={apiURL}
+                  href={apiURL + '/'}
                   size="sm"
                   aria-label="Open in a new tab"
                   target="_blank"
