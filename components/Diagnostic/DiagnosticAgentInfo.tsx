@@ -7,8 +7,10 @@ import {
   List,
   Modal,
   Text,
+  CopyButton,
   ThemeIcon,
   rem,
+  Center,
 } from '@mantine/core';
 
 import {
@@ -237,6 +239,15 @@ export const DiagnosticAgentInfo = () => {
               }
             />
           </List>
+          <Center mt={10}>
+          <CopyButton value={stateManager.generateMarkdownReport()}>
+            {({ copied, copy }) => (
+              <Button color={copied ? 'teal' : 'blue'} onClick={copy}>
+                {copied ? 'Copied!' : 'Copy diagnostic report to clipboard'}
+              </Button>
+            )}
+          </CopyButton>
+          </Center>
         </Box>
       </Modal>
     </>

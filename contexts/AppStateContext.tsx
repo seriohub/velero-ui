@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState } from 'react';
 import { env } from 'next-runtime-env';
 
 interface AppState {
+  backendInfo: any;
   apiRequest: Array<any>;
   apiResponse: Array<any>;
   socketStatus: string;
@@ -15,6 +16,7 @@ interface AppState {
 }
 
 interface AppStateContextProps extends AppState {
+  setBackendInfo: React.Dispatch<React.SetStateAction<Array<any>>>;
   setApiRequest: React.Dispatch<React.SetStateAction<Array<any>>>;
   setApiResponse: React.Dispatch<React.SetStateAction<Array<any>>>;
   setSocketStatus: React.Dispatch<React.SetStateAction<string>>;
@@ -34,6 +36,7 @@ export const AppStateProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   const NEXT_PUBLIC_REFRESH_DATATABLE_AFTER = env('NEXT_PUBLIC_REFRESH_DATATABLE_AFTER');
   const NEXT_PUBLIC_REFRESH_RECENT = env('NEXT_PUBLIC_REFRESH_RECENT');
 
+  const [backendInfo, setBackendInfo] = useState<any>([]);
   const [apiRequest, setApiRequest] = useState<Array<any>>([]);
   const [apiResponse, setApiResponse] = useState<Array<any>>([]);
   const [socketStatus, setSocketStatus] = useState<string>('');
@@ -52,6 +55,7 @@ export const AppStateProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   return (
     <AppStateContext.Provider
       value={{
+        backendInfo,
         apiRequest,
         apiResponse,
         socketStatus,
@@ -61,7 +65,8 @@ export const AppStateProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         messagesHistory,
         refreshDatatableAfter,
         refreshRecent,
-
+        
+        setBackendInfo,
         setApiRequest,
         setApiResponse,
         setSocketStatus,

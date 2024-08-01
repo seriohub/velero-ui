@@ -26,7 +26,7 @@ export default function RootLayout({ children }: { children: any }) {
       <head>
         <PublicEnvScript nonce={{ headerKey: 'x-nonce' }} />
         <ColorSchemeScript />
-        <title>Velero</title>
+        <title>VUI - Velero UI</title>
         <link rel="shortcut icon" href="/favicon.svg" />
         <meta
           name="viewport"
