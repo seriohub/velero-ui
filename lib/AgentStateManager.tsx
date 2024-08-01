@@ -109,7 +109,7 @@ export class AgentStateManager {
     markdown += `    - in error: **${this.k8sHealth?.nodes?.in_error}**;\n`;
 
     markdown += `- API Origins\n`;
-    markdown += this.apiOrigins.map((origin) => `  - **${origin}**;`).join('\n') + '\n';
+    markdown += this.apiOrigins.map((origin) => `  - ${origin};`).join('\n') + '\n';
 
     markdown += `- Architecture: **${this.arch}**\n`;
     markdown += `- Watchdog: **${this.watchdog}**\n`;
