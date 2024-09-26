@@ -13,7 +13,7 @@ import { useAgentStatus } from '@/contexts/AgentStatusContext';
 
 export function Watchdog() {
   const { data: configuration, getData: getConfiguration, fetching } = useApiGet();
-  const { data: report, getData: sendReport, fetching: reportFetching } = useApiGet();
+  const { data: report, getData: requestSendReport, fetching: reportFetching } = useApiGet();
   const { data: cron, getData: getCron } = useApiGet();
   const [reload, setReload] = useState(1);
   const [rowApiConfiguration, setRowApiConfiguration] = useState<React.ReactNode[]>([]);
@@ -52,7 +52,7 @@ export function Watchdog() {
         <Stack h="100%" gap={0} p={5}>
           <Toolbar title="Watchdog Configuration">
             <RefreshDatatable setReload={setReload} reload={reload} />
-            <SendReport fetching={reportFetching} sendReport={sendReport} />
+            <SendReport fetching={reportFetching} requestSendReport={requestSendReport} />
           </Toolbar>
           {cron !== undefined && (
             <Group>

@@ -3,12 +3,12 @@
 import { ActionIcon, Button } from '@mantine/core';
 
 
-export default function SendReport({ sendReport, fetching = false }: any) {
+export default function SendReport({ requestSendReport, fetching = false }: any) {
   return (
     <Button
       onClick={(e) => {
         e.stopPropagation();
-        sendReport('/v1/watchdog/send-report');
+        requestSendReport({url:'/v1/watchdog/send-report'});
       }}
       
       variant={fetching ? 'filled' : 'default'}
