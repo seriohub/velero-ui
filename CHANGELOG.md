@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 
 ***
 
+## [v0.1.18] - 2024-12-15
+
+- Improved code maintainability
+- Enhanced UI usability
+
 ## [v0.1.17] - 2024-09-26
 
 - [Fix issue 43](https://github.com/seriohub/velero-ui/issues/43)
