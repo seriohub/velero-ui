@@ -12,7 +12,7 @@ import { useBackend } from './useBackend';
 
 type DeleteParams = {
   url: string;
-  params?: string;
+  params?: any;
 };
 
 interface UseApiGetProps {
