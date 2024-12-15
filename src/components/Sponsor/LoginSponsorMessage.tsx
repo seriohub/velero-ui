@@ -20,12 +20,12 @@ export function LoginSponsorMessage() {
   const computedColorScheme = useComputedColorScheme('light', { getInitialValueInEffect: true });
   const [init, setInit] = useState(false);
   useEffect(() => {
-    console.log("----", computedColorScheme)
+    console.log('----', computedColorScheme);
     setInit(true);
   }, [computedColorScheme]);
 
   if (!init) return <></>;
-console.log(computedColorScheme)
+  console.log(computedColorScheme);
   return (
     <>
       <Paper
@@ -36,9 +36,9 @@ console.log(computedColorScheme)
         bg={computedColorScheme == 'light' ? '#f2f3f5' : '#1f1f1f'}
       >
         <Grid>
-          <Grid.Col span={9}>
-            <Title order={3}>Wait a minute...</Title>
-            <Text fw={500} fz="md" mb={5}>
+          <Grid.Col span={10}>
+            <Title order={4}>Wait a minute...</Title>
+            <Text fw={500} fz="sm" mb={5}>
               A thank you to our sponsors and one-time donors for their generous support!
             </Text>
 
@@ -55,10 +55,8 @@ console.log(computedColorScheme)
             <Space h={50} />
 
             <Text fw={500} fz="sm" mb={5}>
-              This software is built during late nights, stolen weekends, and the occasional "I'll
-              just fix one more bug" moment. If you've found it helpful in your work, please
-              consider supporting its development with a contribution - because caffeine isn't free,
-              and neither are all these therapy sessions with my code.
+              If this open-source project has been helpful in your work, please consider supporting
+              us.
             </Text>
 
             <Button
@@ -67,12 +65,12 @@ console.log(computedColorScheme)
               leftSection={<IconHeart />}
               href="https://github.com/sponsors/davideserio"
               target="_blank"
-              //radius={8}
+              // radius={8}
             >
               Become a Sponsor
             </Button>
           </Grid.Col>
-          <Grid.Col span={3}>
+          <Grid.Col span={2}>
             <Image h={120} w={120} src={image.src} />
           </Grid.Col>
         </Grid>
