@@ -1,0 +1,189 @@
+'use client';
+
+import { useDisclosure } from '@mantine/hooks';
+import {
+  AppShell,
+  Stack,
+  Box,
+  Accordion,
+  useComputedColorScheme,
+  ActionIcon,
+  rem,
+  Drawer,
+} from '@mantine/core';
+import { useElementSize } from '@mantine/hooks';
+import { useViewportSize } from '@mantine/hooks';
+import { useEffect, useState } from 'react';
+
+import { AppShellHeader } from './AppShell.Header';
+import { AppShellNavbar } from './AppShell.Navbar';
+import { AppShellFooter } from './AppShell.Footer';
+import { AppShellMainFooter } from './AppShell.Main.Footer';
+
+import { useAppState } from '@/contexts/AppStateContext';
+import { AgentError } from '@/components/AgentError/AgentError';
+import { DebAsideApp } from '@/components/Debug/DebAsideApp';
+import { IconArrowRight } from '@tabler/icons-react';
+import { IconArrowLeft } from '@tabler/icons-react';
+import TaskInProgress from '@/components/Velero/TaskInProgress/TaskInProgress';
+import { UIConfig } from '@/components/Config/UI/UIConfig';
+import { useUIState } from '@/contexts/UIStateContext';
+
+interface AppShellLayoutProps {
+  children: any;
+}
+
+export default function AppShellLayout({ children }: AppShellLayoutProps) {
+  const appValues = useAppState();
+  const uiValues = useUIState()
+
+  const [opened, { toggle }] = useDisclosure();
+
+  const [value, setValue] = useState<string[]>([]);
+
+  const { height: vpHeight, width: vpWidth } = useViewportSize();
+  const { ref, width, height } = useElementSize();
+  const computedColorScheme = useComputedColorScheme('light', { getInitialValueInEffect: true });
+
+  const [openedAside, { toggle: toggleAside }] = useDisclosure();
+  // const [openedUIDrawer, { toggle: toggleUIDrawer }] = useDisclosure();
+
+  useEffect(() => {
+    if (process.env.NODE_ENV === 'development')
+      console.log(`%cuseEffect 560 has been called`, `color: green; font-weight: bold;`);
+    const accordionValue = localStorage.getItem('accordion');
+    setValue(accordionValue !== null ? accordionValue.split(',') : []);
+  }, []);
+
+  return (
+    <>
+      <AppShell
+        header={{ height: 60 }}
+        navbar={{
+          width: '240px',
+          breakpoint: 'xs',
+          collapsed: { mobile: !opened },
+        }}
+        /*aside={{
+          width: '300px',
+          breakpoint: 'xs',
+          // collapsed: { mobile: !opened },
+          collapsed: { desktop: !openedAside, mobile: !openedAside },
+        }}*/
+        layout="alt"
+      >
+        <AppShell.Header>
+          <AppShellHeader
+            opened={opened}
+            toggle={toggle}
+          />
+        </AppShell.Header>
+        <AppShell.Navbar
+        //bg={computedColorScheme=='light'? 'var(--mantine-primary-color-filled)' : ''}
+        bg={uiValues.navbarColored && computedColorScheme == 'light' ? 'var(--mantine-primary-color-filled)' : undefined}
+        >
+          <AppShellNavbar opened={opened} toggle={toggle} />
+        </AppShell.Navbar>
+        <AppShell.Main>
+          <Stack
+            justify="space-between"
+            h={
+              vpWidth < 768
+                ? `calc(100vh - var(--app-shell-header-height, 0px) - var(--app-shell-footer-height, 0px))`
+                : `calc(100vh - var(--app-shell-header-height, 0px) - var(--app-shell-footer-height, 0px) - 20px)`
+            }
+            gap={0}
+            w={vpWidth < 768 ? '100vw' : 'calc(100vw - 240px)'}
+            // bg={computedColorScheme=='light'? 'var(--mantine-primary-color-light)' : ''}
+            bg={uiValues.mainColored && computedColorScheme == 'light' ? 'var(--mantine-primary-color-light)' : undefined}
+            //bg="blue"
+          >
+            <Box
+              //bg='orange'
+              h={
+                vpWidth < 768
+                  ? `calc(100vh - var(--app-shell-header-height, 0px) - ${height.toFixed(0)}px - 0px`
+                  : `calc(100vh - var(--app-shell-header-height, 0px) - ${height.toFixed(0)}px - 20px`
+              }
+              p={10}
+            >
+              {children}
+            </Box>
+            <Box ref={ref} p={0}>
+              <Accordion
+                chevronPosition="left"
+                multiple
+                // variant="contained"
+                radius={0}
+                defaultValue={value}
+                value={value}
+                pt={0}
+                onChange={(val) => {
+                  setValue(val);
+                  localStorage.setItem('accordion', val.toString());
+                }}
+                style={{
+                  borderTop: '1px solid',
+                  borderColor: 'var(--mantine-color-default-border)',
+                }}
+              >
+                <AgentError />
+                <TaskInProgress />
+                <AppShellMainFooter />
+              </Accordion>
+            </Box>
+          </Stack>
+
+          {appValues.showDebugAside && (
+            <ActionIcon
+              //size={24}
+              //color= "red"
+              variant="default"
+              aria-label="ActionIcon with size as a number"
+              onClick={() => toggleAside()}
+              style={{
+                height: '60px',
+                position: 'fixed',
+                right: 0,
+                top: 65,
+                zIndex: 1000, // Assicurati che il pulsante sia sopra l'Aside
+              }}
+            >
+              {openedAside ? (
+                <IconArrowRight style={{ width: rem(24), height: rem(24) }} />
+              ) : (
+                <IconArrowLeft style={{ width: rem(24), height: rem(24) }} />
+              )}
+            </ActionIcon>
+          )}
+        </AppShell.Main>
+
+        <Drawer
+          opened={openedAside}
+          onClose={toggleAside}
+          title="Debug"
+          position="right"
+          closeOnEscape={false}
+        >
+          <DebAsideApp />
+        </Drawer>
+
+        <Drawer
+          opened={appValues.openedUIDrawer}
+          onClose={()=>appValues.toggleUIDrawer(appValues.openedUIDrawer)}
+          title="Ui Config"
+          position="right"
+          closeOnEscape={false}
+        >
+          <UIConfig />
+        </Drawer>
+
+        {/*<AppShell.Aside>
+        </AppShell.Aside>*/}
+        <AppShell.Footer visibleFrom="sm">
+          <AppShellFooter />
+        </AppShell.Footer>
+      </AppShell>
+    </>
+  );
+}
