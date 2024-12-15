@@ -2680,16 +2680,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mantine/charts@npm:^7.8.1":
-  version: 7.8.1
-  resolution: "@mantine/charts@npm:7.8.1"
+"@mantine/charts@npm:^7.15.1":
+  version: 7.15.1
+  resolution: "@mantine/charts@npm:7.15.1"
   peerDependencies:
-    "@mantine/core": 7.8.1
-    "@mantine/hooks": 7.8.1
-    react: ^18.2.0
-    react-dom: ^18.2.0
-    recharts: ^2.10.3
-  checksum: c6a6f7fdfaa7a25d8de26e485a906310a20a36a4cc411b1ac6f2075baa1e6d7500cc3033daf08b10a4a6be6bb07812f7a2d3cc9549203967fa1cab919bca43a3
+    "@mantine/core": 7.15.1
+    "@mantine/hooks": 7.15.1
+    react: ^18.x || ^19.x
+    react-dom: ^18.x || ^19.x
+    recharts: ^2.13.3
+  checksum: 516dc460e9e2a06f062f1dceb2993e5758dac51cd59f5c72702d2d92cfb343b1ee5d65098d1596551554bc5331d915a34bfc9ec75ec8fe2f0e80d0fcdcf40f10
   languageName: node
   linkType: hard
 
@@ -16979,7 +16979,7 @@ __metadata:
   resolution: "velero-ui@workspace:."
   dependencies:
     "@babel/core": "npm:^7.24.0"
-    "@mantine/charts": "npm:^7.8.1"
+    "@mantine/charts": "npm:^7.15.1"
     "@mantine/core": "npm:^7.8.1"
     "@mantine/dates": "npm:^7.8.1"
     "@mantine/form": "npm:^7.8.1"

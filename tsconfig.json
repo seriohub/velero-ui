@@ -16,10 +16,10 @@
     "jsx": "preserve",
     "incremental": true,
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["./src/*"]
     },
     "plugins": [{ "name": "next" }]
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "hooks/useAppWebSocket.tsx.test", "app/(AuthLayout)/api/auth/[...nextauth]/_route.ts_"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/hooks/useAppWebSocket.tsx.test", "src/app/(AuthLayout)/api/auth/[...nextauth]/_route.ts_"],
   "exclude": ["node_modules"]
 }

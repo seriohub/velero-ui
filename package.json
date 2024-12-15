@@ -18,7 +18,7 @@
     "storybook:build": "storybook build"
   },
   "dependencies": {
-    "@mantine/charts": "^7.8.1",
+    "@mantine/charts": "^7.15.1",
     "@mantine/core": "^7.8.1",
     "@mantine/dates": "^7.8.1",
     "@mantine/form": "^7.8.1",
