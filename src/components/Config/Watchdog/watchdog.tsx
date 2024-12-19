@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 
-import { Group, ScrollArea, Text, Stack, Table } from '@mantine/core';
+import { Group, ScrollArea, Text, Stack, Table, Mark, useComputedColorScheme } from '@mantine/core';
 
 import { WatchdogTestChannel } from './watchdogTestChannel';
 import { useAgentStatus } from '@/contexts/AgentStatusContext';
@@ -20,6 +20,7 @@ export function Watchdog() {
   const [reload, setReload] = useState(1);
   const [rowApiConfiguration, setRowApiConfiguration] = useState<React.ReactNode[]>([]);
   const agentValues = useAgentStatus();
+  const computedColorScheme = useComputedColorScheme();
 
   useEffect(() => {
     if (process.env.NODE_ENV === 'development')
@@ -51,13 +52,14 @@ export function Watchdog() {
           <RefreshDatatable setReload={setReload} reload={reload} />
         </Toolbar>
         <WatchdogTestChannel configuration={configuration} />
-        <ScrollArea p={0} style={{ height: '100%' }} offsetScrollbars>
-          {cron !== undefined && (
-            <Group>
+        {cron !== undefined && (
+            <Group my={10} gap={8}>
               <Text size="md">Full report cron</Text>
-              <Text fw={800}>{cron['payload']}</Text>
+              <Text size="md"><Mark  color={computedColorScheme ==='light' ? "var(--mantine-primary-color-3)" : "var(--mantine-primary-color-5)"}>{cron['payload']}</Mark></Text>
             </Group>
           )}
+        <ScrollArea p={0} style={{ height: '100%' }} offsetScrollbars>
+         
           <Table striped highlightOnHover verticalSpacing={0}>
             <Table.Thead>
               <Table.Tr>

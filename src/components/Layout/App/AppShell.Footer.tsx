@@ -57,7 +57,7 @@ export function AppShellFooter() {
             <>
               <Group gap={5}>
                 <Text size="sm">API</Text>
-                <Tooltip label={data.payload['api_release_date']}>
+                <Tooltip label={`Release date ${data.payload['api_release_date']}`}>
                 <Code fw={700}>
                   {data.payload['api_release_version']}
                 </Code>
@@ -65,7 +65,7 @@ export function AppShellFooter() {
               </Group>
               <Group gap={5}>
                 <Text size="sm">Watchdog</Text>
-                <Tooltip label={data.payload['watchdog_release_date']}>
+                <Tooltip label={`Release date ${data.payload['watchdog_release_date']}`}>
                 <Code fw={700}>
                   {data.payload['watchdog_release_version']}
                 </Code>
@@ -75,7 +75,7 @@ export function AppShellFooter() {
           )}
           <Group gap={5}>
             <Text size="sm">UI</Text>
-            <Tooltip label={NEXT_PUBLIC_FRONT_END_BUILD_DATE}>
+            <Tooltip label={`Release date ${NEXT_PUBLIC_FRONT_END_BUILD_DATE}`}>
             <Code fw={700}>
               {NEXT_PUBLIC_FRONT_END_BUILD_VERSION}
             </Code>

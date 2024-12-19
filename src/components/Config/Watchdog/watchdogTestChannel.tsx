@@ -13,9 +13,7 @@ export function WatchdogTestChannel({ configuration }: WatchdogTestChannelProps)
 
   return (
     <>
-      <Box p={5}>
-       
-
+      <Box>
         <SimpleGrid cols={3} spacing="sm" verticalSpacing="sm" w={600}>
           <div>Email enabled</div>
           <div>{configuration?.payload?.EMAIL_ENABLE}</div>

@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-import { Alert, Code, Group, Stack, Text, useComputedColorScheme } from '@mantine/core';
+import { Alert, Code, Group, Stack, Text, Tooltip, useComputedColorScheme } from '@mantine/core';
 import { IconAlertTriangle } from '@tabler/icons-react';
 
 import { useAgentStatus } from '@/contexts/AgentStatusContext';
@@ -91,12 +91,14 @@ export const Version = () => {
             >
               Velero Vmware-Tanzu
             </Text>
+            <Tooltip label={`Latest release ${veleroTanzuVersion?.payload?.velero}`}>
             <Code fw={700}>
               {veleroTanzuVersion?.payload?.velero.substring(
                 0,
                 veleroTanzuVersion?.payload?.velero.indexOf(' ')
               )}
             </Code>
+            </Tooltip>
           </Group>
         )}
       </Stack>

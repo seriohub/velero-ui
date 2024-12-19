@@ -26,7 +26,7 @@ export const ProcessTime = () => {
           h={24}
           data={xProcessTimeArray}
           curveType="linear"
-          color="blue"
+          color="var(--mantine-primary-color-filled)"
           fillOpacity={0.6}
           strokeWidth={2}
         />
