@@ -1,6 +1,6 @@
 'use client';
 
-import BackupsStatusBadge from './BackupsStatusBadge';
+import VeleroResourceStatusBadge from '../VeleroResourceStatusBadge';
 
 const segmentColors = {
   Completed: 'green.6',
@@ -13,5 +13,5 @@ const segmentColors = {
 };
 
 export default function BackupsStepperDescription({ backup }: any) {
-  return <BackupsStatusBadge status={backup?.status?.phase} />;
+  return <VeleroResourceStatusBadge status={backup?.status?.phase} />;
 }

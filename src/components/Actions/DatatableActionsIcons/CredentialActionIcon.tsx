@@ -36,7 +36,7 @@ export default function CredentialActionIcon({ name, record }: DetailActionIconP
               });
             }}
           >
-            <IconKey size={16} />
+            <IconKey />
           </ActionIcon>
         </Tooltip>
       )}
@@ -55,7 +55,7 @@ export default function CredentialActionIcon({ name, record }: DetailActionIconP
               });
             }}
           >
-            <IconKey size={16} />
+            <IconKey />
           </ActionIcon>
         </Tooltip>
       )}

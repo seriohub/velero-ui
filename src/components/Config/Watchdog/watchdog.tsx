@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 
 import { Group, ScrollArea, Text, Stack, Table } from '@mantine/core';
 
-
 import { WatchdogTestChannel } from './watchdogTestChannel';
 import { useAgentStatus } from '@/contexts/AgentStatusContext';
 import { useWatchdogConfig } from '@/api/Watchdog/useWatchdogConfig';
@@ -46,14 +45,13 @@ export function Watchdog() {
 
   return (
     <>
-      <ScrollArea p={0} style={{ height: '100%' }} offsetScrollbars>
+      <Stack h="100%" gap={0} p={5}>
+        <Toolbar title="Watchdog" breadcrumbItem={{ name: 'Watchdog', href: '/watchdog' }}>
+          <SendReport fetching={reportFetching} requestSendReport={watchdogSendReport} />
+          <RefreshDatatable setReload={setReload} reload={reload} />
+        </Toolbar>
         <WatchdogTestChannel configuration={configuration} />
-
-        <Stack h="100%" gap={0} p={5}>
-          <Toolbar title="Watchdog Configuration">
-            <RefreshDatatable setReload={setReload} reload={reload} />
-            <SendReport fetching={reportFetching} requestSendReport={watchdogSendReport} />
-          </Toolbar>
+        <ScrollArea p={0} style={{ height: '100%' }} offsetScrollbars>
           {cron !== undefined && (
             <Group>
               <Text size="md">Full report cron</Text>
@@ -69,8 +67,8 @@ export function Watchdog() {
             </Table.Thead>
             <Table.Tbody>{rowApiConfiguration}</Table.Tbody>
           </Table>
-        </Stack>
-      </ScrollArea>
+        </ScrollArea>
+      </Stack>
     </>
   );
 }

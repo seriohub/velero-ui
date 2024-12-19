@@ -53,8 +53,8 @@ export default function StartStopActionIcon({
           paused === true ? unpause_schedule() : pause_schedule();
         }}
       >
-        {paused === true && <IconPlayerPlay size={16} color="green" />}
-        {paused !== true && <IconPlayerPause size={16} color="orange" />}
+        {paused === true && <IconPlayerPlay color="green" />}
+        {paused !== true && <IconPlayerPause color="orange" />}
       </ActionIcon>
     </Tooltip>
   );

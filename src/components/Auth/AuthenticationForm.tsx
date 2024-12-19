@@ -85,7 +85,7 @@ export function AuthenticationForm() {
           <TextInput
             //variant="filled"
             leftSection={
-              <ActionIcon variant="outline" color="blue" p={4} tabIndex={-1}>
+              <ActionIcon variant="outline" p={4} tabIndex={-1}>
                 <IconUser />
               </ActionIcon>
             }
@@ -101,7 +101,7 @@ export function AuthenticationForm() {
           <PasswordInput
             //variant="filled"
             leftSection={
-              <ActionIcon variant="outline" color="blue" p={4} tabIndex={-1}>
+              <ActionIcon variant="outline" p={4} tabIndex={-1}>
                 <IconLock />
               </ActionIcon>
             }

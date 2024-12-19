@@ -39,7 +39,7 @@ export default function DeleteSCMappingActionIcon({
           });
         }}
       >
-        <IconTrashX size={16} color="red" />
+        <IconTrashX color="red" />
       </ActionIcon>
     </Tooltip>
   );

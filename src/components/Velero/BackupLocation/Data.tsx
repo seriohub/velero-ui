@@ -15,6 +15,7 @@ import CredentialActionIcon from '../../Actions/DatatableActionsIcons/Credential
 import { useAgentStatus } from '@/contexts/AgentStatusContext';
 import { DataFetchedInfo } from '../../DataFetchedInfo';
 import { useBackupLocation } from '@/api/BackupLocation/useBackupLocation';
+import VeleroResourceStatusBadge from '../VeleroResourceStatusBadge';
 
 const PAGE_SIZES = [5];
 
@@ -37,8 +38,7 @@ export function BackupLocation() {
   useEffect(() => {
     if (process.env.NODE_ENV === 'development')
       console.log(`%cuseEffect 430 has been called`, `color: green; font-weight: bold;`);
-    if (agentValues.isAgentAvailable && reload>1)
-      getBackupLocation(true);
+    if (agentValues.isAgentAvailable && reload > 1) getBackupLocation(true);
   }, [reload]);
 
   useEffect(() => {
@@ -83,7 +83,10 @@ export function BackupLocation() {
   return (
     <>
       <Stack h="100%" gap={0} p={5}>
-        <Toolbar title="Backup Location" breadcrumbItem={{name:'Backup locations', href:'/backup-locations'}}>
+        <Toolbar
+          title="Backup Location"
+          breadcrumbItem={{ name: 'Backup locations', href: '/backup-locations' }}
+        >
           <RefreshDatatable setReload={setReload} reload={reload} />
         </Toolbar>
         <DataFetchedInfo metadata={data?.metadata} />
@@ -121,7 +124,14 @@ export function BackupLocation() {
               title: 'provider',
             },
             { accessor: 'spec.objectStorage.bucket', title: 'Bucket/Prefix', sortable: true },
-            { accessor: 'status.phase', title: 'Phase', sortable: true },
+            {
+              accessor: 'status.phase',
+              title: 'Phase',
+              sortable: true,
+              render: ({ status }: any) => (
+                <>{<VeleroResourceStatusBadge status={status.phase} />}</>
+              ),
+            },
             { accessor: 'spec.accessMode', title: 'Access Mode', sortable: true },
             {
               accessor: 'spec.credential.name',

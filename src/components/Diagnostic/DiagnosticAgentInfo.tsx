@@ -11,6 +11,7 @@ import {
   ThemeIcon,
   rem,
   Center,
+  Code,
 } from '@mantine/core';
 
 import {
@@ -43,20 +44,32 @@ export const DiagnosticAgentInfo = () => {
 
   return (
     <>
-      <Group gap={2}>
-        {!agentValues.isAgentAvailable && <IconPlugConnectedX size={20} color="red" />}
-        {agentValues.isAgentAvailable && <IconPlugConnected size={20} color="green" />}
-        <Text size="sm" mr={5}>
-          Agent:
-        </Text>
-        <Text size="sm" mr={5} c="blue">
+      <Group gap={5}>
+        <Text size="sm">Agent:</Text>
+        <Text size="sm" fw={700}>
           {agentValues?.currentAgent?.name}
         </Text>
-        <Button onClick={open} variant="default" size="compact-xs">
+
+        <Group gap={0}>
+          {!agentValues.isAgentAvailable && (
+            <>
+              <IconPlugConnectedX color="red" size={16} />
+              <Text size="sm">Not Connected!</Text>
+            </>
+          )}
+          {agentValues.isAgentAvailable && (
+            <>
+              <IconPlugConnected color="green" size={16} />
+              <Text size="sm">Connected</Text>
+            </>
+          )}
+        </Group>
+
+        <Group gap={0}>
           {stateManager.allTrue && !stateManager.hasWarnings && (
             <>
               <Group gap={0}>
-                <IconCheck color="green" />{' '}
+                <IconCheck color="green" size={16}/>
                 <Text size="sm" c="green">
                   All Check Passed
                 </Text>
@@ -66,7 +79,7 @@ export const DiagnosticAgentInfo = () => {
           {stateManager.allTrue && stateManager.hasWarnings && (
             <>
               <Group gap={0}>
-                <IconCheck color="orange" />{' '}
+                <IconCheck color="orange" size={16}/>
                 <Text c="orange" size="sm">
                   Check warning
                 </Text>
@@ -76,26 +89,29 @@ export const DiagnosticAgentInfo = () => {
           {!stateManager.allTrue && (
             <>
               <Group gap={0}>
-                <IconCheck color="red" size={20} />
+                <IconCheck color="red" size={16} />
                 <Text c="red" size="sm">
                   Error
                 </Text>
               </Group>
             </>
           )}
+        </Group>
+        <Button onClick={open} variant="outline" size="compact-xs">
+          Info
         </Button>
-
         <ActionIcon
-          variant="subtle"
+          variant="outline"
           size="compact-xs"
           aria-label="Settings"
           onClick={() => {
             setReload(reload + 1);
           }}
         >
-          <IconRefresh size={16} stroke={1.5} />
+          <IconRefresh size={18} stroke={1.5} />
         </ActionIcon>
       </Group>
+
       <Modal
         opened={opened}
         onClose={close}
@@ -240,13 +256,16 @@ export const DiagnosticAgentInfo = () => {
             />
           </List>
           <Center mt={10}>
-          <CopyButton value={stateManager.generateMarkdownReport()}>
-            {({ copied, copy }) => (
-              <Button color={copied ? 'teal' : 'blue'} onClick={copy}>
-                {copied ? 'Copied!' : 'Copy diagnostic report to clipboard'}
-              </Button>
-            )}
-          </CopyButton>
+            <CopyButton value={stateManager.generateMarkdownReport()}>
+              {({ copied, copy }) => (
+                <Button
+                  color={copied ? 'teal' : 'var(--mantine-primary-color-filled)'}
+                  onClick={copy}
+                >
+                  {copied ? 'Copied!' : 'Copy diagnostic report to clipboard'}
+                </Button>
+              )}
+            </CopyButton>
           </Center>
         </Box>
       </Modal>

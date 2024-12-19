@@ -41,7 +41,7 @@ export default function DeleteActionIcon({
           });
         }}
       >
-        <IconTrashX size={16} color="red" />
+        <IconTrashX color="red" />
       </ActionIcon>
     </Tooltip>
   );

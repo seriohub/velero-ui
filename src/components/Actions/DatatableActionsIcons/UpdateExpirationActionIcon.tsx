@@ -31,7 +31,7 @@ export default function UpdateExpirationActionIcon({ record }: DetailActionIconP
               });
             }}
           >
-            <IconClockCog size={16} color="orange" />
+            <IconClockCog color="orange" />
           </ActionIcon>
         </Tooltip>
     </>

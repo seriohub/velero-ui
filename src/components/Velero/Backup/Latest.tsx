@@ -22,9 +22,8 @@ import DescribeActionIcon from '@/components/Actions/DatatableActionsIcons/Descr
 import LogsActionIcon from '@/components/Actions/DatatableActionsIcons/LogsActionIcon';
 import RestoreActionIcon from '@/components/Actions/DatatableActionsIcons/RestoreActionIcon';
 import DeleteActionIcon from '@/components/Actions/DatatableActionsIcons/DeleteActionIcon';
-import CreateBackupToolbarIcon from '../../Actions/ToolbarActionIcons/CreateBackupToolbarIcon';
-import Toolbar from '../../Toolbar';
-import BackupsStatusBadge from './BackupsStatusBadge';
+
+import VeleroResourceStatusBadge from '../VeleroResourceStatusBadge';
 import BackupsStepperDescription from './BackupsStepperDescription';
 import { useMediaQuery } from '@mantine/hooks';
 
@@ -37,11 +36,10 @@ interface BackupLatestProps {
 }
 
 export function BackupLatest({ reload, setReload, latest = [] }: BackupLatestProps) {
-  const [active, setActive] = useState(1);
   const [items, setItems] = useState<Array<any>>(latest);
   const isMobile = useMediaQuery(`(max-width: 36em)`);
   const isTablet = useMediaQuery(`(max-width: 1024px)`);
-console.log("isTablet",isTablet)
+
   const [sortStatus, setSortStatus] = useState<DataTableSortStatus>({
     columnAccessor: 'Number',
     direction: 'asc',
@@ -50,7 +48,7 @@ console.log("isTablet",isTablet)
   const [pageSize, setPageSize] = useState(PAGE_SIZES[1]);
   const [page, setPage] = useState(1);
 
-  const [records, setRecords] = useState(items.slice(0, pageSize));
+  const [records, setRecords] = useState(items.slice(0, 5));
 
   useEffect(() => {
     if (process.env.NODE_ENV === 'development')
@@ -91,17 +89,6 @@ console.log("isTablet",isTablet)
     </Group>
   );
 
-  const renderStepperLink = items
-    .filter((item: any) => item)
-    .map((item: any) => (
-      <Stepper.Step
-        label={item?.metadata?.name}
-        description={<BackupsStepperDescription backup={item} />}
-      ></Stepper.Step>
-    ));
-
-  console.log('items', items);
-
   return (
     <>
       <Card
@@ -136,19 +123,19 @@ console.log("isTablet",isTablet)
             withTableBorder
             borderRadius="sm"
             withColumnBorders
-             striped
-             highlightOnHover
+            striped
+            highlightOnHover
             records={records}
             idAccessor="id"
-            //totalRecords={records.length}
-            //recordsPerPage={pageSize}
+            // totalRecords={records.length}
+            // recordsPerPage={pageSize}
             // page={page}
-            //onPageChange={(p) => setPage(p)}
+            // onPageChange={(p) => setPage(p)}
             // recordsPerPageOptions={PAGE_SIZES}
             // onRecordsPerPageChange={setPageSize}
-             //sortStatus={sortStatus}
+            // sortStatus={sortStatus}
             // onSortStatusChange={setSortStatus}
-            //pinLastColumn
+            // pinLastColumn
             bg={
               computedColorScheme == 'light'
                 ? 'var(--mantine-color-white)'
@@ -181,7 +168,7 @@ console.log("isTablet",isTablet)
                 accessor: 'status.phase',
                 title: 'Status',
                 sortable: true,
-                render: ({ status }: any) => <>{<BackupsStatusBadge status={status.phase} />}</>,
+                render: ({ status }: any) => <>{<VeleroResourceStatusBadge status={status.phase} />}</>,
               },
               { accessor: 'status.errors', title: 'Errors', sortable: true },
               { accessor: 'status.warnings', title: 'Warnings', sortable: true },

@@ -11,9 +11,11 @@ export default function SendReport({ requestSendReport, fetching = false }: any)
         requestSendReport({url:'/v1/watchdog/send-report'});
       }}
       
-      variant={fetching ? 'filled' : 'default'}
+      variant={fetching ? 'filled' : 'outline'}
       disabled={fetching}
       aria-label="ActionIcon with size as a number"
+      h={38}
+      radius="md"
     >
       Send Report
     </Button>

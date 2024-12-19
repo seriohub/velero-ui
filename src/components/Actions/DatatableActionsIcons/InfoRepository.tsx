@@ -57,7 +57,7 @@ export default function InfoRepository({
           );
         }}
       >
-        <IconCalculator size={16} color="green" />
+        <IconCalculator color="green" />
       </ActionIcon>
     </Tooltip>
   );

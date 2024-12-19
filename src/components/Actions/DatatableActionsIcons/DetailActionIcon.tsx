@@ -27,7 +27,7 @@ export default function DetailActionIcon({ name, record }: DetailActionIconProps
           });
         }}
       >
-        <IconClipboard size={16} />
+        <IconClipboard />
       </ActionIcon>
     </Tooltip>
   );

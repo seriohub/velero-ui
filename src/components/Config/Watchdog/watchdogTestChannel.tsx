@@ -14,9 +14,7 @@ export function WatchdogTestChannel({ configuration }: WatchdogTestChannelProps)
   return (
     <>
       <Box p={5}>
-        <Toolbar title="Test notification">
-          <></>
-        </Toolbar>
+       
 
         <SimpleGrid cols={3} spacing="sm" verticalSpacing="sm" w={600}>
           <div>Email enabled</div>

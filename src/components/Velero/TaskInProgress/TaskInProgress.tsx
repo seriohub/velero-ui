@@ -18,6 +18,7 @@ import ExpireIn from '../Backup/ExpireIn';
 import DescribeActionIcon from '@/components/Actions/DatatableActionsIcons/DescribeActionIcon';
 import LogsActionIcon from '@/components/Actions/DatatableActionsIcons/LogsActionIcon';
 import DeleteActionIcon from '@/components/Actions/DatatableActionsIcons/DeleteActionIcon';
+import VeleroResourceStatusBadge from '../VeleroResourceStatusBadge';
 
 export default function TaskInProgress() {
   const appValues = useAppState();
@@ -91,9 +92,9 @@ export default function TaskInProgress() {
   return (
     <>
       <Accordion.Item key="TaskInProgress" value="TaskInProgress">
-        <Accordion.Control icon={<IconClock />}>
+        <Accordion.Control >
           <Group justify="space-between">
-            <Text>Task in progress</Text>
+            <Text>{records.length>0 ? `[${records.length}]`:''} Task in progress</Text>
             <Tooltip label="Click to refresh">
               <Box>
               {/*<IconReload
@@ -188,6 +189,7 @@ export default function TaskInProgress() {
                 sortable: true,
                 width: 100,
                 ellipsis: true,
+                render: ({ status }: any) => <>{<VeleroResourceStatusBadge status={status.phase} />}</>,
               },
               {
                 accessor: 'status.errors',

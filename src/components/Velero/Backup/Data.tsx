@@ -22,6 +22,7 @@ import LastBackup4Schedule from '../../Actions/ToolbarActionIcons/LastBackup4Sch
 import { useAgentStatus } from '@/contexts/AgentStatusContext';
 import { DataFetchedInfo } from '../../DataFetchedInfo';
 import { useBackups } from '@/api/Backup/useBackups';
+import VeleroResourceStatusBadge from '../VeleroResourceStatusBadge';
 
 const PAGE_SIZES = [10, 15, 20];
 
@@ -257,6 +258,7 @@ export function BackupData({ limit = -1 }: BackupDataProps) {
               filtering: selectedPhase.length > 0,
               width: 160,
               ellipsis: true,
+              render: ({ status }: any) => <>{<VeleroResourceStatusBadge status={status.phase} />}</>,
             },
             {
               accessor: 'status.errors',

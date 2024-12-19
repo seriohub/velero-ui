@@ -65,12 +65,15 @@ export function Configuration() {
 
   return (
     <>
-      <ScrollArea p={0} style={{ height: '100%' }} offsetScrollbars>
+      
         <Stack h="100%" gap={0} p={5}>
-          <Toolbar title="API Configuration">
+          <Toolbar
+            title="Backup"
+            breadcrumbItem={{ name: 'Configuration', href: '/Configuration' }}
+          >
             <RefreshDatatable setReload={setReload} reload={reload} />
           </Toolbar>
-
+          <ScrollArea p={0} style={{ height: '100%' }} offsetScrollbars>
           <Table striped highlightOnHover verticalSpacing={0}>
             <Table.Thead>
               <Table.Tr>
@@ -94,8 +97,9 @@ export function Configuration() {
             </Table.Thead>
             <Table.Tbody>{rowUiConfiguration}</Table.Tbody>
           </Table>
+          </ScrollArea>
         </Stack>
-      </ScrollArea>
+      
     </>
   );
 }

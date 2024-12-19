@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 
 import { env } from 'next-runtime-env';
 
-import { Code, Group } from '@mantine/core';
+import { Code, Group, Text, Tooltip } from '@mantine/core';
 
 import { useAppState } from '@/contexts/AppStateContext';
 
@@ -47,7 +47,7 @@ export function AppShellFooter() {
           <ProcessTime />
         </Group>
 
-        <Group justify="flex-end" gap={5} visibleFrom="lg">
+        <Group justify="flex-end" gap={10} visibleFrom="lg">
           {serverValues.isCurrentServerControlPlane && data?.payload && (
             <Code>
               CORE: {data.payload['core_release_version']} ({data.payload['core_release_date']})
@@ -55,18 +55,32 @@ export function AppShellFooter() {
           )}
           {!serverValues.isCurrentServerControlPlane && data?.payload && (
             <>
-              <Code>
-                API: {data.payload['api_release_version']} ({data.payload['api_release_date']})
-              </Code>
-              <Code>
-                Watchdog: {data.payload['watchdog_release_version']} (
-                {data.payload['watchdog_release_date']})
-              </Code>
+              <Group gap={5}>
+                <Text size="sm">API</Text>
+                <Tooltip label={data.payload['api_release_date']}>
+                <Code fw={700}>
+                  {data.payload['api_release_version']}
+                </Code>
+                </Tooltip>
+              </Group>
+              <Group gap={5}>
+                <Text size="sm">Watchdog</Text>
+                <Tooltip label={data.payload['watchdog_release_date']}>
+                <Code fw={700}>
+                  {data.payload['watchdog_release_version']}
+                </Code>
+                </Tooltip>
+              </Group>
             </>
           )}
-          <Code>
-            UI: {NEXT_PUBLIC_FRONT_END_BUILD_VERSION} ({NEXT_PUBLIC_FRONT_END_BUILD_DATE})
-          </Code>
+          <Group gap={5}>
+            <Text size="sm">UI</Text>
+            <Tooltip label={NEXT_PUBLIC_FRONT_END_BUILD_DATE}>
+            <Code fw={700}>
+              {NEXT_PUBLIC_FRONT_END_BUILD_VERSION}
+            </Code>
+            </Tooltip>
+          </Group>
         </Group>
       </Group>
     </>

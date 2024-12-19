@@ -32,7 +32,7 @@ export default function LogsActionIcon({ resourceType, record }: LogsActionIconP
           });
         }}
       >
-        <IconFileDescription size={16} />
+        <IconFileDescription />
       </ActionIcon>
     </Tooltip>
   );

@@ -19,8 +19,9 @@ export default function CreateSCMappingIcon({
   return (
     <Tooltip label="Create Storage Class Mapping">
       <ActionIcon
-        size={30}
-        variant="default"
+        size={38}
+        variant="outline"
+        radius={8}
         onClick={(e) => {
           e.stopPropagation();
           openModal({

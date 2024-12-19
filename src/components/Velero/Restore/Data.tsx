@@ -17,6 +17,7 @@ import Toolbar from '../../Toolbar';
 import { useAgentStatus } from '@/contexts/AgentStatusContext';
 import { DataFetchedInfo } from '../../DataFetchedInfo';
 import { useRestores } from '@/api/Restore/useRestores';
+import VeleroResourceStatusBadge from '../VeleroResourceStatusBadge';
 
 const PAGE_SIZES = [10, 15, 20];
 
@@ -219,6 +220,7 @@ export function RestoreData() {
                 />
               ),
               filtering: selectedPhase.length > 0,
+              render: ({ status }: any) => <>{<VeleroResourceStatusBadge status={status.phase} />}</>,
             },
             { accessor: 'status.startTimestamp', title: 'Started', sortable: true },
             { accessor: 'status.completionTimestamp', title: 'Completed', sortable: true },

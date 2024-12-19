@@ -21,6 +21,7 @@ import SchedulesHeatmapToolbarIcon from '../../Actions/ToolbarActionIcons/Schedu
 import { useAgentStatus } from '@/contexts/AgentStatusContext';
 import { DataFetchedInfo } from '../../DataFetchedInfo';
 import { useSchedules } from '@/api/Schedule/useSchedules';
+import VeleroResourceStatusBadge from '../VeleroResourceStatusBadge';
 
 const PAGE_SIZES = [10, 15, 20];
 
@@ -97,7 +98,7 @@ export function ScheduleData() {
   return (
     <>
       <Stack h="100%" gap={0} p={5}>
-        <Toolbar title="Schedule" breadcrumbItem={{name:'Schedules', href:'/schedules'}}>
+        <Toolbar title="Schedule" breadcrumbItem={{ name: 'Schedules', href: '/schedules' }}>
           <SchedulesHeatmapToolbarIcon />
           <CreateSecheduleToolbarIcon setReload={setReload} reload={reload} />
           <RefreshDatatable setReload={setReload} reload={reload} />
@@ -149,14 +150,17 @@ export function ScheduleData() {
             { accessor: 'status.lastBackup', title: 'Last Backup', sortable: true },
             {
               accessor: 'status',
-              title: 'Paused',
+              title: 'Status',
               sortable: true,
-              render: (record: any) => {
+              /*render: (record: any) => {
                 if (record.spec.paused === true) {
                   return <>true</>;
                 }
                 return <>false</>;
-              },
+              },*/
+              render: ( record : any) => (
+                <>{<VeleroResourceStatusBadge status={record.spec.paused===true ? 'Paused' : 'Running'} />}</>
+              ),
             },
             {
               accessor: 'actions',
