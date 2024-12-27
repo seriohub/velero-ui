@@ -7,7 +7,7 @@ import { AuthShellHeader } from './AuthShell.Header';
 import { AppShellFooter } from '../App/AppShell.Footer';
 import { LoginSponsorMessage } from '../../Sponsor/LoginSponsorMessage';
 import { IconArrowLeft, IconArrowRight } from '@tabler/icons-react';
-import { DebAsideApp } from '@/components/Debug/DebAsideApp';
+import { DebugAside } from '@/components/Debug/DebugAside';
 
 interface AuthShellLayoutProps {
   children: any;
@@ -82,7 +82,7 @@ export default function AuthShellLayout({ children }: AuthShellLayoutProps) {
                     )}
           </Flex>
           <Drawer opened={openedAside} onClose={toggleAside} title="Debug" position="right" closeOnEscape={false}>
-          <DebAsideApp />
+          <DebugAside />
           </Drawer>
         </AppShell.Main>
         <AppShell.Footer>

@@ -13,8 +13,8 @@ import { usePathname } from 'next/navigation';
 
 import classes from './SwitchCluster.module.css';
 
-import { useServerStatus } from '@/contexts/ServerStatusContext';
-import { useAgentStatus } from '@/contexts/AgentStatusContext';
+import { useServerStatus } from '@/contexts/ServerContext';
+import { useAgentStatus } from '@/contexts/AgentContext';
 
 export function SwitchCluster() {
   const pathname = usePathname();
@@ -34,8 +34,8 @@ export function SwitchCluster() {
         serverValues.setCurrentBackend(serverValues.servers[index]);
         localStorage.setItem('cluster', index.toString());
         // router.push(`${pathname}?_=${new Date().getTime()}-${appValues.currentBackend.name}`);
-        console.log('20 Set server available undefined');
-        console.log('20 Set agent available undefined');
+        // console.log('20 Set server available undefined');
+        // console.log('20 Set agent available undefined');
         window.location.reload();
       }}
       key={index}
@@ -45,8 +45,8 @@ export function SwitchCluster() {
   ));
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development')
-      console.log(`%cuseEffect 852 has been called`, `color: green; font-weight: bold;`);
+    // if (process.env.NODE_ENV === 'development')
+    //  console.log(`%cuseEffect 852 has been called`, `color: green; font-weight: bold;`);
     if (serverValues.isCurrentServerControlPlane == undefined)
       setIcon(<IconPlugConnectedX size={40} color="red" />);
     else if (serverValues.isCurrentServerControlPlane)

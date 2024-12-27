@@ -1,14 +1,16 @@
-import { useState, useContext } from 'react';
+import { useState } from 'react';
 
 import { useRouter } from 'next/navigation';
 import { notifications } from '@mantine/notifications';
 
 import { IconInfoCircle, IconExclamationMark } from '@tabler/icons-react';
 
-// import { env } from 'next-runtime-env';
+import { useBackend } from '../useBackend';
 
-import { useAppState } from '@/contexts/AppStateContext';
-import { useBackend } from './useBackend';
+import { useApiLogger } from '../logger/useApiLogger';
+import { useUserNotificationHistory } from '../user/useUserNotificationHistory';
+import { useAuth } from '../user/useAuth';
+import { useAuthErrorHandler } from '../user/useAuthErrorHandler';
 
 interface UseApiPostProps {
   target?: 'core' | 'agent' | 'static';
@@ -16,11 +18,14 @@ interface UseApiPostProps {
 
 export const useApiPost = ({ target = 'agent' }: UseApiPostProps = {}) => {
   const router = useRouter();
-  const appValues = useAppState();
+  const { logout } = useAuthErrorHandler();
+  //const userValues = useUserStatus();
+  const { addNotificationHistory } = useUserNotificationHistory();
 
   const [fetching, setFetching] = useState(false);
   const [data, setData] = useState<Record<string, any> | undefined>(undefined);
   const [error, setError] = useState(false);
+  const { addApiRequestHistory, addApiResponseHistory } = useApiLogger();
 
   const backendUrl = useBackend({ target: target });
 
@@ -48,15 +53,12 @@ export const useApiPost = ({ target = 'agent' }: UseApiPostProps = {}) => {
     };
 
     setFetching(true);
-    appValues.setApiRequest((prev: Array<any>) =>
-      prev.concat({ method: 'POST', url: `${backendUrl}${url}`, params: values })
-    );
+    addApiRequestHistory({ method: 'POST', url: `${backendUrl}${url}`, params: values });
 
     fetch(`${backendUrl}${url}`, requestOptions)
       .then(async (res) => {
         if (res.status === 401) {
-          localStorage.removeItem('token');
-          router.push('/');
+          logout();
         }
 
         return res.json().then((response) => {
@@ -70,7 +72,7 @@ export const useApiPost = ({ target = 'agent' }: UseApiPostProps = {}) => {
       .then((res) => {
         const data = res.data;
         const statusCode = res.status;
-        
+
         if ('error' in data) {
           notifications.show({
             icon: <IconExclamationMark />,
@@ -80,13 +82,11 @@ export const useApiPost = ({ target = 'agent' }: UseApiPostProps = {}) => {
           });
           setData({});
           setError(true);
-          appValues.setNotificationHistory((prev: Array<any>) =>
-            prev.concat({
-              statusCode: statusCode,
-              title: data.error.title,
-              description: data.error.description,
-            })
-          );
+          addNotificationHistory({
+            statusCode: statusCode,
+            title: data.error.title,
+            description: data.error.description,
+          });
         } else if ('data' in data) {
           setData(data.data);
         }
@@ -98,28 +98,24 @@ export const useApiPost = ({ target = 'agent' }: UseApiPostProps = {}) => {
               title: message.title,
               message: message.description,
             });
-            appValues.setNotificationHistory((prev: Array<any>) =>
-              prev.concat({
-                statusCode: statusCode,
-                title: message.title,
-                description: message.description,
-              })
-            );
+            addNotificationHistory({
+              statusCode: statusCode,
+              title: message.title,
+              description: message.description,
+            });
             return null;
           });
         }
         setFetching(false);
 
-        appValues.setApiResponse((prev: Array<any>) =>
-          prev.concat({
-            method: 'POST',
-            url: `${backendUrl}${url}`,
-            params: values,
-            data: data,
-            statusCode: statusCode,
-            xProcessTime: res.xProcessTime,
-          })
-        );
+        addApiResponseHistory({
+          method: 'POST',
+          url: `${backendUrl}${url}`,
+          params: values,
+          data: data,
+          statusCode: statusCode,
+          xProcessTime: res.xProcessTime,
+        });
       })
       .catch((err) => {
         notifications.show({

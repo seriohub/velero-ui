@@ -18,11 +18,13 @@ import {
 
 import { IconCopy, IconCheck } from '@tabler/icons-react';
 
-import { useAppState } from '@/contexts/AppStateContext';
+import { useAppStatus } from '@/contexts/AppContext';
+import { useUserStatus } from '@/contexts/UserContext';
 
 export default function InfoNotification() {
   //const value = useContext(VeleroAppContexts);
-  const appValues = useAppState();
+  const appValues = useAppStatus();
+  const userValues = useUserStatus()
   const viewport = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -31,7 +33,7 @@ export default function InfoNotification() {
     }
   };
 
-  const commands = appValues.notificationHistory.map((item: any, index: number) => (
+  const commands = userValues.notificationHistory.map((item: any, index: number) => (
     <Stack gap={0} key={index} mb={15}>
       <Group gap={2}>
         <CopyButton value={`${item.statusCode}: ${item.title}: ${item.description}`} timeout={2000}>
@@ -66,7 +68,7 @@ export default function InfoNotification() {
   ));
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 520 has been called`, `color: green; font-weight: bold;`)
+    // if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 520 has been called`, `color: green; font-weight: bold;`)
     scrollToBottom();
   }, [appValues.apiRequest]);
 

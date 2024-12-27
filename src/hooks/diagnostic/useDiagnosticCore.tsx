@@ -4,8 +4,8 @@ import { env } from 'next-runtime-env';
 import { useApiGet } from '@/hooks/utils/useApiGet';
 import { CoreStateManager } from '@/lib/CoreStateManager';
 
-import { useBackend } from '../utils/useBackend';
-import { useServerStatus } from '@/contexts/ServerStatusContext';
+import { useBackend } from '../useBackend';
+import { useServerStatus } from '@/contexts/ServerContext';
 
 export const useDiagnosticCore = () => {
   const serverValues = useServerStatus();
@@ -24,7 +24,7 @@ export const useDiagnosticCore = () => {
   const { data: compatibility, getData: getCompatibility } = useApiGet();
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 90 has been called`, `color: green; font-weight: bold;`)
+    // if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 90 has been called`, `color: green; font-weight: bold;`)
     if (serverValues.isServerAvailable) {
       getDataK8sHealth({ url: '/info/health-k8s', target: 'core' });
       getApiOrigins({ url: '/info/origins', target: 'core' });
@@ -44,7 +44,7 @@ export const useDiagnosticCore = () => {
     //serverValues.currentServer,
     serverValues.isServerAvailable,
     //serverValues.isCurrentServerControlPlane,
-    reload
+    reload,
   ]);
 
   /*useEffect(() => {
@@ -54,7 +54,7 @@ export const useDiagnosticCore = () => {
   }, [apiURL]);*/
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 100 has been called`, `color: green; font-weight: bold;`)
+    // if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 100 has been called`, `color: green; font-weight: bold;`)
     if (apiOrigins !== undefined) {
       setOrigins(apiOrigins.payload);
     }

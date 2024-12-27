@@ -14,7 +14,7 @@ import LogsActionIcon from '@/components/Actions/DatatableActionsIcons/LogsActio
 import DeleteActionIcon from '@/components/Actions/DatatableActionsIcons/DeleteActionIcon';
 import RefreshDatatable from '../../Actions/ToolbarActionIcons/RefreshDatatable';
 import Toolbar from '../../Toolbar';
-import { useAgentStatus } from '@/contexts/AgentStatusContext';
+import { useAgentStatus } from '@/contexts/AgentContext';
 import { DataFetchedInfo } from '../../DataFetchedInfo';
 import { useRestores } from '@/api/Restore/useRestores';
 import VeleroResourceStatusBadge from '../VeleroResourceStatusBadge';
@@ -67,14 +67,14 @@ export function RestoreData() {
   }, [data]);
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development')
-      console.log(`%cuseEffect 690 has been called`, `color: green; font-weight: bold;`);
+    // if (process.env.NODE_ENV === 'development')
+    //  console.log(`%cuseEffect 690 has been called`, `color: green; font-weight: bold;`);
     if (agentValues.isAgentAvailable && reload > 1) getRestores(true);
   }, [reload]);
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development')
-      console.log(`%cuseEffect 690 has been called`, `color: green; font-weight: bold;`);
+    // if (process.env.NODE_ENV === 'development')
+    //   console.log(`%cuseEffect 690 has been called`, `color: green; font-weight: bold;`);
     if (agentValues.isAgentAvailable) getRestores();
   }, [agentValues.isAgentAvailable]);
 
@@ -83,15 +83,15 @@ export function RestoreData() {
   //}, []);
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development')
-      console.log(`%cuseEffect 700 has been called`, `color: green; font-weight: bold;`);
+    // if (process.env.NODE_ENV === 'development')
+    //  console.log(`%cuseEffect 700 has been called`, `color: green; font-weight: bold;`);
     if (data !== undefined) setItems(data.payload);
     else setItems([]);
   }, [data]);
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development')
-      console.log(`%cuseEffect 710 has been called`, `color: green; font-weight: bold;`);
+    // if (process.env.NODE_ENV === 'development')
+    //  console.log(`%cuseEffect 710 has been called`, `color: green; font-weight: bold;`);
     const from = (page - 1) * pageSize;
     const to = from + pageSize;
     const data_sorted = sortBy(items, sortStatus.columnAccessor);
@@ -123,8 +123,8 @@ export function RestoreData() {
   }, [page, pageSize, sortStatus, selectedSchedule, selectedPhase, items]);
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development')
-      console.log(`%cuseEffect 720 has been called`, `color: green; font-weight: bold;`);
+    // if (process.env.NODE_ENV === 'development')
+    //  console.log(`%cuseEffect 720 has been called`, `color: green; font-weight: bold;`);
     setPage(1);
   }, [selectedSchedule]);
 

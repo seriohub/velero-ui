@@ -26,8 +26,6 @@ const segmentColors = {
 };
 
 export function StatsSegmentsDonuts({ data, title, icon, path }: StatsSegmentsProps) {
-  console.log(data);
-
   const sections = data.stats.map((segment) => ({
     value: segment.count,
     color: segmentColors[segment.label],
@@ -49,7 +47,11 @@ export function StatsSegmentsDonuts({ data, title, icon, path }: StatsSegmentsPr
           {sections.length > 0 && (
             <DonutChart size={160} thickness={25} withLabels labelsType="value" data={sections} />
           )}
-          {sections.length == 0 && <Text fw={500} mt={50}>Not data found</Text>}
+          {sections.length == 0 && (
+            <Text fw={500} mt={50}>
+              Not data found
+            </Text>
+          )}
         </Center>
       </Card>
     </>

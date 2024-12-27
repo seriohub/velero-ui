@@ -1,14 +1,17 @@
-import { useState, useContext } from 'react';
+import { useState } from 'react';
 
 import { useRouter } from 'next/navigation';
 import { notifications } from '@mantine/notifications';
 
 import { IconInfoCircle, IconExclamationMark } from '@tabler/icons-react';
 
-import { env } from 'next-runtime-env';
+import { useBackend } from '../useBackend';
 
-import { useAppState } from '@/contexts/AppStateContext';
-import { useBackend } from './useBackend';
+import { useApiLogger } from '../logger/useApiLogger';
+import { useUserNotificationHistory } from '../user/useUserNotificationHistory';
+import { useAuth } from '../user/useAuth';
+import { useAuthErrorHandler } from '../user/useAuthErrorHandler';
+
 
 type DeleteParams = {
   url: string;
@@ -21,10 +24,9 @@ interface UseApiGetProps {
 
 export const useApiDelete = ({ target = 'agent' }: UseApiGetProps = {}) => {
   const router = useRouter();
-  const appValues = useAppState();
-
-  // const NEXT_PUBLIC_VELERO_API_URL = env('NEXT_PUBLIC_VELERO_API_URL');
-  // const NEXT_PUBLIC_VELERO_API_URL = appValues.currentBackend?.url;;
+  const { logout } = useAuthErrorHandler();
+  const { addNotificationHistory } = useUserNotificationHistory();
+  const { addApiRequestHistory, addApiResponseHistory } = useApiLogger();
 
   const [fetching, setFetching] = useState(false);
   const [data, setData] = useState<Record<string, any> | undefined>(undefined);
@@ -32,7 +34,7 @@ export const useApiDelete = ({ target = 'agent' }: UseApiGetProps = {}) => {
 
   const backendUrl = useBackend({ target: target });
 
-  const deleteData = async ({url, params}: DeleteParams) => {
+  const deleteData = async ({ url, params }: DeleteParams) => {
     if (error) {
       setError(false);
     }
@@ -56,16 +58,13 @@ export const useApiDelete = ({ target = 'agent' }: UseApiGetProps = {}) => {
     };
 
     setFetching(true);
-    
-    appValues.setApiRequest((prev: Array<any>) =>
-      prev.concat({ method: 'DELETE', url: `${backendUrl}${url}}`, params: params })
-    );
+
+    addApiRequestHistory({ method: 'DELETE', url: `${backendUrl}${url}}`, params: params });
 
     fetch(`${backendUrl}${url}`, requestOptions)
       .then(async (res) => {
         if (res.status === 401) {
-          localStorage.removeItem('token');
-          router.push('/');
+          logout();
         }
 
         return res.json().then((response) => {
@@ -88,13 +87,11 @@ export const useApiDelete = ({ target = 'agent' }: UseApiGetProps = {}) => {
           });
           setData({});
           setError(true);
-          appValues.setNotificationHistory((prev: Array<any>) =>
-            prev.concat({
-              statusCode: statusCode,
-              title: data.error.title,
-              description: data.error.description,
-            })
-          );
+          addNotificationHistory({
+            statusCode: statusCode,
+            title: data.error.title,
+            description: data.error.description,
+          });
         } else if ('data' in res) {
           setData(res);
         }
@@ -108,28 +105,24 @@ export const useApiDelete = ({ target = 'agent' }: UseApiGetProps = {}) => {
               title: message.title,
               message: message.description,
             });
-            appValues.setNotificationHistory((prev: Array<any>) =>
-              prev.concat({
-                statusCode: statusCode,
-                title: message.title,
-                description: message.description,
-              })
-            );
+            addNotificationHistory({
+              statusCode: statusCode,
+              title: message.title,
+              description: message.description,
+            });
             return null;
           });
         }
         setFetching(false);
 
-        appValues.setApiResponse((prev: Array<any>) =>
-          prev.concat({
-            method: 'DELETE',
-            url: `${backendUrl}${url}`,
-            param: params,
-            data: data,
-            statusCode: statusCode,
-            xProcessTime: res.xProcessTime,
-          })
-        );
+        addApiResponseHistory({
+          method: 'DELETE',
+          url: `${backendUrl}${url}`,
+          param: params,
+          data: data,
+          statusCode: statusCode,
+          xProcessTime: res.xProcessTime,
+        });
       })
       .catch((err) => {
         notifications.show({

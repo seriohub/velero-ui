@@ -7,7 +7,7 @@ import { closeAllModals } from '@mantine/modals';
 
 
 import CreateBackupScheduleForm from './CreateBackupScheduleForm';
-import { useAppState } from '@/contexts/AppStateContext';
+import { useAppStatus } from '@/contexts/AppContext';
 import { useCreationScheduleSettings } from '@/api/Schedule/useScheduleSettings';
 import { useCreateSchedule } from '@/api/Schedule/useCreateSchedule';
 
@@ -17,7 +17,7 @@ interface CreateScheduleProps {
 }
 
 export function CreateSchedule({ reload, setReload }: CreateScheduleProps) {
-  const appValues = useAppState();
+  const appValues = useAppStatus();
   const { data, getCreationScheduleSettings } = useCreationScheduleSettings();
 
   const { handleCreateSchedule } = useCreateSchedule();
@@ -51,14 +51,14 @@ export function CreateSchedule({ reload, setReload }: CreateScheduleProps) {
   });
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development')
-      console.log(`%cuseEffect 170 has been called`, `color: green; font-weight: bold;`);
+    // if (process.env.NODE_ENV === 'development')
+    //  console.log(`%cuseEffect 170 has been called`, `color: green; font-weight: bold;`);
     getCreationScheduleSettings();
   }, []);
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development')
-      console.log(`%cuseEffect 180 has been called`, `color: green; font-weight: bold;`);
+    // if (process.env.NODE_ENV === 'development')
+    //  console.log(`%cuseEffect 180 has been called`, `color: green; font-weight: bold;`);
     if (data !== undefined) {
       setNamespaces(data.payload.namespaces);
       setBackupLocation(data.payload.backup_location);

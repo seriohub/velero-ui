@@ -12,7 +12,7 @@ import {
   IconServer,
 } from '@tabler/icons-react';
 import styles from './AgentStats.module.css';
-import { useAgentStatus } from '@/contexts/AgentStatusContext';
+import { useAgentStatus } from '@/contexts/AgentContext';
 import { useRouter } from 'next/navigation';
 import ExpireIn from '@/components/Velero/Backup/ExpireIn';
 

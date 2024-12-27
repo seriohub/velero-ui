@@ -1,0 +1,27 @@
+import { useAppStatus } from "@/contexts/AppContext";
+import { useSocketStatus } from "@/contexts/SocketContext";
+import { useUserStatus } from "@/contexts/UserContext";
+import { useEffect } from "react";
+
+export function useSocketLogger() {
+    let socketValues;
+
+    try {
+        socketValues = useSocketStatus();
+    } catch {
+        socketValues = null; // Gestione del caso in cui il contesto non è inizializzato
+    }
+
+    const addSocketHistory = (data: any) => {
+        if (
+            !socketValues
+        ) {
+            console.warn("addSocketHistory not run: context not ready");
+            return;
+        }
+
+        socketValues.addSocketHistory((prev) => prev.concat(data));
+    };
+
+    return { addSocketHistory };
+}

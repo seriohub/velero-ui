@@ -1,0 +1,37 @@
+'use client';
+import { useEffect } from 'react';
+
+import AppShellLayout from '@/components/Layout/AuthLayout/AuthShell.Layout';
+
+import { useAppStatus } from '@/contexts/AppContext';
+
+import { useAgentConfig } from '@/hooks/context/useAgentConfig';
+import { useServerConfig } from '@/hooks/context/useServerConfig';
+import { useAppWebSocket } from '@/hooks/utils/useAppWebSocket';
+import { useUIConfig } from '@/hooks/context/useUIConfig';
+import { SocketProvider } from '@/contexts/SocketContext';
+interface AppShellBootProps {
+  children: any;
+}
+
+export default function AppShellBoot({ children }: AppShellBootProps) {
+  useUIConfig();
+  useServerConfig();
+  useAppWebSocket({ addSocketHistory: null });
+  useAgentConfig();
+
+  const appValues = useAppStatus();
+
+  useEffect(() => {
+    // if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 570 has been called`, `color: green; font-weight: bold;`)
+    if (typeof window !== 'undefined') {
+      const jwtToken = localStorage.getItem('token');
+      if (jwtToken !== null) {
+        appValues.setAuthenticated(true);
+      } else {
+        appValues.setAuthenticated(false);
+      }
+    }
+  }, []);
+  return <AppShellLayout>{children}</AppShellLayout>;
+}

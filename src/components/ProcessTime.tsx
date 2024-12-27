@@ -1,14 +1,12 @@
 import { Sparkline } from '@mantine/charts';
 
-import { useAppState } from '@/contexts/AppStateContext';
+import { useAppStatus } from '@/contexts/AppContext';
 import { Group, Text } from '@mantine/core';
 
 export const ProcessTime = () => {
-  const appValues = useAppState();
+  const appValues = useAppStatus();
 
-  const xProcessTimeArray = appValues.apiResponse.map(
-    (item: { xProcessTime: number }) => item.xProcessTime
-  );
+  const xProcessTimeArray = appValues.xProcessTimer;
 
   const xProcessTimeAvg =
     xProcessTimeArray.length > 0
@@ -31,6 +29,7 @@ export const ProcessTime = () => {
           strokeWidth={2}
         />
         <Text size="sm">avg: {Math.trunc(xProcessTimeAvg * 100) / 100}ms</Text>
+        <Text size="sm">last: {Math.trunc(xProcessTimeArray.slice(-1)[0] * 100) / 100}ms</Text>
       </Group>
     </>
   );

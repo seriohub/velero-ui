@@ -17,14 +17,14 @@ import {
 import { IconLock, IconUser } from '@tabler/icons-react';
 import { env } from 'next-runtime-env';
 
-import { useAppState } from '@/contexts/AppStateContext';
-import { useServerStatus } from '@/contexts/ServerStatusContext';
+import { useAppStatus } from '@/contexts/AppContext';
+import { useServerStatus } from '@/contexts/ServerContext';
 
 import { SwitchCluster } from '../SwitchCluster/SwitchCluster';
 
 export function AuthenticationForm() {
   const serverValues = useServerStatus();
-  const appValues = useAppState();
+  const appValues = useAppStatus();
 
   const router = useRouter();
 

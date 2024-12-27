@@ -2,8 +2,8 @@
 
 import { Text, Group, Divider, Box, Title } from '@mantine/core';
 import Breadcrumb from './Breadcrumb';
-import { useUserCtx } from '@/contexts/UserContext';
-import { useServerStatus } from '@/contexts/ServerStatusContext';
+import { useUserStatus } from '@/contexts/UserContext';
+import { useServerStatus } from '@/contexts/ServerContext';
 
 interface BreadCrumbItemProps {
   name: string;
@@ -19,7 +19,7 @@ interface ToolbarProps {
 
 export default function Toolbar({ title, children, breadcrumbItem, fetching }: ToolbarProps) {
   const serverValues = useServerStatus();
-  const userValues = useUserCtx();
+  const userValues = useUserStatus();
   return (
     <Box mt={5} mb={15}>
       <Group justify="space-between">

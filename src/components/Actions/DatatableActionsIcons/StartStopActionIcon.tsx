@@ -4,7 +4,7 @@ import { ActionIcon, Tooltip } from '@mantine/core';
 
 import { IconPlayerPause, IconPlayerPlay } from '@tabler/icons-react';
 
-import { useAppState } from '@/contexts/AppStateContext';
+import { useAppStatus } from '@/contexts/AppContext';
 import { useSchedulesStart } from '@/api/Schedule/useScheduleStart';
 import { useSchedulesPause } from '@/api/Schedule/useSchedulePause';
 
@@ -21,7 +21,7 @@ export default function StartStopActionIcon({
   reload,
   setReload,
 }: StartStopActionIconProps) {
-  const appValues = useAppState();
+  const appValues = useAppStatus();
 
   const { scheduleStart } = useSchedulesStart();
   const { schedulePause } = useSchedulesPause();

@@ -17,8 +17,8 @@ export function ResourceDescribe({ resourceType, resourceName }: ResourceDescrib
   const { data, getResourceDescribe, error, fetching } = useResourceDescribe();
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development')
-      console.log(`%cuseEffect 230 has been called`, `color: green; font-weight: bold;`);
+    // if (process.env.NODE_ENV === 'development')
+    //  console.log(`%cuseEffect 230 has been called`, `color: green; font-weight: bold;`);
     getResourceDescribe(resourceType, resourceName);
   }, [resourceName]);
 

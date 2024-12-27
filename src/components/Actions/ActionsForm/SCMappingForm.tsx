@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 import { useForm } from '@mantine/form';
 import { closeAllModals } from '@mantine/modals';
 
-import { useAppState } from '@/contexts/AppStateContext';
+import { useAppStatus } from '@/contexts/AppContext';
 import { Box, Button, Group, Select, TextInput } from '@mantine/core';
 import { useStorageClasses } from '@/api/SCMapping/useStorageClasses';
 import { useSCCreateMap } from '@/api/SCMapping/useSCCreateMap';
@@ -24,7 +24,7 @@ export function SCMappingForm({
   setReload,
   mode = 'create',
 }: SCMappingFormProps) {
-  const appValues = useAppState();
+  const appValues = useAppStatus();
 
   const { data: storageClasses, getStorageClasses } = useStorageClasses();
   const { handleScCreateMap } = useSCCreateMap();
@@ -42,8 +42,8 @@ export function SCMappingForm({
   });
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development')
-      console.log(`%cuseEffect 305 has been called`, `color: green; font-weight: bold;`);
+    // if (process.env.NODE_ENV === 'development')
+    //  console.log(`%cuseEffect 305 has been called`, `color: green; font-weight: bold;`);
     getStorageClasses();
   }, []);
 

@@ -47,7 +47,7 @@ export default function CreateBackupScheduleForm({
 
   const [cronError, setCronError] = useState(false);
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 160 has been called`, `color: green; font-weight: bold;`)
+    // if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 160 has been called`, `color: green; font-weight: bold;`)
     if (resource === 'schedule') {
       form.setFieldValue('schedule', value);
     }

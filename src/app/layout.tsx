@@ -3,7 +3,7 @@
 import React from 'react';
 import { MantineProvider, ColorSchemeScript } from '@mantine/core';
 
-import { PublicEnvScript, env } from 'next-runtime-env';
+import { PublicEnvScript } from 'next-runtime-env';
 import { theme } from '../../theme';
 
 import { ContextMenuProvider } from 'mantine-contextmenu';
@@ -17,12 +17,15 @@ import 'mantine-contextmenu/styles.layer.css';
 import 'mantine-datatable/styles.layer.css';
 
 import './layout.css';
-import { ServerStatusProvider } from '@/contexts/ServerStatusContext';
-import { AgentStatusProvider } from '@/contexts/AgentStatusContext';
-import { AppStateProvider, useAppState } from '@/contexts/AppStateContext';
-import { UIStateProvider, useUIState } from '@/contexts/UIStateContext';
+import { ServerProvider } from '@/contexts/ServerContext';
+import { AgentProvider } from '@/contexts/AgentContext';
+import { AppProvider, useAppStatus } from '@/contexts/AppContext';
+import { UIProvider, useUIStatus } from '@/contexts/UIContext';
+import { LoggerProvider } from '@/contexts/LoggerContext';
 
 export default function RootLayout({ children }: { children: any }) {
+  const loggerEnabled = process.env.NEXT_PUBLIC_LOGGER_ENABLED === 'true';
+
   return (
     <html lang="en">
       <head>
@@ -36,17 +39,34 @@ export default function RootLayout({ children }: { children: any }) {
         />
       </head>
       <body>
-        <ServerStatusProvider>
-          <AgentStatusProvider>
-            <AppStateProvider>
-              <UIStateProvider>
-                <LayoutWithTheme>
-                  <ContextMenuProvider>{children}</ContextMenuProvider>
-                </LayoutWithTheme>
-              </UIStateProvider>
-            </AppStateProvider>
-          </AgentStatusProvider>
-        </ServerStatusProvider>
+        {!loggerEnabled && (
+          <UIProvider>
+            <AppProvider>
+              <ServerProvider>
+                <AgentProvider>
+                  <LayoutWithTheme>
+                    <ContextMenuProvider>{children}</ContextMenuProvider>
+                  </LayoutWithTheme>
+                </AgentProvider>
+              </ServerProvider>
+            </AppProvider>
+          </UIProvider>
+        )}
+        {loggerEnabled && (
+          <LoggerProvider>
+            <UIProvider>
+              <AppProvider>
+                <ServerProvider>
+                  <AgentProvider>
+                    <LayoutWithTheme>
+                      <ContextMenuProvider>{children}</ContextMenuProvider>
+                    </LayoutWithTheme>
+                  </AgentProvider>
+                </ServerProvider>
+              </AppProvider>
+            </UIProvider>
+          </LoggerProvider>
+        )}
       </body>
     </html>
   );
@@ -54,7 +74,7 @@ export default function RootLayout({ children }: { children: any }) {
 
 // Componente che gestisce il tema dinamico
 function LayoutWithTheme({ children }: { children: any }) {
-  const { primaryColor, uiFontFamily, uiFontSize } = useUIState();
+  const { primaryColor, uiFontFamily, uiFontSize } = useUIStatus();
 
   return (
     <MantineProvider

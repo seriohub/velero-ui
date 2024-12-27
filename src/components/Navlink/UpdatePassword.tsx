@@ -12,8 +12,8 @@ export const UpdatePassword = () => {
   const { data, getUserInfo } = useUserInfo();
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development')
-      console.log(`%cuseEffect 605 has been called`, `color: green; font-weight: bold;`);
+    // if (process.env.NODE_ENV === 'development')
+    //  console.log(`%cuseEffect 605 has been called`, `color: green; font-weight: bold;`);
     getUserInfo();
   }, []);
 

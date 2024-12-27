@@ -3,22 +3,22 @@ import { useEffect } from 'react';
 import { Alert, Code, Group, Stack, Text, Tooltip, useComputedColorScheme } from '@mantine/core';
 import { IconAlertTriangle } from '@tabler/icons-react';
 
-import { useAgentStatus } from '@/contexts/AgentStatusContext';
+import { useAgentStatus } from '@/contexts/AgentContext';
 import { useAppVersion } from '@/api/App/useAppVersion';
-import { useUIState } from '@/contexts/UIStateContext';
+import { useUIStatus } from '@/contexts/UIContext';
 import { useVeleroTanzuVersion } from '@/api/App/useVeleroTanzuVersion';
 
 export const Version = () => {
   const { data, getAppVersion } = useAppVersion();
   const agentValues = useAgentStatus();
   const computedColorScheme = useComputedColorScheme();
-  const uiValues = useUIState();
+  const uiValues = useUIStatus();
   const { data: veleroTanzuVersion, getVeleroTanzuVersion } = useVeleroTanzuVersion();
 
   useEffect(() => {
     if (agentValues.isAgentAvailable) {
-      if (process.env.NODE_ENV === 'development')
-        console.log(`%cuseEffect 630 has been called`, `color: green; font-weight: bold;`);
+      // if (process.env.NODE_ENV === 'development')
+      //  console.log(`%cuseEffect 630 has been called`, `color: green; font-weight: bold;`);
       getAppVersion();
       getVeleroTanzuVersion();
     }
@@ -92,12 +92,12 @@ export const Version = () => {
               Velero Vmware-Tanzu
             </Text>
             <Tooltip label={`Latest release ${veleroTanzuVersion?.payload?.velero}`}>
-            <Code fw={700}>
-              {veleroTanzuVersion?.payload?.velero.substring(
-                0,
-                veleroTanzuVersion?.payload?.velero.indexOf(' ')
-              )}
-            </Code>
+              <Code fw={700}>
+                {veleroTanzuVersion?.payload?.velero.substring(
+                  0,
+                  veleroTanzuVersion?.payload?.velero.indexOf(' ')
+                )}
+              </Code>
             </Tooltip>
           </Group>
         )}

@@ -12,7 +12,7 @@ import RefreshDatatable from '../../Actions/ToolbarActionIcons/RefreshDatatable'
 import DetailActionIcon from '../../Actions/DatatableActionsIcons/DetailActionIcon';
 import Toolbar from '../../Toolbar';
 import CredentialActionIcon from '../../Actions/DatatableActionsIcons/CredentialActionIcon';
-import { useAgentStatus } from '@/contexts/AgentStatusContext';
+import { useAgentStatus } from '@/contexts/AgentContext';
 import { DataFetchedInfo } from '../../DataFetchedInfo';
 import { useBackupLocation } from '@/api/BackupLocation/useBackupLocation';
 import VeleroResourceStatusBadge from '../VeleroResourceStatusBadge';
@@ -36,14 +36,14 @@ export function BackupLocation() {
   const [records, setRecords] = useState(items.slice(0, pageSize));
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development')
-      console.log(`%cuseEffect 430 has been called`, `color: green; font-weight: bold;`);
+    // if (process.env.NODE_ENV === 'development')
+    //  console.log(`%cuseEffect 430 has been called`, `color: green; font-weight: bold;`);
     if (agentValues.isAgentAvailable && reload > 1) getBackupLocation(true);
   }, [reload]);
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development')
-      console.log(`%cuseEffect 430 has been called`, `color: green; font-weight: bold;`);
+    // if (process.env.NODE_ENV === 'development')
+    //  console.log(`%cuseEffect 430 has been called`, `color: green; font-weight: bold;`);
     if (agentValues.isAgentAvailable) getBackupLocation();
   }, [agentValues.isAgentAvailable]);
 
@@ -52,16 +52,16 @@ export function BackupLocation() {
   //}, []);
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development')
-      console.log(`%cuseEffect 440 has been called`, `color: green; font-weight: bold;`);
+    // if (process.env.NODE_ENV === 'development')
+    //  console.log(`%cuseEffect 440 has been called`, `color: green; font-weight: bold;`);
     if (data !== undefined) {
       setItems(data.payload);
     } else setItems([]);
   }, [data]);
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development')
-      console.log(`%cuseEffect 450 has been called`, `color: green; font-weight: bold;`);
+    // if (process.env.NODE_ENV === 'development')
+    //  console.log(`%cuseEffect 450 has been called`, `color: green; font-weight: bold;`);
     const from = (page - 1) * pageSize;
     const to = from + pageSize;
     const data_sorted = sortBy(items, sortStatus.columnAccessor);

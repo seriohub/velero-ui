@@ -27,7 +27,7 @@ export default function LastBackup4Schedule({
   return (
     <Tooltip label="Filter last backup for every schedule">
       <ActionIcon
-              onClick={() => {console.log(checked);setChecked(!checked)}}
+              onClick={() => {setChecked(!checked)}}
               size={38}
               //variant="default"
               variant="outline"

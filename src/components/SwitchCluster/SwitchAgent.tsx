@@ -3,9 +3,9 @@ import { Menu, Group, rem, Button, Text, useComputedColorScheme } from '@mantine
 
 import { IconChevronDown, IconRefresh, IconSpy } from '@tabler/icons-react';
 
-import { useAgentStatus } from '@/contexts/AgentStatusContext';
-import { useServerStatus } from '@/contexts/ServerStatusContext';
-import { useUIState } from '@/contexts/UIStateContext';
+import { useAgentStatus } from '@/contexts/AgentContext';
+import { useServerStatus } from '@/contexts/ServerContext';
+import { useUIStatus } from '@/contexts/UIContext';
 
 export function SwitchAgent() {
   const agentValues = useAgentStatus();
@@ -23,7 +23,7 @@ export function SwitchAgent() {
             agentValues.setCurrentAgent(agentValues.agents[index]);
             agentValues.setIsAgentAvailable(undefined);
             localStorage.setItem('agent', index.toString());
-            console.log('10 Set agent available undefined');
+            // console.log('Set agent available undefined');
             // router.push(`${pathname}?_=${new Date().getTime()}-${appValues.currentBackend.name}`);
             //window.location.reload();
           }

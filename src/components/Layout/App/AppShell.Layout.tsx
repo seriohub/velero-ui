@@ -20,22 +20,20 @@ import { AppShellNavbar } from './AppShell.Navbar';
 import { AppShellFooter } from './AppShell.Footer';
 import { AppShellMainFooter } from './AppShell.Main.Footer';
 
-import { useAppState } from '@/contexts/AppStateContext';
 import { AgentError } from '@/components/AgentError/AgentError';
-import { DebAsideApp } from '@/components/Debug/DebAsideApp';
+import { DebugAside } from '@/components/Debug/DebugAside';
 import { IconArrowRight } from '@tabler/icons-react';
 import { IconArrowLeft } from '@tabler/icons-react';
 import TaskInProgress from '@/components/Velero/TaskInProgress/TaskInProgress';
 import { UIConfig } from '@/components/Config/UI/UIConfig';
-import { useUIState } from '@/contexts/UIStateContext';
+import { useUIStatus } from '@/contexts/UIContext';
 
 interface AppShellLayoutProps {
   children: any;
 }
 
 export default function AppShellLayout({ children }: AppShellLayoutProps) {
-  const appValues = useAppState();
-  const uiValues = useUIState()
+  const uiValues = useUIStatus();
 
   const [opened, { toggle }] = useDisclosure();
 
@@ -49,8 +47,8 @@ export default function AppShellLayout({ children }: AppShellLayoutProps) {
   // const [openedUIDrawer, { toggle: toggleUIDrawer }] = useDisclosure();
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development')
-      console.log(`%cuseEffect 560 has been called`, `color: green; font-weight: bold;`);
+    // if (process.env.NODE_ENV === 'development')
+    //  console.log(`%cuseEffect 560 has been called`, `color: green; font-weight: bold;`);
     const accordionValue = localStorage.getItem('accordion');
     setValue(accordionValue !== null ? accordionValue.split(',') : []);
   }, []);
@@ -73,14 +71,15 @@ export default function AppShellLayout({ children }: AppShellLayoutProps) {
         layout="alt"
       >
         <AppShell.Header>
-          <AppShellHeader
-            opened={opened}
-            toggle={toggle}
-          />
+          <AppShellHeader opened={opened} toggle={toggle} />
         </AppShell.Header>
         <AppShell.Navbar
-        //bg={computedColorScheme=='light'? 'var(--mantine-primary-color-filled)' : ''}
-        bg={uiValues.navbarColored && computedColorScheme == 'light' ? 'var(--mantine-primary-color-filled)' : undefined}
+          //bg={computedColorScheme=='light'? 'var(--mantine-primary-color-filled)' : ''}
+          bg={
+            uiValues.navbarColored && computedColorScheme == 'light'
+              ? 'var(--mantine-primary-color-filled)'
+              : undefined
+          }
         >
           <AppShellNavbar opened={opened} toggle={toggle} />
         </AppShell.Navbar>
@@ -95,7 +94,11 @@ export default function AppShellLayout({ children }: AppShellLayoutProps) {
             gap={0}
             w={vpWidth < 768 ? '100vw' : 'calc(100vw - 240px)'}
             // bg={computedColorScheme=='light'? 'var(--mantine-primary-color-light)' : ''}
-            bg={uiValues.mainColored && computedColorScheme == 'light' ? 'var(--mantine-primary-color-light)' : undefined}
+            bg={
+              uiValues.mainColored && computedColorScheme == 'light'
+                ? 'var(--mantine-primary-color-light)'
+                : undefined
+            }
             //bg="blue"
           >
             <Box
@@ -134,7 +137,7 @@ export default function AppShellLayout({ children }: AppShellLayoutProps) {
             </Box>
           </Stack>
 
-          {appValues.showDebugAside && (
+          {uiValues.showDebugAside && (
             <ActionIcon
               //size={24}
               //color= "red"
@@ -165,12 +168,12 @@ export default function AppShellLayout({ children }: AppShellLayoutProps) {
           position="right"
           closeOnEscape={false}
         >
-          <DebAsideApp />
+          <DebugAside />
         </Drawer>
 
         <Drawer
-          opened={appValues.openedUIDrawer}
-          onClose={()=>appValues.toggleUIDrawer(appValues.openedUIDrawer)}
+          opened={uiValues.openedUIDrawer}
+          onClose={() => uiValues.toggleUIDrawer(uiValues.openedUIDrawer)}
           title="Ui Config"
           position="right"
           closeOnEscape={false}

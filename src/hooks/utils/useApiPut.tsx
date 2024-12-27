@@ -1,24 +1,26 @@
-import { useState, useContext } from 'react';
+import { useState } from 'react';
 
 import { notifications } from '@mantine/notifications';
 
 import { IconInfoCircle, IconExclamationMark } from '@tabler/icons-react';
 
-import { env } from 'next-runtime-env';
+import { useBackend } from '../useBackend';
 
-import { useAppState } from '@/contexts/AppStateContext';
-import { useBackend } from './useBackend';
+import { useApiLogger } from '../logger/useApiLogger';
+import { useUserNotificationHistory } from '../user/useUserNotificationHistory';
+import { useAuthErrorHandler } from '../user/useAuthErrorHandler';
 
 interface UseApiPutProps {
   target?: 'core' | 'agent' | 'static';
 }
 
 export const useApiPut = ({ target = 'agent' }: UseApiPutProps = {}) => {
-  const appValues = useAppState();
-
+  const { addNotificationHistory } = useUserNotificationHistory();
+const { logout } = useAuthErrorHandler();
   const [fetching, setFetching] = useState(false);
   const [error, setError] = useState(false);
   const [responseStatus, setResponseStatus] = useState(-1);
+  const { addApiRequestHistory, addApiResponseHistory } = useApiLogger();
 
   const backendUrl = useBackend({ target: target });
 
@@ -46,13 +48,15 @@ export const useApiPut = ({ target = 'agent' }: UseApiPutProps = {}) => {
     };
 
     setFetching(true);
-    appValues.setApiRequest((prev: Array<any>) =>
-      prev.concat({ method: 'PUT', url: `${backendUrl}${url}`, params: values })
-    );
+    addApiRequestHistory({ method: 'PUT', url: `${backendUrl}${url}`, params: values });
 
     fetch(`${backendUrl}${url}`, requestOptions)
       .then(async (res) => {
         setResponseStatus(res.status);
+        if (res.status === 401) {
+          logout();
+        }
+
         if (res.status !== 200) {
           notifications.show({
             icon: <IconExclamationMark />,
@@ -82,13 +86,11 @@ export const useApiPut = ({ target = 'agent' }: UseApiPutProps = {}) => {
             message: data.detail.error.description,
           });
           setError(true);
-          appValues.setNotificationHistory((prev: Array<any>) =>
-            prev.concat({
-              statusCode: statusCode,
-              title: data.error.title,
-              description: data.error.description,
-            })
-          );
+          addNotificationHistory({
+            statusCode: statusCode,
+            title: data.error.title,
+            description: data.error.description,
+          });
         }
         if ('error' in data) {
           notifications.show({
@@ -107,28 +109,24 @@ export const useApiPut = ({ target = 'agent' }: UseApiPutProps = {}) => {
               title: message.title,
               message: message.description,
             });
-            appValues.setNotificationHistory((prev: Array<any>) =>
-              prev.concat({
-                statusCode: statusCode,
-                title: message.title,
-                description: message.description,
-              })
-            );
+            addNotificationHistory({
+              statusCode: statusCode,
+              title: message.title,
+              description: message.description,
+            });
             return null;
           });
         }
         setFetching(false);
 
-        appValues.setApiResponse((prev: Array<any>) =>
-          prev.concat({
-            method: 'POST',
-            url: `${backendUrl}${url}`,
-            params: values,
-            data: data,
-            statusCode: statusCode,
-            xProcessTime: res.xProcessTime,
-          })
-        );
+        addApiResponseHistory({
+          method: 'POST',
+          url: `${backendUrl}${url}`,
+          params: values,
+          data: data,
+          statusCode: statusCode,
+          xProcessTime: res.xProcessTime,
+        });
       });
   };
 

@@ -7,8 +7,8 @@ import { useEffect, useState } from 'react';
 import TableVersion from './TableVersion';
 
 import { compareVersions } from './CompareVersion';
-import { useAgentStatus } from '@/contexts/AgentStatusContext';
-import { useServerStatus } from '@/contexts/ServerStatusContext';
+import { useAgentStatus } from '@/contexts/AgentContext';
+import { useServerStatus } from '@/contexts/ServerContext';
 import { useAgentInfo } from '@/api/Agent/useAgentInfo';
 import { useCoreInfo } from '@/api/Core/useCoreInfo';
 import { useGithubRepoVersion } from '@/api/App/useGithubRepoVersion';
@@ -25,8 +25,8 @@ export default function CheckAppVersion() {
   const { data: coreData, getCoreInfo } = useCoreInfo();
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development')
-      console.log(`%cuseEffect 481 has been called`, `color: green; font-weight: bold;`);
+    // if (process.env.NODE_ENV === 'development')
+    //  console.log(`%cuseEffect 481 has been called`, `color: green; font-weight: bold;`);
 
     if (serverValues.isServerAvailable && serverValues.isCurrentServerControlPlane) {
       getCoreInfo();
@@ -46,8 +46,8 @@ export default function CheckAppVersion() {
   useEffect(() => {
     const c = agentData || coreData;
     if (c?.payload?.helm_version && repoVersion?.payload?.helm) {
-      if (process.env.NODE_ENV === 'development')
-        console.log(`%cuseEffect 482 has been called`, `color: green; font-weight: bold;`);
+      // if (process.env.NODE_ENV === 'development')
+      //  console.log(`%cuseEffect 482 has been called`, `color: green; font-weight: bold;`);
 
       const cmp = compareVersions(c?.payload?.helm_version, repoVersion?.payload?.helm);
       // console.log(cmp);

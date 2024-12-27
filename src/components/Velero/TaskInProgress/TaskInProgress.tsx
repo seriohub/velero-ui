@@ -10,9 +10,9 @@ import { IconClick, IconClock, IconRefresh, IconReload } from '@tabler/icons-rea
 
 import sortBy from 'lodash/sortBy';
 
-import { useAppState } from '@/contexts/AppStateContext';
+import { useAppStatus } from '@/contexts/AppContext';
 
-import { useAgentStatus } from '@/contexts/AgentStatusContext';
+import { useAgentStatus } from '@/contexts/AgentContext';
 import { useStatsInProgress } from '@/api/Stats/useStatsInProgress';
 import ExpireIn from '../Backup/ExpireIn';
 import DescribeActionIcon from '@/components/Actions/DatatableActionsIcons/DescribeActionIcon';
@@ -21,7 +21,7 @@ import DeleteActionIcon from '@/components/Actions/DatatableActionsIcons/DeleteA
 import VeleroResourceStatusBadge from '../VeleroResourceStatusBadge';
 
 export default function TaskInProgress() {
-  const appValues = useAppState();
+  const appValues = useAppStatus();
   const agentValues = useAgentStatus();
 
   const { data, getStatsInProgress, fetching } = useStatsInProgress();
@@ -36,16 +36,16 @@ export default function TaskInProgress() {
 
   useEffect(() => {
     if (agentValues.isAgentAvailable) {
-      if (process.env.NODE_ENV === 'development')
-        console.log(`%cuseEffect 860 has been called`, `color: green; font-weight: bold;`);
+      // if (process.env.NODE_ENV === 'development')
+      //  console.log(`%cuseEffect 860 has been called`, `color: green; font-weight: bold;`);
       getStatsInProgress();
     }
   }, [reload, agentValues.isAgentAvailable]);
 
   useEffect(() => {
     if (data !== undefined) {
-      if (process.env.NODE_ENV === 'development')
-        console.log(`%cuseEffect 870 has been called`, `color: green; font-weight: bold;`);
+      // if (process.env.NODE_ENV === 'development')
+      //  console.log(`%cuseEffect 870 has been called`, `color: green; font-weight: bold;`);
 
       const data_sorted = sortBy(data?.payload, sortStatus.columnAccessor);
       const data_order = sortStatus.direction === 'desc' ? data_sorted.reverse() : data_sorted;
@@ -57,19 +57,18 @@ export default function TaskInProgress() {
 
   useEffect(() => {
     if (records.length > 0) {
-      if (process.env.NODE_ENV === 'development')
-        console.log(`%cuseEffect 880 has been called`, `color: green; font-weight: bold;`);
+      // if (process.env.NODE_ENV === 'development')
+      //  console.log(`%cuseEffect 880 has been called`, `color: green; font-weight: bold;`);
       const data_sorted = sortBy(records, sortStatus.columnAccessor);
       setRecords(sortStatus.direction === 'desc' ? records.reverse() : data_sorted);
     }
   }, [sortStatus]);
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development')
-      console.log(`%cuseEffect 890 has been called`, `color: green; font-weight: bold;`);
+    // if (process.env.NODE_ENV === 'development')
+    //  console.log(`%cuseEffect 890 has been called`, `color: green; font-weight: bold;`);
     const interval = setInterval(() => {
-      if (agentValues.isAgentAvailable)
-        getStatsInProgress();
+      if (agentValues.isAgentAvailable) getStatsInProgress();
     }, appValues.refreshRecent);
     return () => clearInterval(interval);
   }, [agentValues.currentAgent, agentValues.isAgentAvailable]);
@@ -92,11 +91,11 @@ export default function TaskInProgress() {
   return (
     <>
       <Accordion.Item key="TaskInProgress" value="TaskInProgress">
-        <Accordion.Control >
+        <Accordion.Control>
           <Group justify="space-between">
-            <Text>{records.length>0 ? `[${records.length}]`:''} Task in progress</Text>
-            <Tooltip label="Click to refresh">
-              <Box>
+            <Text>{records.length > 0 ? `[${records.length}]` : ''} Task in progress</Text>
+
+            <Box>
               {/*<IconReload
                 style={{ width: rem(20), height: rem(20) }}
                 stroke={2}
@@ -113,25 +112,27 @@ export default function TaskInProgress() {
                 aria-label="ActionIcon with size as a number"
               />*/}
               <ActionIcon
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setReload(reload + 1);
-                      }}
-                      size={30}
-                      //variant="default"
-                      variant="transparent"
-                      radius={8}
-                      disabled={fetching}
-                      color={
-                        fetching
-                          ? 'var(--mantine-primary-color-filled)'
-                          : 'var(--mantine-primary-color-light-color)'
-                      }
-                    >
-                      <IconReload stroke={2} />
-                    </ActionIcon>
-                    </Box>
-            </Tooltip>
+                component="div"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setReload(reload + 1);
+                }}
+                size={30}
+                //variant="default"
+                variant="transparent"
+                radius={8}
+                disabled={fetching}
+                color={
+                  fetching
+                    ? 'var(--mantine-primary-color-filled)'
+                    : 'var(--mantine-primary-color-light-color)'
+                }
+              >
+                <Tooltip label="Click to refresh">
+                  <IconReload stroke={2} />
+                </Tooltip>
+              </ActionIcon>
+            </Box>
           </Group>
         </Accordion.Control>
         <Accordion.Panel>
@@ -189,7 +190,9 @@ export default function TaskInProgress() {
                 sortable: true,
                 width: 100,
                 ellipsis: true,
-                render: ({ status }: any) => <>{<VeleroResourceStatusBadge status={status.phase} />}</>,
+                render: ({ status }: any) => (
+                  <>{<VeleroResourceStatusBadge status={status.phase} />}</>
+                ),
               },
               {
                 accessor: 'status.errors',
@@ -230,7 +233,7 @@ export default function TaskInProgress() {
                 accessor: 'status.expire_in',
                 title: 'Expires in',
                 sortable: true,
-                render: ({ status} : any) => (
+                render: ({ status }: any) => (
                   <>
                     <ExpireIn expiration={status.expiration} />
                   </>

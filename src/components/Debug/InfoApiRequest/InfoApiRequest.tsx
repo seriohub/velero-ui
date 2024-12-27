@@ -19,12 +19,18 @@ import Link from 'next/link';
 
 import { IconCopy, IconCheck, IconExternalLink } from '@tabler/icons-react';
 
-import { useAppState } from '@/contexts/AppStateContext';
 import InfoParamActionIcon from './InfoParamActionIcon';
+import { useLoggerStatus } from '@/contexts/LoggerContext';
 
 export default function InfoApiRequest() {
   //const value = useContext(VeleroAppContexts);
-  const appValues = useAppState();
+
+  const loggerEnabled = process.env.NEXT_PUBLIC_LOGGER_ENABLED === 'true';
+  if (!loggerEnabled) {
+    return <Text size="sm" fw={800}>Logger Disabled.</Text>
+  }
+
+  const loggerValues = useLoggerStatus();
   const viewport = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -33,7 +39,7 @@ export default function InfoApiRequest() {
     }
   };
 
-  const commands = appValues.apiRequest.map((item: any, index: number) => (
+  const commands = loggerValues.apiRequest.map((item: any, index: number) => (
     <Group gap={0} key={index}>
       <CopyButton value={item.url} timeout={2000}>
         {({ copied, copy }) => (
@@ -66,9 +72,9 @@ export default function InfoApiRequest() {
   ));
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 505 has been called`, `color: green; font-weight: bold;`)
+    // if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 505 has been called`, `color: green; font-weight: bold;`)
     scrollToBottom();
-  }, [appValues.apiRequest]);
+  }, [loggerValues.apiRequest]);
 
   return (
     <>

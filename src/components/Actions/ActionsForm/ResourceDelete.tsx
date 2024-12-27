@@ -3,7 +3,7 @@
 import { Button, Group, Text } from '@mantine/core';
 import { closeAllModals } from '@mantine/modals';
 
-import { useAppState } from '@/contexts/AppStateContext';
+import { useAppStatus } from '@/contexts/AppContext';
 import { useResourceDelete } from '@/api/Velero/useResourceDelete';
 
 interface ResourceDeleteProps {
@@ -19,7 +19,7 @@ export function ResourceDelete({
   reload,
   setReload,
 }: ResourceDeleteProps) {
-  const appValues = useAppState();
+  const appValues = useAppStatus();
   const { handleDeleteResource } = useResourceDelete();
 
   function deleteResource() {

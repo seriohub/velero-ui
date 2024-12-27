@@ -3,7 +3,7 @@ import { Modal, Stack } from '@mantine/core';
 import { Title } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 
-import { useServerStatus } from '@/contexts/ServerStatusContext';
+import { useServerStatus } from '@/contexts/ServerContext';
 import { useEffect, useState } from 'react';
 
 export const ServerError = () => {

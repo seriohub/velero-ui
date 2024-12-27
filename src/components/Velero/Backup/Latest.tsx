@@ -51,14 +51,14 @@ export function BackupLatest({ reload, setReload, latest = [] }: BackupLatestPro
   const [records, setRecords] = useState(items.slice(0, 5));
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development')
-      console.log(`%cuseEffect 400 has been called`, `color: green; font-weight: bold;`);
+    // if (process.env.NODE_ENV === 'development')
+    //  console.log(`%cuseEffect 400 has been called`, `color: green; font-weight: bold;`);
     setItems(latest);
   }, [latest]);
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development')
-      console.log(`%cuseEffect 410 has been called`, `color: green; font-weight: bold;`);
+    // if (process.env.NODE_ENV === 'development')
+    //  console.log(`%cuseEffect 410 has been called`, `color: green; font-weight: bold;`);
     const from = (page - 1) * pageSize;
     const to = from + pageSize;
     const data_sorted = sortBy(items, sortStatus.columnAccessor);
@@ -168,7 +168,9 @@ export function BackupLatest({ reload, setReload, latest = [] }: BackupLatestPro
                 accessor: 'status.phase',
                 title: 'Status',
                 sortable: true,
-                render: ({ status }: any) => <>{<VeleroResourceStatusBadge status={status.phase} />}</>,
+                render: ({ status }: any) => (
+                  <>{<VeleroResourceStatusBadge status={status.phase} />}</>
+                ),
               },
               { accessor: 'status.errors', title: 'Errors', sortable: true },
               { accessor: 'status.warnings', title: 'Warnings', sortable: true },

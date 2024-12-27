@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 
 import { useRouter, usePathname } from 'next/navigation';
 
@@ -6,25 +6,30 @@ import { notifications } from '@mantine/notifications';
 
 import { IconExclamationMark, IconInfoCircle } from '@tabler/icons-react';
 
-// import { env } from 'next-runtime-env';
+import { useBackend } from '../useBackend';
 
-import { useAppState } from '@/contexts/AppStateContext';
-import { useBackend } from './useBackend';
+import { useApiLogger } from '../logger/useApiLogger';
+import { useUserNotificationHistory } from '../user/useUserNotificationHistory';
+import { useAuth } from '../user/useAuth';
+import { log } from 'console';
+import { useAuthErrorHandler } from '../user/useAuthErrorHandler';
 
 interface UseApiOptionsProps {
   target?: 'core' | 'agent' | 'static';
 }
 
 export const useApiOptions = ({ target = 'agent' }: UseApiOptionsProps = {}) => {
-  const appValues = useAppState();
+  const { addNotificationHistory } = useUserNotificationHistory();
   const router = useRouter();
   const pathname = usePathname();
+  const { logout } = useAuthErrorHandler();
 
   const backendUrl = useBackend({ target: target });
 
   const [fetching, setFetching] = useState(false);
   const [data, setData] = useState<Record<string, any> | undefined>(undefined);
   const [error, setError] = useState(false);
+  const { addApiRequestHistory, addApiResponseHistory } = useApiLogger();
 
   const getData = async (url: string, param: string = '', addInHistory: boolean = true) => {
     if (error) {
@@ -44,22 +49,17 @@ export const useApiOptions = ({ target = 'agent' }: UseApiOptionsProps = {}) => 
       headers.Authorization = `Bearer ${jwtToken}`;
     }
 
-    if (addInHistory === true) {
-      appValues.setApiRequest((prev: Array<any>) =>
-        prev.concat({
-          method: 'OPTIONS',
-          headers,
-          url: `${backendUrl}${url}?${param}`,
-          params: param,
-        })
-      );
-    }
+    addApiRequestHistory({
+      method: 'OPTIONS',
+      headers,
+      url: `${backendUrl}${url}?${param}`,
+      params: param,
+    });
 
     fetch(`${backendUrl}${url}?${param}`, { method: 'OPTIONS', headers })
       .then(async (res) => {
         if (res.status === 401) {
-          localStorage.removeItem('token');
-          if (pathname !== '/login' && pathname !== '/') router.push('/');
+          logout();
         }
 
         return res.json().then((response) => {
@@ -83,13 +83,11 @@ export const useApiOptions = ({ target = 'agent' }: UseApiOptionsProps = {}) => 
           });
           setData(undefined);
           setError(true);
-          appValues.setNotificationHistory((prev: Array<any>) =>
-            prev.concat({
-              statusCode: statusCode,
-              title: data.error.title,
-              description: data.error.description,
-            })
-          );
+          addNotificationHistory({
+            statusCode: statusCode,
+            title: data.error.title,
+            description: data.error.description,
+          });
         } else if ('data' in data) {
           setData(data.data);
         }
@@ -101,27 +99,23 @@ export const useApiOptions = ({ target = 'agent' }: UseApiOptionsProps = {}) => 
               title: message.title,
               message: message.description,
             });
-            appValues.setNotificationHistory((prev: Array<any>) =>
-              prev.concat({
-                statusCode: statusCode,
-                title: message.title,
-                description: message.description,
-              })
-            );
+            addNotificationHistory({
+              statusCode: statusCode,
+              title: message.title,
+              description: message.description,
+            });
             return null;
           });
         }
         setFetching(false);
 
-        appValues.setApiResponse((prev: Array<any>) =>
-          prev.concat({
-            method: 'OPTIONS',
-            url: `${backendUrl}${url}?${param}`,
-            data: data,
-            statusCode: statusCode,
-            xProcessTime: res.xProcessTime,
-          })
-        );
+        addApiResponseHistory({
+          method: 'OPTIONS',
+          url: `${backendUrl}${url}?${param}`,
+          data: data,
+          statusCode: statusCode,
+          xProcessTime: res.xProcessTime,
+        });
       })
       .catch((err) => {
         notifications.show({

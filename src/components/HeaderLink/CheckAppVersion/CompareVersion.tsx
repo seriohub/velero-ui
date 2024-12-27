@@ -1,6 +1,6 @@
 export function compareVersions(app: string, lastRelease: string): string {
   if (app == undefined || lastRelease == undefined) {
-    console.log('app', app, 'lastRelease', lastRelease);
+    // console.log ('app', app, 'lastRelease', lastRelease);
     return '';
   }
 

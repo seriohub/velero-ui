@@ -2,7 +2,7 @@ import { Alert } from '@mantine/core';
 
 import { IconInfoCircle } from '@tabler/icons-react';
 
-import { useAgentStatus } from '@/contexts/AgentStatusContext';
+import { useAgentStatus } from '@/contexts/AgentContext';
 
 export const AgentError = () => {
   const agentValues = useAgentStatus();

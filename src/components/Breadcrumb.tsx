@@ -1,4 +1,4 @@
-import { useServerStatus } from '@/contexts/ServerStatusContext';
+import { useServerStatus } from '@/contexts/ServerContext';
 import { Breadcrumbs, Anchor, Text, Title } from '@mantine/core';
 import { useRouter } from 'next/navigation';
 
@@ -21,7 +21,6 @@ export default function Breadcrumb(breadcrumbItem: BreadCrumbItemProps | undefin
   const serverValues = useServerStatus();
   const router = useRouter();
 
-  console.log("---", breadcrumbItem)
   return (
     <>
       {/*<Breadcrumbs>{items}</Breadcrumbs>*/}
@@ -31,7 +30,7 @@ export default function Breadcrumb(breadcrumbItem: BreadCrumbItemProps | undefin
             router.push('/dashboard');
           }}
           key="current_cluster"
-          size="lg"  
+          size="lg"
         >
           {serverValues.currentServer?.name}
         </Anchor>

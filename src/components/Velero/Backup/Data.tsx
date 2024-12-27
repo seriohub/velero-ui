@@ -19,7 +19,7 @@ import UpdateExpirationActionIcon from '../../Actions/DatatableActionsIcons/Upda
 import ExpireIn from './ExpireIn';
 import Duration from './Duration';
 import LastBackup4Schedule from '../../Actions/ToolbarActionIcons/LastBackup4Schedule';
-import { useAgentStatus } from '@/contexts/AgentStatusContext';
+import { useAgentStatus } from '@/contexts/AgentContext';
 import { DataFetchedInfo } from '../../DataFetchedInfo';
 import { useBackups } from '@/api/Backup/useBackups';
 import VeleroResourceStatusBadge from '../VeleroResourceStatusBadge';
@@ -82,20 +82,20 @@ export function BackupData({ limit = -1 }: BackupDataProps) {
   }, [data]);
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development')
-      console.log(`%cuseEffect 360 has been called`, `color: green; font-weight: bold;`);
+    // if (process.env.NODE_ENV === 'development')
+    //  console.log(`%cuseEffect 360 has been called`, `color: green; font-weight: bold;`);
     if (agentValues.isAgentAvailable && reload > 1) getBackups(onlyLast4Schedule, true);
   }, [reload]);
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development')
-      console.log(`%cuseEffect 360 has been called`, `color: green; font-weight: bold;`);
+    // if (process.env.NODE_ENV === 'development')
+    //  console.log(`%cuseEffect 360 has been called`, `color: green; font-weight: bold;`);
     if (agentValues.isAgentAvailable) getBackups(onlyLast4Schedule, false);
   }, [onlyLast4Schedule, agentValues.isAgentAvailable]);
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development')
-      console.log(`%cuseEffect 370 has been called`, `color: green; font-weight: bold;`);
+    // if (process.env.NODE_ENV === 'development')
+    //  console.log(`%cuseEffect 370 has been called`, `color: green; font-weight: bold;`);
     if (data !== undefined) {
       if (limit === -1) {
         setItems(data.payload);
@@ -106,8 +106,8 @@ export function BackupData({ limit = -1 }: BackupDataProps) {
   }, [data]);
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development')
-      console.log(`%cuseEffect 380 has been called`, `color: green; font-weight: bold;`);
+    // if (process.env.NODE_ENV === 'development')
+    //  console.log(`%cuseEffect 380 has been called`, `color: green; font-weight: bold;`);
     const from = (page - 1) * pageSize;
     const to = from + pageSize;
     const data_sorted = sortBy(items, sortStatus.columnAccessor);
@@ -139,8 +139,8 @@ export function BackupData({ limit = -1 }: BackupDataProps) {
   }, [page, pageSize, sortStatus, selectedSchedule, selectedPhase, items]);
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development')
-      console.log(`%cuseEffect 390 has been called`, `color: green; font-weight: bold;`);
+    // if (process.env.NODE_ENV === 'development')
+    //  console.log(`%cuseEffect 390 has been called`, `color: green; font-weight: bold;`);
     setPage(1);
   }, [selectedSchedule, sortStatus, onlyLast4Schedule]);
 
@@ -167,7 +167,7 @@ export function BackupData({ limit = -1 }: BackupDataProps) {
   return (
     <>
       <Stack h="100%" gap={0} p={5}>
-        <Toolbar title="Backup" breadcrumbItem={{name:'Backups', href:'/backups'}}>
+        <Toolbar title="Backup" breadcrumbItem={{ name: 'Backups', href: '/backups' }}>
           <LastBackup4Schedule
             setReload={setReload}
             reload={reload}
@@ -258,7 +258,9 @@ export function BackupData({ limit = -1 }: BackupDataProps) {
               filtering: selectedPhase.length > 0,
               width: 160,
               ellipsis: true,
-              render: ({ status }: any) => <>{<VeleroResourceStatusBadge status={status.phase} />}</>,
+              render: ({ status }: any) => (
+                <>{<VeleroResourceStatusBadge status={status.phase} />}</>
+              ),
             },
             {
               accessor: 'status.errors',
@@ -285,7 +287,7 @@ export function BackupData({ limit = -1 }: BackupDataProps) {
               accessor: 'Duration',
               title: 'Duration',
               // sortable: true,
-              render: ({ status }:any) => (
+              render: ({ status }: any) => (
                 <>
                   <Duration
                     startTimestamp={status.startTimestamp}

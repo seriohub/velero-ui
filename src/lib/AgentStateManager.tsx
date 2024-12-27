@@ -1,4 +1,4 @@
-import { useAppState } from '@/contexts/AppStateContext';
+import { useAppStatus } from '@/contexts/AppContext';
 
 // Interface
 interface BooleanState {
@@ -15,7 +15,7 @@ interface BooleanState {
 
 // Class
 export class AgentStateManager {
-  private appValues = useAppState();
+  private appValues = useAppStatus();
 
   public uiURL: string;
   public apiURL: string;
@@ -91,13 +91,13 @@ export class AgentStateManager {
     markdown += `# Agent State Manager Report**\n\n`;
 
     markdown += `- Backend info\n`;
-    markdown += `  - app_name: **${this.appValues?.backendInfo?.app_name}**;\n`;
-    markdown += `  - helm_app_version: **${this.appValues?.backendInfo?.helm_app_version}**;\n`;
-    markdown += `  - helm_version: **${this.appValues?.backendInfo?.helm_version}**;\n`;
-    markdown += `  - helm_api: **${this.appValues?.backendInfo?.helm_api}**;\n`;
-    markdown += `  - helm_ui: **${this.appValues?.backendInfo?.helm_ui}**;\n`;
-    markdown += `  - api_release_version: **${this.appValues?.backendInfo?.api_release_version}**;\n`;
-    markdown += `  - helm_watchdog: **${this.appValues?.backendInfo?.helm_watchdog}**;\n`;
+    markdown += `  - app_name: **${this.appValues?.agentInfo?.app_name}**;\n`;
+    markdown += `  - helm_app_version: **${this.appValues?.agentInfo?.helm_app_version}**;\n`;
+    markdown += `  - helm_version: **${this.appValues?.agentInfo?.helm_version}**;\n`;
+    markdown += `  - helm_api: **${this.appValues?.agentInfo?.helm_api}**;\n`;
+    markdown += `  - helm_ui: **${this.appValues?.agentInfo?.helm_ui}**;\n`;
+    markdown += `  - api_release_version: **${this.appValues?.agentInfo?.api_release_version}**;\n`;
+    markdown += `  - helm_watchdog: **${this.appValues?.agentInfo?.helm_watchdog}**;\n`;
 
     markdown += `- UI URL: **${this.maskDomain(this.uiURL)}**\n`;
     markdown += `- API URL: **${this.maskDomain(this.apiURL)}**\n`;

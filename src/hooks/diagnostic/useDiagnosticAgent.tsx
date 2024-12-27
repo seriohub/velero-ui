@@ -4,9 +4,9 @@ import { env } from 'next-runtime-env';
 import { useApiGet } from '@/hooks/utils/useApiGet';
 import { AgentStateManager } from '@/lib/AgentStateManager';
 
-import { useBackend } from '../utils/useBackend';
-import { useAgentStatus } from '@/contexts/AgentStatusContext';
-import { useServerStatus } from '@/contexts/ServerStatusContext';
+import { useBackend } from '../useBackend';
+import { useAgentStatus } from '@/contexts/AgentContext';
+import { useServerStatus } from '@/contexts/ServerContext';
 
 export const useDiagnosticAgent = () => {
   const agentStatus = useAgentStatus();
@@ -30,8 +30,8 @@ export const useDiagnosticAgent = () => {
 
   useEffect(() => {
     if (agentStatus.isAgentAvailable) {
-      if (process.env.NODE_ENV === 'development')
-        console.log(`%cuseEffect 70 has been called`, `color: green; font-weight: bold;`);
+      // if (process.env.NODE_ENV === 'development')
+      //  console.log(`%cuseEffect 70 has been called`, `color: green; font-weight: bold;`);
 
       getDataK8sHealth({ url: '/info/health-k8s' });
       getApiOrigins({ url: '/info/origins', target: 'agent' });
@@ -57,8 +57,8 @@ export const useDiagnosticAgent = () => {
 
   useEffect(() => {
     if (apiOrigins !== undefined) {
-      if (process.env.NODE_ENV === 'development')
-        console.log(`%cuseEffect 80 has been called`, `color: green; font-weight: bold;`);
+      // if (process.env.NODE_ENV === 'development')
+      //  console.log(`%cuseEffect 80 has been called`, `color: green; font-weight: bold;`);
 
       setOrigins(apiOrigins.payload);
     }

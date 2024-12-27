@@ -16,7 +16,7 @@ import DetailActionIcon from '../../Actions/DatatableActionsIcons/DetailActionIc
 import RefreshDatatable from '../../Actions/ToolbarActionIcons/RefreshDatatable';
 import Toolbar from '../../Toolbar';
 import InfoRepository from '../../Actions/DatatableActionsIcons/InfoRepository';
-import { useAgentStatus } from '@/contexts/AgentStatusContext';
+import { useAgentStatus } from '@/contexts/AgentContext';
 import { DataFetchedInfo } from '../../DataFetchedInfo';
 import { useRepositories } from '@/api/RepositoryLocation/useRepositories';
 import { useRepositoryLocks } from '@/api/RepositoryLocation/useRepositoryLocks';
@@ -49,28 +49,28 @@ export function RepoLocation() {
   const [records, setRecords] = useState(items.slice(0, pageSize));
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development')
-      console.log(`%cuseEffect 640 has been called`, `color: green; font-weight: bold;`);
+    // if (process.env.NODE_ENV === 'development')
+    //  console.log(`%cuseEffect 640 has been called`, `color: green; font-weight: bold;`);
     if (agentValues.isAgentAvailable && reload > 1) getRepositories(true);
   }, [reload]);
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development')
-      console.log(`%cuseEffect 640 has been called`, `color: green; font-weight: bold;`);
+    //if (process.env.NODE_ENV === 'development')
+    //  console.log(`%cuseEffect 640 has been called`, `color: green; font-weight: bold;`);
     if (agentValues.isAgentAvailable) getRepositories();
   }, [agentValues.isAgentAvailable]);
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development')
-      console.log(`%cuseEffect 650 has been called`, `color: green; font-weight: bold;`);
+    // if (process.env.NODE_ENV === 'development')
+    //  console.log(`%cuseEffect 650 has been called`, `color: green; font-weight: bold;`);
     if (data !== undefined) {
       setItems(data.payload);
     } else setItems([]);
   }, [data]);
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development')
-      console.log(`%cuseEffect 660 has been called`, `color: green; font-weight: bold;`);
+    // if (process.env.NODE_ENV === 'development')
+    //  console.log(`%cuseEffect 660 has been called`, `color: green; font-weight: bold;`);
     const from = (page - 1) * pageSize;
     const to = from + pageSize;
     const data_sorted = sortBy(items, sortStatus.columnAccessor);
@@ -96,8 +96,8 @@ export function RepoLocation() {
   );
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development')
-      console.log(`%cuseEffect 670 has been called`, `color: green; font-weight: bold;`);
+    // if (process.env.NODE_ENV === 'development')
+    //  console.log(`%cuseEffect 670 has been called`, `color: green; font-weight: bold;`);
     if (locks !== undefined) {
       setRecords(
         records.filter(function (obj) {
@@ -115,8 +115,8 @@ export function RepoLocation() {
   }, [locks]);
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development')
-      console.log(`%cuseEffect 680 has been called`, `color: green; font-weight: bold;`);
+    // if (process.env.NODE_ENV === 'development')
+    //  console.log(`%cuseEffect 680 has been called`, `color: green; font-weight: bold;`);
     if (unlock !== undefined) {
       getRepositoryLocks(Object.keys(unlock.payload)[0]);
     }

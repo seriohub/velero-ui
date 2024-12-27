@@ -6,11 +6,11 @@ import { useRouter } from 'next/navigation';
 
 import { Anchor, Box, Group, Text, useComputedColorScheme } from '@mantine/core';
 import { IconSailboat } from '@tabler/icons-react';
-import { useUIState } from '@/contexts/UIStateContext';
+import { useUIStatus } from '@/contexts/UIContext';
 
 export function Logo() {
   const router = useRouter();
-  const uiValues = useUIState();
+  const uiValues = useUIStatus();
   const computedColorScheme = useComputedColorScheme();
 
   return (

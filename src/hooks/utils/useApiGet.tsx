@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 
 import { useRouter, usePathname } from 'next/navigation';
 
@@ -6,17 +6,15 @@ import { notifications } from '@mantine/notifications';
 import { modals } from '@mantine/modals';
 import { IconExclamationMark, IconInfoCircle } from '@tabler/icons-react';
 
-// import { env } from 'next-runtime-env';
-
-import { useAppState } from '@/contexts/AppStateContext';
 import { Code } from '@mantine/core';
-import { useBackend } from './useBackend';
-import { useServerStatus } from '@/contexts/ServerStatusContext';
-import { useAgentStatus } from '@/contexts/AgentStatusContext';
 
-interface UseApiGetProps {
-  target?: 'core' | 'agent' | 'static';
-}
+import { useServerStatus } from '@/contexts/ServerContext';
+import { useAgentStatus } from '@/contexts/AgentContext';
+import { useApiLogger } from '@/hooks/logger/useApiLogger';
+import { useUserNotificationHistory } from '../user/useUserNotificationHistory';
+import { useAuth } from '../user/useAuth';
+import { useAuthErrorHandler } from '../user/useAuthErrorHandler';
+
 type TargetType = 'core' | 'agent' | 'static';
 type GetDataParams = {
   url: string;
@@ -25,23 +23,19 @@ type GetDataParams = {
   target?: TargetType;
 };
 
-//export const useApiGet = ({ target = 'agent' }: UseApiGetProps = {}) => {
 export const useApiGet = () => {
   const router = useRouter();
   const pathname = usePathname();
+  const { logout } = useAuthErrorHandler();
 
-  const appValues = useAppState();
   const serverValues = useServerStatus();
   const agentValues = useAgentStatus();
-
-  // const isServerAvailable = useServerStatus();
-  // const isAgentAvailable = useAgentStatus()
+  const { addApiRequestHistory, addApiResponseHistory } = useApiLogger();
+  const { addNotificationHistory } = useUserNotificationHistory();
 
   const [fetching, setFetching] = useState(false);
   const [data, setData] = useState<Record<string, any> | undefined>(undefined);
   const [error, setError] = useState(false);
-
-  //const backendUrl = useBackend({ target: target });
 
   const getData = async ({
     url,
@@ -81,7 +75,6 @@ export const useApiGet = () => {
       console.log(`Agent unavailable: skip request ${url}?${param}`);
       return;
     }
-    //const backendUrl = useBackend({ target: target });
 
     if (error) {
       setError(false);
@@ -100,16 +93,12 @@ export const useApiGet = () => {
       headers.Authorization = `Bearer ${jwtToken}`;
     }
 
-    if (addInHistory === true) {
-      appValues.setApiRequest((prev: Array<any>) =>
-        prev.concat({
-          method: 'GET',
-          headers,
-          url: `${backendUrl}${url}?${param}`,
-          params: param,
-        })
-      );
-    }
+    addApiRequestHistory({
+      method: 'GET',
+      headers,
+      url: `${backendUrl}${url}?${param}`,
+      params: param,
+    });
 
     fetch(`${backendUrl}${url}?${param}`, { method: 'GET', headers })
       .then(async (res) => {
@@ -118,8 +107,7 @@ export const useApiGet = () => {
           throw 'Agent Offline';
         }
         if (res.status === 401) {
-          localStorage.removeItem('token');
-          if (pathname !== '/login' && pathname !== '/') router.push('/');
+          logout();
         }
 
         return res.json().then((response) => {
@@ -143,13 +131,11 @@ export const useApiGet = () => {
           });
           setData(undefined);
           setError(true);
-          appValues.setNotificationHistory((prev: Array<any>) =>
-            prev.concat({
-              statusCode: statusCode,
-              title: data.error.title,
-              description: data.error.description,
-            })
-          );
+          addNotificationHistory({
+            statusCode: statusCode,
+            title: data.error.title,
+            description: data.error.description,
+          });
         } else if ('data' in data) {
           setData(data.data);
         }
@@ -161,13 +147,11 @@ export const useApiGet = () => {
               title: message.title,
               message: message.description,
             });
-            appValues.setNotificationHistory((prev: Array<any>) =>
-              prev.concat({
-                statusCode: statusCode,
-                title: message.title,
-                description: message.description,
-              })
-            );
+            addNotificationHistory({
+              statusCode: statusCode,
+              title: message.title,
+              description: message.description,
+            });
             return null;
           });
         }
@@ -185,17 +169,15 @@ export const useApiGet = () => {
           });
         }
         setFetching(false);
-        if (addInHistory === true) {
-          appValues.setApiResponse((prev: Array<any>) =>
-            prev.concat({
-              method: 'GET',
-              url: `${backendUrl}${url}?${param}`,
-              data: data,
-              statusCode: statusCode,
-              xProcessTime: res.xProcessTime,
-            })
-          );
-        }
+        //if (addInHistory === true) {
+        addApiResponseHistory({
+          method: 'GET',
+          url: `${backendUrl}${url}?${param}`,
+          data: data,
+          statusCode: statusCode,
+          xProcessTime: res.xProcessTime,
+        });
+        //}
       })
 
       .catch((err) => {

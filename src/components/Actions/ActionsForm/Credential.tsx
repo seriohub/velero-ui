@@ -39,8 +39,8 @@ export function Credential({
   });
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development')
-      console.log(`%cuseEffect 190 has been called`, `color: green; font-weight: bold;`);
+    // if (process.env.NODE_ENV === 'development')
+    //  console.log(`%cuseEffect 190 has been called`, `color: green; font-weight: bold;`);
     if (!cloudCredential) {
       getK8sCredential(secretName, secretKey);
     } else {
@@ -49,8 +49,8 @@ export function Credential({
   }, []);
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development')
-      console.log(`%cuseEffect 200 has been called`, `color: green; font-weight: bold;`);
+    // if (process.env.NODE_ENV === 'development')
+    //  console.log(`%cuseEffect 200 has been called`, `color: green; font-weight: bold;`);
     if (data !== undefined || defaultData !== undefined) {
       const c = data || defaultData;
       if (c != undefined) {
