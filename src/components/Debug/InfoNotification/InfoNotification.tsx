@@ -18,13 +18,11 @@ import {
 
 import { IconCopy, IconCheck } from '@tabler/icons-react';
 
-import { useAppStatus } from '@/contexts/AppContext';
 import { useUserStatus } from '@/contexts/UserContext';
-import { useLoggerStatus } from '@/contexts/LoggerContext';
+
 
 export default function InfoNotification() {
-  //const value = useContext(VeleroAppContexts);
-  const loggerValues = useLoggerStatus();
+
   const userValues = useUserStatus()
   const viewport = useRef<HTMLDivElement>(null);
 
@@ -71,7 +69,7 @@ export default function InfoNotification() {
   useEffect(() => {
     // if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 520 has been called`, `color: green; font-weight: bold;`)
     scrollToBottom();
-  }, [loggerValues.apiRequest]);
+  }, [userValues.notificationHistory]);
 
   return (
     <>
