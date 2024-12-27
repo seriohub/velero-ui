@@ -76,8 +76,8 @@ export const useAgentConfig = () => {
             request_type: 'agent_alive',
             agent_name: agentValues.currentAgent?.name,
           };
-          //sendMessage(JSON.stringify(message));
-          socketValues.sendMessage(JSON.stringify(message))
+          //sendMessage(JSOsendMessageToSocket.stringify(message));
+          socketValues.sendMessageToSocket(JSON.stringify(message))
         }
       };
       checkAgentStatus();

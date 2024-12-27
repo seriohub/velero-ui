@@ -3,7 +3,7 @@ import { useUserStatus } from "@/contexts/UserContext";
 
 export function useUserNotificationHistory() {
     const appValue = useAppStatus();
-    let userValues;
+    let userValues: any;
     
     try {
         userValues = useUserStatus();
@@ -22,7 +22,7 @@ export function useUserNotificationHistory() {
             return;
         }
 
-        userValues.addNotificationHistory((prev) => prev.concat(data));
+        userValues.addNotificationHistory((prev: any[]) => prev.concat(data));
     };
 
     return { addNotificationHistory };

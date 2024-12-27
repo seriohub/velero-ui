@@ -76,7 +76,7 @@ export const useAppWebSocket = ({ addSocketHistory = null }: UseAppWebSocketPara
         const response = JSON.parse(lastMessage.data);
 
         if (response['response_type'] != 'agent_alive') {
-          addSocketHistory((prev) => prev.concat(lastMessage.data));
+          addSocketHistory((prev: string[]) => prev.concat(lastMessage.data));
         }
 
         if (response['response_type'] == 'agent_alive') {
