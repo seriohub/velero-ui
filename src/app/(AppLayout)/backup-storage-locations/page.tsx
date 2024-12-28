@@ -2,6 +2,6 @@
 
 import { BackupLocation } from '@/components/Velero/BackupLocation/Data';
 
-export default function ScheduledPage() {
+export default function BackupStorageLocationsPage() {
   return <BackupLocation />;
 }

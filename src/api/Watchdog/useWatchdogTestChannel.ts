@@ -19,7 +19,7 @@ export const useWatchdogTestChannel = () => {
             // Execute the API call with the generic method
             await getData({
                 url: '/v1/watchdog/send-test-notification',
-                param: `email=${email}&slack=${slack}&telegram=${telegram}`
+                params: `email=${email}&slack=${slack}&telegram=${telegram}`
             });
 
             // This code will be executed only in case of success

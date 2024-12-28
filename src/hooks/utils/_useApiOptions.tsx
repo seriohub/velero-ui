@@ -1,37 +1,40 @@
 import { useState } from 'react';
 
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
+
 import { notifications } from '@mantine/notifications';
 
-import { IconInfoCircle, IconExclamationMark } from '@tabler/icons-react';
+import { IconExclamationMark, IconInfoCircle } from '@tabler/icons-react';
 
 import { useBackend } from '../useBackend';
 
 import { useApiLogger } from '../logger/useApiLogger';
 import { useUserNotificationHistory } from '../user/useUserNotificationHistory';
-import { useAuth } from '../user/useAuth';
+
 import { useAuthErrorHandler } from '../user/useAuthErrorHandler';
 
-interface UseApiPatchProps {
+interface UseApiOptionsProps {
   target?: 'core' | 'agent' | 'static';
 }
 
-export const useApiPatch = ({ target = 'agent' }: UseApiPatchProps = {}) => {
-  const router = useRouter();
+export const useApiOptions = ({ target = 'agent' }: UseApiOptionsProps = {}) => {
+  const { addNotificationHistory } = useUserNotificationHistory();
+  // const router = useRouter();
+  // const pathname = usePathname();
   const { logout } = useAuthErrorHandler();
+
+  const backendUrl = useBackend({ target: target });
 
   const [fetching, setFetching] = useState(false);
   const [data, setData] = useState<Record<string, any> | undefined>(undefined);
   const [error, setError] = useState(false);
   const { addApiRequestHistory, addApiResponseHistory } = useApiLogger();
-  const { addNotificationHistory } = useUserNotificationHistory();
 
-  const backendUrl = useBackend({ target: target });
-
-  const patchData = async (url: string, values: any) => {
+  const getData = async (url: string, param: string = '') => {
     if (error) {
       setError(false);
     }
+    setFetching(true);
 
     // Recupera il token JWT dal localStorage
     const jwtToken = localStorage.getItem('token');
@@ -45,17 +48,14 @@ export const useApiPatch = ({ target = 'agent' }: UseApiPatchProps = {}) => {
       headers.Authorization = `Bearer ${jwtToken}`;
     }
 
-    const requestOptions = {
-      method: 'PATCH',
+    addApiRequestHistory({
+      method: 'OPTIONS',
       headers,
-      body: JSON.stringify(values),
-    };
+      url: `${backendUrl}${url}?${param}`,
+      params: param,
+    });
 
-    setFetching(true);
-    addApiRequestHistory({ method: 'PATCH', url: `${backendUrl}${url}`, params: values });
-
-    // fetch(`${process.env.NEXT_PUBLIC_VELERO_API_URL}${url}`, requestOptions)
-    fetch(`${backendUrl}${url}`, requestOptions)
+    fetch(`${backendUrl}${url}?${param}`, { method: 'OPTIONS', headers })
       .then(async (res) => {
         if (res.status === 401) {
           logout();
@@ -80,7 +80,7 @@ export const useApiPatch = ({ target = 'agent' }: UseApiPatchProps = {}) => {
             title: data.error.title,
             message: data.error.description,
           });
-          setData({});
+          setData(undefined);
           setError(true);
           addNotificationHistory({
             statusCode: statusCode,
@@ -109,9 +109,8 @@ export const useApiPatch = ({ target = 'agent' }: UseApiPatchProps = {}) => {
         setFetching(false);
 
         addApiResponseHistory({
-          method: 'PATCH',
-          url: `${backendUrl}${url}`,
-          params: values,
+          method: 'OPTIONS',
+          url: `${backendUrl}${url}?${param}`,
           data: data,
           statusCode: statusCode,
           xProcessTime: res.xProcessTime,
@@ -125,13 +124,17 @@ export const useApiPatch = ({ target = 'agent' }: UseApiPatchProps = {}) => {
           message: `Oops, something went wrong. ${err}`,
         });
         setFetching(false);
+        setData(undefined);
+        setError(true);
       });
   };
 
   return {
     fetching,
     data,
-    patchData,
+    getData,
+    setData,
+
     error,
   };
 };

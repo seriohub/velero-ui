@@ -7,7 +7,7 @@ export const useK8sConfigMap = () => {
     const getConfigMap = async (forced:boolean = false) => {
         try {
             // Execute the API call with the generic method
-            await getData({ url: '/v1/sc/change-storage-classes-config-map/get' , param: `forced=${forced}`});
+            await getData({ url: '/v1/sc/change-storage-classes-config-map/get' , params: `forced=${forced}`});
 
             // This code will be executed only in case of success
             // console.log('Request successful, execute final action...');

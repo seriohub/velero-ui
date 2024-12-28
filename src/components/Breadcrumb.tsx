@@ -2,16 +2,6 @@ import { useServerStatus } from '@/contexts/ServerContext';
 import { Breadcrumbs, Anchor, Text, Title } from '@mantine/core';
 import { useRouter } from 'next/navigation';
 
-const items = [
-  { title: 'Mantine', href: '#' },
-  { title: 'Mantine hooks', href: '#' },
-  { title: 'use-id', href: '#' },
-].map((item, index) => (
-  <Anchor href={item.href} key={index}>
-    {item.title}
-  </Anchor>
-));
-
 interface BreadCrumbItemProps {
   name: string;
   href: string;
@@ -23,7 +13,6 @@ export default function Breadcrumb(breadcrumbItem: BreadCrumbItemProps | undefin
 
   return (
     <>
-      {/*<Breadcrumbs>{items}</Breadcrumbs>*/}
       <Breadcrumbs separator="/" separatorMargin="md">
         <Anchor
           onClick={() => {

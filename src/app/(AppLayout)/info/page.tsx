@@ -1,5 +1,5 @@
-import { Info } from "@/components/System/Info/info";
+import { Info } from '@/components/System/Info/info';
 
-export default function HomePage() {
-  return <><Info /></>;
+export default function InfoPage() {
+  return <Info />;
 }

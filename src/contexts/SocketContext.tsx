@@ -16,7 +16,7 @@ export const SocketProvider: React.FC<{
   children: React.ReactNode;
 }> = ({ children }) => {
   const [socketHistory, addSocketHistory] = useState<Array<string>>([]);
-  const { sendMessage } = useAppWebSocket({addSocketHistory});
+  const { sendMessage } = useAppWebSocket({ addSocketHistory });
 
   const sendMessageToSocket = (message: string) => {
     if (sendMessage) {

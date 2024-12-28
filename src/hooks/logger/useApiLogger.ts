@@ -1,4 +1,3 @@
-// apiLogger.js
 import { useAppStatus } from "@/contexts/AppContext";
 import { useLoggerStatus } from "@/contexts/LoggerContext";
 

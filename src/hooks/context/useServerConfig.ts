@@ -14,7 +14,6 @@ export const useServerConfig = () => {
         ? Number(localStorage.getItem('cluster'))
         : 0;
     serverValues.setCurrentBackend(serverValues.servers[clusterIndex]);
-    // serverValues.setInit(true);
   }, [serverValues.servers]);
 
   useEffect(() => {

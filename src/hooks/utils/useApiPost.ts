@@ -1,35 +1,32 @@
 import { useState } from 'react';
 
-import { useRouter } from 'next/navigation';
-import { notifications } from '@mantine/notifications';
-
-import { IconInfoCircle, IconExclamationMark } from '@tabler/icons-react';
-
 import { useBackend } from '../useBackend';
 
 import { useApiLogger } from '../logger/useApiLogger';
 import { useUserNotificationHistory } from '../user/useUserNotificationHistory';
-import { useAuth } from '../user/useAuth';
+
 import { useAuthErrorHandler } from '../user/useAuthErrorHandler';
+import { handleApiResponse } from './handleApiResponse';
+import { ApiResponseShowErrorNotification } from '@/components/APIResponseNotification';
 
 interface UseApiPostProps {
   target?: 'core' | 'agent' | 'static';
 }
 
 export const useApiPost = ({ target = 'agent' }: UseApiPostProps = {}) => {
-  const router = useRouter();
   const { logout } = useAuthErrorHandler();
-  //const userValues = useUserStatus();
-  const { addNotificationHistory } = useUserNotificationHistory();
 
-  const [fetching, setFetching] = useState(false);
-  const [data, setData] = useState<Record<string, any> | undefined>(undefined);
-  const [error, setError] = useState(false);
+  const { addNotificationHistory } = useUserNotificationHistory();
   const { addApiRequestHistory, addApiResponseHistory } = useApiLogger();
 
   const backendUrl = useBackend({ target: target });
 
+  const [fetching, setFetching] = useState(false);
+  const [data, setData] = useState<Record<string, any> | undefined>(undefined);
+  const [error, setError] = useState(false);
+
   const postData = async (url: string, values: any) => {
+
     if (error) {
       setError(false);
     }
@@ -52,11 +49,13 @@ export const useApiPost = ({ target = 'agent' }: UseApiPostProps = {}) => {
       body: JSON.stringify(values),
     };
 
-    setFetching(true);
+
     addApiRequestHistory({ method: 'POST', url: `${backendUrl}${url}`, params: values });
 
+    setFetching(true);
     fetch(`${backendUrl}${url}`, requestOptions)
       .then(async (res) => {
+
         if (res.status === 401) {
           logout();
         }
@@ -70,7 +69,7 @@ export const useApiPost = ({ target = 'agent' }: UseApiPostProps = {}) => {
         });
       })
       .then((res) => {
-        const data = res.data;
+        /*const data = res.data;
         const statusCode = res.status;
 
         if ('error' in data) {
@@ -115,16 +114,29 @@ export const useApiPost = ({ target = 'agent' }: UseApiPostProps = {}) => {
           data: data,
           statusCode: statusCode,
           xProcessTime: res.xProcessTime,
+        });*/
+        setFetching(false);
+        handleApiResponse({
+          res,
+          setData,
+          setError,
+          addNotificationHistory,
+          addApiResponseHistory,
+          addInHistory: true,
+          backendUrl,
+          url,
+          params: values,
+          method: 'POST',
         });
       })
       .catch((err) => {
-        notifications.show({
-          icon: <IconExclamationMark />,
-          color: 'red',
+        setFetching(false);
+        setData(undefined);
+        setError(true);
+        ApiResponseShowErrorNotification({
           title: 'Error',
           message: `Oops, something went wrong. ${err}`,
         });
-        setFetching(false);
       });
   };
 

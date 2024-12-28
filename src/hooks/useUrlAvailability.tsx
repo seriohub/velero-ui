@@ -1,24 +1,24 @@
 import { useServerStatus } from '@/contexts/ServerContext';
 import { useState } from 'react';
 
-// Funzione asincrona che verifica la raggiungibilità di un URL
+// Asynchronous function that checks the reachability of a URL
 const checkUrlAvailability = async (url: string) => {
   try {
     const response = await fetch(url);
-    // Se il codice di stato della risposta è compreso tra 200 e 299, l'URL è raggiungibile
+    // If the response status code is between 200 and 299, the URL is reachable
     if (response.ok) {
       return true;
     } else {
       return false;
     }
   } catch (error) {
-    // Se c'è un errore durante la richiesta, l'URL non è raggiungibile
+    // If there is an error during the request, the URL is unreachable
     console.error('Error checkUrlAvailability');
     return false;
   }
 };
 
-// Hook personalizzato che gestisce lo stato del risultato del controllo URL
+// Custom hook that handles the state of the result of the URL check
 export const useUrlAvailability = () => {
   const [isUrlAvailable, setIsUrlAvailable] = useState(false);
   const [loading, setLoading] = useState(false);

@@ -1,41 +1,34 @@
 import { useState } from 'react';
 
-import { useRouter, usePathname } from 'next/navigation';
-
-import { notifications } from '@mantine/notifications';
-
-import { IconExclamationMark, IconInfoCircle } from '@tabler/icons-react';
-
 import { useBackend } from '../useBackend';
 
 import { useApiLogger } from '../logger/useApiLogger';
 import { useUserNotificationHistory } from '../user/useUserNotificationHistory';
-import { useAuth } from '../user/useAuth';
-import { log } from 'console';
-import { useAuthErrorHandler } from '../user/useAuthErrorHandler';
 
-interface UseApiOptionsProps {
+import { useAuthErrorHandler } from '../user/useAuthErrorHandler';
+import { handleApiResponse } from './handleApiResponse';
+import { ApiResponseShowErrorNotification } from '@/components/APIResponseNotification';
+
+interface UseApiPatchProps {
   target?: 'core' | 'agent' | 'static';
 }
 
-export const useApiOptions = ({ target = 'agent' }: UseApiOptionsProps = {}) => {
-  const { addNotificationHistory } = useUserNotificationHistory();
-  const router = useRouter();
-  const pathname = usePathname();
+export const useApiPatch = ({ target = 'agent' }: UseApiPatchProps = {}) => {
   const { logout } = useAuthErrorHandler();
+
+  const { addApiRequestHistory, addApiResponseHistory } = useApiLogger();
+  const { addNotificationHistory } = useUserNotificationHistory();
 
   const backendUrl = useBackend({ target: target });
 
   const [fetching, setFetching] = useState(false);
   const [data, setData] = useState<Record<string, any> | undefined>(undefined);
   const [error, setError] = useState(false);
-  const { addApiRequestHistory, addApiResponseHistory } = useApiLogger();
 
-  const getData = async (url: string, param: string = '', addInHistory: boolean = true) => {
+  const patchData = async (url: string, values: any) => {
     if (error) {
       setError(false);
     }
-    setFetching(true);
 
     // Recupera il token JWT dal localStorage
     const jwtToken = localStorage.getItem('token');
@@ -49,15 +42,19 @@ export const useApiOptions = ({ target = 'agent' }: UseApiOptionsProps = {}) => 
       headers.Authorization = `Bearer ${jwtToken}`;
     }
 
-    addApiRequestHistory({
-      method: 'OPTIONS',
+    const requestOptions = {
+      method: 'PATCH',
       headers,
-      url: `${backendUrl}${url}?${param}`,
-      params: param,
-    });
+      body: JSON.stringify(values),
+    };
 
-    fetch(`${backendUrl}${url}?${param}`, { method: 'OPTIONS', headers })
+
+    addApiRequestHistory({ method: 'PATCH', url: `${backendUrl}${url}`, params: values });
+
+    setFetching(true);
+    fetch(`${backendUrl}${url}`, requestOptions)
       .then(async (res) => {
+
         if (res.status === 401) {
           logout();
         }
@@ -71,7 +68,7 @@ export const useApiOptions = ({ target = 'agent' }: UseApiOptionsProps = {}) => 
         });
       })
       .then((res) => {
-        const data = res.data;
+        /*const data = res.data;
         const statusCode = res.status;
 
         if ('error' in data) {
@@ -81,7 +78,7 @@ export const useApiOptions = ({ target = 'agent' }: UseApiOptionsProps = {}) => 
             title: data.error.title,
             message: data.error.description,
           });
-          setData(undefined);
+          setData({});
           setError(true);
           addNotificationHistory({
             statusCode: statusCode,
@@ -110,32 +107,42 @@ export const useApiOptions = ({ target = 'agent' }: UseApiOptionsProps = {}) => 
         setFetching(false);
 
         addApiResponseHistory({
-          method: 'OPTIONS',
-          url: `${backendUrl}${url}?${param}`,
+          method: 'PATCH',
+          url: `${backendUrl}${url}`,
+          params: values,
           data: data,
           statusCode: statusCode,
           xProcessTime: res.xProcessTime,
+        });*/
+        setFetching(false);
+        handleApiResponse({
+          res,
+          setData,
+          setError,
+          addNotificationHistory,
+          addApiResponseHistory,
+          addInHistory: true,
+          backendUrl,
+          url,
+          params: values,
+          method: 'PATCH',
         });
       })
       .catch((err) => {
-        notifications.show({
-          icon: <IconExclamationMark />,
-          color: 'red',
-          title: 'Error',
-          message: `Oops, something went wrong. ${err}`,
-        });
         setFetching(false);
         setData(undefined);
         setError(true);
+        ApiResponseShowErrorNotification({
+          title: 'Error',
+          message: `Oops, something went wrong. ${err}`,
+        });
       });
   };
 
   return {
     fetching,
     data,
-    getData,
-    setData,
-
+    patchData,
     error,
   };
 };

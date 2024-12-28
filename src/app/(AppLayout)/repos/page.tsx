@@ -2,6 +2,6 @@
 
 import { RepoLocation } from '@/components/Velero/Repo/Data';
 
-export default function ScheduledPage() {
+export default function RepoLocationPage() {
   return <RepoLocation />;
 }

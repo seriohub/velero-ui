@@ -2,7 +2,6 @@ import useSWR from 'swr';
 import { useAppStatus } from '@/contexts/AppContext';
 import { useServerStatus } from '@/contexts/ServerContext';
 import axios from 'axios';
-// import { useAuthLogout } from './useAuthLogout';
 
 
 interface UseAuthParams {
@@ -38,15 +37,6 @@ export const useAuth = ({ middleware, redirectIfAuthenticated }: UseAuthParams =
                     return undefined;
                 })
     );
-
-    /*const logout = async () => {
-        localStorage.removeItem('token');
-        // appValues.setAuthenticated(false);
-
-        if (!['/login', '/'].includes(pathname)) {
-            router.push('/');
-        }
-    };*/
 
     /*useEffect(() => {
         if (user) {

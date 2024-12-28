@@ -1,11 +1,7 @@
 'use client';
 
-import { Watchdog } from "@/components/Settings/Watchdog/watchdog";
+import { Watchdog } from '@/components/Settings/Watchdog/watchdog';
 
-export default function ConfigurationPage() {
-  return (
-    <>
-      <Watchdog />
-    </>
-  );
+export default function WatchdogConfigurationPage() {
+  return <Watchdog />;
 }

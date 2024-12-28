@@ -10,12 +10,12 @@ export const useRepositoryUnlock = () => {
             if (!removeAll)
                 await getData({
                     url: '/v1/repo/unlock',
-                    param: `repository_url=${repositoryUrl}`,
+                    params: `repository_url=${repositoryUrl}`,
                 });
             else
                 await getData({
                     url: '/v1/repo/unlock',
-                    param: `repository_url=${repositoryUrl}&remove_all=True`,
+                    params: `repository_url=${repositoryUrl}&remove_all=True`,
                 });
 
             // This code will be executed only in case of success

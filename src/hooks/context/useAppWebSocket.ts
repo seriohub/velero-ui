@@ -10,7 +10,6 @@ type UseAppWebSocketParams = {
   addSocketHistory: any;
 };
 
-
 export const useAppWebSocket = ({ addSocketHistory = null }: UseAppWebSocketParams) => {
   const appValues = useAppStatus();
   const serverValues = useServerStatus();

@@ -7,7 +7,7 @@ export const useK8sCredential = () => {
     const getK8sCredential = async (secretName: string, secretKey:string) => {
         try {
             // Execute the API call with the generic method
-            await getData({ url: '/v1/k8s/credential/get', param:`secret_name=${secretName}&secret_key=${secretKey}` });
+            await getData({ url: '/v1/k8s/credential/get', params:`secret_name=${secretName}&secret_key=${secretKey}` });
 
             // This code will be executed only in case of success
             // console.log('Request successful, execute final action...');

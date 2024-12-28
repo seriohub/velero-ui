@@ -44,8 +44,8 @@ const data = [
   { link: '/backups', label: 'Backups', icon: IconDeviceFloppy },
   { link: '/restores', label: 'Restores', icon: IconRestore },
   { link: '/schedules', label: 'Schedules', icon: IconCalendarEvent },
-  { link: '/backup-locations', label: 'Backup Location', icon: IconServer },
-  { link: '/storage-locations', label: 'Snapshot Location', icon: IconDatabase },
+  { link: '/backup-storage-locations', label: 'Backup Locations', icon: IconServer },
+  { link: '/volume-snapshot-locations', label: 'Volume Locations', icon: IconDatabase },
   { link: '/repos', label: 'Repositories', icon: IconFolders },
   { link: '/sc-mapping', label: 'SC mapping', icon: IconLink },
 ];

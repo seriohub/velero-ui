@@ -1,31 +1,38 @@
 import { useState } from 'react';
 
-import { notifications } from '@mantine/notifications';
-
-import { IconInfoCircle, IconExclamationMark } from '@tabler/icons-react';
-
 import { useBackend } from '../useBackend';
 
 import { useApiLogger } from '../logger/useApiLogger';
 import { useUserNotificationHistory } from '../user/useUserNotificationHistory';
 import { useAuthErrorHandler } from '../user/useAuthErrorHandler';
+import {
+  ApiResponseShowErrorNotification,
+} from '@/components/APIResponseNotification';
+import { handleApiResponse } from './handleApiResponse';
 
-interface UseApiPutProps {
+type DeleteParams = {
+  url: string;
+  params?: any;
+};
+
+interface UseApiGetProps {
   target?: 'core' | 'agent' | 'static';
 }
 
-export const useApiPut = ({ target = 'agent' }: UseApiPutProps = {}) => {
+export const useApiDelete = ({ target = 'agent' }: UseApiGetProps = {}) => {
+  const { logout } = useAuthErrorHandler();
+  
   const { addNotificationHistory } = useUserNotificationHistory();
-const { logout } = useAuthErrorHandler();
-  const [fetching, setFetching] = useState(false);
-  const [error, setError] = useState(false);
-  const [responseStatus, setResponseStatus] = useState(-1);
   const { addApiRequestHistory, addApiResponseHistory } = useApiLogger();
 
   const backendUrl = useBackend({ target: target });
 
-  const putData = async (url: string, values: any) => {
-    setResponseStatus(-1);
+  const [fetching, setFetching] = useState(false);
+  const [data, setData] = useState<Record<string, any> | undefined>(undefined);
+  const [error, setError] = useState(false);
+
+  const deleteData = async ({ url, params }: DeleteParams) => {
+    
     if (error) {
       setError(false);
     }
@@ -41,29 +48,21 @@ const { logout } = useAuthErrorHandler();
     if (jwtToken) {
       headers.Authorization = `Bearer ${jwtToken}`;
     }
+
     const requestOptions = {
-      method: 'PUT',
+      method: 'DELETE',
       headers,
-      body: JSON.stringify(values),
+      body: JSON.stringify(params),
     };
 
-    setFetching(true);
-    addApiRequestHistory({ method: 'PUT', url: `${backendUrl}${url}`, params: values });
+    addApiRequestHistory({ method: 'DELETE', url: `${backendUrl}${url}}`, params: params });
 
+    setFetching(true);
     fetch(`${backendUrl}${url}`, requestOptions)
       .then(async (res) => {
-        setResponseStatus(res.status);
+
         if (res.status === 401) {
           logout();
-        }
-
-        if (res.status !== 200) {
-          notifications.show({
-            icon: <IconExclamationMark />,
-            color: 'red',
-            title: res.status,
-            message: res.statusText,
-          });
         }
 
         return res.json().then((response) => {
@@ -73,41 +72,35 @@ const { logout } = useAuthErrorHandler();
             xProcessTime: res.headers.get('X-Process-Time'),
           };
         });
+
       })
       .then((res) => {
-        const data = res.data;
+        /*const data = res.data;
         const statusCode = res.status;
-
-        if ('detail' in data) {
-          notifications.show({
-            icon: <IconExclamationMark />,
-            color: 'red',
-            title: data.detail.error.title,
-            message: data.detail.error.description,
-          });
+       
+        if ('error' in data) {
+          setData(undefined);
           setError(true);
+
+          ApiResponseShowErrorNotification({
+            title: data.error.title,
+            message: data.error.description
+          })          
           addNotificationHistory({
             statusCode: statusCode,
             title: data.error.title,
             description: data.error.description,
           });
+        } else if ('data' in data) {
+          setData(res);
         }
-        if ('error' in data) {
-          notifications.show({
-            icon: <IconExclamationMark />,
-            color: 'red',
-            title: data.error.title,
-            message: data.error.description,
-          });
-          setError(true);
-        }
+
         if ('notifications' in data) {
           data.notifications.map((message: any) => {
-            notifications.show({
-              icon: <IconInfoCircle />,
-              color: 'blue',
+            ApiResponseShowNotification({
               title: message.title,
               message: message.description,
+              type: message?.info,
             });
             addNotificationHistory({
               statusCode: statusCode,
@@ -117,22 +110,46 @@ const { logout } = useAuthErrorHandler();
             return null;
           });
         }
+
         setFetching(false);
 
         addApiResponseHistory({
-          method: 'POST',
+          method: 'DELETE',
           url: `${backendUrl}${url}`,
-          params: values,
+          param: params,
           data: data,
           statusCode: statusCode,
           xProcessTime: res.xProcessTime,
+        });*/
+        setFetching(false);
+        handleApiResponse({
+          res,
+          setData,
+          setError,
+          addNotificationHistory,
+          addApiResponseHistory,
+          addInHistory: true,
+          backendUrl,
+          url,
+          params,
+          method: 'DELETE',
+        });
+      })
+      .catch((err) => {
+        setFetching(false);
+        setData(undefined);
+        setError(true);
+        ApiResponseShowErrorNotification({
+          title: 'Error',
+          message: `Oops, something went wrong. ${err}`,
         });
       });
   };
 
   return {
     fetching,
-    responseStatus,
-    putData,
+    data,
+    deleteData,
+    error,
   };
 };

@@ -17,7 +17,7 @@ export const useAgentConfig = () => {
   const appValues = useAppStatus();
   const agentValues = useAgentStatus();
   const serverValues = useServerStatus();
-  const socketValues = useSocketStatus(); 
+  const socketValues = useSocketStatus();
   //const { sendMessage } = useAppWebSocket();
 
   const { data: dataAgent, getData: getDataAgent } = useApiGet();
@@ -50,14 +50,14 @@ export const useAgentConfig = () => {
 
       agentValues.setCurrentAgent(dataAgent?.payload[agentIndex]);
     }
-    if (dataAgent?.payload.length == 0) {
+    /*if (dataAgent?.payload.length == 0) {
       notifications.show({
         icon: <IconExclamationMark />,
         color: 'red',
         title: 'Agents error',
         message: 'No agent registered in the core',
       });
-    }
+    }*/
   }, [dataAgent]);
 
   useEffect(() => {
@@ -77,7 +77,7 @@ export const useAgentConfig = () => {
             agent_name: agentValues.currentAgent?.name,
           };
           //sendMessage(JSOsendMessageToSocket.stringify(message));
-          socketValues.sendMessageToSocket(JSON.stringify(message))
+          socketValues.sendMessageToSocket(JSON.stringify(message));
         }
       };
       checkAgentStatus();

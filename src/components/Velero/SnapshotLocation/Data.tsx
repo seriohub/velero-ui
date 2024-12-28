@@ -80,8 +80,8 @@ export function SnapshotLocation() {
     <>
       <Stack h="100%" gap={0} p={5}>
         <Toolbar
-          title="Snapshot Location"
-          breadcrumbItem={{ name: 'Snapshot locations', href: '/snapshot-locations' }}
+          title="Volume Snapshot Location"
+          breadcrumbItem={{ name: 'Volume Snapshot locations', href: '/snapshot-locations' }}
         >
           <RefreshDatatable setReload={setReload} reload={reload} />
         </Toolbar>

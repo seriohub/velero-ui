@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { env } from 'next-runtime-env';
 import { useDisclosure } from '@mantine/hooks';
 import { Open_Sans } from 'next/font/google';
+
 const open_sans = Open_Sans({ subsets: ['latin'] });
 
 interface UIStatus {

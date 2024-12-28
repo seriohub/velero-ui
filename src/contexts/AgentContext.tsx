@@ -37,7 +37,7 @@ export const AgentProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         setCurrentAgent,
         setIsAgentAvailable,
         reloadAgents,
-        setAgentInfo
+        setAgentInfo,
       }}
     >
       {children}

@@ -84,8 +84,8 @@ export function BackupLocation() {
     <>
       <Stack h="100%" gap={0} p={5}>
         <Toolbar
-          title="Backup Location"
-          breadcrumbItem={{ name: 'Backup locations', href: '/backup-locations' }}
+          title="Backup Storage Locations"
+          breadcrumbItem={{ name: 'Backup Storage Locations', href: '/backup-storage-locations' }}
         >
           <RefreshDatatable setReload={setReload} reload={reload} />
         </Toolbar>

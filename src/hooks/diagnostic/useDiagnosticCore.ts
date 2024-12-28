@@ -31,7 +31,7 @@ export const useDiagnosticCore = () => {
       getApiArch({ url: '/info/arch', target: 'core' });
       getCompatibility({
         url: '/info/get-ui-comp',
-        param: 'version=' + NEXT_PUBLIC_FRONT_END_BUILD_VERSION,
+        params: 'version=' + NEXT_PUBLIC_FRONT_END_BUILD_VERSION,
         target: 'core',
       });
     }

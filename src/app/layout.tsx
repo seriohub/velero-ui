@@ -19,13 +19,13 @@ import 'mantine-datatable/styles.layer.css';
 import './layout.css';
 import { ServerProvider } from '@/contexts/ServerContext';
 import { AgentProvider } from '@/contexts/AgentContext';
-import { AppProvider, useAppStatus } from '@/contexts/AppContext';
+import { AppProvider } from '@/contexts/AppContext';
 import { UIProvider, useUIStatus } from '@/contexts/UIContext';
 import { LoggerProvider } from '@/contexts/LoggerContext';
 
 export default function RootLayout({ children }: { children: any }) {
   const loggerEnabled = process.env.NEXT_PUBLIC_LOGGER_ENABLED === 'true';
-console.log("loggerEnabled", loggerEnabled)
+  console.log('loggerEnabled', loggerEnabled);
   return (
     <html lang="en">
       <head>

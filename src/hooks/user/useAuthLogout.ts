@@ -1,33 +1,21 @@
-import useSWR from 'swr';
-import { useRouter, usePathname } from 'next/navigation';
 import { useAppStatus } from '@/contexts/AppContext';
-import { useServerStatus } from '@/contexts/ServerContext';
-import axios from 'axios';
+import { useRouter, usePathname } from 'next/navigation';
 
-
-interface UseAuthParams {
-    middleware?: string;
-    redirectIfAuthenticated?: string;
-}
-
-export const useAuthLogout = ({ middleware, redirectIfAuthenticated }: UseAuthParams = {}) => {
+export const useAuthLogout = () => {
     const router = useRouter();
     const pathname = usePathname();
+    const appValues = useAppStatus();
 
     const logout = async () => {
         localStorage.removeItem('token');
-        // appValues.setAuthenticated(false);
+        appValues.setAuthenticated(false);
 
         if (!['/login', '/'].includes(pathname)) {
             router.push('/');
         }
     };
 
-
     return {
-
-
         logout,
-
     };
 };

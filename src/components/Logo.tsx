@@ -32,16 +32,25 @@ export function Logo() {
         </Box>
         <Box darkHidden>
           <Group p={5} gap={5}>
-            <IconSailboat size={48} stroke="1.5" color={
-          uiValues.navbarColored && computedColorScheme == 'light'
-            ? 'var(--mantine-color-white)'
-            : undefined
-        }/>
-            <Text fz="xl" size="xl" fw={800} c={
-          uiValues.navbarColored && computedColorScheme == 'light'
-            ? 'var(--mantine-color-white)'
-            : undefined
-        }>
+            <IconSailboat
+              size={48}
+              stroke="1.5"
+              color={
+                uiValues.navbarColored && computedColorScheme == 'light'
+                  ? 'var(--mantine-color-white)'
+                  : undefined
+              }
+            />
+            <Text
+              fz="xl"
+              size="xl"
+              fw={800}
+              c={
+                uiValues.navbarColored && computedColorScheme == 'light'
+                  ? 'var(--mantine-color-white)'
+                  : undefined
+              }
+            >
               Vui
             </Text>
           </Group>

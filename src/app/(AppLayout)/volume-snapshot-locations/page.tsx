@@ -2,6 +2,6 @@
 
 import { SnapshotLocation } from '@/components/Velero/SnapshotLocation/Data';
 
-export default function ScheduledPage() {
+export default function VolumeSnapshotLocationsPage() {
   return <SnapshotLocation />;
 }

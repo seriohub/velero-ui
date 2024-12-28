@@ -4,7 +4,7 @@ import { useUserStatus } from "@/contexts/UserContext";
 export function useUserNotificationHistory() {
     const appValue = useAppStatus();
     let userValues: any;
-    
+
     try {
         userValues = useUserStatus();
     } catch {
