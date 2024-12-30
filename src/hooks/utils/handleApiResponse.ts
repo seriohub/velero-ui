@@ -28,7 +28,7 @@ export const handleApiResponse = ({
     setError,
     addNotificationHistory,
     addApiResponseHistory,
-    addInHistory = true,
+    addInHistory,
     backendUrl,
     url,
     params,
@@ -98,6 +98,5 @@ export const handleApiResponse = ({
                 xProcessTime: res.xProcessTime,
             });
         }
-
     }
 };

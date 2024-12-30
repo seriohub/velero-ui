@@ -351,9 +351,9 @@ export function AppShellNavbar({ opened, toggle }: any) {
                           : classesSimple.link
                         : classesSimple.link
                     }
-                    key="info"
-                    active={'/info' === pathname || undefined}
-                    label="Info"
+                    key="security"
+                    active={'/security' === pathname || undefined}
+                    label="Security"
                     leftSection={
                       <IconInfoCircle
                         className={
@@ -367,7 +367,7 @@ export function AppShellNavbar({ opened, toggle }: any) {
                     }
                     onClick={(event) => {
                       event.preventDefault();
-                      router.push('/info');
+                      router.push('/security');
                     }}
                     //variant="filled"
                     // autoContrast

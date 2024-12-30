@@ -6,11 +6,12 @@ type TargetType = 'core' | 'agent' | 'static';
 export const useGithubRepoVersion = () => {
     const { data, getData, fetching, error } = useApiGet();
 
-    const getRepoVersion = async (target: TargetType) => {
+    const getRepoVersion = async (target: TargetType, force: boolean=false) => {
         try {
             // Execute the API call with the generic method
             await getData({
                 url: '/info/get-repo-tags',
+                params: `force_scrapy=${force}`,
                 target: target,
             });
 

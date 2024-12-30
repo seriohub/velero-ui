@@ -79,12 +79,14 @@ export const useApiGet = () => {
       headers.Authorization = `Bearer ${jwtToken}`;
     }
 
+    if (addInHistory) {
     addApiRequestHistory({
       method: 'GET',
       headers,
       url: `${backendUrl}${url}?${params}`,
       params: params,
     });
+  }
 
     setFetching(true);
     fetch(`${backendUrl}${url}?${params}`, { method: 'GET', headers })

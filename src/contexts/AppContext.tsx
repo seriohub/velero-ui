@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { env } from 'next-runtime-env';
-import { useDisclosure } from '@mantine/hooks';
+
 
 interface AppStatus {
   socketStatus: string;
@@ -12,6 +12,9 @@ interface AppStatus {
   refreshDatatableAfter: number;
   refreshRecent: number;
   xProcessTimer: Array<number>;
+
+  repoVersion: any;
+  refreshGithubRepoVersion: any | undefined;
 }
 
 interface AppStatusContextProps extends AppStatus {
@@ -24,6 +27,9 @@ interface AppStatusContextProps extends AppStatus {
   setRefreshDatatableAfter: React.Dispatch<React.SetStateAction<number>>;
   setRefreshRecent: React.Dispatch<React.SetStateAction<number>>;
   addXProcessTimer: React.Dispatch<React.SetStateAction<Array<number>>>;
+  
+  setRepoVersion: React.Dispatch<React.SetStateAction<any>>;
+  setRefreshRepoVersion: React.Dispatch<React.SetStateAction<any>>;
 }
 
 const AppStatusContext = createContext<AppStatusContextProps | undefined>(undefined);
@@ -46,6 +52,12 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     Number(`${NEXT_PUBLIC_REFRESH_RECENT}`)
   );
 
+  const [refreshGithubRepoVersion, setRefreshRepoVersion] = useState<number>(
+    Number(`${NEXT_PUBLIC_REFRESH_RECENT}`)
+  );
+
+  const [repoVersion, setRepoVersion] = useState<any|undefined>(undefined);
+
   return (
     <AppStatusContext.Provider
       value={{
@@ -53,21 +65,27 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
         isAppInitialized,
         isAuthenticated,
+        isUserLoaded,
 
         refreshDatatableAfter,
-        refreshRecent,
-        isUserLoaded,
+        refreshRecent,        
         xProcessTimer,
+
+        repoVersion,
+        refreshGithubRepoVersion,
 
         setSocketStatus,
 
         setAppInitialized,
         setAuthenticated,
+        setIsUserLoaded,
 
         setRefreshDatatableAfter,
-        setRefreshRecent,
-        setIsUserLoaded,
+        setRefreshRecent,        
         addXProcessTimer,
+        
+        setRepoVersion,
+        setRefreshRepoVersion
       }}
     >
       {children}

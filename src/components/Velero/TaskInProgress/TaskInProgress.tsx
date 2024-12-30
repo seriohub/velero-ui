@@ -1,12 +1,12 @@
 'use client';
 
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { DataTable, DataTableColumn, DataTableSortStatus } from 'mantine-datatable';
 
-import { Group, Center, Accordion, Text, rem, Tooltip, ActionIcon, Box } from '@mantine/core';
+import { Group, Center, Accordion, Text, Tooltip, ActionIcon, Box } from '@mantine/core';
 
-import { IconClick, IconClock, IconRefresh, IconReload } from '@tabler/icons-react';
+import { IconClick, IconReload } from '@tabler/icons-react';
 
 import sortBy from 'lodash/sortBy';
 
