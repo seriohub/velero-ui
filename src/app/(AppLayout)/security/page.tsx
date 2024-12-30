@@ -1,4 +1,4 @@
-import { Security } from '@/components/System/Security/security';
+import { Security } from '@/components/System/Security/Security';
 
 export default function SecurityPage() {
   return <Security />;

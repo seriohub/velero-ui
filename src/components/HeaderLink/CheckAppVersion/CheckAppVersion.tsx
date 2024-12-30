@@ -76,7 +76,7 @@ export default function CheckAppVersion() {
           </ActionIcon>
         </Group>
       </Modal>
-      <Indicator processing inline disabled={!updateAvailable} color="red" position="bottom-end">
+      <Indicator processing inline disabled={!updateAvailable} position="top-end">
         <ActionIcon
           variant="default"
           size={38}
@@ -84,7 +84,7 @@ export default function CheckAppVersion() {
           aria-label="Toggle color scheme"
           onClick={open}
         >
-          {updateAvailable && <IconRotateClockwise color="green" stroke={2} />}
+          {updateAvailable && <IconRotateClockwise stroke={2} />}
           {!updateAvailable && <IconRotateClockwise stroke={2} />}
         </ActionIcon>
       </Indicator>
