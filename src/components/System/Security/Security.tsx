@@ -75,7 +75,7 @@ export function Security() {
         </Toolbar>
 
         <ScrollArea p={0} style={{ height: '100%' }} offsetScrollbars>
-          <Table w={600}>
+          <Table striped>
             <Table.Thead>
               <Table.Tr>
                 <Table.Th>Component</Table.Th>

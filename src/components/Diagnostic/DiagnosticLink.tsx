@@ -15,7 +15,7 @@ export const DiagnosticLink = ({ ApiURL }: DiagnosticLinkProps) => {
     <>
       {/* online */}
       <Group gap={8}>
-        <Group gap={0}>
+        <Group gap={2}>
           <Text size="sm">ws:</Text>
           <Text size="sm" fw={800}>
             {appValues.socketStatus}

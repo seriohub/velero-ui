@@ -93,7 +93,7 @@ export const DiagnosticAgentInfo = () => {
         onClose={close}
         title="Agent diagnostic"
         centered
-        size="lg"
+        size="auto"
         overlayProps={{
           backgroundOpacity: 0.55,
           blur: 3,
