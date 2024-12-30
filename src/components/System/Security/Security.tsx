@@ -1,8 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
-
-import { List, rem, ScrollArea, Stack, Table, ThemeIcon } from '@mantine/core';
+import { ScrollArea, Stack, Table } from '@mantine/core';
 
 import { useAgentStatus } from '@/contexts/AgentContext';
 import Toolbar from '@/components/Toolbar';
@@ -35,7 +33,7 @@ export function Security() {
     {
       component: 'UI',
       description: 'Logger enabled',
-      value: process.env.NEXT_PUBLIC_LOGGER_ENABLED,
+      value: process.env.NEXT_PUBLIC_LOGGER_ENABLED || 'false',
       status: (
         <TableStatusItem
           label="Logger Enabled"
