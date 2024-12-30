@@ -84,8 +84,8 @@ export default function CheckAppVersion() {
           aria-label="Toggle color scheme"
           onClick={open}
         >
-          {updateAvailable && <IconRotateClockwise stroke={2} />}
-          {!updateAvailable && <IconRotateClockwise stroke={2} />}
+          {updateAvailable && <IconRotateClockwise stroke={1.5} />}
+          {!updateAvailable && <IconRotateClockwise stroke={1.5} />}
         </ActionIcon>
       </Indicator>
     </>

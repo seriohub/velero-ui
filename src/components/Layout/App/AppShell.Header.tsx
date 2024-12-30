@@ -40,7 +40,7 @@ export function AppShellHeader({ opened, toggle, openedUIDrawer, toggleUIDrawer 
             radius={8}
             href="https://github.com/seriohub/velero-ui"
           >
-            <IconBrandGithub stroke={2} />
+            <IconBrandGithub stroke={1.5} />
           </ActionIcon>
 
           <ActionIcon
@@ -51,7 +51,7 @@ export function AppShellHeader({ opened, toggle, openedUIDrawer, toggleUIDrawer 
             radius={8}
             href="https://vui.seriohub.com"
           >
-            <IconHelp stroke={2} />
+            <IconHelp stroke={1.5} />
           </ActionIcon>
 
           <CheckAppVersion />

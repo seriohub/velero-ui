@@ -129,7 +129,7 @@ export default function TaskInProgress() {
                 }
               >
                 <Tooltip label="Click to refresh">
-                  <IconReload stroke={2} />
+                  <IconReload stroke={1.5} />
                 </Tooltip>
               </ActionIcon>
             </Box>

@@ -35,10 +35,10 @@ export default function LastBackup4Schedule({
               
             >
               {!checked && (
-              <IconFilter stroke={2} />
+              <IconFilter stroke={1.5} />
             )}
             {checked && (
-              <IconFilterFilled stroke={2} />
+              <IconFilterFilled stroke={1.5} />
             )}
             </ActionIcon>
       {/*<Chip
