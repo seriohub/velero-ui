@@ -17,6 +17,5 @@ export const useAuthErrorHandler = () => {
 
     return {
         logout,
-
     };
 };

@@ -25,7 +25,7 @@ export function SwitchAgent() {
             localStorage.setItem('agent', index.toString());
             // console.log('Set agent available undefined');
             // router.push(`${pathname}?_=${new Date().getTime()}-${appValues.currentBackend.name}`);
-            //window.location.reload();
+            // window.location.reload();
           }
         }}
         key={index}

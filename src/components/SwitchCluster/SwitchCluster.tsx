@@ -29,8 +29,8 @@ export function SwitchCluster() {
       leftSection={<IconAffiliate width={18} height={18} />}
       onClick={() => {
         serverValues.setCurrentServerAsControlPlane(undefined);
-        serverValues.setIsServerAvailable(undefined);
-        agentValues.setIsAgentAvailable(undefined);
+        // serverValues.setIsServerAvailable(undefined);
+        // agentValues.setIsAgentAvailable(undefined);
         serverValues.setCurrentBackend(serverValues.servers[index]);
         localStorage.setItem('cluster', index.toString());
         // router.push(`${pathname}?_=${new Date().getTime()}-${appValues.currentBackend.name}`);

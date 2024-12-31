@@ -12,7 +12,9 @@ import { IconPlugConnectedX } from '@tabler/icons-react';
 import { DiagnosticAgentInfoData } from './DiagnosticAgentInfoData';
 
 export const DiagnosticAgentInfo = () => {
-  const { stateManager, reload, setReload } = useDiagnosticAgent();
+  // const { stateManager, reload, setReload } = useDiagnosticAgent();
+  const { uiURL, apiURL, apiArch, origins, k8sHealth, stateManager, reload, setReload } = useDiagnosticAgent();
+
 
   const [opened, { open, close }] = useDisclosure(false);
 
@@ -102,7 +104,14 @@ export const DiagnosticAgentInfo = () => {
       >
         {/* Modal content */}
 
-        <DiagnosticAgentInfoData />
+        <DiagnosticAgentInfoData
+            uiURL={uiURL}
+            apiURL={apiURL}
+            apiArch={apiArch}
+            origins={origins}
+            k8sHealth={origins}
+            stateManager={stateManager}
+          />
       </Modal>
     </>
   );

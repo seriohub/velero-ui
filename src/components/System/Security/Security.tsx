@@ -2,7 +2,6 @@
 
 import { ScrollArea, Stack, Table } from '@mantine/core';
 
-import { useAgentStatus } from '@/contexts/AgentContext';
 import Toolbar from '@/components/Toolbar';
 import RefreshDatatable from '@/components/Actions/ToolbarActionIcons/RefreshDatatable';
 
@@ -12,8 +11,6 @@ import { TableStatusItem } from '../TableStatusItem';
 
 export function Security() {
   const { reload, setReload } = useDiagnosticAgent();
-
-  const agentValues = useAgentStatus();
 
   const elements = [
     { component: 'API', description: 'Running mode', value: '...' },
@@ -59,7 +56,7 @@ export function Security() {
   // useEffect(() => {}, [reload, agentValues.isAgentAvailable]);
 
   const rows = elements.map((element) => (
-    <Table.Tr key={element.component}>
+    <Table.Tr key={element.component + '-' + element.description}>
       <Table.Td>{element.component}</Table.Td>
       <Table.Td>{element.description}</Table.Td>
       <Table.Td>{element.value}</Table.Td>

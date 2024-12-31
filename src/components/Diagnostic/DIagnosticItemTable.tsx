@@ -16,7 +16,7 @@ interface DiagnosticItemProps {
   message4?: any;
 }
 
-export function DIagnosticItemTable({
+export function DiagnosticItemTable({
   label,
   value,
   ok,
@@ -30,11 +30,10 @@ export function DIagnosticItemTable({
   const IconOk = <IconCheck color="green" style={{ width: rem(16), height: rem(16) }} />;
   const IconError = <IconX color="red" style={{ width: rem(16), height: rem(16) }} />;
   const IconWarning = <IconCheck color="yellow" style={{ width: rem(16), height: rem(16) }} />;
-  const emptyFragment: any = <></>;
 
   return (
     <>
-      <Table.Tr key={label}>
+      <Table.Tr key={btoa(label + '-' + value)}>
         <Table.Td>{label}</Table.Td>
         <Table.Td>
           <Text size="sm" fw={600}>

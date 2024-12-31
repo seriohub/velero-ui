@@ -12,7 +12,9 @@ import { DiagnosticAgentInfoData } from '@/components/Diagnostic/DiagnosticAgent
 import { useDiagnosticAgent } from '@/hooks/diagnostic/useDiagnosticAgent';
 
 export function Agent() {
-  const { reload, setReload } = useDiagnosticAgent();
+  // const { reload, setReload } = useDiagnosticAgent();
+  const { uiURL, apiURL, apiArch, origins, k8sHealth, stateManager, reload, setReload } =
+    useDiagnosticAgent();
 
   const agentValues = useAgentStatus();
 
@@ -26,7 +28,14 @@ export function Agent() {
         </Toolbar>
 
         <ScrollArea p={0} style={{ height: '100%' }} offsetScrollbars>
-          <DiagnosticAgentInfoData />
+          <DiagnosticAgentInfoData
+            uiURL={uiURL}
+            apiURL={apiURL}
+            apiArch={apiArch}
+            origins={origins}
+            k8sHealth={origins}
+            stateManager={stateManager}
+          />
         </ScrollArea>
       </Stack>
     </>

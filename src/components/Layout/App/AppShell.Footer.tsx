@@ -1,5 +1,3 @@
-import { useEffect } from 'react';
-
 import { env } from 'next-runtime-env';
 
 import { Code, Group, Text, Tooltip } from '@mantine/core';
@@ -11,7 +9,6 @@ import { DiagnosticAgentInfo } from '@/components/Diagnostic/DiagnosticAgentInfo
 import { DiagnosticCoreInfo } from '@/components/Diagnostic/DiagnosticCoreInfo';
 import { useServerStatus } from '@/contexts/ServerContext';
 import { useAgentStatus } from '@/contexts/AgentContext';
-import { useAppInfo } from '@/api/App/useAppInfo';
 
 export function AppShellFooter() {
   const appValues = useAppStatus();
@@ -20,9 +17,9 @@ export function AppShellFooter() {
 
   const NEXT_PUBLIC_FRONT_END_BUILD_VERSION = env('NEXT_PUBLIC_FRONT_END_BUILD_VERSION');
   const NEXT_PUBLIC_FRONT_END_BUILD_DATE = env('NEXT_PUBLIC_FRONT_END_BUILD_DATE');
-  const { data, getAppInfo } = useAppInfo();
+  //const { data, getAppInfo } = useAppInfo();
 
-  useEffect(() => {
+  /*useEffect(() => {
     if (agentValues.isAgentAvailable)
       // if (process.env.NODE_ENV === 'development')
       //  console.log(`%cuseEffect 550 has been called`, `color: green; font-weight: bold;`);
@@ -32,7 +29,7 @@ export function AppShellFooter() {
 
   useEffect(() => {
     agentValues.setAgentInfo(data?.payload);
-  });
+  });*/
   return (
     <>
       <Group justify="space-between" gap={5}>
@@ -48,23 +45,24 @@ export function AppShellFooter() {
         </Group>
 
         <Group justify="flex-end" gap={10} visibleFrom="lg">
-          {serverValues.isCurrentServerControlPlane && data?.payload && (
+          {serverValues.isCurrentServerControlPlane && agentValues.agentInfo && (
             <Code>
-              CORE: {data.payload['core_release_version']} ({data.payload['core_release_date']})
+              CORE: {agentValues.agentInfo['core_release_version']} (
+              {agentValues.agentInfo['core_release_date']})
             </Code>
           )}
-          {!serverValues.isCurrentServerControlPlane && data?.payload && (
+          {!serverValues.isCurrentServerControlPlane && agentValues.agentInfo && (
             <>
               <Group gap={5}>
                 <Text size="sm">API</Text>
-                <Tooltip label={`Release date ${data.payload['api_release_date']}`}>
-                  <Code fw={700}>{data.payload['api_release_version']}</Code>
+                <Tooltip label={`Release date ${agentValues.agentInfo['api_release_date']}`}>
+                  <Code fw={700}>{agentValues.agentInfo['api_release_version']}</Code>
                 </Tooltip>
               </Group>
               <Group gap={5}>
                 <Text size="sm">Watchdog</Text>
-                <Tooltip label={`Release date ${data.payload['watchdog_release_date']}`}>
-                  <Code fw={700}>{data.payload['watchdog_release_version']}</Code>
+                <Tooltip label={`Release date ${agentValues.agentInfo['watchdog_release_date']}`}>
+                  <Code fw={700}>{agentValues.agentInfo['watchdog_release_version']}</Code>
                 </Tooltip>
               </Group>
             </>

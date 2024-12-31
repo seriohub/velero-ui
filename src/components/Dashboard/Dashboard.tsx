@@ -5,7 +5,6 @@ import React, { useEffect, useState } from 'react';
 import { Stack, Loader, Center, ScrollArea, SimpleGrid, Grid } from '@mantine/core';
 
 import { IconClock, IconDeviceFloppy, IconRestore, IconCalendarEvent } from '@tabler/icons-react';
-import { useViewportSize } from '@mantine/hooks';
 
 import { StatsSegments } from './items/StatsSegments';
 import { UnscheduledNamespaces } from './items/UnscheduledNamspaces';

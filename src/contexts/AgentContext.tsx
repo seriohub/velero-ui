@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 import { AgentApiConfig } from '@/hooks/context/useAgentConfig';
 
 interface AgentStatus {
@@ -7,6 +7,7 @@ interface AgentStatus {
   isAgentAvailable: Boolean | undefined;
   reload: number;
   agentInfo: any;
+  agentConfig: any;
 }
 interface AgentStatusContextProps extends AgentStatus {
   setAgents: React.Dispatch<React.SetStateAction<Array<AgentApiConfig> | null>>;
@@ -14,6 +15,7 @@ interface AgentStatusContextProps extends AgentStatus {
   setIsAgentAvailable: React.Dispatch<React.SetStateAction<Boolean | undefined>>;
   reloadAgents: React.Dispatch<React.SetStateAction<number>>;
   setAgentInfo: React.Dispatch<React.SetStateAction<Array<any>>>;
+  setAgentConfig: React.Dispatch<React.SetStateAction<Array<any>>>;
 }
 
 const AgentStatusContext = createContext<AgentStatusContextProps | undefined>(undefined);
@@ -24,6 +26,7 @@ export const AgentProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const [isAgentAvailable, setIsAgentAvailable] = useState<Boolean | undefined>(undefined);
   const [reload, reloadAgents] = useState<number>(1);
   const [agentInfo, setAgentInfo] = useState<any>([]);
+  const [agentConfig, setAgentConfig] = useState<any>([]);
 
   return (
     <AgentStatusContext.Provider
@@ -33,11 +36,13 @@ export const AgentProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         isAgentAvailable,
         reload,
         agentInfo,
+        agentConfig,
         setAgents,
         setCurrentAgent,
         setIsAgentAvailable,
         reloadAgents,
         setAgentInfo,
+        setAgentConfig,
       }}
     >
       {children}

@@ -1,7 +1,4 @@
-import { useEffect, useState } from 'react';
-import { Menu, ColorPicker, Group, Text, ActionIcon, Box } from '@mantine/core';
-import { IconColorPicker } from '@tabler/icons-react';
-import { useAppStatus } from '@/contexts/AppContext';
+import { ColorPicker, Text, Box } from '@mantine/core';
 import { useUIStatus } from '@/contexts/UIContext';
 
 const swatchesWithNames = [

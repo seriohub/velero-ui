@@ -26,11 +26,12 @@ import VeleroResourceStatusBadge from '../VeleroResourceStatusBadge';
 
 const PAGE_SIZES = [10, 15, 20];
 
-interface BackupDataProps {
+/*interface BackupDataProps {
   limit: number;
-}
+}*/
 
-export function BackupData({ limit = -1 }: BackupDataProps) {
+//export function BackupData({ limit = -1 }: BackupDataProps) {
+  export function BackupData() {
   const { data, getBackups, fetching } = useBackups();
   const [items, setItems] = useState<Record<string, any>>([]);
   const [reload, setReload] = useState(1);
@@ -97,11 +98,11 @@ export function BackupData({ limit = -1 }: BackupDataProps) {
     // if (process.env.NODE_ENV === 'development')
     //  console.log(`%cuseEffect 370 has been called`, `color: green; font-weight: bold;`);
     if (data !== undefined) {
-      if (limit === -1) {
+      //if (limit === -1) {
         setItems(data.payload);
-      } else {
-        setItems(data.payload.slice(0, limit));
-      }
+      //} else {
+      //  setItems(data.payload.slice(0, limit));
+      //}
     } else setItems([]);
   }, [data]);
 
@@ -302,7 +303,7 @@ export function BackupData({ limit = -1 }: BackupDataProps) {
               accessor: 'status.expiration',
               title: 'Expires in',
               sortable: true,
-              render: ({ status }) => (
+              render: ({ status }: any) => (
                 <>
                   <ExpireIn expiration={status.expiration} />
                 </>
@@ -312,7 +313,7 @@ export function BackupData({ limit = -1 }: BackupDataProps) {
             },
             {
               accessor: 'metadata.labels["velero.io/storage-location"]',
-              render: ({ metadata }) => (
+              render: ({ metadata }: any) => (
                 <>{metadata.labels && metadata.labels['velero.io/storage-location']}</>
               ),
               title: 'Storage Location',

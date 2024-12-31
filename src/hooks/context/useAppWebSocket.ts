@@ -57,7 +57,8 @@ export const useAppWebSocket = ({ addSocketHistory = null }: UseAppWebSocketPara
         if (process.env.NODE_ENV === 'development')
           console.log('Set server and agent not available');
         if (event?.code == 1001) {
-          logout();
+          console.log("close", event?.code)
+          // logout();
         }
       },
     },
@@ -81,8 +82,8 @@ export const useAppWebSocket = ({ addSocketHistory = null }: UseAppWebSocketPara
         if (response['response_type'] == 'agent_alive') {
           if (agentValues?.currentAgent?.name == response['agent_name'] && response['is_alive']) {
             agentValues.setIsAgentAvailable(true);
-            if (process.env.NODE_ENV === 'development')
-              console.log(`${response['agent_name']} available`);
+            // if (process.env.NODE_ENV === 'development')
+            // console.log(`${response['agent_name']} available`);
           }
           if (agentValues.currentAgent?.name == response['agent_name'] && !response['is_alive']) {
             agentValues.setIsAgentAvailable(false);

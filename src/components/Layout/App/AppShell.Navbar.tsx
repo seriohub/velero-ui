@@ -50,7 +50,7 @@ const data = [
   { link: '/sc-mapping', label: 'SC mapping', icon: IconLink },
 ];
 
-const natsLink = [{ link: '/nats', label: 'Nats', icon: IconAffiliate }];
+const natsLink = [{ link: '/settings/nats', label: 'Nats', icon: IconAffiliate }];
 const homeLink = [{ link: '/home', label: 'Home', icon: IconHome }];
 
 interface NavItem {
@@ -352,7 +352,7 @@ export function AppShellNavbar({ opened, toggle }: any) {
                         : classesSimple.link
                     }
                     key="security"
-                    active={'/security' === pathname || undefined}
+                    active={'/system/security' === pathname || undefined}
                     label="Security"
                     leftSection={
                       <IconInfoCircle
@@ -367,7 +367,7 @@ export function AppShellNavbar({ opened, toggle }: any) {
                     }
                     onClick={(event) => {
                       event.preventDefault();
-                      router.push('/security');
+                      router.push('/system//security');
                     }}
                     //variant="filled"
                     // autoContrast
@@ -386,7 +386,7 @@ export function AppShellNavbar({ opened, toggle }: any) {
                         : classesSimple.link
                     }
                     key="core"
-                    active={'/core' === pathname || undefined}
+                    active={'/system/core' === pathname || undefined}
                     label="Core"
                     disabled={true}
                     leftSection={
@@ -402,7 +402,7 @@ export function AppShellNavbar({ opened, toggle }: any) {
                     }
                     onClick={(event) => {
                       event.preventDefault();
-                      router.push('/agent');
+                      router.push('/system/core');
                     }}
                     //variant="filled"
                     // autoContrast
@@ -421,7 +421,7 @@ export function AppShellNavbar({ opened, toggle }: any) {
                         : classesSimple.link
                     }
                     key="agent"
-                    active={'/agent' === pathname || undefined}
+                    active={'/system/agent' === pathname || undefined}
                     label="Agent"
                     leftSection={
                       <IconSpy
@@ -436,7 +436,7 @@ export function AppShellNavbar({ opened, toggle }: any) {
                     }
                     onClick={(event) => {
                       event.preventDefault();
-                      router.push('/agent');
+                      router.push('/system/agent');
                     }}
                     //variant="filled"
                     // autoContrast

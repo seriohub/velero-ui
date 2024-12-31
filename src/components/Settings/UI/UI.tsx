@@ -1,14 +1,14 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
-import { ScrollArea, Space, Stack, Table } from '@mantine/core';
+import { ScrollArea, Stack, Table } from '@mantine/core';
 
 import { env } from 'next-runtime-env';
 
 import { useServerStatus } from '@/contexts/ServerContext';
 import { useAgentStatus } from '@/contexts/AgentContext';
-import { useAgentConfiguration } from '@/api/Agent/useAgentConfiguration';
+
 import Toolbar from '@/components/Toolbar';
 import RefreshDatatable from '@/components/Actions/ToolbarActionIcons/RefreshDatatable';
 
@@ -16,15 +16,14 @@ export function UI() {
   const serverValues = useServerStatus();
   const agentValues = useAgentStatus();
 
-  const { data: configuration, getAgentConfiguration, fetching } = useAgentConfiguration();
   const [reload, setReload] = useState(1);
-  const [rowApiConfiguration, setRowApiConfiguration] = useState<React.ReactNode[]>([]);
+  //const [rowApiConfiguration, setRowApiConfiguration] = useState<React.ReactNode[]>([]);
 
-  useEffect(() => {
+  /*useEffect(() => {
     // if (process.env.NODE_ENV === 'development')
     //  console.log(`%cuseEffect 490 has been called`, `color: green; font-weight: bold;`);
     if (agentValues.isAgentAvailable) getAgentConfiguration();
-  }, [reload, agentValues.isAgentAvailable]);
+  }, [reload, agentValues.isAgentAvailable]);*/
 
   const uiConfiguration = [
     {
@@ -48,33 +47,28 @@ export function UI() {
     </Table.Tr>
   ));
 
-  useEffect(() => {
+  /*useEffect(() => {
     // if (process.env.NODE_ENV === 'development')
     //  console.log(`%cuseEffect 500 has been called`, `color: green; font-weight: bold;`);
-    if (configuration !== undefined) {
-      const rows = Object.keys(configuration?.payload).map((key) => (
+    //if (configuration !== undefined) {
+      const rows = Object.keys(agentValues.agentConfig).map((key) => (
         <Table.Tr key={key}>
           <Table.Td>{key}</Table.Td>
-          <Table.Td>{configuration?.payload[key]}</Table.Td>
+          <Table.Td>{agentValues.agentConfig[key]}</Table.Td>
         </Table.Tr>
       ));
 
       setRowApiConfiguration(rows);
-    }
-  }, [configuration]);
+    //}
+  }, [agentValues.agentConfig]);*/
 
   return (
     <>
-      
-        <Stack h="100%" gap={0} p={5}>
-          <Toolbar
-            title="Backup"
-            breadcrumbItem={{ name: 'API', href: '/api-config' }}
-          >
-            <RefreshDatatable setReload={setReload} reload={reload} />
-          </Toolbar>
-          <ScrollArea p={0} style={{ height: '100%' }} offsetScrollbars>
-          
+      <Stack h="100%" gap={0} p={5}>
+        <Toolbar title="Backup" breadcrumbItem={{ name: 'API', href: '/api-config' }}>
+          <RefreshDatatable setReload={setReload} reload={reload} />
+        </Toolbar>
+        <ScrollArea p={0} style={{ height: '100%' }} offsetScrollbars>
           <Table striped highlightOnHover verticalSpacing={0}>
             <Table.Thead>
               <Table.Tr>
@@ -84,9 +78,8 @@ export function UI() {
             </Table.Thead>
             <Table.Tbody>{rowUiConfiguration}</Table.Tbody>
           </Table>
-          </ScrollArea>
-        </Stack>
-      
+        </ScrollArea>
+      </Stack>
     </>
   );
 }

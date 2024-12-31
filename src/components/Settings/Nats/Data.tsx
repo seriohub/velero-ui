@@ -38,7 +38,7 @@ export function Nats() {
   useEffect(() => {
     //if (process.env.NODE_ENV === 'development')
     //  console.log(`%cuseEffect 1250 has been called`, `color: green; font-weight: bold;`);
-    
+
     if (data !== undefined) {
       setItems(data.payload);
     } else setItems([]);
@@ -69,7 +69,7 @@ export function Nats() {
   return (
     <>
       <Stack h="100%" gap={0} p={5}>
-        <Toolbar title="Nats connections">
+        <Toolbar title="Nats connections" breadcrumbItem={{ name: 'Nats Connections', href: '/settings/nats' }}>
           <RefreshDatatable setReload={setReload} reload={reload} />
         </Toolbar>
 
