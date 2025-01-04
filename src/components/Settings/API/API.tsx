@@ -35,7 +35,7 @@ export function API() {
 
   return (
     <Stack h="100%" gap={0} p={5}>
-      <Toolbar title="Backup" breadcrumbItem={{ name: 'API', href: '/api-config' }}>
+      <Toolbar title="Backup" breadcrumbItem={{ name: 'API', href: '/settings/api' }}>
         <RefreshDatatable setReload={setReload} reload={reload} />
       </Toolbar>
       <ScrollArea p={0} style={{ height: '100%' }} offsetScrollbars>

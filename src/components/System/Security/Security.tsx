@@ -1,7 +1,7 @@
 'use client';
 
 import { ScrollArea, Stack, Table } from '@mantine/core';
-
+import { env } from 'next-runtime-env';
 import Toolbar from '@/components/Toolbar';
 import RefreshDatatable from '@/components/Actions/ToolbarActionIcons/RefreshDatatable';
 
@@ -30,12 +30,12 @@ export function Security() {
     {
       component: 'UI',
       description: 'Logger enabled',
-      value: process.env.NEXT_PUBLIC_LOGGER_ENABLED || 'false',
+      value: env('NEXT_PUBLIC_LOGGER_ENABLED')?.toLocaleLowerCase() === 'true' || 'false',
       status: (
         <TableStatusItem
           label="Logger Enabled"
-          value={`${process.env.NEXT_PUBLIC_LOGGER_ENABLED}`}
-          ok={process.env.NEXT_PUBLIC_LOGGER_ENABLED?.toLocaleLowerCase() !== 'true'}
+          value={`${env('NEXT_PUBLIC_LOGGER_ENABLED')}`}
+          ok={env('NEXT_PUBLIC_LOGGER_ENABLED')?.toLocaleLowerCase() !== 'true'}
         />
       ),
     },

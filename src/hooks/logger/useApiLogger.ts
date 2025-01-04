@@ -1,9 +1,11 @@
 import { useAppStatus } from "@/contexts/AppContext";
 import { useLoggerStatus } from "@/contexts/LoggerContext";
+import { env } from 'next-runtime-env';
 
 export function useApiLogger() {
     const appValues = useAppStatus();
-    const loggerEnabled = process.env.NEXT_PUBLIC_LOGGER_ENABLED === 'true';
+    // const loggerEnabled = process.env.NEXT_PUBLIC_LOGGER_ENABLED === 'true';
+    const loggerEnabled = env('NEXT_PUBLIC_LOGGER_ENABLED')?.toLocaleLowerCase() === 'true';
 
     if (!loggerEnabled) {
         return {

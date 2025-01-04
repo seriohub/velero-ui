@@ -16,6 +16,8 @@ import '@mantine/notifications/styles.layer.css';
 import 'mantine-contextmenu/styles.layer.css';
 import 'mantine-datatable/styles.layer.css';
 
+import { env } from 'next-runtime-env';
+
 import './layout.css';
 import { ServerProvider } from '@/contexts/ServerContext';
 import { AgentProvider } from '@/contexts/AgentContext';
@@ -24,7 +26,8 @@ import { UIProvider, useUIStatus } from '@/contexts/UIContext';
 import { LoggerProvider } from '@/contexts/LoggerContext';
 
 export default function RootLayout({ children }: { children: any }) {
-  const loggerEnabled = process.env.NEXT_PUBLIC_LOGGER_ENABLED === 'true';
+  // const loggerEnabled = process.env.NEXT_PUBLIC_LOGGER_ENABLED === 'true';
+  const loggerEnabled = env('NEXT_PUBLIC_LOGGER_ENABLED')?.toLocaleLowerCase() === 'true';
   console.log('loggerEnabled', loggerEnabled);
   return (
     <html lang="en">

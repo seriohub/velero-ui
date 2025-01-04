@@ -1,7 +1,7 @@
 'use client';
 
 import { useRef, useEffect, useContext } from 'react';
-
+import { env } from 'next-runtime-env';
 import {
   CopyButton,
   ActionIcon,
@@ -23,7 +23,9 @@ import InfoParamActionIcon from '../InfoApiRequest/InfoParamActionIcon';
 import { useLoggerStatus } from '@/contexts/LoggerContext';
 
 export default function InfoApiReponse() {
-  const loggerEnabled = process.env.NEXT_PUBLIC_LOGGER_ENABLED === 'true';
+  //const loggerEnabled = process.env.NEXT_PUBLIC_LOGGER_ENABLED === 'true';
+  const loggerEnabled = env('NEXT_PUBLIC_LOGGER_ENABLED')?.toLocaleLowerCase() === 'true';
+
   if (!loggerEnabled) {
     return <Text size="sm" fw={800}>Logger Disabled.</Text>
   }

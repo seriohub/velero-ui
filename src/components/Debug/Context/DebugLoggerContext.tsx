@@ -1,7 +1,10 @@
 'use client';
 
 import { useRef } from 'react';
-import { ScrollArea, Code, Box, Text } from '@mantine/core';
+import { ScrollArea, Code, Text } from '@mantine/core';
+
+import { env } from 'next-runtime-env';
+
 import { DebInfoContextJson } from '../DebContextJson';
 
 import { useLoggerStatus } from '@/contexts/LoggerContext';
@@ -13,7 +16,8 @@ interface DebUIContextProps {
 }
 
 export default function DebugLoggerContext(props: DebUIContextProps) {
-  const loggerEnabled = process.env.NEXT_PUBLIC_LOGGER_ENABLED === 'true';
+  //const loggerEnabled = process.env.NEXT_PUBLIC_LOGGER_ENABLED === 'true';
+  const loggerEnabled = env('NEXT_PUBLIC_LOGGER_ENABLED')?.toLocaleLowerCase() === 'true';
 
   if (!loggerEnabled) {
     return (
