@@ -33,7 +33,7 @@ export function Agent() {
             apiURL={apiURL}
             apiArch={apiArch}
             origins={origins}
-            k8sHealth={origins}
+            k8sHealth={k8sHealth}
             stateManager={stateManager}
           />
         </ScrollArea>

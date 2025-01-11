@@ -18,6 +18,7 @@ export const DiagnosticAgentInfoData = ({
   k8sHealth,
   stateManager,
 }: any) => {
+  console.log("k8sHealth",k8sHealth)
   //const { uiURL, apiURL, apiArch, origins, k8sHealth, stateManager } = useDiagnosticAgent();
 
   const serverValues = useServerStatus();
