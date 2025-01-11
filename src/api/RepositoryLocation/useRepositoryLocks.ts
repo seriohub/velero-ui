@@ -9,7 +9,7 @@ export const useRepositoryLocks = () => {
             // Execute the API call with the generic method
             await getData({
                 url: '/v1/repo/locks/get',
-                param: `repository_url=${repositoryUrl}`,
+                params: `repository_url=${repositoryUrl}`,
             });
 
             // This code will be executed only in case of success

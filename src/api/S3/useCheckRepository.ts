@@ -9,7 +9,7 @@ export const useCheckRepository = () => {
             // Execute the API call with the generic method
             await getData({
                 url: '/v1/repo/size/get',
-                param: `repository_url=${repositoryURL}&backup_storage_location=${backupStorageLocation}&repository_name=${repositoryName}&repository_type=${repositoryType}&volume_namespace=${volumeNamespace}`
+                params: `repository_url=${repositoryURL}&backup_storage_location=${backupStorageLocation}&repository_name=${repositoryName}&repository_type=${repositoryType}&volume_namespace=${volumeNamespace}`
             });
 
             // This code will be executed only in case of success

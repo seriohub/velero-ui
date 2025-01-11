@@ -36,17 +36,17 @@ export function Logs({ items = [], fetching }: LogsProps) {
   }, [items]);
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 580 has been called`, `color: green; font-weight: bold;`)
+    // if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 580 has been called`, `color: green; font-weight: bold;`)
     setDataFilter(items);
   }, []);
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 590 has been called`, `color: green; font-weight: bold;`)
+    // if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 590 has been called`, `color: green; font-weight: bold;`)
     setDataFilter(items);
   }, [items]);
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 600 has been called`, `color: green; font-weight: bold;`)
+    // if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 600 has been called`, `color: green; font-weight: bold;`)
     const data_sorted = sortBy(items, sortStatus.columnAccessor);
 
     const data_filter = data_sorted.filter(({ level }: any) => {

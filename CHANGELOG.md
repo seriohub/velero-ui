@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 
 ***
 
+## [v0.1.19] - 2025-01-11
+
+- Improved code maintainability
+- Enhanced UI usability
+- Improved contexts
+- Improved logger
+- Improved check for new versions available
+
 ## [v0.1.18] - 2024-12-15
 
 - Improved code maintainability
@@ -97,6 +105,16 @@ All notable changes to this project will be documented in this file.
 - 🎉 first release!
 
 ***
+
+[v0.1.19] : [https://github.com/seriohub/velero-ui/releases/tag/v0.1.19](https://github.com/seriohub/velero-ui/releases/tag/v0.1.19)
+
+[v0.1.18] : [https://github.com/seriohub/velero-ui/releases/tag/v0.1.18](https://github.com/seriohub/velero-ui/releases/tag/v0.1.18)
+
+[v0.1.17] : [https://github.com/seriohub/velero-ui/releases/tag/v0.1.17](https://github.com/seriohub/velero-ui/releases/tag/v0.1.17)
+
+[v0.1.16] : [https://github.com/seriohub/velero-ui/releases/tag/v0.1.16](https://github.com/seriohub/velero-ui/releases/tag/v0.1.16)
+
+[v0.1.15] : [https://github.com/seriohub/velero-ui/releases/tag/v0.1.15](https://github.com/seriohub/velero-ui/releases/tag/v0.1.15)
 
 [v0.1.14] : [https://github.com/seriohub/velero-ui/releases/tag/v0.1.14](https://github.com/seriohub/velero-ui/releases/tag/v0.1.14)
 

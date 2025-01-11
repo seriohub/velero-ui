@@ -12,9 +12,10 @@ import RefreshDatatable from '../../Actions/ToolbarActionIcons/RefreshDatatable'
 import DetailActionIcon from '../../Actions/DatatableActionsIcons/DetailActionIcon';
 import Toolbar from '../../Toolbar';
 import CredentialActionIcon from '../../Actions/DatatableActionsIcons/CredentialActionIcon';
-import { useAgentStatus } from '@/contexts/AgentStatusContext';
+import { useAgentStatus } from '@/contexts/AgentContext';
 import { DataFetchedInfo } from '../../DataFetchedInfo';
 import { useBackupLocation } from '@/api/BackupLocation/useBackupLocation';
+import VeleroResourceStatusBadge from '../VeleroResourceStatusBadge';
 
 const PAGE_SIZES = [5];
 
@@ -35,15 +36,14 @@ export function BackupLocation() {
   const [records, setRecords] = useState(items.slice(0, pageSize));
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development')
-      console.log(`%cuseEffect 430 has been called`, `color: green; font-weight: bold;`);
-    if (agentValues.isAgentAvailable && reload>1)
-      getBackupLocation(true);
+    // if (process.env.NODE_ENV === 'development')
+    //  console.log(`%cuseEffect 430 has been called`, `color: green; font-weight: bold;`);
+    if (agentValues.isAgentAvailable && reload > 1) getBackupLocation(true);
   }, [reload]);
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development')
-      console.log(`%cuseEffect 430 has been called`, `color: green; font-weight: bold;`);
+    // if (process.env.NODE_ENV === 'development')
+    //  console.log(`%cuseEffect 430 has been called`, `color: green; font-weight: bold;`);
     if (agentValues.isAgentAvailable) getBackupLocation();
   }, [agentValues.isAgentAvailable]);
 
@@ -52,16 +52,16 @@ export function BackupLocation() {
   //}, []);
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development')
-      console.log(`%cuseEffect 440 has been called`, `color: green; font-weight: bold;`);
+    // if (process.env.NODE_ENV === 'development')
+    //  console.log(`%cuseEffect 440 has been called`, `color: green; font-weight: bold;`);
     if (data !== undefined) {
       setItems(data.payload);
     } else setItems([]);
   }, [data]);
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development')
-      console.log(`%cuseEffect 450 has been called`, `color: green; font-weight: bold;`);
+    // if (process.env.NODE_ENV === 'development')
+    //  console.log(`%cuseEffect 450 has been called`, `color: green; font-weight: bold;`);
     const from = (page - 1) * pageSize;
     const to = from + pageSize;
     const data_sorted = sortBy(items, sortStatus.columnAccessor);
@@ -83,7 +83,10 @@ export function BackupLocation() {
   return (
     <>
       <Stack h="100%" gap={0} p={5}>
-        <Toolbar title="Backup Location" breadcrumbItem={{name:'Backup locations', href:'/backup-locations'}}>
+        <Toolbar
+          title="Backup Storage Locations"
+          breadcrumbItem={{ name: 'Backup Storage Locations', href: '/backup-storage-locations' }}
+        >
           <RefreshDatatable setReload={setReload} reload={reload} />
         </Toolbar>
         <DataFetchedInfo metadata={data?.metadata} />
@@ -121,7 +124,14 @@ export function BackupLocation() {
               title: 'provider',
             },
             { accessor: 'spec.objectStorage.bucket', title: 'Bucket/Prefix', sortable: true },
-            { accessor: 'status.phase', title: 'Phase', sortable: true },
+            {
+              accessor: 'status.phase',
+              title: 'Phase',
+              sortable: true,
+              render: ({ status }: any) => (
+                <>{<VeleroResourceStatusBadge status={status.phase} />}</>
+              ),
+            },
             { accessor: 'spec.accessMode', title: 'Access Mode', sortable: true },
             {
               accessor: 'spec.credential.name',

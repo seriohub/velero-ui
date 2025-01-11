@@ -1,7 +1,7 @@
 'use client';
 
 import { rem, Select, Slider, Text, Box } from '@mantine/core';
-import { useUIState } from '@/contexts/UIStateContext';
+import { useUIStatus } from '@/contexts/UIContext';
 
 const marks = [
   { value: 0, label: 'xs' },
@@ -53,10 +53,10 @@ export const fontSizeMap = {
 export type FontSizeKey = keyof typeof fontSizeMap;
 
 export function UIConfigFontSize() {
-  const appValues = useUIState();
+  const appValues = useUIStatus();
 
   function setEndValue(endValue: FontSizeKey) {
-    console.log('Selected font size mapping:', fontSizeMap[endValue]);
+    // console.log('Selected font size mapping:', fontSizeMap[endValue]);
 
     // Update the app state with the selected font sizes
     appValues.setUiFontSize({ value: String(endValue), fontSize: fontSizeMap[endValue] });

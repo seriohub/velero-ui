@@ -16,7 +16,7 @@ import { DiagnosticItem } from './DIagnosticItem';
 import { useDisclosure } from '@mantine/hooks';
 
 import { useDiagnosticCore } from '@/hooks/diagnostic/useDiagnosticCore';
-import { useServerStatus } from '@/contexts/ServerStatusContext';
+import { useServerStatus } from '@/contexts/ServerContext';
 
 export const DiagnosticCoreInfo = () => {
   const { uiURL, apiURL, apiArch, origins, k8sHealth, stateManager, reload, setReload } =

@@ -2,20 +2,20 @@ import { ActionIcon, Group, Text } from '@mantine/core';
 
 import { IconApi, IconPlugConnected, IconSettings } from '@tabler/icons-react';
 
-import { useAppState } from '@/contexts/AppStateContext';
+import { useAppStatus } from '@/contexts/AppContext';
 
 interface DiagnosticLinkProps {
   ApiURL: string;
 }
 
 export const DiagnosticLink = ({ ApiURL }: DiagnosticLinkProps) => {
-  const appValues = useAppState();
+  const appValues = useAppStatus();
 
   return (
     <>
       {/* online */}
       <Group gap={8}>
-        <Group gap={0}>
+        <Group gap={2}>
           <Text size="sm">ws:</Text>
           <Text size="sm" fw={800}>
             {appValues.socketStatus}

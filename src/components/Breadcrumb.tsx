@@ -1,16 +1,7 @@
-import { useServerStatus } from '@/contexts/ServerStatusContext';
+import { useAgentStatus } from '@/contexts/AgentContext';
+import { useServerStatus } from '@/contexts/ServerContext';
 import { Breadcrumbs, Anchor, Text, Title } from '@mantine/core';
 import { useRouter } from 'next/navigation';
-
-const items = [
-  { title: 'Mantine', href: '#' },
-  { title: 'Mantine hooks', href: '#' },
-  { title: 'use-id', href: '#' },
-].map((item, index) => (
-  <Anchor href={item.href} key={index}>
-    {item.title}
-  </Anchor>
-));
 
 interface BreadCrumbItemProps {
   name: string;
@@ -19,21 +10,21 @@ interface BreadCrumbItemProps {
 
 export default function Breadcrumb(breadcrumbItem: BreadCrumbItemProps | undefined) {
   const serverValues = useServerStatus();
+  const agentValues = useAgentStatus();
   const router = useRouter();
 
-  console.log("---", breadcrumbItem)
   return (
     <>
-      {/*<Breadcrumbs>{items}</Breadcrumbs>*/}
       <Breadcrumbs separator="/" separatorMargin="md">
+        {serverValues.isCurrentServerControlPlane ? `[${serverValues.currentServer?.name}] ` : null}
         <Anchor
           onClick={() => {
             router.push('/dashboard');
           }}
           key="current_cluster"
-          size="lg"  
+          size="lg"
         >
-          {serverValues.currentServer?.name}
+          {agentValues.currentAgent?.name}
         </Anchor>
         <Text size="lg" fw={600}>
           {breadcrumbItem?.name}

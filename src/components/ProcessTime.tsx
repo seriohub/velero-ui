@@ -1,14 +1,16 @@
 import { Sparkline } from '@mantine/charts';
 
-import { useAppState } from '@/contexts/AppStateContext';
+import { useAppStatus } from '@/contexts/AppContext';
 import { Group, Text } from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
 
 export const ProcessTime = () => {
-  const appValues = useAppState();
+  const appValues = useAppStatus();
+  const isVisible = useMediaQuery(`(min-width: 74em`);
 
-  const xProcessTimeArray = appValues.apiResponse.map(
-    (item: { xProcessTime: number }) => item.xProcessTime
-  );
+  if (!isVisible) return <></>;
+
+  const xProcessTimeArray = appValues.xProcessTimer;
 
   const xProcessTimeAvg =
     xProcessTimeArray.length > 0
@@ -26,11 +28,12 @@ export const ProcessTime = () => {
           h={24}
           data={xProcessTimeArray}
           curveType="linear"
-          color="blue"
+          color="var(--mantine-primary-color-filled)"
           fillOpacity={0.6}
           strokeWidth={2}
         />
         <Text size="sm">avg: {Math.trunc(xProcessTimeAvg * 100) / 100}ms</Text>
+        <Text size="sm">last: {Math.trunc(xProcessTimeArray.slice(-1)[0] * 100) / 100}ms</Text>
       </Group>
     </>
   );

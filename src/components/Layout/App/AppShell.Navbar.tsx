@@ -2,7 +2,6 @@ import {
   Group,
   Stack,
   NavLink,
-  Divider,
   Burger,
   ScrollArea,
   Box,
@@ -22,33 +21,36 @@ import {
   IconHome,
   IconAffiliate,
   IconFolders,
+  IconDog,
+  IconSpy,
+  IconInfoCircle,
+  IconAppWindow,
 } from '@tabler/icons-react';
 
 import { useRouter, usePathname } from 'next/navigation';
 
 import { Version } from '@/components/Navlink/Version';
-import { useServerStatus } from '@/contexts/ServerStatusContext';
+import { useServerStatus } from '@/contexts/ServerContext';
 
 import { SwitchAgent } from '@/components/SwitchCluster/SwitchAgent';
 import { Logo } from '@/components/Logo';
-import { useUIState } from '@/contexts/UIStateContext';
+import { useUIStatus } from '@/contexts/UIContext';
 
 import classesSimple from './Navbar.module.css';
 import classesColored from './NavbarColored.module.css';
-import classes from './AppShell.Navbar.module.css';
 
 const data = [
   { link: '/dashboard', label: 'Dashboard', icon: IconDashboard },
   { link: '/backups', label: 'Backups', icon: IconDeviceFloppy },
   { link: '/restores', label: 'Restores', icon: IconRestore },
   { link: '/schedules', label: 'Schedules', icon: IconCalendarEvent },
-  { link: '/backup-locations', label: 'Backup Location', icon: IconServer },
-  { link: '/storage-locations', label: 'Snapshot Location', icon: IconDatabase },
+  { link: '/backup-storage-locations', label: 'Backup Locations', icon: IconServer },
+  { link: '/volume-snapshot-locations', label: 'Volume Locations', icon: IconDatabase },
   { link: '/repos', label: 'Repositories', icon: IconFolders },
   { link: '/sc-mapping', label: 'SC mapping', icon: IconLink },
 ];
 
-const natsLink = [{ link: '/nats', label: 'Nats', icon: IconAffiliate }];
+const natsLink = [{ link: '/settings/nats', label: 'Nats', icon: IconAffiliate }];
 const homeLink = [{ link: '/home', label: 'Home', icon: IconHome }];
 
 interface NavItem {
@@ -57,17 +59,9 @@ interface NavItem {
   icon: React.ElementType;
 }
 
-interface Props {
-  data: NavItem[];
-  pathname: string;
-  router: any;
-  toggle: () => void;
-  disabled: boolean;
-}
-
 export function AppShellNavbar({ opened, toggle }: any) {
   const serverValues = useServerStatus();
-  const uiValues = useUIState();
+  const uiValues = useUIStatus();
 
   const router = useRouter();
   const pathname = usePathname();
@@ -105,7 +99,6 @@ export function AppShellNavbar({ opened, toggle }: any) {
         disabled={disabled}
         leftSection={
           <item.icon
-            
             className={
               computedColorScheme == 'light'
                 ? uiValues.navbarColored
@@ -165,103 +158,297 @@ export function AppShellNavbar({ opened, toggle }: any) {
                 <Logo />
                 <Burger opened={opened} onClick={toggle} hiddenFrom="xs" size="sm" />
               </Group>
+
               {/*isCore && (*/}
-              <Box p={5} mt={5} mb={5}>
-                {home}
-              </Box>
+              <Box p={5}>{home}</Box>
               {/*)}*/}
               {/*<Divider />*/}
               {/*<SwitchCluster2 />*/}
+              {/*<SwitchCluster />*/}
               {
                 /*isCore && (*/
-                <Box p={5} mt={5} mb={5}>
-                  <>
-                    {/*<SwitchCluster />*/}
+                <Box mt={20}>
+                  <Text
+                    ml="12"
+                    size="xs"
+                    c={
+                      computedColorScheme == 'light'
+                        ? uiValues.navbarColored
+                          ? 'white'
+                          : undefined
+                        : undefined
+                    }
+                  >
+                    Kubernetes cluster
+                  </Text>
+                  <Box p={5}>
                     <SwitchAgent />
-                  </>
+                  </Box>
                 </Box>
                 /*)} */
               }
+              <Box mt={20}>
+                <Text
+                  ml="12"
+                  size="xs"
+                  c={
+                    computedColorScheme == 'light'
+                      ? uiValues.navbarColored
+                        ? 'white'
+                        : undefined
+                      : undefined
+                  }
+                >
+                  Velero resource
+                </Text>
+                <Box p={5}>{links}</Box>
+              </Box>
 
-              {links}
-
-              <Space h={20} />
               {/*isCore && (
                 <>*/}
-              <Text
-                ml="12"
-                size="sm"
-                c={
-                  computedColorScheme == 'light'
-                    ? uiValues.navbarColored
-                      ? 'white'
+              {/* settings */}
+              <Box mt={10}>
+                <Text
+                  ml="12"
+                  size="xs"
+                  c={
+                    computedColorScheme == 'light'
+                      ? uiValues.navbarColored
+                        ? 'white'
+                        : undefined
                       : undefined
-                    : undefined
-                }
-              >
-                Settings
-              </Text>
-              {nats}
-              <NavLink
-                className={
-                  computedColorScheme == 'light'
-                    ? uiValues.navbarColored
-                      ? classesColored.link
-                      : classesSimple.link
-                    : classesSimple.link
-                }
-                key="configuration"
-                active={'/configuration' === pathname || undefined}
-                label="Configuration"
-                leftSection={<IconSettings  className={
-                  computedColorScheme == 'light'
-                    ? uiValues.navbarColored
-                      ? classesColored.linkIcon
-                      : classesSimple.linkIcon
-                    : classesSimple.linkIcon
-                }/>}
-                onClick={(event) => {
-                  event.preventDefault();
-                  router.push('/configuration');
-                }}
-                //variant="filled"
-                // autoContrast
-                color={
-                  uiValues.navbarColored && computedColorScheme == 'light'
-                    ? 'var(--mantine-color-white)'
-                    : undefined
-                }
-              />
-              <NavLink
-                className={
-                  computedColorScheme == 'light'
-                    ? uiValues.navbarColored
-                      ? classesColored.link
-                      : classesSimple.link
-                    : classesSimple.link
-                }
-                key="watchdog"
-                active={'/watchdog' === pathname || undefined}
-                label="Watchdog"
-                leftSection={<IconSettings   className={
-                  computedColorScheme == 'light'
-                    ? uiValues.navbarColored
-                      ? classesColored.linkIcon
-                      : classesSimple.linkIcon
-                    : classesSimple.linkIcon
-                }/>}
-                onClick={(event) => {
-                  event.preventDefault();
-                  router.push('/watchdog');
-                }}
-                //variant="filled"
-                // autoContrast
-                color={
-                  uiValues.navbarColored && computedColorScheme == 'light'
-                    ? 'var(--mantine-color-white)'
-                    : undefined
-                }
-              />
+                  }
+                >
+                  Settings
+                </Text>
+                <Box p={5} mt={0}>
+                  {nats}
+                  <NavLink
+                    className={
+                      computedColorScheme == 'light'
+                        ? uiValues.navbarColored
+                          ? classesColored.link
+                          : classesSimple.link
+                        : classesSimple.link
+                    }
+                    key="api-settings"
+                    active={'/settings/api' === pathname || undefined}
+                    label="API"
+                    leftSection={
+                      <IconSettings
+                        className={
+                          computedColorScheme == 'light'
+                            ? uiValues.navbarColored
+                              ? classesColored.linkIcon
+                              : classesSimple.linkIcon
+                            : classesSimple.linkIcon
+                        }
+                      />
+                    }
+                    onClick={(event) => {
+                      event.preventDefault();
+                      router.push('/settings/api');
+                    }}
+                    //variant="filled"
+                    // autoContrast
+                    color={
+                      uiValues.navbarColored && computedColorScheme == 'light'
+                        ? 'var(--mantine-color-white)'
+                        : undefined
+                    }
+                  />
+                  <NavLink
+                    className={
+                      computedColorScheme == 'light'
+                        ? uiValues.navbarColored
+                          ? classesColored.link
+                          : classesSimple.link
+                        : classesSimple.link
+                    }
+                    key="watchdog"
+                    active={'/settings/watchdog' === pathname || undefined}
+                    label="Watchdog"
+                    leftSection={
+                      <IconDog
+                        className={
+                          computedColorScheme == 'light'
+                            ? uiValues.navbarColored
+                              ? classesColored.linkIcon
+                              : classesSimple.linkIcon
+                            : classesSimple.linkIcon
+                        }
+                      />
+                    }
+                    onClick={(event) => {
+                      event.preventDefault();
+                      router.push('/settings/watchdog');
+                    }}
+                    //variant="filled"
+                    // autoContrast
+                    color={
+                      uiValues.navbarColored && computedColorScheme == 'light'
+                        ? 'var(--mantine-color-white)'
+                        : undefined
+                    }
+                  />
+                  <NavLink
+                    className={
+                      computedColorScheme == 'light'
+                        ? uiValues.navbarColored
+                          ? classesColored.link
+                          : classesSimple.link
+                        : classesSimple.link
+                    }
+                    key="ui"
+                    active={'/settings/ui' === pathname || undefined}
+                    label="UI"
+                    leftSection={
+                      <IconAppWindow
+                        className={
+                          computedColorScheme == 'light'
+                            ? uiValues.navbarColored
+                              ? classesColored.linkIcon
+                              : classesSimple.linkIcon
+                            : classesSimple.linkIcon
+                        }
+                      />
+                    }
+                    onClick={(event) => {
+                      event.preventDefault();
+                      router.push('/settings/ui');
+                    }}
+                    //variant="filled"
+                    // autoContrast
+                    color={
+                      uiValues.navbarColored && computedColorScheme == 'light'
+                        ? 'var(--mantine-color-white)'
+                        : undefined
+                    }
+                  />
+                </Box>
+
+                {/* system */}
+                <Box mt={10}>
+                <Text
+                  ml="12"
+                  size="xs"
+                  c={
+                    computedColorScheme == 'light'
+                      ? uiValues.navbarColored
+                        ? 'white'
+                        : undefined
+                      : undefined
+                  }
+                >
+                  System
+                </Text>
+                <Box p={5} mt={0}>
+                  <NavLink
+                    className={
+                      computedColorScheme == 'light'
+                        ? uiValues.navbarColored
+                          ? classesColored.link
+                          : classesSimple.link
+                        : classesSimple.link
+                    }
+                    key="security"
+                    active={'/system/security' === pathname || undefined}
+                    label="Security"
+                    leftSection={
+                      <IconInfoCircle
+                        className={
+                          computedColorScheme == 'light'
+                            ? uiValues.navbarColored
+                              ? classesColored.linkIcon
+                              : classesSimple.linkIcon
+                            : classesSimple.linkIcon
+                        }
+                      />
+                    }
+                    onClick={(event) => {
+                      event.preventDefault();
+                      router.push('/system//security');
+                    }}
+                    //variant="filled"
+                    // autoContrast
+                    color={
+                      uiValues.navbarColored && computedColorScheme == 'light'
+                        ? 'var(--mantine-color-white)'
+                        : undefined
+                    }
+                  />
+                  <NavLink
+                    className={
+                      computedColorScheme == 'light'
+                        ? uiValues.navbarColored
+                          ? classesColored.link
+                          : classesSimple.link
+                        : classesSimple.link
+                    }
+                    key="core"
+                    active={'/system/core' === pathname || undefined}
+                    label="Core"
+                    disabled={true}
+                    leftSection={
+                      <IconServer
+                        className={
+                          computedColorScheme == 'light'
+                            ? uiValues.navbarColored
+                              ? classesColored.linkIcon
+                              : classesSimple.linkIcon
+                            : classesSimple.linkIcon
+                        }
+                      />
+                    }
+                    onClick={(event) => {
+                      event.preventDefault();
+                      router.push('/system/core');
+                    }}
+                    //variant="filled"
+                    // autoContrast
+                    color={
+                      uiValues.navbarColored && computedColorScheme == 'light'
+                        ? 'var(--mantine-color-white)'
+                        : undefined
+                    }
+                  />
+                  <NavLink
+                    className={
+                      computedColorScheme == 'light'
+                        ? uiValues.navbarColored
+                          ? classesColored.link
+                          : classesSimple.link
+                        : classesSimple.link
+                    }
+                    key="agent"
+                    active={'/system/agent' === pathname || undefined}
+                    label="Agent"
+                    leftSection={
+                      <IconSpy
+                        className={
+                          computedColorScheme == 'light'
+                            ? uiValues.navbarColored
+                              ? classesColored.linkIcon
+                              : classesSimple.linkIcon
+                            : classesSimple.linkIcon
+                        }
+                      />
+                    }
+                    onClick={(event) => {
+                      event.preventDefault();
+                      router.push('/system/agent');
+                    }}
+                    //variant="filled"
+                    // autoContrast
+                    color={
+                      uiValues.navbarColored && computedColorScheme == 'light'
+                        ? 'var(--mantine-color-white)'
+                        : undefined
+                    }
+                  />
+                </Box>
+                </Box>
+              </Box>
 
               {/*</>
               )}*/}

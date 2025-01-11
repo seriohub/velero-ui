@@ -16,12 +16,13 @@ import DetailActionIcon from '../../Actions/DatatableActionsIcons/DetailActionIc
 import RefreshDatatable from '../../Actions/ToolbarActionIcons/RefreshDatatable';
 import Toolbar from '../../Toolbar';
 import InfoRepository from '../../Actions/DatatableActionsIcons/InfoRepository';
-import { useAgentStatus } from '@/contexts/AgentStatusContext';
+import { useAgentStatus } from '@/contexts/AgentContext';
 import { DataFetchedInfo } from '../../DataFetchedInfo';
 import { useRepositories } from '@/api/RepositoryLocation/useRepositories';
 import { useRepositoryLocks } from '@/api/RepositoryLocation/useRepositoryLocks';
 import { useRepositoryUnlock } from '@/api/RepositoryLocation/useRepositoryUnlock';
 import { useRepositoryCheck } from '@/api/RepositoryLocation/useRepositoryCheck';
+import VeleroResourceStatusBadge from '../VeleroResourceStatusBadge';
 
 const PAGE_SIZES = [5, 10, 15, 20];
 
@@ -42,34 +43,34 @@ export function RepoLocation() {
     direction: 'asc',
   });
 
-  const [pageSize, setPageSize] = useState(PAGE_SIZES[0]);
+  const [pageSize, setPageSize] = useState(PAGE_SIZES[2]);
   const [page, setPage] = useState(1);
 
   const [records, setRecords] = useState(items.slice(0, pageSize));
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development')
-      console.log(`%cuseEffect 640 has been called`, `color: green; font-weight: bold;`);
+    // if (process.env.NODE_ENV === 'development')
+    //  console.log(`%cuseEffect 640 has been called`, `color: green; font-weight: bold;`);
     if (agentValues.isAgentAvailable && reload > 1) getRepositories(true);
   }, [reload]);
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development')
-      console.log(`%cuseEffect 640 has been called`, `color: green; font-weight: bold;`);
+    //if (process.env.NODE_ENV === 'development')
+    //  console.log(`%cuseEffect 640 has been called`, `color: green; font-weight: bold;`);
     if (agentValues.isAgentAvailable) getRepositories();
   }, [agentValues.isAgentAvailable]);
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development')
-      console.log(`%cuseEffect 650 has been called`, `color: green; font-weight: bold;`);
+    // if (process.env.NODE_ENV === 'development')
+    //  console.log(`%cuseEffect 650 has been called`, `color: green; font-weight: bold;`);
     if (data !== undefined) {
       setItems(data.payload);
     } else setItems([]);
   }, [data]);
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development')
-      console.log(`%cuseEffect 660 has been called`, `color: green; font-weight: bold;`);
+    // if (process.env.NODE_ENV === 'development')
+    //  console.log(`%cuseEffect 660 has been called`, `color: green; font-weight: bold;`);
     const from = (page - 1) * pageSize;
     const to = from + pageSize;
     const data_sorted = sortBy(items, sortStatus.columnAccessor);
@@ -95,8 +96,8 @@ export function RepoLocation() {
   );
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development')
-      console.log(`%cuseEffect 670 has been called`, `color: green; font-weight: bold;`);
+    // if (process.env.NODE_ENV === 'development')
+    //  console.log(`%cuseEffect 670 has been called`, `color: green; font-weight: bold;`);
     if (locks !== undefined) {
       setRecords(
         records.filter(function (obj) {
@@ -114,8 +115,8 @@ export function RepoLocation() {
   }, [locks]);
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development')
-      console.log(`%cuseEffect 680 has been called`, `color: green; font-weight: bold;`);
+    // if (process.env.NODE_ENV === 'development')
+    //  console.log(`%cuseEffect 680 has been called`, `color: green; font-weight: bold;`);
     if (unlock !== undefined) {
       getRepositoryLocks(Object.keys(unlock.payload)[0]);
     }
@@ -124,7 +125,7 @@ export function RepoLocation() {
   return (
     <>
       <Stack h="100%" gap={0} p={5}>
-        <Toolbar title="Repo" breadcrumbItem={{name:'Repository', href:'/repos'}}>
+        <Toolbar title="Repo" breadcrumbItem={{ name: 'Repository', href: '/repos' }}>
           <RefreshDatatable setReload={setReload} reload={reload} />
         </Toolbar>
         <DataFetchedInfo metadata={data?.metadata} />
@@ -149,26 +150,26 @@ export function RepoLocation() {
             showContextMenu([
               {
                 key: 'Check',
-                icon: <IconAnalyze size={16} />,
+                icon: <IconAnalyze />,
                 disabled: record.spec.repositoryType != 'restic',
                 onClick: () => getRepositoryCheck(record.spec.resticIdentifier),
               },
               {
                 key: 'Check if locked',
-                icon: <IconAnalyze size={16} />,
+                icon: <IconAnalyze />,
                 disabled: record.spec.repositoryType != 'restic',
                 onClick: () => getRepositoryLocks(record.spec.resticIdentifier),
               },
               {
                 key: 'Unlock',
-                icon: <IconLockOpen size={16} />,
+                icon: <IconLockOpen />,
                 disabled: record.spec.repositoryType != 'restic',
                 onClick: () => getRepositoryUnlock(record.spec.resticIdentifier),
               },
               {
                 key: 'Unlock --remove-all',
                 title: 'Unlock --remove-all',
-                icon: <IconLockOpen size={16} />,
+                icon: <IconLockOpen />,
                 disabled: record.spec.repositoryType != 'restic',
                 onClick: () => getRepositoryUnlock(record.spec.resticIdentifier, true),
               },
@@ -190,6 +191,9 @@ export function RepoLocation() {
               accessor: 'status.phase',
               title: 'Status',
               sortable: true,
+              render: ({ status }: any) => (
+                <>{<VeleroResourceStatusBadge status={status.phase} />}</>
+              ),
             },
             { accessor: 'spec.volumeNamespace', title: 'Volume Namespace', sortable: true },
             {
@@ -197,7 +201,14 @@ export function RepoLocation() {
               title: 'Backup Storage Location',
               sortable: true,
             },
-            { accessor: 'spec.repositoryType', title: 'Repository Type', sortable: true },
+            {
+              accessor: 'spec.repositoryType',
+              title: 'Repository Type',
+              sortable: true,
+              render: ({ spec }: any) => (
+                <>{<VeleroResourceStatusBadge status={spec.repositoryType} />}</>
+              ),
+            },
             { accessor: 'locks', title: 'Locks', sortable: true },
             {
               accessor: 'spec.resticIdentifier',

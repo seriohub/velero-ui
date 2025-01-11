@@ -8,12 +8,11 @@ import sortBy from 'lodash/sortBy';
 import { Center, Group, Stack } from '@mantine/core';
 import { IconClick } from '@tabler/icons-react';
 
-
 import RefreshDatatable from '../../Actions/ToolbarActionIcons/RefreshDatatable';
 import Toolbar from '../../Toolbar';
 import DetailActionIcon from '../../Actions/DatatableActionsIcons/DetailActionIcon';
 import CredentialActionIcon from '../../Actions/DatatableActionsIcons/CredentialActionIcon';
-import { useAgentStatus } from '@/contexts/AgentStatusContext';
+import { useAgentStatus } from '@/contexts/AgentContext';
 import { DataFetchedInfo } from '../../DataFetchedInfo';
 import { useSnapshotLocation } from '@/api/SnapshotLocation/useSnapshotLocation';
 
@@ -36,29 +35,29 @@ export function SnapshotLocation() {
   const [records, setRecords] = useState(items.slice(0, pageSize));
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development')
-      console.log(`%cuseEffect 800 has been called`, `color: green; font-weight: bold;`);
-    console.log('reload', reload);
+    // if (process.env.NODE_ENV === 'development')
+    //  console.log(`%cuseEffect 800 has been called`, `color: green; font-weight: bold;`);
+    // console.log('reload', reload);
     if (agentValues.isAgentAvailable && reload > 1) getSnapshotLocation(true);
   }, [reload]);
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development')
-      console.log(`%cuseEffect 801 has been called`, `color: green; font-weight: bold;`);
+    // if (process.env.NODE_ENV === 'development')
+    //  console.log(`%cuseEffect 801 has been called`, `color: green; font-weight: bold;`);
     if (agentValues.isAgentAvailable) getSnapshotLocation();
   }, [agentValues.isAgentAvailable]);
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development')
-      console.log(`%cuseEffect 810 has been called`, `color: green; font-weight: bold;`);
+    // if (process.env.NODE_ENV === 'development')
+    //  console.log(`%cuseEffect 810 has been called`, `color: green; font-weight: bold;`);
     if (data !== undefined) {
       setItems(data.payload);
     } else setItems([]);
   }, [data]);
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development')
-      console.log(`%cuseEffect 820 has been called`, `color: green; font-weight: bold;`);
+    // if (process.env.NODE_ENV === 'development')
+    //  console.log(`%cuseEffect 820 has been called`, `color: green; font-weight: bold;`);
     const from = (page - 1) * pageSize;
     const to = from + pageSize;
     const data_sorted = sortBy(items, sortStatus.columnAccessor);
@@ -80,7 +79,10 @@ export function SnapshotLocation() {
   return (
     <>
       <Stack h="100%" gap={0} p={5}>
-        <Toolbar title="Snapshot Location" breadcrumbItem={{name:'Snapshot locations', href:'/snapshot-locations'}}>
+        <Toolbar
+          title="Volume Snapshot Location"
+          breadcrumbItem={{ name: 'Volume Snapshot locations', href: '/snapshot-locations' }}
+        >
           <RefreshDatatable setReload={setReload} reload={reload} />
         </Toolbar>
         <DataFetchedInfo metadata={data?.metadata} />

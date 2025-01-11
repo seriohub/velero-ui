@@ -1,7 +1,7 @@
 'use client';
 
 import { useRef, useEffect, useContext } from 'react';
-
+import { env } from 'next-runtime-env';
 import {
   CopyButton,
   ActionIcon,
@@ -17,12 +17,22 @@ import {
 
 import { IconCopy, IconCheck } from '@tabler/icons-react';
 
-import { useAppState } from '@/contexts/AppStateContext';
+
 import InfoDataResponseIcon from './InfoDataResponseIcon';
 import InfoParamActionIcon from '../InfoApiRequest/InfoParamActionIcon';
+import { useLoggerStatus } from '@/contexts/LoggerContext';
 
 export default function InfoApiReponse() {
-  const appValues = useAppState();
+  //const loggerEnabled = process.env.NEXT_PUBLIC_LOGGER_ENABLED === 'true';
+  const loggerEnabled = env('NEXT_PUBLIC_LOGGER_ENABLED')?.toLocaleLowerCase() === 'true';
+
+  if (!loggerEnabled) {
+    return <Text size="sm" fw={800}>Logger Disabled.</Text>
+  }
+
+  const loggerValues = useLoggerStatus();
+  
+  
   const viewport = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -31,7 +41,7 @@ export default function InfoApiReponse() {
     }
   };
 
-  const commands = appValues.apiResponse.map((item: any, index: number) => (
+  const commands = loggerValues.apiResponse.map((item: any, index: number) => (
     <Group gap={5} key={index}>
       <CopyButton value={item.url} timeout={2000}>
         {({ copied, copy }) => (
@@ -74,9 +84,9 @@ export default function InfoApiReponse() {
   ));
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 510 has been called`, `color: green; font-weight: bold;`)
+    // if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 510 has been called`, `color: green; font-weight: bold;`)
     scrollToBottom();
-  }, [appValues.apiRequest]);
+  }, [loggerValues.apiRequest]);
 
   return (
     <>

@@ -31,7 +31,7 @@ export default function DescribeActionIcon({ resourceType, record }: DescribeAct
           });
         }}
       >
-        <IconClipboard size={16} />
+        <IconClipboard />
       </ActionIcon>
     </Tooltip>
   );

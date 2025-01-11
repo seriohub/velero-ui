@@ -18,9 +18,10 @@ import CreateSecheduleToolbarIcon from '../../Actions/ToolbarActionIcons/CreateS
 import EditScheduleActionIcon from '../../Actions/DatatableActionsIcons/EditScheduleActionIcon';
 import Toolbar from '../../Toolbar';
 import SchedulesHeatmapToolbarIcon from '../../Actions/ToolbarActionIcons/SchedulesHeatmap';
-import { useAgentStatus } from '@/contexts/AgentStatusContext';
+import { useAgentStatus } from '@/contexts/AgentContext';
 import { DataFetchedInfo } from '../../DataFetchedInfo';
 import { useSchedules } from '@/api/Schedule/useSchedules';
+import VeleroResourceStatusBadge from '../VeleroResourceStatusBadge';
 
 const PAGE_SIZES = [10, 15, 20];
 
@@ -41,28 +42,28 @@ export function ScheduleData() {
   const [records, setRecords] = useState(items.slice(0, pageSize));
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development')
-      console.log(`%cuseEffect 730 has been called`, `color: green; font-weight: bold;`);
+    // if (process.env.NODE_ENV === 'development')
+    //  console.log(`%cuseEffect 730 has been called`, `color: green; font-weight: bold;`);
     if (agentValues.isAgentAvailable && reload > 1) getSchedules(true);
   }, [reload]);
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development')
-      console.log(`%cuseEffect 730 has been called`, `color: green; font-weight: bold;`);
+    // if (process.env.NODE_ENV === 'development')
+    //  console.log(`%cuseEffect 730 has been called`, `color: green; font-weight: bold;`);
     if (agentValues.isAgentAvailable) getSchedules();
   }, [agentValues.isAgentAvailable]);
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development')
-      console.log(`%cuseEffect 740 has been called`, `color: green; font-weight: bold;`);
+    // if (process.env.NODE_ENV === 'development')
+    //  console.log(`%cuseEffect 740 has been called`, `color: green; font-weight: bold;`);
     if (data !== undefined) {
       setItems(data.payload);
     } else setItems([]);
   }, [data]);
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development')
-      console.log(`%cuseEffect 750 has been called`, `color: green; font-weight: bold;`);
+    // if (process.env.NODE_ENV === 'development')
+    //  console.log(`%cuseEffect 750 has been called`, `color: green; font-weight: bold;`);
     const from = (page - 1) * pageSize;
     const to = from + pageSize;
     const data_sorted = sortBy(items, sortStatus.columnAccessor);
@@ -97,7 +98,7 @@ export function ScheduleData() {
   return (
     <>
       <Stack h="100%" gap={0} p={5}>
-        <Toolbar title="Schedule" breadcrumbItem={{name:'Schedules', href:'/schedules'}}>
+        <Toolbar title="Schedule" breadcrumbItem={{ name: 'Schedules', href: '/schedules' }}>
           <SchedulesHeatmapToolbarIcon />
           <CreateSecheduleToolbarIcon setReload={setReload} reload={reload} />
           <RefreshDatatable setReload={setReload} reload={reload} />
@@ -149,14 +150,17 @@ export function ScheduleData() {
             { accessor: 'status.lastBackup', title: 'Last Backup', sortable: true },
             {
               accessor: 'status',
-              title: 'Paused',
+              title: 'Status',
               sortable: true,
-              render: (record: any) => {
+              /*render: (record: any) => {
                 if (record.spec.paused === true) {
                   return <>true</>;
                 }
                 return <>false</>;
-              },
+              },*/
+              render: ( record : any) => (
+                <>{<VeleroResourceStatusBadge status={record.spec.paused===true ? 'Paused' : 'Running'} />}</>
+              ),
             },
             {
               accessor: 'actions',

@@ -17,8 +17,8 @@ export function ResourceLogs({ resourceType, resourceName }: ResourceLogsProps) 
   const { data, getResourceLogs, error, fetching } = useResourceLogs();
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development')
-      console.log(`%cuseEffect 240 has been called`, `color: green; font-weight: bold;`);
+    // if (process.env.NODE_ENV === 'development')
+    //  console.log(`%cuseEffect 240 has been called`, `color: green; font-weight: bold;`);
     getResourceLogs(resourceType, resourceName);
   }, [resourceName]);
 

@@ -20,12 +20,11 @@ export function LoginSponsorMessage() {
   const computedColorScheme = useComputedColorScheme('light', { getInitialValueInEffect: true });
   const [init, setInit] = useState(false);
   useEffect(() => {
-    console.log('----', computedColorScheme);
     setInit(true);
   }, [computedColorScheme]);
 
   if (!init) return <></>;
-  console.log(computedColorScheme);
+
   return (
     <>
       <Paper

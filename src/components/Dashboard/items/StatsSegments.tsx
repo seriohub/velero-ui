@@ -2,7 +2,7 @@ import React from 'react';
 import { DonutChart } from '@mantine/charts';
 import { Box, Text, Group, Card, Button, CardSection } from '@mantine/core';
 import { useRouter } from 'next/navigation';
-import { useServerStatus } from '@/contexts/ServerStatusContext';
+import { useServerStatus } from '@/contexts/ServerContext';
 import { IconChevronRight } from '@tabler/icons-react';
 
 interface Segment {

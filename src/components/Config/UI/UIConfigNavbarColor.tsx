@@ -1,12 +1,12 @@
 'use client';
 
 import { rem, Select, Slider, Text, Box, Switch } from '@mantine/core';
-import { useAppState } from '@/contexts/AppStateContext';
+import { useAppStatus } from '@/contexts/AppContext';
 import { useEffect, useState } from 'react';
-import { useUIState } from '@/contexts/UIStateContext';
+import { useUIStatus } from '@/contexts/UIContext';
 
 export function UIConfigNavbarColor() {
-  const uiValues = useUIState();
+  const uiValues = useUIStatus();
 
   const [checked, setChecked] = useState(uiValues.navbarColored);
 

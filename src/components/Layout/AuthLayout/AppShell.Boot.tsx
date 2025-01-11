@@ -1,37 +1,47 @@
 'use client';
+
 import { useEffect } from 'react';
 
-import AppShellLayout from '@/components/Layout/AuthLayout/AuthShell.Layout';
+import { useServerStatus } from '@/contexts/ServerContext';
+import { useAppStatus } from '@/contexts/AppContext';
 
-import { useAppState } from '@/contexts/AppStateContext';
-
-import { useAgentApiConfigs } from '@/hooks/context/useAgentConfigs';
 import { useServerConfig } from '@/hooks/context/useServerConfig';
-import { useAppWebSocket } from '@/hooks/utils/useAppWebSocket';
+
 import { useUIConfig } from '@/hooks/context/useUIConfig';
+
+import AppShellBootConnection from './Boot/AppShell.BootConnection';
+import { SocketProvider } from '@/contexts/SocketContext';
+import AppShellLoader from '../AppShell.Loader';
 
 interface AppShellBootProps {
   children: any;
 }
 
-export default function AppShellBoot({ children }: AppShellBootProps) {
-  useServerConfig();
-  useAgentApiConfigs();
-  useAppWebSocket();
-  
 
-  const appValues = useAppState();
+export default function AppShellBoot({ children }: AppShellBootProps) {
+  const serverValues = useServerStatus();
+  const appValues = useAppStatus();
+
+  useUIConfig();
+
+  useServerConfig();
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 570 has been called`, `color: green; font-weight: bold;`)
-    if (typeof window !== 'undefined') {
-      const jwtToken = localStorage.getItem('token');
-      if (jwtToken !== null) {
-        appValues.setAuthenticated(true);
-      } else {
-        appValues.setAuthenticated(false);
-      }
+    if (serverValues.currentServer && typeof window !== 'undefined') {
+      appValues.setAppInitialized(true); // currentServer is available and widow is available
     }
-  }, []);
-  return <AppShellLayout>{children}</AppShellLayout>;
+  }, [serverValues.currentServer]);
+
+  return (
+    <>
+      {!serverValues.currentServer && (
+        <AppShellLoader description="Loading server configuration..." />
+      )}
+      {serverValues.currentServer && (
+        <SocketProvider>
+          <AppShellBootConnection>{children}</AppShellBootConnection>
+        </SocketProvider>
+      )}
+    </>
+  );
 }

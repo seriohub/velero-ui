@@ -27,7 +27,7 @@ export default function CreateBackupFromScheduleActionIcon({
           });
         }}
       >
-        <IconDeviceFloppy size={16} />
+        <IconDeviceFloppy />
       </ActionIcon>
     </Tooltip>
   );

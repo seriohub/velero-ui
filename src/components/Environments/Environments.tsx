@@ -7,9 +7,7 @@ import { Stack, Loader, Center, ScrollArea, SimpleGrid, Space } from '@mantine/c
 import { useViewportSize } from '@mantine/hooks';
 import { AgentStats } from './items/AgentStats';
 
-
-
-import { useAgentStatus } from '@/contexts/AgentStatusContext';
+import { useAgentStatus } from '@/contexts/AgentContext';
 import { useAgentStats } from '@/api/Agent/useAgentStats';
 
 import Toolbar from '../Toolbar';
@@ -24,8 +22,8 @@ export function Environments() {
   const [agentStats, setAgentStats] = useState({});
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development')
-      console.log(`%cuseEffect 1110 has been called`, `color: green; font-weight: bold;`);
+    // if (process.env.NODE_ENV === 'development')
+    //  console.log(`%cuseEffect 1110 has been called`, `color: green; font-weight: bold;`);
     if (agentValues.isAgentAvailable) {
       getAgentStats();
     }

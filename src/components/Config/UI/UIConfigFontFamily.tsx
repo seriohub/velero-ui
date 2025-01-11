@@ -12,7 +12,7 @@ import {
 } from 'next/font/google';
 import { Box, Select } from '@mantine/core';
 
-import { useUIState } from '@/contexts/UIStateContext';
+import { useUIStatus } from '@/contexts/UIContext';
 
 // Importiamo i font usando Google Fonts di Next.js
 const inter = Inter({ subsets: ['latin'] });
@@ -40,13 +40,13 @@ export const fonts = {
 export type FontKeys = keyof typeof fonts;
 
 export function UIConfigFontFamily() {
-  const appValues = useUIState();
+  const appValues = useUIStatus();
 
   function setSelectedFont(selectedFont: FontKeys) {
     const fontClass = fonts[selectedFont];
     if (fontClass) {
       appValues.setUiFontFamily({ name: selectedFont, fontFamily: fontClass });
-      console.log(`Font changed to: ${selectedFont}, class: ${fontClass}`);
+      // console.log(`Font changed to: ${selectedFont}, class: ${fontClass}`);
       localStorage.setItem('fontFamily', selectedFont);
     } else {
       console.error(`Font "${selectedFont}" not found`);

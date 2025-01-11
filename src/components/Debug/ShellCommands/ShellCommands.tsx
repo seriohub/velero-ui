@@ -15,12 +15,13 @@ import {
 } from '@mantine/core';
 import { IconCopy, IconCheck } from '@tabler/icons-react';
 /// import { useAppWebSocket } from '@/hooks/useAppWebSocket';
-import { useAppState } from '@/contexts/AppStateContext';
+import { useAppStatus } from '@/contexts/AppContext';
+import { useUserStatus } from '@/contexts/UserContext';
+import { useSocketStatus } from '@/contexts/SocketContext';
 
 export default function ShellCommands() {
-  // const { messageHistory } = useAppWebSocket();
-  const appValues = useAppState();
-
+  const socketValues = useSocketStatus();
+  const userValus = useUserStatus();
   const viewport = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -29,7 +30,7 @@ export default function ShellCommands() {
     }
   };
 
-  const commands = appValues.messagesHistory.map((item: any, index: number) => (
+  const commands = socketValues.socketHistory.map((item: any, index: number) => (
     <Group gap={0} key={index}>
       <CopyButton value={item} timeout={2000}>
         {({ copied, copy }) => (
@@ -51,9 +52,9 @@ export default function ShellCommands() {
   ));
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 875 has been called`, `color: green; font-weight: bold;`)
+    // if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 875 has been called`, `color: green; font-weight: bold;`)
     scrollToBottom();
-  }, [appValues.messagesHistory]);
+  }, [socketValues.socketHistory]);
 
   /*if (lastMessage === null || lastMessage === undefined || !('data' in lastMessage)) {
     return <></>;

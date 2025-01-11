@@ -2,8 +2,9 @@
 
 import { Text, Group, Divider, Box, Title } from '@mantine/core';
 import Breadcrumb from './Breadcrumb';
-import { useUserCtx } from '@/contexts/UserContext';
-import { useServerStatus } from '@/contexts/ServerStatusContext';
+import { useUserStatus } from '@/contexts/UserContext';
+import { useServerStatus } from '@/contexts/ServerContext';
+import { useAgentStatus } from '@/contexts/AgentContext';
 
 interface BreadCrumbItemProps {
   name: string;
@@ -19,13 +20,14 @@ interface ToolbarProps {
 
 export default function Toolbar({ title, children, breadcrumbItem, fetching }: ToolbarProps) {
   const serverValues = useServerStatus();
-  const userValues = useUserCtx();
+  const agentValues = useAgentStatus();
+  const userValues = useUserStatus();
   return (
     <Box mt={5} mb={15}>
       <Group justify="space-between">
         {title == 'Dashboard' && (
           <Title order={2} fw={800}>
-            {serverValues.currentServer?.name} dashboard
+            {serverValues.isCurrentServerControlPlane ? `[${serverValues.currentServer?.name}] ` : ''}{agentValues.currentAgent?.name} dashboard
           </Title>
         )}
       </Group>

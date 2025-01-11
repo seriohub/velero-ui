@@ -9,7 +9,7 @@ export const useRestores = () => {
             // Execute the API call with the generic method
             await getData({
                 url: '/v1/restore/get',
-                param: `forced=${forced}`,
+                params: `forced=${forced}`,
             });
 
             // This code will be executed only in case of success

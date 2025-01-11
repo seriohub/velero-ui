@@ -2,18 +2,19 @@ import { Accordion, Tabs } from '@mantine/core';
 
 import { IconTerminal2, IconPrompt, IconApi, IconBell } from '@tabler/icons-react';
 
-import { useAppState } from '@/contexts/AppStateContext';
+import { useAppStatus } from '@/contexts/AppContext';
 import ShellCommands from '@/components/Debug/ShellCommands/ShellCommands';
 import InfoApiRequest from '@/components/Debug/InfoApiRequest/InfoApiRequest';
 import InfoApiReponse from '@/components/Debug/InfoApiResponse/InfoApiResponse';
 import InfoNotification from '@/components/Debug/InfoNotification/InfoNotification';
+import { useUIStatus } from '@/contexts/UIContext';
 
 export function AppShellMainFooter() {
-  const appValues = useAppState();
+  const uiValues = useUIStatus();
 
   return (
     <>
-      {appValues.showBottomDebugBar && (
+      {uiValues.showBottomDebugBar && (
         <Accordion.Item key="Debug" value="Debug" visibleFrom="xl">
           <Accordion.Control icon={<IconPrompt />}>Debug</Accordion.Control>
           <Accordion.Panel>
@@ -29,7 +30,7 @@ export function AppShellMainFooter() {
                   Response
                 </Tabs.Tab>
                 <Tabs.Tab value="Notification" leftSection={<IconBell />}>
-                  Notification
+                  User Notification
                 </Tabs.Tab>
               </Tabs.List>
 

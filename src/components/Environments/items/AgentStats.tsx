@@ -12,7 +12,7 @@ import {
   IconServer,
 } from '@tabler/icons-react';
 import styles from './AgentStats.module.css';
-import { useAgentStatus } from '@/contexts/AgentStatusContext';
+import { useAgentStatus } from '@/contexts/AgentContext';
 import { useRouter } from 'next/navigation';
 import ExpireIn from '@/components/Velero/Backup/ExpireIn';
 
@@ -33,7 +33,7 @@ export function AgentStats({ name, data }: AgentStatsProps) {
     if (agentValues.agents && agentValues.agents[index] !== agentValues.currentAgent) {
       router.push('/dashboard');
       agentValues.setCurrentAgent(agentValues.agents[index]);
-      //agentValues.setIsAgentAvailable(undefined);
+      agentValues.setIsAgentAvailable(undefined);
     }
   }
 
@@ -66,7 +66,7 @@ export function AgentStats({ name, data }: AgentStatsProps) {
                 <Group>
                   <Group gap={2}>
                     <div>
-                      <Text fw={800}>{data?.stats?.backups?.stats?.all?.stats[0].count}</Text>
+                      <Text fw={800}>{data?.stats?.backups?.stats?.all?.stats[0]?.count}</Text>
                       <Text fz="xs" c="dimmed">
                         Completed
                       </Text>
@@ -74,7 +74,7 @@ export function AgentStats({ name, data }: AgentStatsProps) {
                   </Group>
                   <Group gap={2}>
                     <div>
-                      <Text fw={800}>{data?.stats?.backups?.stats?.all?.stats[1].count}</Text>
+                      <Text fw={800}>{data?.stats?.backups?.stats?.all?.stats[1]?.count}</Text>
                       <Text fz="xs" c="dimmed">
                         Partial Failed
                       </Text>
@@ -82,7 +82,7 @@ export function AgentStats({ name, data }: AgentStatsProps) {
                   </Group>
                   <Group gap={2}>
                     <div>
-                      <Text fw={800}>{data?.stats?.backups?.stats?.all?.stats[2].count}</Text>
+                      <Text fw={800}>{data?.stats?.backups?.stats?.all?.stats[2]?.count}</Text>
                       <Text fz="xs" c="dimmed">
                         Failed
                       </Text>
@@ -98,7 +98,7 @@ export function AgentStats({ name, data }: AgentStatsProps) {
                 <Group>
                   <Group gap={2}>
                     <div>
-                      <Text fw={800}>{data?.stats?.backups?.stats?.latest?.stats[0].count}</Text>
+                      <Text fw={800}>{data?.stats?.backups?.stats?.latest?.stats[0]?.count}</Text>
                       <Text fz="xs" c="dimmed">
                         Completed
                       </Text>
@@ -106,7 +106,7 @@ export function AgentStats({ name, data }: AgentStatsProps) {
                   </Group>
                   <Group gap={2}>
                     <div>
-                      <Text fw={800}>{data?.stats?.backups?.stats?.latest?.stats[1].count}</Text>
+                      <Text fw={800}>{data?.stats?.backups?.stats?.latest?.stats[1]?.count}</Text>
                       <Text fz="xs" c="dimmed">
                         Partial Failed
                       </Text>
@@ -114,7 +114,7 @@ export function AgentStats({ name, data }: AgentStatsProps) {
                   </Group>
                   <Group gap={2}>
                     <div>
-                      <Text fw={800}>{data?.stats?.backups?.stats?.latest?.stats[2].count}</Text>
+                      <Text fw={800}>{data?.stats?.backups?.stats?.latest?.stats[2]?.count}</Text>
                       <Text fz="xs" c="dimmed">
                         Failed
                       </Text>
@@ -130,7 +130,7 @@ export function AgentStats({ name, data }: AgentStatsProps) {
                 <Group>
                   <Group gap={2}>
                     <div>
-                      <Text fw={800}>{data?.stats?.restores?.all?.stats[0].count}</Text>
+                      <Text fw={800}>{data?.stats?.restores?.all?.stats[0]?.count}</Text>
                       <Text fz="xs" c="dimmed">
                         Completed
                       </Text>
@@ -138,7 +138,7 @@ export function AgentStats({ name, data }: AgentStatsProps) {
                   </Group>
                   <Group gap={2}>
                     <div>
-                      <Text fw={800}>{data?.stats?.restores?.all?.stats[1].count}</Text>
+                      <Text fw={800}>{data?.stats?.restores?.all?.stats[1]?.count}</Text>
                       <Text fz="xs" c="dimmed">
                         Partial Failed
                       </Text>
@@ -146,7 +146,7 @@ export function AgentStats({ name, data }: AgentStatsProps) {
                   </Group>
                   <Group gap={2}>
                     <div>
-                      <Text fw={800}>{data?.stats?.restores?.all?.stats[2].count}</Text>
+                      <Text fw={800}>{data?.stats?.restores?.all?.stats[2]?.count}</Text>
                       <Text fz="xs" c="dimmed">
                         Failed
                       </Text>
@@ -170,7 +170,7 @@ export function AgentStats({ name, data }: AgentStatsProps) {
                   </Group>
                   <Group gap={2}>
                     <div>
-                      <Text fw={500}>{data?.stats?.schedules?.all?.stats[0].count}</Text>
+                      <Text fw={500}>{data?.stats?.schedules?.all?.stats[0]?.count}</Text>
                       <Text fz="xs" c="dimmed">
                         Unpaused
                       </Text>
@@ -178,7 +178,7 @@ export function AgentStats({ name, data }: AgentStatsProps) {
                   </Group>
                   <Group gap={2}>
                     <div>
-                      <Text fw={500}>{data?.stats?.schedules?.all?.stats[1].count}</Text>
+                      <Text fw={500}>{data?.stats?.schedules?.all?.stats[1]?.count}</Text>
                       <Text fz="xs" c="dimmed">
                         Paused
                       </Text>
@@ -215,7 +215,7 @@ export function AgentStats({ name, data }: AgentStatsProps) {
                   </Text>
                 </Group>
               </Group>
-              <Text size="sm" fw={500} c='green'>
+              <Text size="sm" fw={500} c="green">
                 <ExpireIn expiration={data?.health?.timestamp} />
               </Text>
             </Group>

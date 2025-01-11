@@ -42,7 +42,7 @@ export default function RestoreActionIcon({
           });
         }}
       >
-        <IconRestore size={16} color="green" />
+        <IconRestore color="green" />
       </ActionIcon>
     </Tooltip>
   );

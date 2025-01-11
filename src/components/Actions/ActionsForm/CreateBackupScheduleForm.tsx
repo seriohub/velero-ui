@@ -47,7 +47,7 @@ export default function CreateBackupScheduleForm({
 
   const [cronError, setCronError] = useState(false);
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 160 has been called`, `color: green; font-weight: bold;`)
+    // if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 160 has been called`, `color: green; font-weight: bold;`)
     if (resource === 'schedule') {
       form.setFieldValue('schedule', value);
     }
@@ -172,14 +172,14 @@ export default function CreateBackupScheduleForm({
               <Input {...form.getInputProps('selector')} />
             </Input.Wrapper>
             <Select
-              label="Backup Location"
+              label="Backup Storage Location"
               placeholder=""
               data={backupLocation}
               {...form.getInputProps('backupLocation')}
             />
 
             <MultiSelect
-              label="Snapshot Location"
+              label="Volume Snapshot Location"
               placeholder=""
               data={snapshotLocation}
               {...form.getInputProps('snapshotLocation')}

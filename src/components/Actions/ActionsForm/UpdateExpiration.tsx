@@ -26,14 +26,14 @@ export function UpdateExpiration({ record = {} }: UpdateExpirationProps) {
   });
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development')
-      console.log(`%cuseEffect 330 has been called`, `color: green; font-weight: bold;`);
+    // if (process.env.NODE_ENV === 'development')
+    //  console.log(`%cuseEffect 330 has been called`, `color: green; font-weight: bold;`);
     getBackupExpiration(record.metadata.name);
   }, []);
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development')
-      console.log(`%cuseEffect 340 has been called`, `color: green; font-weight: bold;`);
+    // if (process.env.NODE_ENV === 'development')
+    //  console.log(`%cuseEffect 340 has been called`, `color: green; font-weight: bold;`);
     if (data !== undefined) {
       form.setFieldValue('expiration', data.payload);
     }

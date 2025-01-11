@@ -2,7 +2,7 @@
 
 import { Button, Group, Text } from '@mantine/core';
 import { closeAllModals } from '@mantine/modals';
-import { useAppState } from '@/contexts/AppStateContext';
+import { useAppStatus } from '@/contexts/AppContext';
 import { useSCDelete } from '@/api/SCMapping/useSCDelete';
 
 interface SCMappingDeleteProps {
@@ -12,7 +12,7 @@ interface SCMappingDeleteProps {
 }
 
 export function SCMappingDelete({ record, reload, setReload }: SCMappingDeleteProps) {
-  const appValues = useAppState();
+  const appValues = useAppStatus();
   const { handleDeleteSCMap } = useSCDelete();
 
   function deleteSCMap() {

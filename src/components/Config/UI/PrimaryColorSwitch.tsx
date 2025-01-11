@@ -1,8 +1,5 @@
-import { useEffect, useState } from 'react';
-import { Menu, ColorPicker, Group, Text, ActionIcon, Box } from '@mantine/core';
-import { IconColorPicker } from '@tabler/icons-react';
-import { useAppState } from '@/contexts/AppStateContext';
-import { useUIState } from '@/contexts/UIStateContext';
+import { ColorPicker, Text, Box } from '@mantine/core';
+import { useUIStatus } from '@/contexts/UIContext';
 
 const swatchesWithNames = [
   { name: 'dark', color: '#2e2e2e' },
@@ -24,13 +21,12 @@ const swatchesWithNames = [
 export default function PrimaryColorSwitch() {
   //const appValues = useAppCtx()
 
-  const { setPrimaryColor } = useUIState(); // Usa il contesto per gestire il colore primario
+  const { setPrimaryColor } = useUIStatus(); // Usa il contesto per gestire il colore primario
 
   function setColor(value: any) {
-    console.log(value);
     swatchesWithNames.map((item) => {
       if (value == item.color) {
-        console.log(item.name);
+        // console.log(item.name);
         setPrimaryColor(item.name);
         localStorage.setItem('primaryColor', item.name);
       }

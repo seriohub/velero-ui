@@ -32,7 +32,7 @@ export default function EditSCMapping({
           });
         }}
       >
-        <IconEdit size={16} color="green" />
+        <IconEdit color="green" />
       </ActionIcon>
     </Tooltip>
   );

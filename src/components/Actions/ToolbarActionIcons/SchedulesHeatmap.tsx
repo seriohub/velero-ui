@@ -6,8 +6,10 @@ import { openModal } from '@mantine/modals';
 import { IconCalendarWeek } from '@tabler/icons-react';
 
 import { Heatmap } from '@/components/Velero/Schedule/Heatmap';
+import { useMediaQuery } from '@mantine/hooks';
 
 export default function SchedulesHeatmapToolbarIcon() {
+  const isMobile = useMediaQuery(`(max-width: 1024px)`);
   return (
     <Tooltip label="Cron Schedule Heatmap">
       <ActionIcon
@@ -18,7 +20,8 @@ export default function SchedulesHeatmapToolbarIcon() {
                        e.stopPropagation();
                        openModal({
                          title: 'Cron Schedule Heatmap',
-                         size: 'lg',
+                         size: '80rem',
+                         fullScreen: isMobile,
                          children: <Heatmap />,
                        });
                      }}

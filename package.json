@@ -28,6 +28,7 @@
     "@mantine/nprogress": "^7.8.1",
     "@next/bundle-analyzer": "^14.1.2",
     "@tabler/icons-react": "^2.47.0",
+    "axios": "^1.7.9",
     "clsx": "^2.1.0",
     "cron-validate": "^1.4.5",
     "dayjs": "^1.11.10",
@@ -44,7 +45,8 @@
     "react-json-view-lite": "^1.2.1",
     "react-use-websocket": "^4.8.1",
     "recharts": "2",
-    "socket.io-client": "^4.7.4"
+    "socket.io-client": "^4.7.4",
+    "swr": "^2.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.24.0",
@@ -85,5 +87,5 @@
     "ts-jest": "^29.1.2",
     "typescript": "5.3.3"
   },
-  "packageManager": "yarn@4.0.1"
+  "packageManager": "yarn@4.5.3"
 }

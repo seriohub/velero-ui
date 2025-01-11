@@ -12,8 +12,8 @@ interface TableVersionProps {
 
 export default function TableVersion({ app, githubRelease }: TableVersionProps) {
   const NEXT_PUBLIC_FRONT_END_BUILD_VERSION = env('NEXT_PUBLIC_FRONT_END_BUILD_VERSION');
-  console.log ("app", app)
-  console.log ("githubRelease", githubRelease)
+  // console.log('app', app);
+  // console.log('githubRelease', githubRelease);
   const elements = [
     {
       position: 0,
@@ -80,7 +80,7 @@ export default function TableVersion({ app, githubRelease }: TableVersionProps) 
         <Table.Thead>
           <Table.Tr>
             <Table.Th>Module</Table.Th>
-            <Table.Th>App Version</Table.Th>
+            <Table.Th>Version</Table.Th>
             <Table.Th>Github Release</Table.Th>
             <Table.Th></Table.Th>
           </Table.Tr>
@@ -88,9 +88,10 @@ export default function TableVersion({ app, githubRelease }: TableVersionProps) 
         <Table.Tbody>{rows}</Table.Tbody>
       </Table>
       <Space h="md" />
-      <Group justify="flex-end">
+      {/*<Group justify="flex-end">
         <Text size="sm">Last check {githubRelease?.datetime || 'N.A'}</Text>
-      </Group>
+        
+      </Group>*/}
     </>
   );
 }

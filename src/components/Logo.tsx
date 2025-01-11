@@ -6,11 +6,11 @@ import { useRouter } from 'next/navigation';
 
 import { Anchor, Box, Group, Text, useComputedColorScheme } from '@mantine/core';
 import { IconSailboat } from '@tabler/icons-react';
-import { useUIState } from '@/contexts/UIStateContext';
+import { useUIStatus } from '@/contexts/UIContext';
 
 export function Logo() {
   const router = useRouter();
-  const uiValues = useUIState();
+  const uiValues = useUIStatus();
   const computedColorScheme = useComputedColorScheme();
 
   return (
@@ -32,16 +32,25 @@ export function Logo() {
         </Box>
         <Box darkHidden>
           <Group p={5} gap={5}>
-            <IconSailboat size={48} stroke="1.5" color={
-          uiValues.navbarColored && computedColorScheme == 'light'
-            ? 'var(--mantine-color-white)'
-            : undefined
-        }/>
-            <Text fz="xl" size="xl" fw={800} c={
-          uiValues.navbarColored && computedColorScheme == 'light'
-            ? 'var(--mantine-color-white)'
-            : undefined
-        }>
+            <IconSailboat
+              size={48}
+              stroke="1.5"
+              color={
+                uiValues.navbarColored && computedColorScheme == 'light'
+                  ? 'var(--mantine-color-white)'
+                  : undefined
+              }
+            />
+            <Text
+              fz="xl"
+              size="xl"
+              fw={800}
+              c={
+                uiValues.navbarColored && computedColorScheme == 'light'
+                  ? 'var(--mantine-color-white)'
+                  : undefined
+              }
+            >
               Vui
             </Text>
           </Group>

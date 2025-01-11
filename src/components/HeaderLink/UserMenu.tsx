@@ -1,40 +1,36 @@
-import { useEffect, useState } from 'react';
-import { Menu, rem, Center, Group, Switch } from '@mantine/core';
+import { Menu, rem, Group, Switch } from '@mantine/core';
 import {
   IconSettings,
-  IconMessageCircle,
-  IconChevronDown,
-  IconUser,
-  IconFlag,
   IconLogout,
-  IconPassword,
-  IconPasswordMobilePhone,
   IconPasswordUser,
   IconLayoutSidebarRight,
   IconColumns1,
-  IconUserCircle,
-  IconUserBolt,
 } from '@tabler/icons-react';
 
-import { useUserCtx } from '@/contexts/UserContext';
+import { useUserStatus } from '@/contexts/UserContext';
 
 import { openModal } from '@mantine/modals';
 
 import { forwardRef } from 'react';
-import { IconChevronRight } from '@tabler/icons-react';
+
 import { Avatar, Text, UnstyledButton } from '@mantine/core';
 
 import { UpdatePasswordForm } from './../Navlink/UpdatePasswordForm';
-import { useAppState } from '@/contexts/AppStateContext';
+import { useAppStatus } from '@/contexts/AppContext';
 import { useRouter } from 'next/navigation';
+import { useUIStatus } from '@/contexts/UIContext';
+
+import { useAuthLogout } from '@/hooks/user/useAuthLogout';
 
 export default function UserMenu() {
   //const [projectsItems, setProjectItems] = useState<React.ReactNode[]>([])
-  const appValues = useAppState();
-  const userValues = useUserCtx();
+  const uiValues = useUIStatus();
+  const appValues = useAppStatus();
+  const userValues = useUserStatus();
   const router = useRouter();
+  const { logout } = useAuthLogout();
 
-  console.log(userValues)
+  // console.log(userValues);
   // const { logout } = useAuth()
 
   // const { fileUrl, getPublicFile } = usePublicFile()
@@ -114,7 +110,7 @@ export default function UserMenu() {
         {...others}
       >
         <Group>
-          <Avatar radius="xl">AD</Avatar>
+          <Avatar color="var(--mantine-primary-color-filled)" radius="xl">AD</Avatar>
           {/*<IconUserCircle size={40} stroke={1.4} />*/}
           {/*<div>
                                 <Text fw={500} c='primary'>{`${userValues.user.firstname} ${userValues.user.lastname}`}</Text>
@@ -155,28 +151,15 @@ export default function UserMenu() {
             name={userValues?.user?.display_name}
             email={userValues?.user?.email}
           />
-
-          {/*<a
-                        href="#"
-                        className={classes.link}
-                        onClick={event => event.preventDefault()}>
-                        <Center>
-                            <span className={classes.linkLabel}>
-                                {userValues.user.display_name}
-                            </span>
-                            <IconChevronDown size="0.9rem" stroke={1.5} />
-                        </Center>
-                    </a>*/}
         </Menu.Target>
 
         <Menu.Dropdown>
           <Menu.Label>
             <Group>
               <div>
-                <Text
-                  fw={500}
-                  c="primary"
-                >{`${userValues.user?.username}`/*`${userValues.user?.firstname} ${userValues.user?.lastname}`*/}</Text>
+                <Text fw={500} c="primary">{
+                  `${userValues.user?.username}` /*`${userValues.user?.firstname} ${userValues.user?.lastname}`*/
+                }</Text>
                 <Text size="xs" c="dimmed">
                   {userValues.user?.email}
                 </Text>
@@ -205,7 +188,7 @@ export default function UserMenu() {
             leftSection={<IconSettings style={{ width: rem(14), height: rem(14) }} />}
             onClick={(event) => {
               event.preventDefault();
-              appValues.toggleUIDrawer(appValues.openedUIDrawer)
+              uiValues.toggleUIDrawer(uiValues.openedUIDrawer);
             }}
           >
             UI Config
@@ -218,7 +201,7 @@ export default function UserMenu() {
             onClick={(event) => {
               event.preventDefault(); // Impedisce altri comportamenti
               event.stopPropagation(); // Impedisce la propagazione
-              appValues.setShowDebugAside(!appValues.showDebugAside);
+              uiValues.setShowDebugAside(!uiValues.showDebugAside);
             }}
             closeMenuOnClick={false}
             leftSection={
@@ -232,14 +215,14 @@ export default function UserMenu() {
           >
             <Group w="100%" justify="space-between">
               Context Debug
-              <Switch checked={appValues.showDebugAside} />
+              <Switch checked={uiValues.showDebugAside} />
             </Group>
           </Menu.Item>
           <Menu.Item
             onClick={(event) => {
               event.preventDefault(); // Impedisce altri comportamenti
               event.stopPropagation(); // Impedisce la propagazione
-              appValues.setShowBottomDebugBar(!appValues.showBottomDebugBar);
+              uiValues.setShowBottomDebugBar(!uiValues.showBottomDebugBar);
             }}
             closeMenuOnClick={false}
             leftSection={
@@ -253,7 +236,7 @@ export default function UserMenu() {
           >
             <Group w="100%" justify="space-between">
               Debug Bar
-              <Switch checked={appValues.showBottomDebugBar} />
+              <Switch checked={uiValues.showBottomDebugBar} />
             </Group>
           </Menu.Item>
           <Menu.Divider />
@@ -262,11 +245,9 @@ export default function UserMenu() {
             key="profile"
             leftSection={<IconLogout style={{ width: rem(14), height: rem(14) }} />}
             onClick={(event) => {
-                event.preventDefault();
-                localStorage.removeItem('token');
-                appValues.setAuthenticated(false);
-                router.push('/');
-              }}
+              event.preventDefault();
+              logout()
+            }}
           >
             Logout
           </Menu.Item>

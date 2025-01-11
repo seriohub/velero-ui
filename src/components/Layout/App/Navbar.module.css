@@ -43,7 +43,6 @@
   }
 
   &[data-active] {
-
     &,
     &:hover {
       background-color: var(--mantine-primary-color-light);
@@ -58,7 +57,8 @@
 
 .linkIcon {
   color: light-dark(var(--mantine-color-gray-6), var(--mantine-color-dark-2));
-  margin-right: var(--mantine-spacing-sm);
+  /*margin-right: var(--mantine-spacing-sm);*/
+  margin-right: 5px;
   width: 25px;
   height: 25px;
 }
