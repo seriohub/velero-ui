@@ -31,7 +31,7 @@ export function Security() {
     {
       component: 'UI',
       description: 'Logger enabled',
-      value: env('NEXT_PUBLIC_LOGGER_ENABLED')?.toLocaleLowerCase() === 'true' || 'false',
+      value: env('NEXT_PUBLIC_LOGGER_ENABLED')?.toLocaleLowerCase() === 'true' ? 'true' : 'false',
       status: (
         <TableStatusItem
           label="Logger Enabled"

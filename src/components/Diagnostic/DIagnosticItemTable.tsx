@@ -29,7 +29,7 @@ export function DiagnosticItemTable({
 }: DiagnosticItemProps) {
   const IconOk = <IconCheck color="green" style={{ width: rem(16), height: rem(16) }} />;
   const IconError = <IconX color="red" style={{ width: rem(16), height: rem(16) }} />;
-  const IconWarning = <IconCheck color="yellow" style={{ width: rem(16), height: rem(16) }} />;
+  const IconWarning = <IconCheck color="orange" style={{ width: rem(16), height: rem(16) }} />;
 
   return (
     <>
