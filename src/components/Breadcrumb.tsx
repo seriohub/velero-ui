@@ -24,7 +24,7 @@ export default function Breadcrumb(breadcrumbItem: BreadCrumbItemProps | undefin
           key="current_cluster"
           size="lg"
         >
-          {agentValues.currentAgent?.name} dashboard
+          {agentValues.currentAgent?.name}
         </Anchor>
         <Text size="lg" fw={600}>
           {breadcrumbItem?.name}
