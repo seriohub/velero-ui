@@ -135,3 +135,5 @@ dist
 mockdata
 
 temp/
+
+.idea/

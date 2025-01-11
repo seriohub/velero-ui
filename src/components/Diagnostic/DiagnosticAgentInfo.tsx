@@ -10,11 +10,12 @@ import { useDiagnosticAgent } from '@/hooks/diagnostic/useDiagnosticAgent';
 import { useAgentStatus } from '@/contexts/AgentContext';
 import { IconPlugConnectedX } from '@tabler/icons-react';
 import { DiagnosticAgentInfoData } from './DiagnosticAgentInfoData';
+import { useAppStatus } from '@/contexts/AppContext';
 
 export const DiagnosticAgentInfo = () => {
   // const { stateManager, reload, setReload } = useDiagnosticAgent();
   const { uiURL, apiURL, apiArch, origins, k8sHealth, stateManager, reload, setReload } = useDiagnosticAgent();
-
+  const appValues = useAppStatus()
 
   const [opened, { open, close }] = useDisclosure(false);
 
@@ -44,6 +45,7 @@ export const DiagnosticAgentInfo = () => {
         </Group>
 
         <Group gap={0}>
+          
           {stateManager.allTrue && !stateManager.hasWarnings && (
             <>
               <Group gap={0}>
@@ -74,10 +76,14 @@ export const DiagnosticAgentInfo = () => {
               </Group>
             </>
           )}
+        
         </Group>
+        {!appValues.isAuthenticated && (
+            
         <Button onClick={open} variant="outline" size="compact-xs">
           Info
         </Button>
+        )}
         <ActionIcon
           variant="outline"
           size="compact-xs"
@@ -100,7 +106,7 @@ export const DiagnosticAgentInfo = () => {
           backgroundOpacity: 0.55,
           blur: 3,
         }}
-        
+
       >
         {/* Modal content */}
 

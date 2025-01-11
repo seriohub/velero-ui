@@ -13,8 +13,9 @@ export function Security() {
   const { reload, setReload } = useDiagnosticAgent();
 
   const elements = [
-    { component: 'API', description: 'Running mode', value: '...' },
-    { component: 'WATCHDOG', description: 'Running mode', value: '...' },
+    { component: 'CORE', description: 'Running mode', value: 'N.A.' },
+    { component: 'API', description: 'Running mode', value: 'N.A.' },
+    { component: 'WATCHDOG', description: 'Running mode', value: 'N.A.' },
     {
       component: 'UI',
       description: 'Running mode',
