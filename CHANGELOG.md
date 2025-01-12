@@ -106,6 +106,8 @@ All notable changes to this project will be documented in this file.
 
 ***
 
+## Tags
+
 [v0.1.19] : [https://github.com/seriohub/velero-ui/releases/tag/v0.1.19](https://github.com/seriohub/velero-ui/releases/tag/v0.1.19)
 
 [v0.1.18] : [https://github.com/seriohub/velero-ui/releases/tag/v0.1.18](https://github.com/seriohub/velero-ui/releases/tag/v0.1.18)
