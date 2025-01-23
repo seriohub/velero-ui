@@ -18,14 +18,13 @@ export const useApiPut = ({ target = 'agent' }: UseApiPutProps = {}) => {
   const { addNotificationHistory } = useUserNotificationHistory();
   const { addApiRequestHistory, addApiResponseHistory } = useApiLogger();
 
-  const backendUrl = useBackend({ target: target });
+  const backendUrl = useBackend({ target });
 
   const [fetching, setFetching] = useState(false);
   const [responseStatus, setResponseStatus] = useState<number | undefined>(undefined);
   const [error, setError] = useState(false);
 
   const putData = async (url: string, values: any) => {
-
     if (error) {
       setError(false);
     }
@@ -49,7 +48,11 @@ export const useApiPut = ({ target = 'agent' }: UseApiPutProps = {}) => {
       body: JSON.stringify(values),
     };
 
-    addApiRequestHistory({ method: 'PUT', url: `${backendUrl}${url}`, params: values });
+    addApiRequestHistory({
+      method: 'PUT',
+      url: `${backendUrl}${url}`,
+      params: values,
+    });
 
     setFetching(true);
     fetch(`${backendUrl}${url}`, requestOptions)
@@ -59,9 +62,8 @@ export const useApiPut = ({ target = 'agent' }: UseApiPutProps = {}) => {
         if (res.status !== 200) {
           ApiResponseShowErrorNotification({
             title: res.status.toString(),
-            message: res.statusText
+            message: res.statusText,
           });
-
         }
 
         if (res.status === 401) {
@@ -77,62 +79,10 @@ export const useApiPut = ({ target = 'agent' }: UseApiPutProps = {}) => {
         });
       })
       .then((res) => {
-        /*const data = res.data;
-        const statusCode = res.status;
-
-        if ('detail' in data) {
-          notifications.show({
-            icon: <IconExclamationMark />,
-            color: 'red',
-            title: data.detail.error.title,
-            message: data.detail.error.description,
-          });
-          setError(true);
-          addNotificationHistory({
-            statusCode: statusCode,
-            title: data.error.title,
-            description: data.error.description,
-          });
-        }
-        if ('error' in data) {
-          notifications.show({
-            icon: <IconExclamationMark />,
-            color: 'red',
-            title: data.error.title,
-            message: data.error.description,
-          });
-          setError(true);
-        }
-        if ('notifications' in data) {
-          data.notifications.map((message: any) => {
-            notifications.show({
-              icon: <IconInfoCircle />,
-              color: 'blue',
-              title: message.title,
-              message: message.description,
-            });
-            addNotificationHistory({
-              statusCode: statusCode,
-              title: message.title,
-              description: message.description,
-            });
-            return null;
-          });
-        }
-        setFetching(false);
-
-        addApiResponseHistory({
-          method: 'POST',
-          url: `${backendUrl}${url}`,
-          params: values,
-          data: data,
-          statusCode: statusCode,
-          xProcessTime: res.xProcessTime,
-        });*/
         setFetching(false);
         handleApiResponse({
           res,
-          setData: () => { },
+          setData: () => {},
           setError,
           addNotificationHistory,
           addApiResponseHistory,
@@ -142,14 +92,15 @@ export const useApiPut = ({ target = 'agent' }: UseApiPutProps = {}) => {
           params: values,
           method: 'PUT',
         });
-      }).catch((err) => {
+      })
+      .catch((err) => {
         setFetching(false);
         setError(true);
         ApiResponseShowErrorNotification({
           title: 'Error',
           message: `Oops, something went wrong. ${err}`,
         });
-      });;
+      });
   };
 
   return {

@@ -1,6 +1,5 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 import { env } from 'next-runtime-env';
-
 
 interface AppStatus {
   socketStatus: string;
@@ -27,7 +26,7 @@ interface AppStatusContextProps extends AppStatus {
   setRefreshDatatableAfter: React.Dispatch<React.SetStateAction<number>>;
   setRefreshRecent: React.Dispatch<React.SetStateAction<number>>;
   addXProcessTimer: React.Dispatch<React.SetStateAction<Array<number>>>;
-  
+
   setRepoVersion: React.Dispatch<React.SetStateAction<any>>;
   setRefreshRepoVersion: React.Dispatch<React.SetStateAction<any>>;
 }
@@ -56,7 +55,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     Number(`${NEXT_PUBLIC_REFRESH_RECENT}`)
   );
 
-  const [repoVersion, setRepoVersion] = useState<any|undefined>(undefined);
+  const [repoVersion, setRepoVersion] = useState<any | undefined>(undefined);
 
   return (
     <AppStatusContext.Provider
@@ -68,7 +67,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         isUserLoaded,
 
         refreshDatatableAfter,
-        refreshRecent,        
+        refreshRecent,
         xProcessTimer,
 
         repoVersion,
@@ -81,11 +80,11 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         setIsUserLoaded,
 
         setRefreshDatatableAfter,
-        setRefreshRecent,        
+        setRefreshRecent,
         addXProcessTimer,
-        
+
         setRepoVersion,
-        setRefreshRepoVersion
+        setRefreshRepoVersion,
       }}
     >
       {children}

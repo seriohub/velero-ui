@@ -5,9 +5,7 @@ import { useBackend } from '../useBackend';
 import { useApiLogger } from '../logger/useApiLogger';
 import { useUserNotificationHistory } from '../user/useUserNotificationHistory';
 import { useAuthErrorHandler } from '../user/useAuthErrorHandler';
-import {
-  ApiResponseShowErrorNotification,
-} from '@/components/APIResponseNotification';
+import { ApiResponseShowErrorNotification } from '@/components/APIResponseNotification';
 import { handleApiResponse } from './handleApiResponse';
 
 type DeleteParams = {
@@ -21,18 +19,17 @@ interface UseApiGetProps {
 
 export const useApiDelete = ({ target = 'agent' }: UseApiGetProps = {}) => {
   const { logout } = useAuthErrorHandler();
-  
+
   const { addNotificationHistory } = useUserNotificationHistory();
   const { addApiRequestHistory, addApiResponseHistory } = useApiLogger();
 
-  const backendUrl = useBackend({ target: target });
+  const backendUrl = useBackend({ target });
 
   const [fetching, setFetching] = useState(false);
   const [data, setData] = useState<Record<string, any> | undefined>(undefined);
   const [error, setError] = useState(false);
 
   const deleteData = async ({ url, params }: DeleteParams) => {
-    
     if (error) {
       setError(false);
     }
@@ -55,12 +52,15 @@ export const useApiDelete = ({ target = 'agent' }: UseApiGetProps = {}) => {
       body: JSON.stringify(params),
     };
 
-    addApiRequestHistory({ method: 'DELETE', url: `${backendUrl}${url}}`, params: params });
+    addApiRequestHistory({
+      method: 'DELETE',
+      url: `${backendUrl}${url}}`,
+      params,
+    });
 
     setFetching(true);
     fetch(`${backendUrl}${url}`, requestOptions)
       .then(async (res) => {
-
         if (res.status === 401) {
           logout();
         }
@@ -72,12 +72,11 @@ export const useApiDelete = ({ target = 'agent' }: UseApiGetProps = {}) => {
             xProcessTime: res.headers.get('X-Process-Time'),
           };
         });
-
       })
       .then((res) => {
         /*const data = res.data;
         const statusCode = res.status;
-       
+
         if ('error' in data) {
           setData(undefined);
           setError(true);
@@ -85,7 +84,7 @@ export const useApiDelete = ({ target = 'agent' }: UseApiGetProps = {}) => {
           ApiResponseShowErrorNotification({
             title: data.error.title,
             message: data.error.description
-          })          
+          })
           addNotificationHistory({
             statusCode: statusCode,
             title: data.error.title,

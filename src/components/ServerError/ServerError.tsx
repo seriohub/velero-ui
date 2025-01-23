@@ -1,31 +1,28 @@
-import { Modal, Stack } from '@mantine/core';
+import { Modal, Stack, Title } from '@mantine/core';
 
-import { Title } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 
+import { useEffect } from 'react';
 import { useServerStatus } from '@/contexts/ServerContext';
-import { useEffect, useState } from 'react';
 
 export const ServerError = () => {
-
   const serverValues = useServerStatus();
   const [opened, { open, close }] = useDisclosure(false);
-  
-  const [shouldOpen, setShouldOpen] = useState(false);
+
+  //const [shouldOpen, setShouldOpen] = useState(false);
 
   useEffect(() => {
     if (serverValues.currentServer !== undefined && serverValues.isServerAvailable === false) {
       const timer = setTimeout(() => {
         if (serverValues.currentServer !== undefined && serverValues.isServerAvailable === false) {
-          setShouldOpen(true);
+          //setShouldOpen(true);
           open();
         }
       }, 2000);
       return () => clearTimeout(timer);
-    } else {
-      setShouldOpen(false);
-      close();
     }
+    // setShouldOpen(false);
+    close();
   }, [serverValues.currentServer, serverValues.isServerAvailable, open, close]);
 
   return (

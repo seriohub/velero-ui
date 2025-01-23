@@ -18,35 +18,21 @@ export default function CreateSecheduleToolbarIcon({
 }: CreateSecheduleToolbarIconProps) {
   return (
     <Tooltip label="Create schedule">
-        <ActionIcon
-               size={38}
-               radius={8}
-               variant="outline"
-               onClick={(e) => {
-                 e.stopPropagation();
-                 openModal({
-                   title: 'Create New Schedule',
-                   size: 'lg',
-                   children: <CreateSchedule reload={reload} setReload={setReload} />,
-                 });
-               }}
-             >
-               <IconPlus stroke="1.5" />
-             </ActionIcon>
-      {/*<ActionIcon
-        size={30}
-        variant="default"
+      <ActionIcon
+        size={38}
+        radius={8}
+        variant="outline"
         onClick={(e) => {
           e.stopPropagation();
           openModal({
-            title: 'Create New Schedule',
-            size: 'lg',
+            title: 'Create New Schedules',
+            size: 'xl',
             children: <CreateSchedule reload={reload} setReload={setReload} />,
           });
         }}
       >
-        <IconPlus style={{ width: '70%', height: '70%' }} />
-      </ActionIcon>*/}
+        <IconPlus stroke="1.5" />
+      </ActionIcon>
     </Tooltip>
   );
 }

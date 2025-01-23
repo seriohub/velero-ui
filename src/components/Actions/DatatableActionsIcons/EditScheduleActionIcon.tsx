@@ -26,7 +26,7 @@ export default function EditScheduleActionIcon({
         onClick={(e) => {
           e.stopPropagation();
           openModal({
-            title: 'Edit Schedule',
+            title: 'Edit Schedules',
             size: 'lg',
             children: <EditSchedule record={record} reload={reload} setReload={setReload} />,
           });

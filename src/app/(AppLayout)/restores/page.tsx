@@ -1,4 +1,4 @@
-import { RestoreData } from '@/components/Velero/Restore/Data';
+import { RestoreData } from '@/components/Velero/Restores/Data';
 
 export default function RestoresPage() {
   return <RestoreData />;

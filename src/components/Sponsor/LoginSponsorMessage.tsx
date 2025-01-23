@@ -1,20 +1,19 @@
 'use client';
+
 import {
   Text,
-  Anchor,
   Paper,
   Space,
-  Group,
-  Box,
   Grid,
-  Center,
+  Button,
+  Image,
+  Title,
   useComputedColorScheme,
 } from '@mantine/core';
-import { Button, Image, TextInput, Title } from '@mantine/core';
-import image from './donate.svg';
-import { useColorScheme } from '@mantine/hooks';
+
 import { IconHeart } from '@tabler/icons-react';
 import { useEffect, useState } from 'react';
+import image from './donate.svg';
 
 export function LoginSponsorMessage() {
   const computedColorScheme = useComputedColorScheme('light', { getInitialValueInEffect: true });
@@ -32,7 +31,7 @@ export function LoginSponsorMessage() {
         p="xl"
         withBorder
         maw="800"
-        bg={computedColorScheme == 'light' ? '#f2f3f5' : '#1f1f1f'}
+        bg={computedColorScheme === 'light' ? '#f2f3f5' : '#1f1f1f'}
       >
         <Grid>
           <Grid.Col span={10}>
@@ -45,7 +44,7 @@ export function LoginSponsorMessage() {
               component="a"
               /*leftSection={<IconHeart />}*/
               //h={40}
-              href="https://vui.seriohub.com/docs/sponsors"
+              href="https://vui.seriohub.com/sponsors/sponsors"
               target="_blank"
               //radius={8}
             >

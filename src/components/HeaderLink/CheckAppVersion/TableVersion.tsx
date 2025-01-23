@@ -21,32 +21,32 @@ export default function TableVersion({ app, githubRelease }: TableVersionProps) 
       href: 'https://github.com/seriohub/velero-helm',
       appVersion: app?.helm_version,
       githubRelease: githubRelease?.helm,
-      updateAvailable: compareVersions(app?.helm_version, githubRelease?.helm) == 'githubRelease',
+      updateAvailable: compareVersions(app?.helm_version, githubRelease?.helm) === 'githubRelease',
     },
     {
       position: 1,
       name: 'api',
       href: 'https://github.com/seriohub/velero-api',
-      appVersion: app?.helm_api != '-' ? app?.helm_api : app?.api_release_version,
+      appVersion: app?.helm_api !== '-' ? app?.helm_api : app?.api_release_version,
       githubRelease: githubRelease?.api,
-      updateAvailable: compareVersions(app?.helm_api, githubRelease?.api) == 'githubRelease',
+      updateAvailable: compareVersions(app?.helm_api, githubRelease?.api) === 'githubRelease',
     },
     {
       position: 2,
       name: 'ui',
       href: 'https://github.com/seriohub/velero-ui',
-      appVersion: app?.helm_ui != '-' ? app?.helm_ui : NEXT_PUBLIC_FRONT_END_BUILD_VERSION,
+      appVersion: app?.helm_ui !== '-' ? app?.helm_ui : NEXT_PUBLIC_FRONT_END_BUILD_VERSION,
       githubRelease: githubRelease?.ui,
-      updateAvailable: compareVersions(app?.helm_ui, githubRelease?.ui) == 'githubRelease',
+      updateAvailable: compareVersions(app?.helm_ui, githubRelease?.ui) === 'githubRelease',
     },
     {
       position: 3,
       name: 'watchdog',
       href: 'https://github.com/seriohub/velero-watchdog',
-      appVersion: app?.helm_watchdog != '-' ? app?.helm_watchdog : app.watchdog_release_version,
+      appVersion: app?.helm_watchdog !== '-' ? app?.helm_watchdog : app.watchdog_release_version,
       githubRelease: githubRelease?.watchdog,
       updateAvailable:
-        compareVersions(app?.helm_watchdog, githubRelease?.watchdog) == 'githubRelease',
+        compareVersions(app?.helm_watchdog, githubRelease?.watchdog) === 'githubRelease',
     },
   ];
 
@@ -62,7 +62,7 @@ export default function TableVersion({ app, githubRelease }: TableVersionProps) 
       <Table.Td>{element.githubRelease}</Table.Td>
       <Table.Td>
         {' '}
-        <Anchor href={element.href + '/blob/main/CHANGELOG.md'} target=" _blank">
+        <Anchor href={`${element.href}/blob/main/CHANGELOG.md`} target=" _blank">
           changelog
         </Anchor>
       </Table.Td>
@@ -71,8 +71,8 @@ export default function TableVersion({ app, githubRelease }: TableVersionProps) 
   return (
     <>
       <Group gap={5}>
-        {app?.helm_version != '-' && <IconCheck color="green" size={16} />}
-        {app?.helm_version == '-' && <IconX color="red" size={16} />}
+        {app?.helm_version !== '-' && <IconCheck color="green" size={16} />}
+        {app?.helm_version === '-' && <IconX color="red" size={16} />}
         <Text size="sm"> Helm installed (recommended)</Text>
       </Group>
       <Space h="md" />
@@ -88,10 +88,6 @@ export default function TableVersion({ app, githubRelease }: TableVersionProps) 
         <Table.Tbody>{rows}</Table.Tbody>
       </Table>
       <Space h="md" />
-      {/*<Group justify="flex-end">
-        <Text size="sm">Last check {githubRelease?.datetime || 'N.A'}</Text>
-        
-      </Group>*/}
     </>
   );
 }

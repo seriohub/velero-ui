@@ -2,22 +2,9 @@
 
 import React from 'react';
 
-import {
-  List,
-  ThemeIcon,
-  rem,
-  Text,
-  Group,
-  Stack,
-  ScrollArea,
-  Paper,
-  Card,
-  Box,
-} from '@mantine/core';
+import { List, ThemeIcon, rem, Text, Group, Stack, ScrollArea, Card } from '@mantine/core';
 
 import { IconAlertTriangle, IconCheck } from '@tabler/icons-react';
-
-// import classes from './StatsSegments.module.css';
 
 interface UnscheduledNamespacesProps {
   namespaces: string;
@@ -43,7 +30,11 @@ export function UnscheduledNamespaces({ namespaces, total }: UnscheduledNamespac
             </Text>
           </Group>
           {/*React.cloneElement(icon, { size: '3rem', className: classes.icon, stroke: '1.5' })*/}
-          <IconAlertTriangle size="4rem" stroke="1.5" color= 'var(--mantine-primary-color-light-color)'/>
+          <IconAlertTriangle
+            size="4rem"
+            stroke="1.5"
+            color="var(--mantine-primary-color-light-color)"
+          />
 
           {/*data.from_schedule_count > 0 && (
               <Text fz="sm" fw={500}>
@@ -61,7 +52,12 @@ export function UnscheduledNamespaces({ namespaces, total }: UnscheduledNamespac
               <List.Item
                 icon={
                   <ThemeIcon color="green" size={24} radius="xl">
-                    <IconCheck style={{ width: rem(16), height: rem(16) }} />
+                    <IconCheck
+                      style={{
+                        width: rem(16),
+                        height: rem(16),
+                      }}
+                    />
                   </ThemeIcon>
                 }
               >
@@ -82,7 +78,12 @@ export function UnscheduledNamespaces({ namespaces, total }: UnscheduledNamespac
                 center
                 icon={
                   <ThemeIcon color="orange" size={24} radius="xl">
-                    <IconAlertTriangle style={{ width: rem(16), height: rem(16) }} />
+                    <IconAlertTriangle
+                      style={{
+                        width: rem(16),
+                        height: rem(16),
+                      }}
+                    />
                   </ThemeIcon>
                 }
               >

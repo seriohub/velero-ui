@@ -17,7 +17,6 @@ interface AppShellBootProps {
   children: any;
 }
 
-
 export default function AppShellBoot({ children }: AppShellBootProps) {
   const serverValues = useServerStatus();
   const appValues = useAppStatus();

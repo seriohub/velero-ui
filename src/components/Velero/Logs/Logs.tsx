@@ -3,7 +3,17 @@
 import { useEffect, useMemo, useState } from 'react';
 
 import { DataTable, DataTableSortStatus } from 'mantine-datatable';
-import { ActionIcon, Group, MultiSelect, Text, Loader, Center } from '@mantine/core';
+import {
+  ActionIcon,
+  Group,
+  MultiSelect,
+  Text,
+  Loader,
+  Center,
+  Alert,
+  Switch,
+  Button,
+} from '@mantine/core';
 
 import sortBy from 'lodash/sortBy';
 
@@ -15,7 +25,11 @@ interface LogsProps {
   error: boolean;
 }
 
-export function Logs({ items = [], fetching }: LogsProps) {
+export function Logs({ items = [], fetching, error }: LogsProps) {
+  const resizeKey = 'resize-logs';
+  const [withTableBorder, setWithTableBorder] = useState<boolean>(true);
+  const [withColumnBorders, setWithColumnBorders] = useState<boolean>(true);
+
   const [dataFiltered, setDataFilter] = useState<any[]>([]);
 
   const [sortStatus, setSortStatus] = useState<DataTableSortStatus>({
@@ -54,11 +68,7 @@ export function Logs({ items = [], fetching }: LogsProps) {
         return true;
       }
 
-      if (selectedLevel.length !== 0 && !selectedLevel.includes(level)) {
-        return false;
-      }
-
-      return true;
+      return !(selectedLevel.length !== 0 && !selectedLevel.includes(level));
     });
     setDataFilter(data_filter);
   }, [selectedLevel]);
@@ -89,6 +99,14 @@ export function Logs({ items = [], fetching }: LogsProps) {
       ));
   }
 
+  if (error) {
+    return (
+      <Alert variant="light" color="red" title="Logs">
+        Error in reading logs
+      </Alert>
+    );
+  }
+
   if (items.length === undefined || items.length === 0) {
     return (
       <Center>
@@ -100,15 +118,16 @@ export function Logs({ items = [], fetching }: LogsProps) {
   return (
     <>
       <DataTable
-        minHeight={160}
+        //withTableBorder={withTableBorder}
+        //withColumnBorders={withColumnBorders}
+        storeColumnsKey={resizeKey}
+        height={400}
         fetching={fetching}
         striped
         highlightOnHover
         fz="xs"
         records={dataFiltered}
-        style={{
-          minHeight: '20rem',
-        }}
+
         sortStatus={sortStatus}
         onSortStatusChange={setSortStatus}
         idAccessor="id"
@@ -117,17 +136,17 @@ export function Logs({ items = [], fetching }: LogsProps) {
             accessor: 'id',
             title: 'Row',
             sortable: true,
-            width: '5rem',
+            //resizable: true,
           },
           {
             accessor: 'time',
             title: 'Time',
-            width: '12rem',
+            //resizable: true,
           },
           {
             accessor: 'level',
             title: 'Level',
-            width: '8rem',
+            //resizable: true,
             filter: (
               <MultiSelect
                 label="Level"
@@ -185,19 +204,43 @@ export function Logs({ items = [], fetching }: LogsProps) {
           {
             accessor: 'msg',
             title: 'Message',
+            //resizable: true,
           },
-          { accessor: 'backup', title: 'Backup', width: '20rem' },
-          { accessor: 'logSource', title: 'logSource', width: '20rem' },
-          { accessor: 'group', title: 'Group', width: '15rem' },
-          { accessor: 'namespace', title: 'Namespace', width: '10rem' },
-          { accessor: 'resource', title: 'Resource', width: '15rem' },
+          {
+            accessor: 'backup',
+            title: 'Backups',
+            //resizable: true,
+          },
+          {
+            accessor: 'logSource',
+            title: 'logSource',
+            //resizable: true,
+          },
+          {
+            accessor: 'group',
+            title: 'Group',
+            //resizable: true,
+          },
+          {
+            accessor: 'namespace',
+            title: 'Namespace',
+            //resizable: true,
+          },
+          {
+            accessor: 'resource',
+            title: 'Resource',
+            width: '15rem',
+            //resizable: true,
+          },
           {
             accessor: '_',
             title: '',
+            //resizable: true,
             render: (record) => <>{otherFields(record)}</>,
           },
         ]}
       />
+
     </>
   );
 }

@@ -1,6 +1,6 @@
 'use client';
 
-import { ScrollArea, Stack, Table } from '@mantine/core';
+import { ScrollArea, Table } from '@mantine/core';
 import { env } from 'next-runtime-env';
 import Toolbar from '@/components/Toolbar';
 import RefreshDatatable from '@/components/Actions/ToolbarActionIcons/RefreshDatatable';
@@ -8,14 +8,27 @@ import RefreshDatatable from '@/components/Actions/ToolbarActionIcons/RefreshDat
 import { useDiagnosticAgent } from '@/hooks/diagnostic/useDiagnosticAgent';
 
 import { TableStatusItem } from '../TableStatusItem';
+import { MainStack } from '@/components/Velero/MainStack';
 
 export function Security() {
   const { reload, setReload } = useDiagnosticAgent();
 
   const elements = [
-    { component: 'CORE', description: 'Running mode', value: 'N.A.' },
-    { component: 'API', description: 'Running mode', value: 'N.A.' },
-    { component: 'WATCHDOG', description: 'Running mode', value: 'N.A.' },
+    {
+      component: 'CORE',
+      description: 'Running mode',
+      value: 'N.A.',
+    },
+    {
+      component: 'API',
+      description: 'Running mode',
+      value: 'N.A.',
+    },
+    {
+      component: 'WATCHDOG',
+      description: 'Running mode',
+      value: 'N.A.',
+    },
     {
       component: 'UI',
       description: 'Running mode',
@@ -57,7 +70,7 @@ export function Security() {
   // useEffect(() => {}, [reload, agentValues.isAgentAvailable]);
 
   const rows = elements.map((element) => (
-    <Table.Tr key={element.component + '-' + element.description}>
+    <Table.Tr key={`${element.component}-${element.description}`}>
       <Table.Td>{element.component}</Table.Td>
       <Table.Td>{element.description}</Table.Td>
       <Table.Td>{element.value}</Table.Td>
@@ -66,26 +79,24 @@ export function Security() {
   ));
 
   return (
-    <>
-      <Stack h="100%" gap={0} p={5}>
-        <Toolbar title="Info" breadcrumbItem={{ name: 'Security', href: '/info' }}>
-          <RefreshDatatable setReload={setReload} reload={reload} />
-        </Toolbar>
+    <MainStack>
+      <Toolbar title="Info" breadcrumbItem={[{ name: 'Security' }]}>
+        <RefreshDatatable setReload={setReload} reload={reload} />
+      </Toolbar>
 
-        <ScrollArea p={0} style={{ height: '100%' }} offsetScrollbars>
-          <Table striped>
-            <Table.Thead>
-              <Table.Tr>
-                <Table.Th>Component</Table.Th>
-                <Table.Th>Description</Table.Th>
-                <Table.Th>Value</Table.Th>
-                <Table.Th>Status</Table.Th>
-              </Table.Tr>
-            </Table.Thead>
-            <Table.Tbody>{rows}</Table.Tbody>
-          </Table>
-        </ScrollArea>
-      </Stack>
-    </>
+      <ScrollArea p={0} style={{ height: '100%' }} offsetScrollbars>
+        <Table striped>
+          <Table.Thead>
+            <Table.Tr>
+              <Table.Th>Component</Table.Th>
+              <Table.Th>Description</Table.Th>
+              <Table.Th>Value</Table.Th>
+              <Table.Th>Status</Table.Th>
+            </Table.Tr>
+          </Table.Thead>
+          <Table.Tbody>{rows}</Table.Tbody>
+        </Table>
+      </ScrollArea>
+    </MainStack>
   );
 }

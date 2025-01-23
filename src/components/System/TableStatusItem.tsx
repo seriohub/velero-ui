@@ -1,6 +1,6 @@
 'use client';
 
-import { Group, List, Text, ThemeIcon, rem } from '@mantine/core';
+import { Group, rem } from '@mantine/core';
 import { IconCheck, IconX } from '@tabler/icons-react';
 import { ReactElement } from 'react';
 
@@ -27,9 +27,33 @@ export function TableStatusItem({
   message3 = '',
   message4 = '',
 }: TableStatusItemProps) {
-  const IconOk = <IconCheck color="green" style={{ width: rem(16), height: rem(16) }} />;
-  const IconError = <IconX color="red" style={{ width: rem(16), height: rem(16) }} />;
-  const IconWarning = <IconCheck color="yellow" style={{ width: rem(16), height: rem(16) }} />;
+  const IconOk = (
+    <IconCheck
+      color="green"
+      style={{
+        width: rem(16),
+        height: rem(16),
+      }}
+    />
+  );
+  const IconError = (
+    <IconX
+      color="red"
+      style={{
+        width: rem(16),
+        height: rem(16),
+      }}
+    />
+  );
+  const IconWarning = (
+    <IconCheck
+      color="yellow"
+      style={{
+        width: rem(16),
+        height: rem(16),
+      }}
+    />
+  );
 
   return (
     <Group>

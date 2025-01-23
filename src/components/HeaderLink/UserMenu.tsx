@@ -1,4 +1,4 @@
-import { Menu, rem, Group, Switch } from '@mantine/core';
+import { Menu, rem, Group, Switch, Avatar, Text, UnstyledButton } from '@mantine/core';
 import {
   IconSettings,
   IconLogout,
@@ -7,17 +7,13 @@ import {
   IconColumns1,
 } from '@tabler/icons-react';
 
-import { useUserStatus } from '@/contexts/UserContext';
-
 import { openModal } from '@mantine/modals';
 
 import { forwardRef } from 'react';
 
-import { Avatar, Text, UnstyledButton } from '@mantine/core';
+import { UpdatePasswordForm } from '@/components/Navlink/UpdatePasswordForm';
 
-import { UpdatePasswordForm } from './../Navlink/UpdatePasswordForm';
-import { useAppStatus } from '@/contexts/AppContext';
-import { useRouter } from 'next/navigation';
+import { useUserStatus } from '@/contexts/UserContext';
 import { useUIStatus } from '@/contexts/UIContext';
 
 import { useAuthLogout } from '@/hooks/user/useAuthLogout';
@@ -25,71 +21,10 @@ import { useAuthLogout } from '@/hooks/user/useAuthLogout';
 export default function UserMenu() {
   //const [projectsItems, setProjectItems] = useState<React.ReactNode[]>([])
   const uiValues = useUIStatus();
-  const appValues = useAppStatus();
+
   const userValues = useUserStatus();
-  const router = useRouter();
+
   const { logout } = useAuthLogout();
-
-  // console.log(userValues);
-  // const { logout } = useAuth()
-
-  // const { fileUrl, getPublicFile } = usePublicFile()
-
-  //const projects = userValues.projects;
-
-  /*const findById = (obj, targetId) => {
-        return Object.values(obj).find(
-            item =>
-                typeof item === 'object' &&
-                item !== null &&
-                'id' in item &&
-                item.id === targetId,
-        )
-    }
-
-    const handleDataUpdate = async (key) => {
-        try {
-            // Esegui la chiamata PUT
-            await putData('/api/project/switch', `project_id=${key}`);
-        
-            // Questo codice verrà eseguito dopo il successo o l'errore della richiesta
-            console.log('Richiesta completata, eseguo azioni finali...');
-        } catch (error) {
-            // In caso di errori durante la chiamata PUT
-            console.error('Errore nella chiamata PUT:', error);
-        } finally {
-            // Azione finale indipendentemente dal successo o dall'errore
-            console.log('Azione finale post-richiesta');
-            userValues.setRefreshUser(userValues.refreshUser+1)
-            console.log(userValues.refreshUser+1)
-            //router.refresh()
-        }
-    };
-
-
-    useEffect(() => {
-        if (projects && Object.keys(projects).length>0) {
-            const tmp = Object.keys(projects)
-                .filter(key => projects[key].id !== userValues?.user.current_project_id)
-                .map(key => (
-                    <Menu.Item
-                        key={projects[key].id}
-                        leftSection={
-                            <IconSettings
-                                style={{ width: rem(14), height: rem(14) }}
-                            />
-                        }
-                        onClick={() => handleDataUpdate(`${projects[key]?.id}`)}>
-                        {projects[key]?.display_name}
-                    </Menu.Item>
-                ))
-                setProjectItems(tmp)
-        }
-    }, [userValues.projects])*/
-
-  /*useEffect(() => {
-        getPublicFile(userValues.user.profile_photo_url)
-    }, [])*/
 
   interface UserButtonProps extends React.ComponentPropsWithoutRef<'button'> {
     image: string;
@@ -110,27 +45,9 @@ export default function UserMenu() {
         {...others}
       >
         <Group>
-          <Avatar color="var(--mantine-primary-color-filled)" radius="xl">AD</Avatar>
-          {/*<IconUserCircle size={40} stroke={1.4} />*/}
-          {/*<div>
-                                <Text fw={500} c='primary'>{`${userValues.user.firstname} ${userValues.user.lastname}`}</Text>
-                                <Text size="xs" c="dimmed">
-                                {userValues.user.email}
-                                </Text>
-                            </div>*/}
-
-          {/*<div style={{ flex: 1 }}>
-          <Text size="sm" fw={500}>
-            {name}
-          </Text>
-
-          <Text c="dimmed" size="xs">
-            {email}
-          </Text>
-        </div>*/}
-
-          {/*<IconChevronRight size="1rem" />*/}
-          {/*<Avatar size="md" src={fileUrl} radius="xl" />*/}
+          <Avatar color="var(--mantine-primary-color-filled)" radius="xl">
+            AD
+          </Avatar>
         </Group>
       </UnstyledButton>
     )
@@ -158,8 +75,9 @@ export default function UserMenu() {
             <Group>
               <div>
                 <Text fw={500} c="primary">{
-                  `${userValues.user?.username}` /*`${userValues.user?.firstname} ${userValues.user?.lastname}`*/
-                }</Text>
+                  `${userValues.user?.username}`
+                }
+                </Text>
                 <Text size="xs" c="dimmed">
                   {userValues.user?.email}
                 </Text>
@@ -171,7 +89,14 @@ export default function UserMenu() {
 
           <Menu.Item
             key="updatePassword"
-            leftSection={<IconPasswordUser style={{ width: rem(14), height: rem(14) }} />}
+            leftSection={
+              <IconPasswordUser
+                style={{
+                  width: rem(14),
+                  height: rem(14),
+                }}
+              />
+            }
             onClick={(event) => {
               event.preventDefault();
               openModal({
@@ -185,7 +110,14 @@ export default function UserMenu() {
 
           <Menu.Item
             key="uiconfig"
-            leftSection={<IconSettings style={{ width: rem(14), height: rem(14) }} />}
+            leftSection={
+              <IconSettings
+                style={{
+                  width: rem(14),
+                  height: rem(14),
+                }}
+              />
+            }
             onClick={(event) => {
               event.preventDefault();
               uiValues.toggleUIDrawer(uiValues.openedUIDrawer);
@@ -243,10 +175,17 @@ export default function UserMenu() {
 
           <Menu.Item
             key="profile"
-            leftSection={<IconLogout style={{ width: rem(14), height: rem(14) }} />}
+            leftSection={
+              <IconLogout
+                style={{
+                  width: rem(14),
+                  height: rem(14),
+                }}
+              />
+            }
             onClick={(event) => {
               event.preventDefault();
-              logout()
+              logout();
             }}
           >
             Logout

@@ -1,8 +1,7 @@
 import React from 'react';
-import { DonutChart } from '@mantine/charts';
-import { Box, Text, Group, Card, Button, CardSection } from '@mantine/core';
+
+import { Text, Group, Card, Button, CardSection } from '@mantine/core';
 import { useRouter } from 'next/navigation';
-import { useServerStatus } from '@/contexts/ServerContext';
 import { IconChevronRight } from '@tabler/icons-react';
 
 interface Segment {
@@ -32,13 +31,6 @@ const segmentColors = {
 };
 
 export function StatsSegments({ data, title, icon, path }: StatsSegmentsProps) {
-  const sections = data.stats.map((segment) => ({
-    value: segment.value,
-    color: segmentColors[segment.label],
-    tooltip: segment.label,
-    name: segment.label,
-  }));
-
   const router = useRouter();
 
   return (

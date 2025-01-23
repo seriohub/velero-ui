@@ -1,11 +1,9 @@
 'use client';
 
-import { ActionIcon, Chip, Tooltip } from '@mantine/core';
-import { openModal } from '@mantine/modals';
+import { ActionIcon, Tooltip } from '@mantine/core';
 
-import { IconFilter, IconFilterFilled, IconPlus } from '@tabler/icons-react';
+import { IconFilter, IconFilterFilled } from '@tabler/icons-react';
 
-import { CreateBackup } from '../ActionsForm/CreateBackup';
 import { useEffect, useState } from 'react';
 
 interface LastBackup4ScheduleProps {
@@ -27,20 +25,17 @@ export default function LastBackup4Schedule({
   return (
     <Tooltip label="Filter last backup for every schedule">
       <ActionIcon
-              onClick={() => {setChecked(!checked)}}
-              size={38}
-              //variant="default"
-              variant="outline"
-              radius={8}
-              
-            >
-              {!checked && (
-              <IconFilter stroke={1.5} />
-            )}
-            {checked && (
-              <IconFilterFilled stroke={1.5} />
-            )}
-            </ActionIcon>
+        onClick={() => {
+          setChecked(!checked);
+        }}
+        size={38}
+        //variant="default"
+        variant="outline"
+        radius={8}
+      >
+        {!checked && <IconFilter stroke={1.5} />}
+        {checked && <IconFilterFilled stroke={1.5} />}
+      </ActionIcon>
       {/*<Chip
         radius={8}
         size="lg"
@@ -48,9 +43,9 @@ export default function LastBackup4Schedule({
         variant="outline"
         checked={checked}
         onChange={() => setChecked((v) => !v)}
-        
+
       >
-        Last Backup for schedule
+        Last Backups for schedule
       </Chip>*/}
     </Tooltip>
   );

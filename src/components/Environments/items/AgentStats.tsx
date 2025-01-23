@@ -1,29 +1,24 @@
 'use client';
 
 import React from 'react';
-import { Box, Image, Paper, Stack } from '@mantine/core';
+import { Box, Image, Paper, Stack, Text, Group } from '@mantine/core';
 
-import { Card, Text, Group, RingProgress, Center } from '@mantine/core';
-import {
-  IconAffiliate,
-  IconCheck,
-  IconDeviceFloppy,
-  IconPlugConnected,
-  IconServer,
-} from '@tabler/icons-react';
+import { IconCheck, IconPlugConnected, IconServer } from '@tabler/icons-react';
+import { useRouter } from 'next/navigation';
 import styles from './AgentStats.module.css';
 import { useAgentStatus } from '@/contexts/AgentContext';
-import { useRouter } from 'next/navigation';
-import ExpireIn from '@/components/Velero/Backup/ExpireIn';
+import ExpireIn from '@/components/Velero/Backups/ExpireIn';
 
 interface AgentStatsProps {
   name: string;
   data: any;
 }
+
 export function AgentStats({ name, data }: AgentStatsProps) {
   const agentValues = useAgentStatus();
 
   const router = useRouter();
+
   function findIndexByKeyValue(array: any, key: string, value: any): number {
     return array.findIndex((obj: { [x: string]: any }) => obj[key] === value);
   }
@@ -154,7 +149,7 @@ export function AgentStats({ name, data }: AgentStatsProps) {
                   </Group>
                 </Group>
               </Box>
-              {/* Schedule */}
+              {/* Schedules */}
               <Box>
                 <Text size="sm" mb={3}>
                   Schedule

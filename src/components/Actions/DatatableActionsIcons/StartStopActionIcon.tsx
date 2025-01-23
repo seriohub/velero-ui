@@ -44,17 +44,17 @@ export default function StartStopActionIcon({
   }
 
   return (
-    <Tooltip label={paused === true ? 'Start' : 'Pause'}>
+    <Tooltip label={paused ? 'Start' : 'Pause'}>
       <ActionIcon
         size="sm"
         variant="transparent"
         onClick={(e) => {
           e.stopPropagation();
-          paused === true ? unpause_schedule() : pause_schedule();
+          paused ? unpause_schedule() : pause_schedule();
         }}
       >
-        {paused === true && <IconPlayerPlay color="green" />}
-        {paused !== true && <IconPlayerPause color="orange" />}
+        {paused && <IconPlayerPlay color="green" />}
+        {!paused && <IconPlayerPause color="orange" />}
       </ActionIcon>
     </Tooltip>
   );

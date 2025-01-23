@@ -18,8 +18,7 @@ import { closeAllModals } from '@mantine/modals';
 
 import { useForm } from '@mantine/form';
 
-import { IconCheck, IconInfoCircle, IconX } from '@tabler/icons-react';
-import { IconArrowRight } from '@tabler/icons-react';
+import { IconCheck, IconInfoCircle, IconX, IconArrowRight } from '@tabler/icons-react';
 import { useResourceDescribe } from '@/api/Velero/useResourceDescribe';
 import { useStorageClasses } from '@/api/SCMapping/useStorageClasses';
 import { usePvcBackupSC } from '@/api/Restore/usePvcBackupSC';
@@ -82,26 +81,22 @@ export function RestoreBackup({
 
   function updateMappingNamespace(item: string, e: any) {
     if (e.currentTarget.value !== '') {
-      let tmp = mapNamespace;
+      const tmp = mapNamespace;
       tmp[item] = e.currentTarget.value;
       setMapNamespace(tmp);
     } else {
-      let tmp = mapNamespace;
+      const tmp = mapNamespace;
       delete tmp[item];
       setMapNamespace(tmp);
     }
   }
 
   useEffect(() => {
-    // if (process.env.NODE_ENV === 'development')
-    //  console.log(`%cuseEffect 250 has been called`, `color: green; font-weight: bold;`);
     form.values.mappingNamespace = mapNamespace;
   }, [mapNamespace]);
 
   // load data
   useEffect(() => {
-    // if (process.env.NODE_ENV === 'development')
-    //  console.log(`%cuseEffect 260 has been called`, `color: green; font-weight: bold;`);
     getResourceDescribe(resourceType, resourceName); // object
     getPvc(resourceName); // list of object of pvc data
     getStorageClasses(); // { storage-class : { name: ..., provisioner: ..., parameteres: ...}}
@@ -109,13 +104,7 @@ export function RestoreBackup({
   }, []);
 
   useEffect(() => {
-    // if (process.env.NODE_ENV === 'development')
-    //   console.log(`%cuseEffect 270 has been called`, `color: green; font-weight: bold;`);
-    if (
-      //dataRestore !== undefined &&
-      //dataRestore['payload']['status']['resourceList']['v1/Namespace'] !== null
-      dataRestore?.payload?.status?.resourceList?.['v1/Namespace'] != null
-    ) {
+    if (dataRestore?.payload?.status?.resourceList?.['v1/Namespace'] != null) {
       const values = dataRestore['payload']['status']['resourceList']['v1/Namespace'].map(
         (item: string) => (
           <>
@@ -195,7 +184,7 @@ export function RestoreBackup({
             {configMap?.payload !== undefined &&
               configMap?.payload.some(
                 (obj: { [x: string]: any }) =>
-                  obj['oldStorageClass'] == item['spec']['storageClassName']
+                  obj['oldStorageClass'] === item['spec']['storageClassName']
               ) && (
                 <>
                   <Text size="sm">New storage class: </Text>
@@ -203,7 +192,7 @@ export function RestoreBackup({
                     {
                       configMap?.payload.find(
                         (obj: { [x: string]: any }) =>
-                          obj['oldStorageClass'] == item['spec']['storageClassName']
+                          obj['oldStorageClass'] === item['spec']['storageClassName']
                       )['newStorageClass']
                     }
                   </Text>
@@ -232,7 +221,7 @@ export function RestoreBackup({
         if (
           storageClasses !== undefined &&
           item['spec']['storageClassName'] !== 'manual' &&
-          !cm.some((obj: { [x: string]: any }) => obj['oldStorageClass'] == item)
+          !cm.some((obj: { [x: string]: any }) => obj['oldStorageClass'] === item)
         ) {
           sc.push({
             oldStorageClass: item['spec']['storageClassName'],
@@ -260,7 +249,12 @@ export function RestoreBackup({
         <Divider h={20} />
         <Card withBorder radius="md" p="sm">
           <Group gap={5}>
-            <IconInfoCircle style={{ width: rem(24), height: rem(24) }} />
+            <IconInfoCircle
+              style={{
+                width: rem(24),
+                height: rem(24),
+              }}
+            />
             <Text size="sm" fw={800}>
               Cluster storage classes:
             </Text>
@@ -268,7 +262,12 @@ export function RestoreBackup({
           <List
             icon={
               <ThemeIcon color="green" size={18} radius="xl">
-                <IconCheck style={{ width: rem(12), height: rem(12) }} />
+                <IconCheck
+                  style={{
+                    width: rem(12),
+                    height: rem(12),
+                  }}
+                />
               </ThemeIcon>
             }
             withPadding
@@ -277,18 +276,28 @@ export function RestoreBackup({
           </List>
           <Space h="xl" />
           <Group gap={5}>
-            <IconInfoCircle style={{ width: rem(24), height: rem(24) }} />
+            <IconInfoCircle
+              style={{
+                width: rem(24),
+                height: rem(24),
+              }}
+            />
             <Text size="sm" fw={800}>
               Velero Config Map:
             </Text>
           </Group>
           <Text pl={20} size="sm">
-            {`<`}oldStorageClass{`>`}: {`<`}newStorageClass{`>`}
+            {'<'}oldStorageClass{'>'}: {'<'}newStorageClass{'>'}
           </Text>
           <List
             icon={
               <ThemeIcon color="green" size={18} radius="xl">
-                <IconArrowRight style={{ width: rem(12), height: rem(12) }} />
+                <IconArrowRight
+                  style={{
+                    width: rem(12),
+                    height: rem(12),
+                  }}
+                />
               </ThemeIcon>
             }
             withPadding

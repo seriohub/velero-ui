@@ -1,17 +1,22 @@
+import { Breadcrumbs, Anchor, Text } from '@mantine/core';
+import { useRouter } from 'next/navigation';
 import { useAgentStatus } from '@/contexts/AgentContext';
 import { useServerStatus } from '@/contexts/ServerContext';
-import { Breadcrumbs, Anchor, Text, Title } from '@mantine/core';
-import { useRouter } from 'next/navigation';
 
-interface BreadCrumbItemProps {
-  name: string;
-  href: string;
-}
-
-export default function Breadcrumb(breadcrumbItem: BreadCrumbItemProps | undefined) {
+export default function Breadcrumb(breadcrumbItem = []) {
   const serverValues = useServerStatus();
   const agentValues = useAgentStatus();
   const router = useRouter();
+
+  const items = Object.values(breadcrumbItem).map((item: any, index: number) =>
+    item?.href ? (
+      <Anchor href={item.href} key={index}>
+        {item.name}
+      </Anchor>
+    ) : (
+      <Text key={index}>{item.name}</Text>
+    )
+  );
 
   return (
     <>
@@ -26,9 +31,7 @@ export default function Breadcrumb(breadcrumbItem: BreadCrumbItemProps | undefin
         >
           {agentValues.currentAgent?.name}
         </Anchor>
-        <Text size="lg" fw={600}>
-          {breadcrumbItem?.name}
-        </Text>
+        {items}
       </Breadcrumbs>
     </>
   );

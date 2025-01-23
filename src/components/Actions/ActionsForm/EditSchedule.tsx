@@ -15,6 +15,7 @@ interface EditScheduleProps {
   reload: number;
   setReload: any;
 }
+
 export function EditSchedule({ record, reload, setReload }: EditScheduleProps) {
   const appValues = useAppStatus();
   const { data, getCreationScheduleSettings } = useCreationScheduleSettings();

@@ -1,12 +1,20 @@
 'use client';
 
-import { AppShell, Group, Stack, Box, em, Flex, Center, BackgroundImage, ActionIcon, rem, Drawer } from '@mantine/core';
+import {
+  AppShell,
+  Stack,
+  Box,
+  Flex,
+  ActionIcon,
+  rem,
+  Drawer,
+} from '@mantine/core';
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 
+import { IconArrowLeft, IconArrowRight } from '@tabler/icons-react';
 import { AuthShellHeader } from './AuthShell.Header';
 import { AppShellFooter } from '../App/AppShell.Footer';
 import { LoginSponsorMessage } from '../../Sponsor/LoginSponsorMessage';
-import { IconArrowLeft, IconArrowRight } from '@tabler/icons-react';
 import { DebugAside } from '@/components/Debug/DebugAside';
 
 interface AuthShellLayoutProps {
@@ -14,8 +22,8 @@ interface AuthShellLayoutProps {
 }
 
 export default function AuthShellLayout({ children }: AuthShellLayoutProps) {
-  const isMobile = useMediaQuery(`(max-width: 1024px)`);
-  const [openedAside, { toggle: toggleAside }] = useDisclosure()
+  const isMobile = useMediaQuery('(max-width: 1024px)');
+  const [openedAside, { toggle: toggleAside }] = useDisclosure();
   return (
     <>
       <AppShell withBorder={false}>
@@ -58,31 +66,44 @@ export default function AuthShellLayout({ children }: AuthShellLayoutProps) {
             </Stack>
 
             {process.env.NODE_ENV === 'development' && (
-                        <ActionIcon
-                            size={24}
-                            variant="default"
-                            aria-label="ActionIcon with size as a number"
-                            onClick={() => toggleAside()}
-                            style={{
-                                position: 'fixed',
-                                right: 0,
-                                top: 60,
-                                zIndex: 1000, // Assicurati che il pulsante sia sopra l'Aside
-                            }}>
-                            {openedAside ? (
-                                <IconArrowRight
-                                    style={{ width: rem(24), height: rem(24) }}
-                                />
-                            ) : (
-                                <IconArrowLeft
-                                    style={{ width: rem(24), height: rem(24) }}
-                                />
-                            )}
-                        </ActionIcon>
-                    )}
+              <ActionIcon
+                size={24}
+                variant="default"
+                aria-label="ActionIcon with size as a number"
+                onClick={() => toggleAside()}
+                style={{
+                  position: 'fixed',
+                  right: 0,
+                  top: 60,
+                  zIndex: 1000, // Assicurati che il pulsante sia sopra l'Aside
+                }}
+              >
+                {openedAside ? (
+                  <IconArrowRight
+                    style={{
+                      width: rem(24),
+                      height: rem(24),
+                    }}
+                  />
+                ) : (
+                  <IconArrowLeft
+                    style={{
+                      width: rem(24),
+                      height: rem(24),
+                    }}
+                  />
+                )}
+              </ActionIcon>
+            )}
           </Flex>
-          <Drawer opened={openedAside} onClose={toggleAside} title="Debug" position="right" closeOnEscape={false}>
-          <DebugAside />
+          <Drawer
+            opened={openedAside}
+            onClose={toggleAside}
+            title="Debug"
+            position="right"
+            closeOnEscape={false}
+          >
+            <DebugAside />
           </Drawer>
         </AppShell.Main>
         <AppShell.Footer>

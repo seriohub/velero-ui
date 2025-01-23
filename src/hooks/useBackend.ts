@@ -17,7 +17,5 @@ export const useBackend = ({ target = 'agent' }: UseApiGetProps = {}) => {
         : `/agent/${agentValues?.currentAgent?.name}`
     : '';
 
-  const backendUrl = `${serverValues?.currentServer?.url}${coreUrl}`;
-
-  return backendUrl;
+  return `${serverValues?.currentServer?.url}${coreUrl}`;
 };

@@ -20,25 +20,21 @@ export const useAppConfig = () => {
     if (agentValues.isAgentAvailable && !serverValues.isCurrentServerControlPlane) {
       getRepoVersion('agent');
     }
-  }, [
-    serverValues.isServerAvailable,
-    agentValues.isAgentAvailable,
-  ]);
+  }, [serverValues.isServerAvailable, agentValues.isAgentAvailable]);
 
   useEffect(() => {
     if (appValues.refreshGithubRepoVersion > 0) {
       if (serverValues.isServerAvailable && serverValues.isCurrentServerControlPlane) {
-        getRepoVersion('core',true);
+        getRepoVersion('core', true);
       }
 
       if (agentValues.isAgentAvailable && !serverValues.isCurrentServerControlPlane) {
-        getRepoVersion('agent',true);
+        getRepoVersion('agent', true);
       }
     }
   }, [appValues.refreshGithubRepoVersion]);
 
   useEffect(() => {
-    appValues.setRepoVersion(repoVersion?.payload)
+    appValues.setRepoVersion(repoVersion?.payload);
   }, [repoVersion]);
-
 };

@@ -8,7 +8,7 @@ import { IconClock, IconDeviceFloppy, IconRestore, IconCalendarEvent } from '@ta
 
 import { StatsSegments } from './items/StatsSegments';
 import { UnscheduledNamespaces } from './items/UnscheduledNamspaces';
-import { BackupLatest } from '../Velero/Backup/Latest';
+import { BackupLatest } from '@/components/Velero/Backups/Latest';
 import Toolbar from '../Toolbar';
 import RefreshDatatable from '../Actions/ToolbarActionIcons/RefreshDatatable';
 import { useAgentStatus } from '@/contexts/AgentContext';
@@ -17,23 +17,18 @@ import { useStats } from '@/api/Stats/useStats';
 import { StatsSegmentsDonuts } from './items/StatsSegmentsDonuts';
 
 export function Dashboard() {
-  // const { height: vpHeight, width: vpWidth } = useViewportSize();
   const { data, getStats, fetching } = useStats();
   const [reload, setReload] = useState(1);
 
   const agentValues = useAgentStatus();
 
   useEffect(() => {
-    // if (process.env.NODE_ENV === 'development')
-    //  console.log(`%cuseEffect 100 has been called`, `color: green; font-weight: bold;`);
     if (agentValues.isAgentAvailable && reload > 1) {
       getStats(true);
     }
   }, [reload]);
 
   useEffect(() => {
-    // if (process.env.NODE_ENV === 'development')
-    //  console.log(`%cuseEffect 101 has been called`, `color: green; font-weight: bold;`);
     if (agentValues.isAgentAvailable) {
       getStats();
     }
@@ -52,15 +47,19 @@ export function Dashboard() {
   return (
     <>
       <ScrollArea p={0} style={{ height: '100%' }} scrollbars="y">
-        <Stack p={10}>
+        <Stack p={10} gap="md">
           <Toolbar title="Dashboard" fetching={fetching}>
             <RefreshDatatable setReload={setReload} reload={reload} fetching={fetching} />
           </Toolbar>
           <DataFetchedInfo metadata={data?.metadata} />
           <SimpleGrid
-            cols={{ base: 1, sm: 1, lg: 3 }}
-            spacing={{ base: 10, sm: 18 }}
-            verticalSpacing={{ base: 'md', sm: 'xl' }}
+            cols={{
+              base: 1,
+              sm: 1,
+              lg: 3,
+            }}
+            spacing="md"
+            verticalSpacing="md"
           >
             <StatsSegments
               data={data.payload.backups.stats.all}
@@ -82,9 +81,13 @@ export function Dashboard() {
             />
           </SimpleGrid>
           <SimpleGrid
-            cols={{ base: 1, sm: 2, lg: 4 }}
-            spacing={{ base: 10, sm: 18 }}
-            verticalSpacing={{ base: 'md', sm: 'xl' }}
+            cols={{
+              base: 1,
+              sm: 2,
+              lg: 4,
+            }}
+            spacing="md"
+            verticalSpacing="md"
           >
             <StatsSegmentsDonuts
               data={data.payload.backups.stats.all}
@@ -114,15 +117,27 @@ export function Dashboard() {
           </SimpleGrid>
           {/*</Stack>*/}
 
-          <Grid gutter={{ base: 10, sm: 18 }}>
-            <Grid.Col span={{ base: 12, md: 12, lg: 9 }}>
+          <Grid gutter="sm">
+            <Grid.Col
+              span={{
+                base: 12,
+                md: 12,
+                lg: 9,
+              }}
+            >
               <BackupLatest
                 latest={data.payload.backups.latest}
                 reload={reload}
                 setReload={setReload}
               />
             </Grid.Col>
-            <Grid.Col span={{ base: 12, md: 12, lg: 3 }}>
+            <Grid.Col
+              span={{
+                base: 12,
+                md: 12,
+                lg: 3,
+              }}
+            >
               <UnscheduledNamespaces
                 namespaces={data.payload?.namespaces?.unscheduled}
                 total={data.payload?.namespaces?.total}

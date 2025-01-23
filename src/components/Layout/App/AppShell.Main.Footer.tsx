@@ -2,7 +2,6 @@ import { Accordion, Tabs } from '@mantine/core';
 
 import { IconTerminal2, IconPrompt, IconApi, IconBell } from '@tabler/icons-react';
 
-import { useAppStatus } from '@/contexts/AppContext';
 import ShellCommands from '@/components/Debug/ShellCommands/ShellCommands';
 import InfoApiRequest from '@/components/Debug/InfoApiRequest/InfoApiRequest';
 import InfoApiReponse from '@/components/Debug/InfoApiResponse/InfoApiResponse';

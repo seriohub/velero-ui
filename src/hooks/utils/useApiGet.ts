@@ -5,9 +5,7 @@ import { useAgentStatus } from '@/contexts/AgentContext';
 import { useApiLogger } from '@/hooks/logger/useApiLogger';
 import { useUserNotificationHistory } from '../user/useUserNotificationHistory';
 import { useAuthErrorHandler } from '../user/useAuthErrorHandler';
-import {
-  ApiResponseShowErrorNotification,
-} from '@/components/APIResponseNotification';
+import { ApiResponseShowErrorNotification } from '@/components/APIResponseNotification';
 import { handleApiResponse } from './handleApiResponse';
 
 type TargetType = 'core' | 'agent' | 'static';
@@ -38,7 +36,6 @@ export const useApiGet = () => {
     addInHistory = true,
     target = 'agent',
   }: GetDataParams) => {
-
     if (error) {
       setError(false);
     }
@@ -53,15 +50,15 @@ export const useApiGet = () => {
 
     const backendUrl = `${serverValues?.currentServer?.url}${coreUrl}`;
 
-    if (!serverValues.isServerAvailable || serverValues.isServerAvailable == undefined) {
+    if (!serverValues.isServerAvailable) {
       console.log(`Server unavailable: skip request ${backendUrl}${url}?${params}`);
       return;
     }
 
     if (
-      target == 'agent' &&
-      url != '/online' &&
-      (agentValues.currentAgent == undefined || !agentValues.isAgentAvailable)
+      target === 'agent' &&
+      url !== '/online' &&
+      (agentValues.currentAgent === undefined || !agentValues.isAgentAvailable)
     ) {
       console.log(`Agent unavailable: skip request ${url}?${params}`);
       return;
@@ -80,93 +77,37 @@ export const useApiGet = () => {
     }
 
     if (addInHistory) {
-    addApiRequestHistory({
-      method: 'GET',
-      headers,
-      url: `${backendUrl}${url}?${params}`,
-      params: params,
-    });
-  }
+      addApiRequestHistory({
+        method: 'GET',
+        headers,
+        url: `${backendUrl}${url}?${params}`,
+        params,
+      });
+    }
 
     setFetching(true);
-    fetch(`${backendUrl}${url}?${params}`, { method: 'GET', headers })
+    fetch(`${backendUrl}${url}?${params}`, {
+      method: 'GET',
+      headers,
+    })
       .then(async (res) => {
-
         if (res.status === 400) {
-          console.log('Agent Offline');
-          throw 'Agent Offline';
+          console.log('Bad request');
+          throw new Error('400. Bad request');
         }
 
         if (res.status === 401) {
           logout();
         }
 
-        return res.json().then((response) => {
-          return {
+        return res.json().then((response) => ({
             data: response,
             status: res.status,
             xProcessTime: res.headers.get('X-Process-Time'),
-          };
-        });
+          }));
       })
 
       .then((res) => {
-        /*const data = res.data;
-        const statusCode = res.status;
-
-        if ('error' in data) {
-          setData(undefined);
-          setError(true);
-
-          ApiResponseShowErrorNotification({
-            title: data.error.title,
-            message: data.error.description
-          });          
-          addNotificationHistory({
-            statusCode: statusCode,
-            title: data.error.title,
-            description: data.error.description,
-          });
-        } else if ('data' in data) {
-          setData(data.data);
-        }
-
-        if ('notifications' in data) {
-          data.notifications.map((message: any) => {
-            ApiResponseShowNotification({
-              title: message.title,
-              message: message.description,
-              type: message?.info,
-            });
-            addNotificationHistory({
-              statusCode: statusCode,
-              title: message.title,
-              description: message.description,
-            });
-            return null;
-          });
-        }
-
-        if ('messages' in data) {
-          data.messages.map((message: any) => {
-            APIResponseMessage({
-              title: message.title,
-              description: message.description,
-            });
-          });
-        }
-
-        setFetching(false);
-        
-        if (addInHistory === true) {
-          addApiResponseHistory({
-            method: 'GET',
-            url: `${backendUrl}${url}?${param}`,
-            data: data,
-            statusCode: statusCode,
-            xProcessTime: res.xProcessTime,
-          });
-        }*/
         setFetching(false);
         handleApiResponse({
           res,
@@ -190,7 +131,7 @@ export const useApiGet = () => {
           title: 'Error',
           message: `Oops, something went wrong. ${err}`,
         });
-        if (err == 'Agent Offline') return;
+        // if (err === 'Agent Offline') return;
       });
   };
 

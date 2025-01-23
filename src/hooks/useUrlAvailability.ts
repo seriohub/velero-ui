@@ -1,5 +1,5 @@
-import { useServerStatus } from '@/contexts/ServerContext';
 import { useState } from 'react';
+import { useServerStatus } from '@/contexts/ServerContext';
 
 // Asynchronous function that checks the reachability of a URL
 const checkUrlAvailability = async (url: string) => {
@@ -25,7 +25,7 @@ export const useUrlAvailability = () => {
   const serverValues = useServerStatus();
 
   const checkAvailability = async (url: string) => {
-    if (serverValues.isServerAvailable == true) {
+    if (serverValues.isServerAvailable === true) {
       setLoading(true);
       const result = await checkUrlAvailability(url);
       setIsUrlAvailable(result);
@@ -33,5 +33,9 @@ export const useUrlAvailability = () => {
     }
   };
 
-  return { isUrlAvailable, loading, checkAvailability };
+  return {
+    isUrlAvailable,
+    loading,
+    checkAvailability,
+  };
 };

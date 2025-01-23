@@ -1,15 +1,14 @@
-import { Box, Button, Group, SimpleGrid } from '@mantine/core';
+import { Box, Button, SimpleGrid } from '@mantine/core';
 import { IconBrandSlack, IconBrandTelegram, IconMail } from '@tabler/icons-react';
 
 import { useWatchdogTestChannel } from '@/api/Watchdog/useWatchdogTestChannel';
-import Toolbar from '@/components/Toolbar';
 
 interface WatchdogTestChannelProps {
   configuration: any;
 }
 
 export function WatchdogTestChannel({ configuration }: WatchdogTestChannelProps) {
-  const { data, watchdogTestChannel } = useWatchdogTestChannel();
+  const { watchdogTestChannel } = useWatchdogTestChannel();
 
   return (
     <>
@@ -22,7 +21,7 @@ export function WatchdogTestChannel({ configuration }: WatchdogTestChannelProps)
               size="xs"
               leftSection={<IconMail size={16} />}
               component="a"
-              disabled={configuration?.payload?.EMAIL_ENABLE?.toLowerCase() != 'true'}
+              disabled={configuration?.payload?.EMAIL_ENABLE?.toLowerCase() !== 'true'}
               onClick={(event) => {
                 event.preventDefault();
                 watchdogTestChannel({ email: true });
@@ -38,7 +37,7 @@ export function WatchdogTestChannel({ configuration }: WatchdogTestChannelProps)
               size="xs"
               leftSection={<IconBrandSlack size={16} />}
               component="a"
-              disabled={configuration?.payload?.SLACK_ENABLE?.toLowerCase() != 'true'}
+              disabled={configuration?.payload?.SLACK_ENABLE?.toLowerCase() !== 'true'}
               onClick={(event) => {
                 event.preventDefault();
                 watchdogTestChannel({ slack: true });
@@ -54,7 +53,7 @@ export function WatchdogTestChannel({ configuration }: WatchdogTestChannelProps)
               size="xs"
               leftSection={<IconBrandTelegram size={16} />}
               component="a"
-              disabled={configuration?.payload?.TELEGRAM_ENABLE.toLowerCase() != 'true'}
+              disabled={configuration?.payload?.TELEGRAM_ENABLE.toLowerCase() !== 'true'}
               onClick={(event) => {
                 event.preventDefault();
                 watchdogTestChannel({ telegram: true });

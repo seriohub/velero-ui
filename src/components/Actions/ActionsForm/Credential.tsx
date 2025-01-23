@@ -53,7 +53,7 @@ export function Credential({
     //  console.log(`%cuseEffect 200 has been called`, `color: green; font-weight: bold;`);
     if (data !== undefined || defaultData !== undefined) {
       const c = data || defaultData;
-      if (c != undefined) {
+      if (c !== undefined) {
         form.setFieldValue('aws_access_key_id', c.payload?.aws_access_key_id);
         form.setFieldValue('aws_secret_access_key', c.payload?.aws_secret_access_key);
       }

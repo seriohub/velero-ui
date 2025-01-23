@@ -23,7 +23,7 @@ export function ResourceDelete({
   const { handleDeleteResource } = useResourceDelete();
 
   function deleteResource() {
-    handleDeleteResource(resourceType, {'resource_name': resourceName});
+    handleDeleteResource(resourceType, { resourceName });
 
     const interval = setInterval(() => {
       setReload(reload + 1);
@@ -33,7 +33,9 @@ export function ResourceDelete({
 
   return (
     <>
-      <Text>Confirm delete {resourceType} {resourceName}?</Text>
+      <Text>
+        Confirm delete {resourceType} {resourceName}?
+      </Text>
       <Group mt="md" gap="sm" justify="flex-end">
         <Button
           color="red"

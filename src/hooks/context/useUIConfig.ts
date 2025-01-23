@@ -14,7 +14,10 @@ export const useUIConfig = () => {
       ? (defaultFontSize as FontSizeKey)
       : (50 as FontSizeKey);
 
-    uiValues.setUiFontSize({ value: fontSizeKey, fontSize: fontSizeMap[fontSizeKey] });
+    uiValues.setUiFontSize({
+      value: fontSizeKey,
+      fontSize: fontSizeMap[fontSizeKey],
+    });
 
     const defaultFontFamily = localStorage.getItem('fontFamily') || 'open_sans';
     uiValues.setUiFontFamily({

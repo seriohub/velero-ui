@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { useDisclosure } from '@mantine/hooks';
+import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { Open_Sans } from 'next/font/google';
 
 const open_sans = Open_Sans({ subsets: ['latin'] });
@@ -14,6 +14,8 @@ interface UIStatus {
   showBottomDebugBar: boolean;
   showDebugAside: boolean;
   openedUIDrawer: boolean;
+
+  isMobile: boolean | undefined;
 }
 
 interface UIStatusContextProps extends UIStatus {
@@ -27,6 +29,8 @@ interface UIStatusContextProps extends UIStatus {
   setShowBottomDebugBar: React.Dispatch<React.SetStateAction<boolean>>;
 
   toggleUIDrawer: React.Dispatch<React.SetStateAction<boolean>>;
+
+  setIsMobile: React.Dispatch<React.SetStateAction<boolean | undefined>>;
 }
 
 const UIStateContext = createContext<UIStatusContextProps | undefined>(undefined);
@@ -34,7 +38,10 @@ const UIStateContext = createContext<UIStatusContextProps | undefined>(undefined
 export const UIProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [primaryColor, setPrimaryColor] = useState('blue');
 
-  const [uiFontFamily, setUiFontFamily] = useState({ name: 'open sans', fontFamily: open_sans });
+  const [uiFontFamily, setUiFontFamily] = useState({
+    name: 'open sans',
+    fontFamily: open_sans,
+  });
   const [uiFontSize, setUiFontSize] = useState(undefined);
   const [navbarColored, setNavbarColored] = useState(false);
   const [mainColored, setMainColored] = useState(false);
@@ -44,6 +51,8 @@ export const UIProvider: React.FC<{ children: React.ReactNode }> = ({ children }
   const [showBottomDebugBar, setShowBottomDebugBar] = useState(false);
 
   const [openedUIDrawer, { toggle: toggleUIDrawer }] = useDisclosure();
+
+  const [isMobile, setIsMobile] = useState(useMediaQuery('(max-width: 1024px)'));
 
   useEffect(() => {
     setShowDebugAside(localStorage.getItem('showDebugAside') === 'true' || false);
@@ -72,6 +81,7 @@ export const UIProvider: React.FC<{ children: React.ReactNode }> = ({ children }
         showBottomDebugBar,
         showDebugAside,
         openedUIDrawer,
+        isMobile,
 
         setPrimaryColor,
         setUiFontFamily,
@@ -83,6 +93,8 @@ export const UIProvider: React.FC<{ children: React.ReactNode }> = ({ children }
         setShowBottomDebugBar,
 
         toggleUIDrawer,
+
+        setIsMobile,
       }}
     >
       {children}

@@ -1,0 +1,310 @@
+'use client';
+
+import { useEffect, useState } from 'react';
+
+import { DataTable, DataTableColumn, DataTableSortStatus } from 'mantine-datatable';
+
+import sortBy from 'lodash/sortBy';
+
+import {
+  ActionIcon,
+  Center,
+  Group,
+  CopyButton,
+  Tooltip,
+  rem,
+  Anchor,
+  Text,
+} from '@mantine/core';
+
+import {
+  IconClick,
+  IconCheck,
+  IconCopy,
+  IconAnalyze,
+  IconLockOpen,
+  IconServer,
+  IconDatabase,
+} from '@tabler/icons-react';
+
+import { useContextMenu } from 'mantine-contextmenu';
+
+import { useRouter } from 'next/navigation';
+import DetailActionIcon from '../../Actions/DatatableActionsIcons/DetailActionIcon';
+import RefreshDatatable from '../../Actions/ToolbarActionIcons/RefreshDatatable';
+import Toolbar from '../../Toolbar';
+import InfoRepository from '../../Actions/DatatableActionsIcons/InfoRepository';
+import { useAgentStatus } from '@/contexts/AgentContext';
+import { DataFetchedInfo } from '../../DataFetchedInfo';
+import { useRepositories } from '@/api/RepositoryLocation/useRepositories';
+import { useRepositoryLocks } from '@/api/RepositoryLocation/useRepositoryLocks';
+import { useRepositoryUnlock } from '@/api/RepositoryLocation/useRepositoryUnlock';
+import { useRepositoryCheck } from '@/api/RepositoryLocation/useRepositoryCheck';
+import VeleroResourceStatusBadge from '../VeleroResourceStatusBadge';
+import { MainStack } from '@/components/Velero/MainStack';
+
+const PAGE_SIZES = [5, 10, 15, 20];
+
+export function RepoLocation() {
+  const router = useRouter();
+  const { showContextMenu } = useContextMenu();
+  const agentValues = useAgentStatus();
+
+  const { data, getRepositories, fetching } = useRepositories();
+  const { data: locks, getRepositoryLocks } = useRepositoryLocks();
+  const { data: unlock, getRepositoryUnlock } = useRepositoryUnlock();
+  const { getRepositoryCheck } = useRepositoryCheck();
+
+  const [items, setItems] = useState<Array<any>>([]);
+  const [reload, setReload] = useState(1);
+
+  const [sortStatus, setSortStatus] = useState<DataTableSortStatus>({
+    columnAccessor: 'Number',
+    direction: 'asc',
+  });
+
+  const [pageSize, setPageSize] = useState(PAGE_SIZES[2]);
+  const [page, setPage] = useState(1);
+
+  const [records, setRecords] = useState(items.slice(0, pageSize));
+
+  useEffect(() => {
+    if (agentValues.isAgentAvailable && reload > 1) getRepositories(true);
+  }, [reload]);
+
+  useEffect(() => {
+    if (agentValues.isAgentAvailable) getRepositories();
+  }, [agentValues.isAgentAvailable]);
+
+  useEffect(() => {
+    if (data !== undefined) {
+      setItems(data.payload);
+    } else {
+      setItems([]);
+    }
+  }, [data]);
+
+  useEffect(() => {
+    const from = (page - 1) * pageSize;
+    const to = from + pageSize;
+    const data_sorted = sortBy(items, sortStatus.columnAccessor);
+
+    setRecords(
+      sortStatus.direction === 'desc'
+        ? data_sorted.reverse().slice(from, to)
+        : data_sorted.slice(from, to)
+    );
+  }, [page, pageSize, sortStatus, items]);
+
+  const renderActions: DataTableColumn<any>['render'] = (record) => (
+    <Group gap={4} justify="right" wrap="nowrap">
+      <DetailActionIcon name={record.metadata.name} record={record} />
+      <InfoRepository
+        repositoryURL={record.spec.resticIdentifier}
+        backupStorageLocation={record.spec.backupStorageLocation}
+        repositoryName={record.metadata.name}
+        repositoryType={record.spec.repositoryType}
+        volumeNamespace={record.spec.volumeNamespace}
+      />
+    </Group>
+  );
+
+  useEffect(() => {
+    if (locks !== undefined) {
+      setRecords(
+        records.filter((obj) => {
+          if (obj.spec.resticIdentifier === Object.keys(locks.payload)[0]) {
+            if (locks.payload[Object.keys(locks.payload)[0]].length > 0) {
+              obj.locks = locks.payload[Object.keys(locks.payload)[0]].join('\n');
+            } else {
+              obj.locks = 'No locks';
+            }
+          }
+          return obj;
+        })
+      );
+    }
+  }, [locks]);
+
+  useEffect(() => {
+    if (unlock !== undefined) {
+      getRepositoryLocks(unlock?.payload?.bsl, unlock?.payload?.repositoryUrl);
+    }
+  }, [unlock]);
+
+  return (
+    <MainStack>
+      <Toolbar
+        title="Repo"
+        breadcrumbItem={[
+          {
+            name: 'Repository',
+          },
+        ]}
+      >
+        <RefreshDatatable setReload={setReload} reload={reload} />
+      </Toolbar>
+      <DataFetchedInfo metadata={data?.metadata} />
+      <DataTable
+        minHeight={160}
+        withTableBorder
+        borderRadius="sm"
+        // withColumnBorders
+        striped
+        highlightOnHover
+        records={records}
+        totalRecords={items.length}
+        recordsPerPage={pageSize}
+        page={page}
+        onPageChange={(p) => setPage(p)}
+        recordsPerPageOptions={PAGE_SIZES}
+        onRecordsPerPageChange={setPageSize}
+        sortStatus={sortStatus}
+        onSortStatusChange={setSortStatus}
+        fetching={fetching}
+        onRowContextMenu={({ record, event }: any) =>
+          showContextMenu([
+            {
+              key: 'Check',
+              icon: <IconAnalyze />,
+              disabled: record.spec.repositoryType !== 'restic',
+              onClick: () =>
+                getRepositoryCheck(record.spec.backupStorageLocation, record.spec.resticIdentifier),
+            },
+            {
+              key: 'Check if locked',
+              icon: <IconAnalyze />,
+              disabled: record.spec.repositoryType !== 'restic',
+              onClick: () =>
+                getRepositoryLocks(record.spec.backupStorageLocation, record.spec.resticIdentifier),
+            },
+            {
+              key: 'Unlock',
+              icon: <IconLockOpen />,
+              disabled: record.spec.repositoryType !== 'restic',
+              onClick: () =>
+                getRepositoryUnlock(
+                  record.spec.backupStorageLocation,
+                  record.spec.resticIdentifier
+                ),
+            },
+            {
+              key: 'Unlock --remove-all',
+              title: 'Unlock --remove-all',
+              icon: <IconLockOpen />,
+              disabled: record.spec.repositoryType !== 'restic',
+              onClick: () =>
+                getRepositoryUnlock(
+                  record.spec.backupStorageLocation,
+                  record.spec.resticIdentifier,
+                  true
+                ),
+            },
+          ])(event)
+        }
+        idAccessor="metadata.name"
+        columns={[
+          {
+            accessor: 'metadata.name',
+            title: 'Name',
+            sortable: true,
+            render: (record) => (
+              <Anchor
+                size="sm"
+                onClick={() => {
+                  router.push(`/repos/${record?.metadata?.name}`);
+                }}
+              >
+                <Group gap={5}>
+                  <IconDatabase size={16} />
+                  {record?.metadata?.name}
+                </Group>
+              </Anchor>
+            ),
+          },
+          {
+            accessor: 'status.phase',
+            title: 'Status',
+            sortable: true,
+            render: ({ status }: any) => <VeleroResourceStatusBadge status={status.phase} />,
+          },
+          {
+            accessor: 'spec.volumeNamespace',
+            title: 'Volume Namespace',
+            sortable: true,
+          },
+          {
+            accessor: 'spec.backupStorageLocation',
+            title: 'Backups Storage Location',
+            sortable: true,
+            render: (record) => (
+              <Anchor
+                size="sm"
+                onClick={() => {
+                  router.push(`/backup-storage-locations/${record?.spec.backupStorageLocation}`);
+                }}
+              >
+                <Group gap={5}>
+                  <IconServer size={16} />
+                  <Text>{record?.spec.backupStorageLocation}</Text>
+                </Group>
+              </Anchor>
+            ),
+          },
+          {
+            accessor: 'spec.repositoryType',
+            title: 'Repository Type',
+            sortable: true,
+            render: ({ spec }: any) => <VeleroResourceStatusBadge status={spec.repositoryType} />,
+          },
+          {
+            accessor: 'locks',
+            title: 'Locks',
+            sortable: true,
+          },
+          {
+            accessor: 'spec.resticIdentifier',
+            title: 'Identifier',
+            sortable: true,
+            render: ({ spec }: any) => (
+              <>
+                {spec.resticIdentifier && (
+                  <Group gap={5}>
+                    <CopyButton value={spec.resticIdentifier} timeout={2000}>
+                      {({ copied, copy }) => (
+                        <Tooltip label={copied ? 'Copied' : 'Copy'} withArrow position="right">
+                          <ActionIcon
+                            color={copied ? 'teal' : 'gray'}
+                            variant="subtle"
+                            onClick={copy}
+                          >
+                            {copied ? (
+                              <IconCheck style={{ width: rem(16) }} />
+                            ) : (
+                              <IconCopy style={{ width: rem(16) }} />
+                            )}
+                          </ActionIcon>
+                        </Tooltip>
+                      )}
+                    </CopyButton>
+                    <Text size="sm">{spec.resticIdentifier}</Text>
+                  </Group>
+                )}
+              </>
+            ),
+          },
+          {
+            accessor: 'actions',
+            title: (
+              <Center>
+                <IconClick size={16} />
+              </Center>
+            ),
+            width: '0%',
+            render: renderActions,
+          },
+        ]}
+      />
+    </MainStack>
+  );
+}

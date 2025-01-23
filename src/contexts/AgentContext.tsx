@@ -9,6 +9,7 @@ interface AgentStatus {
   agentInfo: any;
   agentConfig: any;
 }
+
 interface AgentStatusContextProps extends AgentStatus {
   setAgents: React.Dispatch<React.SetStateAction<Array<AgentApiConfig> | null>>;
   setCurrentAgent: React.Dispatch<React.SetStateAction<AgentApiConfig | undefined>>;

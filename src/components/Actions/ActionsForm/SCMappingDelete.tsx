@@ -17,8 +17,8 @@ export function SCMappingDelete({ record, reload, setReload }: SCMappingDeletePr
 
   function deleteSCMap() {
     handleDeleteSCMap({
-        oldStorageClass: record['oldStorageClass'],
-        newStorageClass: record['newStorageClass'],
+      oldStorageClass: record['oldStorageClass'],
+      newStorageClass: record['newStorageClass'],
     });
 
     const interval = setInterval(() => {
