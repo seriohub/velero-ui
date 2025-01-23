@@ -5,8 +5,8 @@ import { useEffect } from 'react';
 import { useForm } from '@mantine/form';
 import { closeAllModals } from '@mantine/modals';
 
-import { useAppStatus } from '@/contexts/AppContext';
 import { Box, Button, Group, Select, TextInput } from '@mantine/core';
+import { useAppStatus } from '@/contexts/AppContext';
 import { useStorageClasses } from '@/api/SCMapping/useStorageClasses';
 import { useSCCreateMap } from '@/api/SCMapping/useSCCreateMap';
 import { useSCUpdateMap } from '@/api/SCMapping/useSCUpdateMap';
@@ -31,8 +31,8 @@ export function SCMappingForm({
   const { handleScUpdateMap } = useSCUpdateMap();
   const form = useForm({
     initialValues: {
-      oldStorageClass: mode == 'create' ? '' : record['oldStorageClass'],
-      newStorageClass: mode == 'create' ? '' : record['newStorageClass'],
+      oldStorageClass: mode === 'create' ? '' : record['oldStorageClass'],
+      newStorageClass: mode === 'create' ? '' : record['newStorageClass'],
     },
 
     validate: {
@@ -48,7 +48,7 @@ export function SCMappingForm({
   }, []);
 
   function onDone(values: any) {
-    if (mode == 'create') {
+    if (mode === 'create') {
       handleScCreateMap(values);
     } else {
       handleScUpdateMap(values);
@@ -73,7 +73,7 @@ export function SCMappingForm({
             label="Name"
             placeholder=""
             {...form.getInputProps('oldStorageClass')}
-            disabled={mode == 'update'}
+            disabled={mode === 'update'}
           />
           <Select
             label="New Storage Class"

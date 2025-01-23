@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 
 ***
 
+## [v0.1.20] - 2025-01-23
+
+New Features
+- Backup Storage Location Management: Added functionality to configure and manage backup storage locations.
+- Volume Snapshot Location Management: Introduced the ability to configure and manage volume snapshot locations.
+- Velero Resource Consultation: Added a feature to consult Velero resources.
+
+Improvements
+- Enhanced UI usability
+
 ## [v0.1.19] - 2025-01-11
 
 - Improved code maintainability

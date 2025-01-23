@@ -1,4 +1,5 @@
 'use client';
+
 import { useEffect } from 'react';
 import { ActionIcon, Tooltip } from '@mantine/core';
 import { openModal } from '@mantine/modals';
@@ -17,6 +18,7 @@ interface InfoRepositoryProps {
   repositoryType: string;
   volumeNamespace: string;
 }
+
 export default function InfoRepository({
   repositoryURL,
   backupStorageLocation,
@@ -27,8 +29,8 @@ export default function InfoRepository({
   const { data: dataRepository, checkRepository } = useCheckRepository();
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development')
-      console.log(`%cuseEffect 350 has been called`, `color: green; font-weight: bold;`);
+    // if (process.env.NODE_ENV === 'development')
+    //  console.log(`%cuseEffect 350 has been called`, `color: green; font-weight: bold;`);
     if (dataRepository !== undefined) {
       // console.log(dataRepository);
       openModal({

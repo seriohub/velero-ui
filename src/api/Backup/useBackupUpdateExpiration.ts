@@ -7,11 +7,11 @@ export const useBackupUpdateExpiration = () => {
     const backupUpdateExpiration = async (backupName: string, expiration: string) => {
         try {
             // Execute the API call with the generic method
-            await patchData('/v1/backup/update-expiration', { backup_name: backupName, expiration: expiration });
+            await patchData('/v1/backup/expiration', { backupName, expiration });
 
             // This code will be executed only in case of success
             // console.log('Request successful, execute final action...');
-        } catch (error) {
+        } catch (e) {
             // Error handling
             // console.error('Error during call:', error);
         } finally {

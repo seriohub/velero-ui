@@ -8,7 +8,7 @@ import SwitchColorScheme from '../../HeaderLink/SwitchColorScheme/SwitchColorSch
 import CheckAppVersion from '@/components/HeaderLink/CheckAppVersion/CheckAppVersion';
 import UserMenu from '@/components/HeaderLink/UserMenu';
 
-export function AppShellHeader({ opened, toggle, openedUIDrawer, toggleUIDrawer }: any) {
+export function AppShellHeader({ opened, toggle }: any) {
   const computedColorScheme = useComputedColorScheme('light', { getInitialValueInEffect: true });
 
   return (
@@ -25,10 +25,10 @@ export function AppShellHeader({ opened, toggle, openedUIDrawer, toggleUIDrawer 
             variant="default"
             radius={8}
             href="https://github.com/sponsors/davideserio"
-            bg={computedColorScheme == 'light' ? '' : 'red'}
+            bg={computedColorScheme === 'light' ? '' : 'red'}
           >
             <IconHeartFilled
-              style={computedColorScheme == 'light' ? { color: 'red' } : { color: 'white' }}
+              style={computedColorScheme === 'light' ? { color: 'red' } : { color: 'white' }}
             />
           </ActionIcon>
 

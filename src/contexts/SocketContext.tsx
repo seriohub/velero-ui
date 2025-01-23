@@ -1,5 +1,5 @@
-import { useAppWebSocket } from '@/hooks/context/useAppWebSocket';
 import React, { createContext, useContext, useState } from 'react';
+import { useAppWebSocket } from '@/hooks/context/useAppWebSocket';
 
 interface SocketStatus {
   socketHistory: Array<string>;

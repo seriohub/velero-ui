@@ -1,38 +1,44 @@
-import { useApiGet } from '@/hooks/utils/useApiGet';
+import { useApiPost } from '@/hooks/utils/useApiPost';
 
 interface ChannelTest {
-    email?: boolean,
-    slack?: boolean,
-    telegram?: boolean
+  email?: boolean;
+  slack?: boolean;
+  telegram?: boolean;
 }
 
 // Hook to handle category task fetching logic
 export const useWatchdogTestChannel = () => {
-    const { data, getData, fetching, error } = useApiGet();
+  const { data, postData, fetching, error } = useApiPost();
 
-    const watchdogTestChannel = async ({
-        email = false,
-        slack = false,
-        telegram = false
-    }: ChannelTest) => {
-        try {
-            // Execute the API call with the generic method
-            await getData({
-                url: '/v1/watchdog/send-test-notification',
-                params: `email=${email}&slack=${slack}&telegram=${telegram}`
-            });
+  const watchdogTestChannel = async ({
+    email = false,
+    slack = false,
+    telegram = false,
+  }: ChannelTest) => {
+    try {
+      // Execute the API call with the generic method
+      await postData('/v1/watchdog/send-test-notification', {
+        email,
+        slack,
+        telegram,
+      });
+      //params: `email=${email}&slack=${slack}&telegram=${telegram}`
+      // This code will be executed only in case of success
+      // console.log('Request successful, execute final action...');
+    } catch (e) {
+      // Error handling
+      // console.error('Error during call:', error);
+    } finally {
+      // This code will always be executed
+      // console.log('Final action after request')
+    }
+  };
 
-            // This code will be executed only in case of success
-            // console.log('Request successful, execute final action...');
-        } catch (error) {
-            // Error handling
-            // console.error('Error during call:', error);
-        } finally {
-            // This code will always be executed
-            // console.log('Final action after request')
-        }
-    };
-
-    // Return the function for the call and the necessary data
-    return { watchdogTestChannel, data, fetching, error };
+  // Return the function for the call and the necessary data
+  return {
+    watchdogTestChannel,
+    data,
+    fetching,
+    error,
+  };
 };

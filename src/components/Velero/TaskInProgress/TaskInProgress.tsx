@@ -14,7 +14,7 @@ import { useAppStatus } from '@/contexts/AppContext';
 
 import { useAgentStatus } from '@/contexts/AgentContext';
 import { useStatsInProgress } from '@/api/Stats/useStatsInProgress';
-import ExpireIn from '../Backup/ExpireIn';
+import ExpireIn from '@/components/Velero/Backups/ExpireIn';
 import DescribeActionIcon from '@/components/Actions/DatatableActionsIcons/DescribeActionIcon';
 import LogsActionIcon from '@/components/Actions/DatatableActionsIcons/LogsActionIcon';
 import DeleteActionIcon from '@/components/Actions/DatatableActionsIcons/DeleteActionIcon';
@@ -140,7 +140,7 @@ export default function TaskInProgress() {
             height={240}
             withTableBorder
             borderRadius="sm"
-            withColumnBorders
+            // withColumnBorders
             striped
             highlightOnHover
             idAccessor="id"
@@ -170,7 +170,7 @@ export default function TaskInProgress() {
               },
               {
                 accessor: 'metadata.labels["velero.io/schedule-name"]',
-                title: 'Schedule name',
+                title: 'Schedules',
                 render: ({ metadata }: any) => {
                   if (
                     metadata.labels !== undefined &&
@@ -190,9 +190,7 @@ export default function TaskInProgress() {
                 sortable: true,
                 width: 100,
                 ellipsis: true,
-                render: ({ status }: any) => (
-                  <>{<VeleroResourceStatusBadge status={status.phase} />}</>
-                ),
+                render: ({ status }: any) => <VeleroResourceStatusBadge status={status.phase} />,
               },
               {
                 accessor: 'status.errors',

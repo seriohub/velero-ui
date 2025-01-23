@@ -1,9 +1,8 @@
 import { Group, Text } from '@mantine/core';
 
-import ExpireIn from './Velero/Backup/ExpireIn';
+import ExpireIn from '@/components/Velero/Backups/ExpireIn';
 
-export const DataFetchedInfo = ({ metadata }: any) => {
-  return (
+export const DataFetchedInfo = ({ metadata }: any) => (
     <>
       {metadata?.timestamp && (
         <>
@@ -16,4 +15,3 @@ export const DataFetchedInfo = ({ metadata }: any) => {
       )}
     </>
   );
-};

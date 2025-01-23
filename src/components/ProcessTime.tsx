@@ -1,12 +1,12 @@
 import { Sparkline } from '@mantine/charts';
 
-import { useAppStatus } from '@/contexts/AppContext';
 import { Group, Text } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
+import { useAppStatus } from '@/contexts/AppContext';
 
 export const ProcessTime = () => {
   const appValues = useAppStatus();
-  const isVisible = useMediaQuery(`(min-width: 74em`);
+  const isVisible = useMediaQuery('(min-width: 74em');
 
   if (!isVisible) return <></>;
 

@@ -25,13 +25,18 @@ export default function CreateBackupToolbarIcon({
         onClick={(e) => {
           e.stopPropagation();
           openModal({
-            title: 'Create New Backup',
-            size: 'lg',
+            title: 'Create New Backups',
+            size: 'xl',
             children: <CreateBackup reload={reload} setReload={setReload} />,
           });
         }}
       >
-        <IconPlus style={{ width: '70%', height: '70%' }} />
+        <IconPlus
+          style={{
+            width: '70%',
+            height: '70%',
+          }}
+        />
       </ActionIcon>
     </Tooltip>
   );

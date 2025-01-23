@@ -11,6 +11,7 @@ interface DescribeActionIconProps {
   resourceType: string;
   record: any;
 }
+
 export default function DescribeActionIcon({ resourceType, record }: DescribeActionIconProps) {
   return (
     <Tooltip label="Describe">

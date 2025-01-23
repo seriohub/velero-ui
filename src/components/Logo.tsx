@@ -25,7 +25,7 @@ export function Logo() {
         <Box lightHidden>
           <Group p={5} gap={5}>
             <IconSailboat size={48} stroke="1.5" color="white" />
-            <Text fz="xl" size={'xl'} fw={800} c="white">
+            <Text fz="xl" size="xl" fw={800} c="white">
               Vui
             </Text>
           </Group>
@@ -36,7 +36,7 @@ export function Logo() {
               size={48}
               stroke="1.5"
               color={
-                uiValues.navbarColored && computedColorScheme == 'light'
+                uiValues.navbarColored && computedColorScheme === 'light'
                   ? 'var(--mantine-color-white)'
                   : undefined
               }
@@ -46,7 +46,7 @@ export function Logo() {
               size="xl"
               fw={800}
               c={
-                uiValues.navbarColored && computedColorScheme == 'light'
+                uiValues.navbarColored && computedColorScheme === 'light'
                   ? 'var(--mantine-color-white)'
                   : undefined
               }

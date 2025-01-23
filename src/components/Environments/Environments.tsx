@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 
-import { Stack, Loader, Center, ScrollArea, SimpleGrid, Space } from '@mantine/core';
+import { Stack, Loader, Center, ScrollArea, Space } from '@mantine/core';
 
 import { useViewportSize } from '@mantine/hooks';
 import { AgentStats } from './items/AgentStats';
@@ -22,8 +22,6 @@ export function Environments() {
   const [agentStats, setAgentStats] = useState({});
 
   useEffect(() => {
-    // if (process.env.NODE_ENV === 'development')
-    //  console.log(`%cuseEffect 1110 has been called`, `color: green; font-weight: bold;`);
     if (agentValues.isAgentAvailable) {
       getAgentStats();
     }
@@ -32,20 +30,17 @@ export function Environments() {
   useEffect(() => {
     if (data?.payload !== undefined) {
       setAgentStats(data?.payload);
-      /*const jsonData = require('/mockdata/data.json');
-      setAgentStats({ ...data.payload, ...jsonData });
-      else
-      console.log("3000", { ...data.payload, ...jsonData })*/
     }
   }, [data]);
 
-  const agents = Object.entries(agentStats).map(([key, value]) => {
-    return <AgentStats name={key} data={value} />;
-  });
+  const agents = Object.entries(agentStats).map(([key, value]) => (
+    <AgentStats name={key} data={value} />
+  ));
 
   return (
     <>
       <ScrollArea p={0} style={{ height: '100%' }} scrollbars="y" offsetScrollbars>
+        a
         <Stack p={5} w={vpWidth < 768 ? '100vw' : 'calc(100vw - 240px)'}>
           <Stack>
             <Toolbar title="Environments">

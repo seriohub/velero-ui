@@ -2,26 +2,27 @@ import { useApiPost } from '@/hooks/utils/useApiPost';
 
 // Hook per gestire la logica di fetching dei task di categoria
 export const useCreateBackup = () => {
-    const { data, postData, fetching, error } = useApiPost()
+  const { data, postData, fetching, error } = useApiPost();
 
-    const handleCreateBackup = async (values: any) => {
-        try {
-            // Esegui la chiamata API con il metodo generico
-            await postData(
-                '/v1/backup/create',
-                values)
+  const handleCreateBackup = async (values: any) => {
+    try {
+      // Execute the API call with the generic method
+      await postData('/v1/backup', values);
+      // This code will be executed only in case of success
+      // console.log('Richiesta riuscita, eseguo azioni finali...');
+    } catch (e) {
+      // Error handling
+      // console.error('Errore durante la chiamata:', error);
+    } finally {
+      // This code will always be executed
+      // console.log('Azione finale dopo la richiesta');
+    }
+  };
 
-            // Questo codice verrà eseguito solo in caso di successo
-            // console.log('Richiesta riuscita, eseguo azioni finali...');
-        } catch (error) {
-            // Gestione dell'errore
-            // console.error('Errore durante la chiamata:', error);
-        } finally {
-            // Questo codice verrà eseguito sempre
-            // console.log('Azione finale dopo la richiesta');
-        }
-    };
-
-    // Restituisci la funzione per la chiamata e i dati necessari
-    return { handleCreateBackup, responseStatus: data, fetching, error };
+  return {
+    handleCreateBackup,
+    responseStatus: data,
+    fetching,
+    error,
+  };
 };

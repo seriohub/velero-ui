@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext, useCallback } from 'react';
+import React, { createContext, useState, useContext } from 'react';
 import { ServerApiConfig, APIManager } from '@/lib/APIManager';
 
 interface ServerStatus {

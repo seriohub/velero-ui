@@ -5,7 +5,6 @@ import { useEffect, useState } from 'react';
 import { useForm } from '@mantine/form';
 import { closeAllModals } from '@mantine/modals';
 
-
 import CreateBackupScheduleForm from './CreateBackupScheduleForm';
 import { useAppStatus } from '@/contexts/AppContext';
 import { useCreationScheduleSettings } from '@/api/Schedule/useScheduleSettings';

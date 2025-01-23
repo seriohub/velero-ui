@@ -1,14 +1,29 @@
 'use client';
 
-import { rem, Select, Slider, Text, Box } from '@mantine/core';
+import { rem, Slider, Text, Box } from '@mantine/core';
 import { useUIStatus } from '@/contexts/UIContext';
 
 const marks = [
-  { value: 0, label: 'xs' },
-  { value: 25, label: 'sm' },
-  { value: 50, label: 'md' },
-  { value: 75, label: 'lg' },
-  { value: 100, label: 'xl' },
+  {
+    value: 0,
+    label: 'xs',
+  },
+  {
+    value: 25,
+    label: 'sm',
+  },
+  {
+    value: 50,
+    label: 'md',
+  },
+  {
+    value: 75,
+    label: 'lg',
+  },
+  {
+    value: 100,
+    label: 'xl',
+  },
 ];
 
 // Map the slider values to corresponding font sizes
@@ -59,7 +74,10 @@ export function UIConfigFontSize() {
     // console.log('Selected font size mapping:', fontSizeMap[endValue]);
 
     // Update the app state with the selected font sizes
-    appValues.setUiFontSize({ value: String(endValue), fontSize: fontSizeMap[endValue] });
+    appValues.setUiFontSize({
+      value: String(endValue),
+      fontSize: fontSizeMap[endValue],
+    });
     localStorage.setItem('fontSize', String(endValue));
   }
 
@@ -78,4 +96,3 @@ export function UIConfigFontSize() {
     </Box>
   );
 }
-

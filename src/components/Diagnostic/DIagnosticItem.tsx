@@ -27,10 +27,33 @@ export function DiagnosticItem({
   message3 = '',
   message4 = '',
 }: DiagnosticItemProps) {
-  const IconOk = <IconCheck color="green" style={{ width: rem(16), height: rem(16) }} />;
-  const IconError = <IconX color="red" style={{ width: rem(16), height: rem(16) }} />;
-  const IconWarning = <IconCheck color="yellow" style={{ width: rem(16), height: rem(16) }} />;
-  const emptyFragment: any = <></>;
+  const IconOk = (
+    <IconCheck
+      color="green"
+      style={{
+        width: rem(16),
+        height: rem(16),
+      }}
+    />
+  );
+  const IconError = (
+    <IconX
+      color="red"
+      style={{
+        width: rem(16),
+        height: rem(16),
+      }}
+    />
+  );
+  const IconWarning = (
+    <IconCheck
+      color="yellow"
+      style={{
+        width: rem(16),
+        height: rem(16),
+      }}
+    />
+  );
 
   return (
     <List.Item
@@ -50,11 +73,11 @@ export function DiagnosticItem({
         {ok && actionIcon}
       </Group>
 
-      {(message != '' || message2 != '' || message3 != '') && (
+      {(message !== '' || message2 !== '' || message3 !== '') && (
         <List size="sm" mt={5} pl={30}>
-          {message != '' && <List.Item>{message}</List.Item>}
-          {message2 != '' && <List.Item>{message2}</List.Item>}
-          {message3 != '' && <List.Item>{message3}</List.Item>}
+          {message !== '' && <List.Item>{message}</List.Item>}
+          {message2 !== '' && <List.Item>{message2}</List.Item>}
+          {message3 !== '' && <List.Item>{message3}</List.Item>}
           {message4 !== '' && <List.Item>{message4}</List.Item>}
         </List>
       )}

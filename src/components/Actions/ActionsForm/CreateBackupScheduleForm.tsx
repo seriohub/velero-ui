@@ -153,9 +153,18 @@ export default function CreateBackupScheduleForm({
                     value={form.values.includeClusterResources}
                     {...form.getInputProps('includeClusterResources')}
                     data={[
-                      { label: 'Auto', value: '' },
-                      { label: 'True', value: 'true' },
-                      { label: 'False', value: 'false' },
+                      {
+                        label: 'Auto',
+                        value: '',
+                      },
+                      {
+                        label: 'True',
+                        value: 'true',
+                      },
+                      {
+                        label: 'False',
+                        value: 'false',
+                      },
                     ]}
                   />
                 </Box>

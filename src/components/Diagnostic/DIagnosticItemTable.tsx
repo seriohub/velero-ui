@@ -1,6 +1,6 @@
 'use client';
 
-import { Group, List, Table, Text, ThemeIcon, rem } from '@mantine/core';
+import { Group, List, Table, Text, rem } from '@mantine/core';
 import { IconCheck, IconX } from '@tabler/icons-react';
 import { ReactElement } from 'react';
 
@@ -27,23 +27,47 @@ export function DiagnosticItemTable({
   message3 = '',
   message4 = '',
 }: DiagnosticItemProps) {
-  const IconOk = <IconCheck color="green" style={{ width: rem(16), height: rem(16) }} />;
-  const IconError = <IconX color="red" style={{ width: rem(16), height: rem(16) }} />;
-  const IconWarning = <IconCheck color="orange" style={{ width: rem(16), height: rem(16) }} />;
+  const IconOk = (
+    <IconCheck
+      color="green"
+      style={{
+        width: rem(16),
+        height: rem(16),
+      }}
+    />
+  );
+  const IconError = (
+    <IconX
+      color="red"
+      style={{
+        width: rem(16),
+        height: rem(16),
+      }}
+    />
+  );
+  const IconWarning = (
+    <IconCheck
+      color="orange"
+      style={{
+        width: rem(16),
+        height: rem(16),
+      }}
+    />
+  );
 
   return (
     <>
-      <Table.Tr key={btoa(label + '-' + value)}>
+      <Table.Tr key={btoa(`${label}-${value}`)}>
         <Table.Td>{label}</Table.Td>
         <Table.Td>
           <Text size="sm" fw={600}>
             {value}
           </Text>
-          {(message != '' || message2 != '' || message3 != '') && (
+          {(message !== '' || message2 !== '' || message3 !== '') && (
             <List size="sm" mt={5}>
-              {message != '' && <List.Item>{message}</List.Item>}
-              {message2 != '' && <List.Item>{message2}</List.Item>}
-              {message3 != '' && <List.Item>{message3}</List.Item>}
+              {message !== '' && <List.Item>{message}</List.Item>}
+              {message2 !== '' && <List.Item>{message2}</List.Item>}
+              {message3 !== '' && <List.Item>{message3}</List.Item>}
               {message4 !== '' && <List.Item>{message4}</List.Item>}
             </List>
           )}

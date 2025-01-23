@@ -49,7 +49,7 @@ export default function CheckAppVersion() {
         appValues.repoVersion?.helm
       );
 
-      if (cmp == 'githubRelease') {
+      if (cmp === 'githubRelease') {
         setUpdateAvailabe(true);
       }
     }

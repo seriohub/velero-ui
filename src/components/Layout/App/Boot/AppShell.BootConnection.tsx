@@ -2,9 +2,7 @@
 
 import { ServerError } from '@/components/ServerError/ServerError';
 
-import { useAppWebSocket } from '@/hooks/context/useAppWebSocket';
 import AppShellBootAgent from './AppShell.BootAgent';
-import { useSocketStatus } from '@/contexts/SocketContext';
 
 interface AppShellBootProps {
   children: any;

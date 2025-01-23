@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { env } from 'next-runtime-env';
 
 import { useApiGet } from '@/hooks/utils/useApiGet';
@@ -26,19 +26,28 @@ export const useDiagnosticCore = () => {
   useEffect(() => {
     // if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 90 has been called`, `color: green; font-weight: bold;`)
     if (serverValues.isServerAvailable) {
-      getDataK8sHealth({ url: '/info/health-k8s', target: 'core' });
-      getApiOrigins({ url: '/info/origins', target: 'core' });
-      getApiArch({ url: '/info/arch', target: 'core' });
+      getDataK8sHealth({
+        url: '/health/k8s',
+        target: 'core',
+      });
+      getApiOrigins({
+        url: '/info/origins',
+        target: 'core',
+      });
+      getApiArch({
+        url: '/info/arch',
+        target: 'core',
+      });
       getCompatibility({
-        url: '/info/get-ui-comp',
-        params: 'version=' + NEXT_PUBLIC_FRONT_END_BUILD_VERSION,
+        url: '/info/compatibility-table',
+        params: `version=${NEXT_PUBLIC_FRONT_END_BUILD_VERSION}`,
         target: 'core',
       });
     }
 
     if (window) {
       const currentURL = new URL(window.location.href);
-      setUiHost(currentURL.protocol + '//' + currentURL.host);
+      setUiHost(`${currentURL.protocol}//${currentURL.host}`);
     }
   }, [
     //serverValues.currentServer,
@@ -60,20 +69,29 @@ export const useDiagnosticCore = () => {
     }
   }, [apiOrigins]);
 
-  stateManager.setVariable('getUiURL', uiURL != '');
-  stateManager.setVariable('getApiURL', apiURL != '');
-  stateManager.setVariable('checkApiReacheable', serverValues.isServerAvailable == true);
+  stateManager.setVariable('getUiURL', uiURL !== '');
+  stateManager.setVariable('getApiURL', apiURL !== '');
+  stateManager.setVariable('checkApiReacheable', serverValues.isServerAvailable === true);
   stateManager.setVariable(
     'getArchitecture',
-    serverValues.isServerAvailable == true && apiArch?.payload?.platform == undefined
+    serverValues.isServerAvailable === true && apiArch?.payload?.platform === undefined
   );
   stateManager.setVariable('getOrigins', origins.length > 0);
   stateManager.setVariable(
     'validateOrigins',
     origins.length > 0 && (origins.includes(uiURL) || origins.includes('*'))
   );
-  stateManager.setVariable('getClusterHealth', k8sHealth != undefined);
+  stateManager.setVariable('getClusterHealth', k8sHealth !== undefined);
   stateManager.hasWarnings = origins.length > 0 && origins.includes('*');
   stateManager.setVariable('getUiApiVerCompatibility', compatibility?.payload?.compatibility);
-  return { uiURL, apiURL, apiArch, origins, k8sHealth, stateManager, reload, setReload };
+  return {
+    uiURL,
+    apiURL,
+    apiArch,
+    origins,
+    k8sHealth,
+    stateManager,
+    reload,
+    setReload,
+  };
 };

@@ -28,12 +28,15 @@ export const useAgentConfig = () => {
   // agent list if core connected
   useEffect(() => {
     //if (serverValues.isServerAvailable && serverValues.isCurrentServerControlPlane !== undefined) {
-      if (serverValues.isCurrentServerControlPlane && appValues.isAuthenticated) {
-        getDataAgent({ url: '/v1/agent/get', target: 'core' });
-      } // else {
-      // agentValues.setCurrentAgent(serverValues.currentServer);
-      // agentValues.setIsAgentAvailable(serverValues.isServerAvailable);
-      // }
+    if (serverValues.isCurrentServerControlPlane && appValues.isAuthenticated) {
+      getDataAgent({
+        url: '/v1/agents',
+        target: 'core',
+      });
+    } // else {
+    // agentValues.setCurrentAgent(serverValues.currentServer);
+    // agentValues.setIsAgentAvailable(serverValues.isServerAvailable);
+    // }
     //}
   }, [
     // serverValues.currentServer,
@@ -49,9 +52,9 @@ export const useAgentConfig = () => {
       getAppInfo(serverValues.isCurrentServerControlPlane ? 'core' : 'agent');
     }
     if (agentValues.isAgentAvailable && appValues.isAuthenticated) {
-      getAgentConfiguration()
+      getAgentConfiguration();
     }
-  }, [agentValues.isAgentAvailable, appValues.isAuthenticated])
+  }, [agentValues.isAgentAvailable, appValues.isAuthenticated]);
 
   // set
 
@@ -62,7 +65,7 @@ export const useAgentConfig = () => {
         agentValues.setAgents(agentsAvailable?.payload);
         const agentIndex =
           localStorage.getItem('agent') &&
-            Number(localStorage.getItem('agent')) < agentsAvailable?.payload.length
+          Number(localStorage.getItem('agent')) < agentsAvailable?.payload.length
             ? Number(localStorage.getItem('agent'))
             : 0;
 
@@ -107,22 +110,28 @@ export const useAgentConfig = () => {
       checkAgentStatus();
       const interval = setInterval(checkAgentStatus, 8000);
       return () => clearInterval(interval);
-    } else if (serverValues.isCurrentServerControlPlane == false) {
+    }
+    if (!serverValues.isCurrentServerControlPlane) {
       // agentValues.setCurrentAgent(serverValues.currentServer);
       agentValues.setIsAgentAvailable(serverValues.isServerAvailable);
     }
-  }, [agentValues.currentAgent, serverValues.isServerAvailable, serverValues.isCurrentServerControlPlane]);
+  }, [
+    agentValues.currentAgent,
+    serverValues.isServerAvailable,
+    serverValues.isCurrentServerControlPlane,
+  ]);
 
   // agent configuration
   useEffect(() => {
     if (agentConfiguration !== undefined) {
-      agentValues.setAgentConfig(agentConfiguration?.payload)
+      agentValues.setAgentConfig(agentConfiguration?.payload);
     }
   }, [agentConfiguration]);
 
   // agent info
   useEffect(() => {
-    if (agentInfo)
+    if (agentInfo) {
       agentValues.setAgentInfo(agentInfo?.payload);
+    }
   }, [agentInfo]);
 };

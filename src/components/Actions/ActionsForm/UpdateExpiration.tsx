@@ -46,13 +46,15 @@ export function UpdateExpiration({ record = {} }: UpdateExpirationProps) {
       </Center>
     );
   }
+
   function onDone(values: any) {
     /*getData2({
-      url: '/v1/backup/update-expiration',
+      url: '/v1/[backup]/update-expiration',
       param: `backup_name=${record.metadata.name}&expiration=${values.expiration}`,
     });*/
-    backupUpdateExpiration(record.metadata.name, values.expiration)
+    backupUpdateExpiration(record.metadata.name, values.expiration);
   }
+
   return (
     <>
       <Box mx="auto">

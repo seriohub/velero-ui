@@ -1,7 +1,6 @@
 'use client';
 
-import { rem, Select, Slider, Text, Box, Switch } from '@mantine/core';
-import { useAppStatus } from '@/contexts/AppContext';
+import { Text, Box, Switch } from '@mantine/core';
 import { useEffect, useState } from 'react';
 import { useUIStatus } from '@/contexts/UIContext';
 

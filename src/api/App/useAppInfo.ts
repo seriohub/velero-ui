@@ -10,13 +10,13 @@ export const useAppInfo = () => {
         try {
             // Execute the API call with the generic method
             await getData({
-                url: '/info/get',
-                target: target,
+                url: '/info/app',
+                target,
             });
 
             // This code will be executed only in case of success
             // console.log('Request successful, execute final action...');
-        } catch (error) {
+        } catch (e) {
             // Error handling
             // console.error('Error during call:', error);
         } finally {

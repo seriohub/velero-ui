@@ -1,6 +1,6 @@
 import React from 'react';
 import { DonutChart } from '@mantine/charts';
-import { Box, Text, Group, Center, Card, Title } from '@mantine/core';
+import { Text, Group, Center, Card, Title } from '@mantine/core';
 import { IconActivity } from '@tabler/icons-react';
 
 interface Segment {
@@ -38,7 +38,7 @@ export function StatsSegmentsDonuts({ data, title, icon, path }: StatsSegmentsPr
       <Card withBorder p="md" radius="md" shadow="sm">
         <Group justify="space-between" align="center" gap="xs">
           <Title order={5} mb={20}>
-            {title} status health
+            {title} status
           </Title>
 
           <IconActivity size="2rem" stroke="1.5" color="var(--mantine-primary-color-light-color)" />
@@ -47,7 +47,7 @@ export function StatsSegmentsDonuts({ data, title, icon, path }: StatsSegmentsPr
           {sections.length > 0 && (
             <DonutChart size={160} thickness={25} withLabels labelsType="value" data={sections} />
           )}
-          {sections.length == 0 && (
+          {sections.length === 0 && (
             <Text fw={500} mt={50}>
               Not data found
             </Text>

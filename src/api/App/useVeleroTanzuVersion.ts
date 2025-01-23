@@ -7,11 +7,11 @@ export const useVeleroTanzuVersion = () => {
     const getVeleroTanzuVersion = async () => {
         try {
             // Execute the API call with the generic method
-            await getData({ url: '/info/get-repo-velero-tag' });
+            await getData({ url: '/info/velero-repo-tag' });
 
             // This code will be executed only in case of success
             // console.log('Request successful, execute final action...');
-        } catch (error) {
+        } catch (e) {
             // Error handling
             // console.error('Error during call:', error);
         } finally {

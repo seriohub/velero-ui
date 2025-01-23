@@ -9,11 +9,10 @@ import {
   IconRefresh,
 } from '@tabler/icons-react';
 
+import { useDisclosure } from '@mantine/hooks';
 import { DiagnosticLink } from './DiagnosticLink';
 
 import { DiagnosticItem } from './DIagnosticItem';
-
-import { useDisclosure } from '@mantine/hooks';
 
 import { useDiagnosticCore } from '@/hooks/diagnostic/useDiagnosticCore';
 import { useServerStatus } from '@/contexts/ServerContext';
@@ -98,7 +97,13 @@ export const DiagnosticCoreInfo = () => {
             center
             icon={
               <ThemeIcon color="dimmed" size={24} radius="xl">
-                <IconCircleCheck color="green" style={{ width: rem(24), height: rem(24) }} />
+                <IconCircleCheck
+                  color="green"
+                  style={{
+                    width: rem(24),
+                    height: rem(24),
+                  }}
+                />
               </ThemeIcon>
             }
           >
@@ -112,7 +117,7 @@ export const DiagnosticCoreInfo = () => {
             {/* API URL */}
             <DiagnosticItem
               label="Get API URL"
-              value={apiURL !== undefined ? apiURL + '/' : ''}
+              value={apiURL !== undefined ? `${apiURL}/` : ''}
               ok={stateManager.getVariable('getApiURL')}
               actionIcon={
                 <ActionIcon
@@ -159,7 +164,7 @@ export const DiagnosticCoreInfo = () => {
                 origins.length > 0 && origins.includes('*') ? 'Warning: ORIGINS contains "*"' : ''
               }
               message2={
-                origins.length == 0 || (origins.length > 0 && !origins.includes(uiURL))
+                origins.length === 0 || (origins.length > 0 && !origins.includes(uiURL))
                   ? `Error: Origins must contain ${uiURL}`
                   : ''
               }

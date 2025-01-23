@@ -5,7 +5,6 @@ import { openModal } from '@mantine/modals';
 
 import { IconTrashX } from '@tabler/icons-react';
 
-import { ResourceDelete } from '../ActionsForm/ResourceDelete';
 import { SCMappingDelete } from '../ActionsForm/SCMappingDelete';
 
 interface DeleteSCMappingActionIconProps {
@@ -27,15 +26,9 @@ export default function DeleteSCMappingActionIcon({
         onClick={(e) => {
           e.stopPropagation();
           openModal({
-            title: `Delete Storage Class Mapping`,
+            title: 'Delete Storage Class Mapping',
             size: 'lg',
-            children: (
-              <SCMappingDelete
-                record={record}
-                reload={reload}
-                setReload={setReload}
-              />
-            ),
+            children: <SCMappingDelete record={record} reload={reload} setReload={setReload} />,
           });
         }}
       >

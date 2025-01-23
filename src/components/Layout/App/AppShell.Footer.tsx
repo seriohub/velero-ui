@@ -35,7 +35,7 @@ export function AppShellFooter() {
       <Group justify="space-between" gap={5}>
         <Group gap={20}>
           {serverValues.isCurrentServerControlPlane && <DiagnosticCoreInfo />}
-          {(appValues.isAuthenticated || serverValues.isCurrentServerControlPlane == false) && (
+          {(appValues.isAuthenticated || serverValues.isCurrentServerControlPlane === false) && (
             <DiagnosticAgentInfo />
           )}
         </Group>

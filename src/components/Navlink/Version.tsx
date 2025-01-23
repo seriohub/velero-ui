@@ -34,7 +34,7 @@ export const Version = () => {
             fw={400}
             size="sm"
             c={
-              computedColorScheme == 'light'
+              computedColorScheme === 'light'
                 ? uiValues.navbarColored
                   ? 'white'
                   : undefined
@@ -50,7 +50,7 @@ export const Version = () => {
             fw={400}
             size="sm"
             c={
-              computedColorScheme == 'light'
+              computedColorScheme === 'light'
                 ? uiValues.navbarColored
                   ? 'white'
                   : undefined
@@ -82,7 +82,7 @@ export const Version = () => {
               fw={400}
               size="sm"
               c={
-                computedColorScheme == 'light'
+                computedColorScheme === 'light'
                   ? uiValues.navbarColored
                     ? 'white'
                     : undefined

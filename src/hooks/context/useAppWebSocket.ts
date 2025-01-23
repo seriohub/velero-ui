@@ -17,9 +17,6 @@ export const useAppWebSocket = ({ addSocketHistory = null }: UseAppWebSocketPara
 
   const { logout } = useAuthErrorHandler();
 
-  /*const socketUrl = appValues.isAuthenticated
-    ? `${serverValues?.currentServer?.ws}/ws/auth`
-    : `${serverValues?.currentServer?.ws}/ws/online`;*/
   const socketUrl = `${serverValues?.currentServer?.ws}/ws/auth`;
 
   const didUnmount = useRef(false);
@@ -29,36 +26,48 @@ export const useAppWebSocket = ({ addSocketHistory = null }: UseAppWebSocketPara
   const { sendMessage, lastMessage, readyState } = useWebSocket(
     socketUrl,
     {
-      shouldReconnect: (closeEvent) => didUnmount.current === false,
+      shouldReconnect: () => !didUnmount.current,
       reconnectAttempts: 10,
       reconnectInterval: 3000,
       onOpen: () => {
         // console.log('WebSocket open');
         if (jwtToken) {
-          console.log('WebSocket connected, sending JWT token.');
+          if (process.env.NODE_ENV === 'development') {
+            console.log('WebSocket connected, sending JWT token.');
+          }
           sendMessage(jwtToken);
         }
         serverValues.setIsServerAvailable(true);
-        if (process.env.NODE_ENV === 'development') console.log('Set server available');
+        if (process.env.NODE_ENV === 'development') {
+          console.log('Set server available');
+        }
       },
       onError: (event) => {
-        console.error('WebSocket error observed:', event);
+        if (process.env.NODE_ENV === 'development') {
+          console.error('WebSocket error observed:', event);
+        }
+
         serverValues.setIsServerAvailable(false);
         agentValues.setIsAgentAvailable(false);
-        if (process.env.NODE_ENV === 'development')
+        if (process.env.NODE_ENV === 'development') {
           console.log('Set server and agent not available');
+        }
       },
       onClose: (event) => {
-        console.log('WebSocket closed:', event);
+        if (process.env.NODE_ENV === 'development') {
+          console.log('WebSocket closed:', event);
+        }
 
         // if (pathname == '/login') return; // tmp workaround
         serverValues.setIsServerAvailable(false);
         agentValues.setIsAgentAvailable(false);
-        if (process.env.NODE_ENV === 'development')
+        if (process.env.NODE_ENV === 'development') {
           console.log('Set server and agent not available');
-        if (event?.code == 1001) {
-          console.log("close", event?.code)
-          // logout();
+        }
+
+        if (event?.code === 1001) {
+          console.log('close', event?.code);
+          logout();
         }
       },
     },
@@ -75,20 +84,21 @@ export const useAppWebSocket = ({ addSocketHistory = null }: UseAppWebSocketPara
       ) {
         const response = JSON.parse(lastMessage.data);
 
-        if (response['response_type'] != 'agent_alive') {
+        if (response['response_type'] !== 'agent_alive') {
           addSocketHistory((prev: string[]) => prev.concat(lastMessage.data));
         }
 
-        if (response['response_type'] == 'agent_alive') {
-          if (agentValues?.currentAgent?.name == response['agent_name'] && response['is_alive']) {
+        if (response['response_type'] === 'agent_alive') {
+          if (agentValues?.currentAgent?.name === response['agent_name'] && response['is_alive']) {
             agentValues.setIsAgentAvailable(true);
             // if (process.env.NODE_ENV === 'development')
             // console.log(`${response['agent_name']} available`);
           }
-          if (agentValues.currentAgent?.name == response['agent_name'] && !response['is_alive']) {
+          if (agentValues.currentAgent?.name === response['agent_name'] && !response['is_alive']) {
             agentValues.setIsAgentAvailable(false);
-            if (process.env.NODE_ENV === 'development')
+            if (process.env.NODE_ENV === 'development') {
               console.log(`${response['agent_name']} not available`);
+            }
           }
         }
       }
@@ -110,12 +120,12 @@ export const useAppWebSocket = ({ addSocketHistory = null }: UseAppWebSocketPara
     appValues.setSocketStatus(connectionStatus);
   }, [connectionStatus]);
 
-  useEffect(() => {
-    return () => {
+  useEffect(
+    () => () => {
       didUnmount.current = true;
-    };
-  }, []);
+    },
+    []
+  );
 
   return { sendMessage };
-  //return;
 };

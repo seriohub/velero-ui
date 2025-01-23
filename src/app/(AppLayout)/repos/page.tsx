@@ -1,6 +1,6 @@
 'use client';
 
-import { RepoLocation } from '@/components/Velero/Repo/Data';
+import { RepoLocation } from '@/components/Velero/Repos/Data';
 
 export default function RepoLocationPage() {
   return <RepoLocation />;

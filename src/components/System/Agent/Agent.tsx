@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 
-import { ScrollArea, Stack } from '@mantine/core';
+import { ScrollArea } from '@mantine/core';
 
 import { useAgentStatus } from '@/contexts/AgentContext';
 import Toolbar from '@/components/Toolbar';
@@ -10,6 +10,7 @@ import RefreshDatatable from '@/components/Actions/ToolbarActionIcons/RefreshDat
 
 import { DiagnosticAgentInfoData } from '@/components/Diagnostic/DiagnosticAgentInfoData';
 import { useDiagnosticAgent } from '@/hooks/diagnostic/useDiagnosticAgent';
+import { MainStack } from '@/components/Velero/MainStack';
 
 export function Agent() {
   // const { reload, setReload } = useDiagnosticAgent();
@@ -21,23 +22,21 @@ export function Agent() {
   useEffect(() => {}, [reload, agentValues.isAgentAvailable]);
 
   return (
-    <>
-      <Stack h="100%" gap={0} p={5}>
-        <Toolbar title="Agent" breadcrumbItem={{ name: 'Agent Info', href: '/agent' }}>
-          <RefreshDatatable setReload={setReload} reload={reload} />
-        </Toolbar>
+    <MainStack>
+      <Toolbar title="Agent" breadcrumbItem={[{ name: 'Agent Info' }]}>
+        <RefreshDatatable setReload={setReload} reload={reload} />
+      </Toolbar>
 
-        <ScrollArea p={0} style={{ height: '100%' }} offsetScrollbars>
-          <DiagnosticAgentInfoData
-            uiURL={uiURL}
-            apiURL={apiURL}
-            apiArch={apiArch}
-            origins={origins}
-            k8sHealth={k8sHealth}
-            stateManager={stateManager}
-          />
-        </ScrollArea>
-      </Stack>
-    </>
+      <ScrollArea p={0} style={{ height: '100%' }} offsetScrollbars>
+        <DiagnosticAgentInfoData
+          uiURL={uiURL}
+          apiURL={apiURL}
+          apiArch={apiArch}
+          origins={origins}
+          k8sHealth={k8sHealth}
+          stateManager={stateManager}
+        />
+      </ScrollArea>
+    </MainStack>
   );
 }

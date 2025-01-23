@@ -6,7 +6,6 @@ import {
   ScrollArea,
   Box,
   Text,
-  Space,
   useComputedColorScheme,
 } from '@mantine/core';
 import {
@@ -40,18 +39,62 @@ import classesSimple from './Navbar.module.css';
 import classesColored from './NavbarColored.module.css';
 
 const data = [
-  { link: '/dashboard', label: 'Dashboard', icon: IconDashboard },
-  { link: '/backups', label: 'Backups', icon: IconDeviceFloppy },
-  { link: '/restores', label: 'Restores', icon: IconRestore },
-  { link: '/schedules', label: 'Schedules', icon: IconCalendarEvent },
-  { link: '/backup-storage-locations', label: 'Backup Locations', icon: IconServer },
-  { link: '/volume-snapshot-locations', label: 'Volume Locations', icon: IconDatabase },
-  { link: '/repos', label: 'Repositories', icon: IconFolders },
-  { link: '/sc-mapping', label: 'SC mapping', icon: IconLink },
+  {
+    link: '/dashboard',
+    label: 'Dashboard',
+    icon: IconDashboard,
+  },
+  {
+    link: '/backups',
+    label: 'Backups',
+    icon: IconDeviceFloppy,
+  },
+  {
+    link: '/restores',
+    label: 'Restores',
+    icon: IconRestore,
+  },
+  {
+    link: '/schedules',
+    label: 'Schedules',
+    icon: IconCalendarEvent,
+  },
+  {
+    link: '/backup-storage-locations',
+    label: 'Backups Locations',
+    icon: IconServer,
+  },
+  {
+    link: '/volume-snapshot-locations',
+    label: 'Volume Locations',
+    icon: IconDatabase,
+  },
+  {
+    link: '/repos',
+    label: 'Repositories',
+    icon: IconFolders,
+  },
+  {
+    link: '/sc-mapping',
+    label: 'SC mapping',
+    icon: IconLink,
+  },
 ];
 
-const natsLink = [{ link: '/settings/nats', label: 'Nats', icon: IconAffiliate }];
-const homeLink = [{ link: '/home', label: 'Home', icon: IconHome }];
+const natsLink = [
+  {
+    link: '/settings/nats',
+    label: 'Nats',
+    icon: IconAffiliate,
+  },
+];
+const homeLink = [
+  {
+    link: '/home',
+    label: 'Home',
+    icon: IconHome,
+  },
+];
 
 interface NavItem {
   label: string;
@@ -74,25 +117,16 @@ export function AppShellNavbar({ opened, toggle }: any) {
     router: any,
     toggle: () => void,
     disabled: boolean = false
-  ) => {
-    return data.map((item: NavItem) => (
+  ) =>
+    data.map((item: NavItem) => (
       <NavLink
-        //className={classes.link}
-        //className={classesSimple.link}
         className={
-          computedColorScheme == 'light'
+          computedColorScheme === 'light'
             ? uiValues.navbarColored
               ? classesColored.link
               : classesSimple.link
             : classesSimple.link
         }
-        // className={classes.link}
-        /*style={{
-          color:
-            uiValues.navbarColor && computedColorScheme == 'light'
-              ? 'white'
-              : undefined,
-        }}*/
         key={item.label}
         active={item.link === pathname || undefined}
         label={item.label}
@@ -100,7 +134,7 @@ export function AppShellNavbar({ opened, toggle }: any) {
         leftSection={
           <item.icon
             className={
-              computedColorScheme == 'light'
+              computedColorScheme === 'light'
                 ? uiValues.navbarColored
                   ? classesColored.linkIcon
                   : classesSimple.linkIcon
@@ -113,17 +147,8 @@ export function AppShellNavbar({ opened, toggle }: any) {
           router.push(item.link);
           toggle();
         }}
-        //autoContrast
-        /*color={
-          uiValues.navbarColor && computedColorScheme == 'light'
-            ? 'white'
-            : undefined
-        }*/
-        //variant="filled"
-        // variant="subtle"
       />
     ));
-  };
 
   const links = generateNavLinks(data, pathname, router, toggle);
 
@@ -132,21 +157,24 @@ export function AppShellNavbar({ opened, toggle }: any) {
     pathname,
     router,
     toggle,
-    serverValues.isCurrentServerControlPlane != true
+    serverValues.isCurrentServerControlPlane !== true
   );
   const nats = generateNavLinks(
     natsLink,
     pathname,
     router,
     toggle,
-    serverValues.isCurrentServerControlPlane != true
+    serverValues.isCurrentServerControlPlane !== true
   );
 
   return (
     <>
       <ScrollArea
         p={0}
-        style={{ height: '100vh', w: '100vw' }}
+        style={{
+          height: '100vh',
+          w: '100vw',
+        }}
         maw="100vw"
         scrollbars="y"
         // bg={computedColorScheme == 'light' ? '#FCFCFC' : ''}
@@ -161,38 +189,32 @@ export function AppShellNavbar({ opened, toggle }: any) {
 
               {/*isCore && (*/}
               <Box p={5}>{home}</Box>
-              {/*)}*/}
-              {/*<Divider />*/}
-              {/*<SwitchCluster2 />*/}
-              {/*<SwitchCluster />*/}
-              {
-                /*isCore && (*/
-                <Box mt={20}>
-                  <Text
-                    ml="12"
-                    size="xs"
-                    c={
-                      computedColorScheme == 'light'
-                        ? uiValues.navbarColored
-                          ? 'white'
-                          : undefined
-                        : undefined
-                    }
-                  >
-                    Kubernetes cluster
-                  </Text>
-                  <Box p={5}>
-                    <SwitchAgent />
-                  </Box>
-                </Box>
-                /*)} */
-              }
+
               <Box mt={20}>
                 <Text
                   ml="12"
                   size="xs"
                   c={
-                    computedColorScheme == 'light'
+                    computedColorScheme === 'light'
+                      ? uiValues.navbarColored
+                        ? 'white'
+                        : undefined
+                      : undefined
+                  }
+                >
+                  Kubernetes cluster
+                </Text>
+                <Box p={5}>
+                  <SwitchAgent />
+                </Box>
+              </Box>
+
+              <Box mt={20}>
+                <Text
+                  ml="12"
+                  size="xs"
+                  c={
+                    computedColorScheme === 'light'
                       ? uiValues.navbarColored
                         ? 'white'
                         : undefined
@@ -204,15 +226,12 @@ export function AppShellNavbar({ opened, toggle }: any) {
                 <Box p={5}>{links}</Box>
               </Box>
 
-              {/*isCore && (
-                <>*/}
-              {/* settings */}
               <Box mt={10}>
                 <Text
                   ml="12"
                   size="xs"
                   c={
-                    computedColorScheme == 'light'
+                    computedColorScheme === 'light'
                       ? uiValues.navbarColored
                         ? 'white'
                         : undefined
@@ -225,19 +244,19 @@ export function AppShellNavbar({ opened, toggle }: any) {
                   {nats}
                   <NavLink
                     className={
-                      computedColorScheme == 'light'
+                      computedColorScheme === 'light'
                         ? uiValues.navbarColored
                           ? classesColored.link
                           : classesSimple.link
                         : classesSimple.link
                     }
                     key="api-settings"
-                    active={'/settings/api' === pathname || undefined}
+                    active={pathname === '/settings/api' || undefined}
                     label="API"
                     leftSection={
                       <IconSettings
                         className={
-                          computedColorScheme == 'light'
+                          computedColorScheme === 'light'
                             ? uiValues.navbarColored
                               ? classesColored.linkIcon
                               : classesSimple.linkIcon
@@ -249,29 +268,27 @@ export function AppShellNavbar({ opened, toggle }: any) {
                       event.preventDefault();
                       router.push('/settings/api');
                     }}
-                    //variant="filled"
-                    // autoContrast
                     color={
-                      uiValues.navbarColored && computedColorScheme == 'light'
+                      uiValues.navbarColored && computedColorScheme === 'light'
                         ? 'var(--mantine-color-white)'
                         : undefined
                     }
                   />
                   <NavLink
                     className={
-                      computedColorScheme == 'light'
+                      computedColorScheme === 'light'
                         ? uiValues.navbarColored
                           ? classesColored.link
                           : classesSimple.link
                         : classesSimple.link
                     }
                     key="watchdog"
-                    active={'/settings/watchdog' === pathname || undefined}
+                    active={pathname === '/settings/watchdog' || undefined}
                     label="Watchdog"
                     leftSection={
                       <IconDog
                         className={
-                          computedColorScheme == 'light'
+                          computedColorScheme === 'light'
                             ? uiValues.navbarColored
                               ? classesColored.linkIcon
                               : classesSimple.linkIcon
@@ -283,29 +300,27 @@ export function AppShellNavbar({ opened, toggle }: any) {
                       event.preventDefault();
                       router.push('/settings/watchdog');
                     }}
-                    //variant="filled"
-                    // autoContrast
                     color={
-                      uiValues.navbarColored && computedColorScheme == 'light'
+                      uiValues.navbarColored && computedColorScheme === 'light'
                         ? 'var(--mantine-color-white)'
                         : undefined
                     }
                   />
                   <NavLink
                     className={
-                      computedColorScheme == 'light'
+                      computedColorScheme === 'light'
                         ? uiValues.navbarColored
                           ? classesColored.link
                           : classesSimple.link
                         : classesSimple.link
                     }
                     key="ui"
-                    active={'/settings/ui' === pathname || undefined}
+                    active={pathname === '/settings/ui' || undefined}
                     label="UI"
                     leftSection={
                       <IconAppWindow
                         className={
-                          computedColorScheme == 'light'
+                          computedColorScheme === 'light'
                             ? uiValues.navbarColored
                               ? classesColored.linkIcon
                               : classesSimple.linkIcon
@@ -317,10 +332,8 @@ export function AppShellNavbar({ opened, toggle }: any) {
                       event.preventDefault();
                       router.push('/settings/ui');
                     }}
-                    //variant="filled"
-                    // autoContrast
                     color={
-                      uiValues.navbarColored && computedColorScheme == 'light'
+                      uiValues.navbarColored && computedColorScheme === 'light'
                         ? 'var(--mantine-color-white)'
                         : undefined
                     }
@@ -329,138 +342,131 @@ export function AppShellNavbar({ opened, toggle }: any) {
 
                 {/* system */}
                 <Box mt={10}>
-                <Text
-                  ml="12"
-                  size="xs"
-                  c={
-                    computedColorScheme == 'light'
-                      ? uiValues.navbarColored
-                        ? 'white'
-                        : undefined
-                      : undefined
-                  }
-                >
-                  System
-                </Text>
-                <Box p={5} mt={0}>
-                  <NavLink
-                    className={
-                      computedColorScheme == 'light'
+                  <Text
+                    ml="12"
+                    size="xs"
+                    c={
+                      computedColorScheme === 'light'
                         ? uiValues.navbarColored
-                          ? classesColored.link
-                          : classesSimple.link
-                        : classesSimple.link
-                    }
-                    key="security"
-                    active={'/system/security' === pathname || undefined}
-                    label="Security"
-                    leftSection={
-                      <IconInfoCircle
-                        className={
-                          computedColorScheme == 'light'
-                            ? uiValues.navbarColored
-                              ? classesColored.linkIcon
-                              : classesSimple.linkIcon
-                            : classesSimple.linkIcon
-                        }
-                      />
-                    }
-                    onClick={(event) => {
-                      event.preventDefault();
-                      router.push('/system//security');
-                    }}
-                    //variant="filled"
-                    // autoContrast
-                    color={
-                      uiValues.navbarColored && computedColorScheme == 'light'
-                        ? 'var(--mantine-color-white)'
+                          ? 'white'
+                          : undefined
                         : undefined
                     }
-                  />
-                  <NavLink
-                    className={
-                      computedColorScheme == 'light'
-                        ? uiValues.navbarColored
-                          ? classesColored.link
+                  >
+                    System
+                  </Text>
+                  <Box p={5} mt={0}>
+                    <NavLink
+                      className={
+                        computedColorScheme === 'light'
+                          ? uiValues.navbarColored
+                            ? classesColored.link
+                            : classesSimple.link
                           : classesSimple.link
-                        : classesSimple.link
-                    }
-                    key="core"
-                    active={'/system/core' === pathname || undefined}
-                    label="Core"
-                    disabled={true}
-                    leftSection={
-                      <IconServer
-                        className={
-                          computedColorScheme == 'light'
-                            ? uiValues.navbarColored
-                              ? classesColored.linkIcon
+                      }
+                      key="security"
+                      active={pathname === '/system/security' || undefined}
+                      label="Security"
+                      leftSection={
+                        <IconInfoCircle
+                          className={
+                            computedColorScheme === 'light'
+                              ? uiValues.navbarColored
+                                ? classesColored.linkIcon
+                                : classesSimple.linkIcon
                               : classesSimple.linkIcon
-                            : classesSimple.linkIcon
-                        }
-                      />
-                    }
-                    onClick={(event) => {
-                      event.preventDefault();
-                      router.push('/system/core');
-                    }}
-                    //variant="filled"
-                    // autoContrast
-                    color={
-                      uiValues.navbarColored && computedColorScheme == 'light'
-                        ? 'var(--mantine-color-white)'
-                        : undefined
-                    }
-                  />
-                  <NavLink
-                    className={
-                      computedColorScheme == 'light'
-                        ? uiValues.navbarColored
-                          ? classesColored.link
+                          }
+                        />
+                      }
+                      onClick={(event) => {
+                        event.preventDefault();
+                        router.push('/system//security');
+                      }}
+                      //variant="filled"
+                      // autoContrast
+                      color={
+                        uiValues.navbarColored && computedColorScheme === 'light'
+                          ? 'var(--mantine-color-white)'
+                          : undefined
+                      }
+                    />
+                    <NavLink
+                      className={
+                        computedColorScheme === 'light'
+                          ? uiValues.navbarColored
+                            ? classesColored.link
+                            : classesSimple.link
                           : classesSimple.link
-                        : classesSimple.link
-                    }
-                    key="agent"
-                    active={'/system/agent' === pathname || undefined}
-                    label="Agent"
-                    leftSection={
-                      <IconSpy
-                        className={
-                          computedColorScheme == 'light'
-                            ? uiValues.navbarColored
-                              ? classesColored.linkIcon
+                      }
+                      key="core"
+                      active={pathname === '/system/core' || undefined}
+                      label="Core"
+                      disabled
+                      leftSection={
+                        <IconServer
+                          className={
+                            computedColorScheme === 'light'
+                              ? uiValues.navbarColored
+                                ? classesColored.linkIcon
+                                : classesSimple.linkIcon
                               : classesSimple.linkIcon
-                            : classesSimple.linkIcon
-                        }
-                      />
-                    }
-                    onClick={(event) => {
-                      event.preventDefault();
-                      router.push('/system/agent');
-                    }}
-                    //variant="filled"
-                    // autoContrast
-                    color={
-                      uiValues.navbarColored && computedColorScheme == 'light'
-                        ? 'var(--mantine-color-white)'
-                        : undefined
-                    }
-                  />
-                </Box>
+                          }
+                        />
+                      }
+                      onClick={(event) => {
+                        event.preventDefault();
+                        router.push('/system/core');
+                      }}
+                      //variant="filled"
+                      // autoContrast
+                      color={
+                        uiValues.navbarColored && computedColorScheme === 'light'
+                          ? 'var(--mantine-color-white)'
+                          : undefined
+                      }
+                    />
+                    <NavLink
+                      className={
+                        computedColorScheme === 'light'
+                          ? uiValues.navbarColored
+                            ? classesColored.link
+                            : classesSimple.link
+                          : classesSimple.link
+                      }
+                      key="agent"
+                      active={pathname === '/system/agent' || undefined}
+                      label="Agent"
+                      leftSection={
+                        <IconSpy
+                          className={
+                            computedColorScheme === 'light'
+                              ? uiValues.navbarColored
+                                ? classesColored.linkIcon
+                                : classesSimple.linkIcon
+                              : classesSimple.linkIcon
+                          }
+                        />
+                      }
+                      onClick={(event) => {
+                        event.preventDefault();
+                        router.push('/system/agent');
+                      }}
+                      //variant="filled"
+                      // autoContrast
+                      color={
+                        uiValues.navbarColored && computedColorScheme === 'light'
+                          ? 'var(--mantine-color-white)'
+                          : undefined
+                      }
+                    />
+                  </Box>
                 </Box>
               </Box>
-
-              {/*</>
-              )}*/}
             </>
           </Box>
 
           <Box>
             <Version />
-
-            {/*<UserInfo2 />
-
-            <Logout />*/}
           </Box>
         </Stack>
       </ScrollArea>

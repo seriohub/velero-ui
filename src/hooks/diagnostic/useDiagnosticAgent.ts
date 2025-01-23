@@ -33,20 +33,29 @@ export const useDiagnosticAgent = () => {
       // if (process.env.NODE_ENV === 'development')
       //  console.log(`%cuseEffect 70 has been called`, `color: green; font-weight: bold;`);
 
-      getDataK8sHealth({ url: '/info/health-k8s' });
-      getApiOrigins({ url: '/info/origins', target: 'agent' });
-      getApiArch({ url: '/info/arch', target: 'agent' });
-      getWatchdog({ url: '/info/watchdog', target: 'agent' });
+      getDataK8sHealth({ url: '/health/k8s' });
+      getApiOrigins({
+        url: '/info/origins',
+        target: 'agent',
+      });
+      getApiArch({
+        url: '/info/arch',
+        target: 'agent',
+      });
+      getWatchdog({
+        url: '/info/watchdog',
+        target: 'agent',
+      });
       getCompatibility({
-        url: '/info/get-ui-comp',
-        params: 'version=' + NEXT_PUBLIC_FRONT_END_BUILD_VERSION,
+        url: '/info/compatibility-table',
+        params: `version=${NEXT_PUBLIC_FRONT_END_BUILD_VERSION}`,
         target: 'agent',
       });
     }
 
     if (window) {
       const currentURL = new URL(window.location.href);
-      setUiHost(currentURL.protocol + '//' + currentURL.host);
+      setUiHost(`${currentURL.protocol}//${currentURL.host}`);
     }
   }, [
     //agentStatus.currentAgent,
@@ -73,9 +82,9 @@ export const useDiagnosticAgent = () => {
   stateManager.compatibility = compatibility?.payload?.compatibility;
   if (apiOrigins !== undefined) stateManager.apiOrigins = apiOrigins?.payload;
 
-  stateManager.setVariable('getUiURL', uiURL != '');
-  stateManager.setVariable('getApiURL', apiURL != '');
-  stateManager.setVariable('checkApiReacheable', agentStatus.isAgentAvailable == true);
+  stateManager.setVariable('getUiURL', uiURL !== '');
+  stateManager.setVariable('getApiURL', apiURL !== '');
+  stateManager.setVariable('checkApiReacheable', agentStatus.isAgentAvailable === true);
   stateManager.setVariable('getArchitecture', apiArch?.payload?.arch !== undefined);
   stateManager.setVariable('getOrigins', origins.length > 0);
   stateManager.setVariable(
@@ -85,14 +94,23 @@ export const useDiagnosticAgent = () => {
   );
   stateManager.setVariable(
     'getWatchdogInfo',
-    watchdog && watchdog?.payload !== undefined ? true : false
+    !!(watchdog && watchdog?.payload !== undefined)
   );
-  stateManager.setVariable('getClusterHealth', k8sHealth != undefined);
+  stateManager.setVariable('getClusterHealth', k8sHealth !== undefined);
 
   stateManager.setVariable('getUiApiVerCompatibility', compatibility?.payload?.compatibility);
 
   stateManager.hasWarnings =
     !serverValues.isCurrentServerControlPlane && origins.length > 0 && origins.includes('*');
 
-  return { uiURL, apiURL, apiArch, origins, k8sHealth, stateManager, reload, setReload };
+  return {
+    uiURL,
+    apiURL,
+    apiArch,
+    origins,
+    k8sHealth,
+    stateManager,
+    reload,
+    setReload,
+  };
 };

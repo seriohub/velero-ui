@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react';
 import { DataTable, DataTableSortStatus } from 'mantine-datatable';
-import { Stack } from '@mantine/core';
 
 import sortBy from 'lodash/sortBy';
 
@@ -10,6 +9,7 @@ import { useServerStatus } from '@/contexts/ServerContext';
 import { useNatsClients } from '@/api/Nats/useNatsClients';
 import Toolbar from '@/components/Toolbar';
 import RefreshDatatable from '@/components/Actions/ToolbarActionIcons/RefreshDatatable';
+import { MainStack } from '@/components/Velero/MainStack';
 
 const PAGE_SIZES = [5];
 
@@ -29,19 +29,17 @@ export function Nats() {
   const [records, setRecords] = useState(items.slice(0, pageSize));
 
   useEffect(() => {
-    //if (process.env.NODE_ENV === 'development')
-    //  console.log(`%cuseEffect 1230 has been called`, `color: green; font-weight: bold;`);
-    if (serverValues.isServerAvailable && serverValues.isCurrentServerControlPlane !== undefined)
+    if (serverValues.isServerAvailable && serverValues.isCurrentServerControlPlane !== undefined) {
       getNatsClients();
+    }
   }, [reload, serverValues.isServerAvailable, serverValues.isCurrentServerControlPlane]);
 
   useEffect(() => {
-    //if (process.env.NODE_ENV === 'development')
-    //  console.log(`%cuseEffect 1250 has been called`, `color: green; font-weight: bold;`);
-
     if (data !== undefined) {
       setItems(data.payload);
-    } else setItems([]);
+    } else {
+      setItems([]);
+    }
   }, [data]);
 
   useEffect(() => {
@@ -67,123 +65,121 @@ export function Nats() {
   );*/
 
   return (
-    <>
-      <Stack h="100%" gap={0} p={5}>
-        <Toolbar title="Nats connections" breadcrumbItem={{ name: 'Nats Connections', href: '/settings/nats' }}>
-          <RefreshDatatable setReload={setReload} reload={reload} />
-        </Toolbar>
+    <MainStack>
+      <Toolbar title="Nats connections" breadcrumbItem={[{ name: 'Nats Connections' }]}>
+        <RefreshDatatable setReload={setReload} reload={reload} />
+      </Toolbar>
 
-        <DataTable
-          minHeight={160}
-          withTableBorder
-          borderRadius="sm"
-          withColumnBorders
-          striped
-          highlightOnHover
-          records={records}
-          totalRecords={items.length}
-          recordsPerPage={pageSize}
-          page={page}
-          onPageChange={(p) => setPage(p)}
-          recordsPerPageOptions={PAGE_SIZES}
-          onRecordsPerPageChange={setPageSize}
-          sortStatus={sortStatus}
-          onSortStatusChange={setSortStatus}
-          fetching={fetching}
-          columns={[
-            {
-              accessor: 'cid',
+      <DataTable
+        minHeight={160}
+        withTableBorder
+        borderRadius="sm"
+        // withColumnBorders
+        striped
+        highlightOnHover
+        records={records}
+        totalRecords={items.length}
+        recordsPerPage={pageSize}
+        page={page}
+        onPageChange={(p) => setPage(p)}
+        recordsPerPageOptions={PAGE_SIZES}
+        onRecordsPerPageChange={setPageSize}
+        sortStatus={sortStatus}
+        onSortStatusChange={setSortStatus}
+        fetching={fetching}
+        columns={[
+          {
+            accessor: 'cid',
 
-              sortable: true,
-              width: 70,
-            },
-            {
-              accessor: 'name',
+            sortable: true,
+            width: 70,
+          },
+          {
+            accessor: 'name',
 
-              sortable: true,
-            },
-            {
-              accessor: 'kind',
+            sortable: true,
+          },
+          {
+            accessor: 'kind',
 
-              sortable: true,
-            },
-            {
-              accessor: 'type',
-              sortable: true,
-            },
-            {
-              accessor: 'ip',
-              sortable: true,
-            },
-            {
-              accessor: 'port',
-              sortable: true,
-            },
-            {
-              accessor: 'start',
-              sortable: true,
-            },
-            {
-              accessor: 'last_activity',
-              sortable: true,
-            },
-            {
-              accessor: 'rtt',
-              sortable: true,
-            },
-            {
-              accessor: 'uptime',
-              sortable: true,
-            },
-            {
-              accessor: 'idle',
-              sortable: true,
-            },
-            {
-              accessor: 'pending_bytes',
-              sortable: true,
-            },
-            {
-              accessor: 'in_msgs',
-              sortable: true,
-            },
-            {
-              accessor: 'out_msgs',
-              sortable: true,
-            },
-            {
-              accessor: 'in_bytes',
-              sortable: true,
-            },
-            {
-              accessor: 'out_bytes',
-              sortable: true,
-            },
-            {
-              accessor: 'subscriptions',
-              sortable: true,
-            },
-            {
-              accessor: 'lang',
-              sortable: true,
-            },
-            {
-              accessor: 'version',
-              sortable: true,
-            },
-            /*{
-              accessor: 'actions',
-              title: (
-                <Center>
-                  <IconClick size={16} />
-                </Center>
-              ),
-              width: '0%',
-              render: renderActions,
-            },*/
-          ]}
-        />
-      </Stack>
-    </>
+            sortable: true,
+          },
+          {
+            accessor: 'type',
+            sortable: true,
+          },
+          {
+            accessor: 'ip',
+            sortable: true,
+          },
+          {
+            accessor: 'port',
+            sortable: true,
+          },
+          {
+            accessor: 'start',
+            sortable: true,
+          },
+          {
+            accessor: 'last_activity',
+            sortable: true,
+          },
+          {
+            accessor: 'rtt',
+            sortable: true,
+          },
+          {
+            accessor: 'uptime',
+            sortable: true,
+          },
+          {
+            accessor: 'idle',
+            sortable: true,
+          },
+          {
+            accessor: 'pending_bytes',
+            sortable: true,
+          },
+          {
+            accessor: 'in_msgs',
+            sortable: true,
+          },
+          {
+            accessor: 'out_msgs',
+            sortable: true,
+          },
+          {
+            accessor: 'in_bytes',
+            sortable: true,
+          },
+          {
+            accessor: 'out_bytes',
+            sortable: true,
+          },
+          {
+            accessor: 'subscriptions',
+            sortable: true,
+          },
+          {
+            accessor: 'lang',
+            sortable: true,
+          },
+          {
+            accessor: 'version',
+            sortable: true,
+          },
+          /*{
+            accessor: 'actions',
+            title: (
+              <Center>
+                <IconClick size={16} />
+              </Center>
+            ),
+            width: '0%',
+            render: renderActions,
+          },*/
+        ]}
+      />
+    </MainStack>
   );
 }
