@@ -1,4 +1,4 @@
-import {Box , Card , Group , ScrollArea , Text} from '@mantine/core';
+import { Box, Card, Group, ScrollArea, Text } from '@mantine/core';
 
 export function Details({ data }: any) {
   return (
@@ -21,7 +21,7 @@ export function Details({ data }: any) {
             <Text fw={600}>{data?.payload?.spec.resticIdentifier}</Text>
           </Group>
           <Group mt={10}>
-            <Text w={170}>Backup Storage Location:</Text>
+            <Text w={170}>Storage Location:</Text>
             <Text fw={600}>{data?.payload?.spec.backupStorageLocation}</Text>
           </Group>
           <Group mt={10}>
