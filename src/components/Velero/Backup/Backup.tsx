@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Card, Grid, Stack } from '@mantine/core';
+import { Card, Grid } from '@mantine/core';
 import { useManifest } from '@/api/Velero/useManifest';
 import { useAgentStatus } from '@/contexts/AgentContext';
 
