@@ -17,7 +17,6 @@ interface CreateVslFormProps {
 
 export default function CreateVslForm({
   form,
-
   onDone,
   mode,
 }: CreateVslFormProps) {

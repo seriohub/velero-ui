@@ -32,6 +32,7 @@
     "clsx": "^2.1.0",
     "cron-validate": "^1.4.5",
     "dayjs": "^1.11.10",
+    "depcheck": "^1.4.7",
     "js-yaml": "^4.1.0",
     "mantine-contextmenu": "^7.6.1",
     "mantine-datatable": "^7.6.0",

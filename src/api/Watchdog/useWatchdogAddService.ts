@@ -1,26 +1,20 @@
 import { useApiPost } from '@/hooks/utils/useApiPost';
 
 interface ChannelTest {
-  email?: boolean;
-  slack?: boolean;
-  telegram?: boolean;
+  config: string
 }
 
 // Hook to handle category task fetching logic
-export const useWatchdogTestChannel = () => {
+export const useWatchdogAddService = () => {
   const { data, postData, fetching, error } = useApiPost();
 
-  const watchdogTestChannel = async ({
-    email = false,
-    slack = false,
-    telegram = false,
+  const watchdogAddService = async ({
+    config,
   }: ChannelTest) => {
     try {
       // Execute the API call with the generic method
-      await postData('/v1/watchdog/send-test-notification', {
-        email,
-        slack,
-        telegram,
+      await postData('/v1/watchdog/user/service', {
+        config,
       });
       //params: `email=${email}&slack=${slack}&telegram=${telegram}`
       // This code will be executed only in case of success
@@ -36,7 +30,7 @@ export const useWatchdogTestChannel = () => {
 
   // Return the function for the call and the necessary data
   return {
-    watchdogTestChannel,
+    watchdogAddService,
     data,
     fetching,
     error,

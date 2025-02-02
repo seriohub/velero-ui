@@ -1,13 +1,13 @@
-import { useApiGet } from '@/hooks/utils/useApiGet';
+import { useApiPut } from '@/hooks/utils/useApiPut';
 
 // Hook to handle category task fetching logic
-export const useWatchdogConfig = () => {
-  const { data, getData, fetching, error } = useApiGet();
+export const useWatchdogUpdateConfigs = () => {
+  const { responseStatus, putData, fetching } = useApiPut();
 
-  const getWatchdogConfig = async () => {
+  const handleUpdateSchedule = async (values: any) => {
     try {
       // Execute the API call with the generic method
-      await getData({ url: '/v1/watchdog/config' });
+      await putData('/v1/watchdog/user/configs', { ...values });
 
       // This code will be executed only in case of success
       // console.log('Request successful, execute final action...');
@@ -22,9 +22,8 @@ export const useWatchdogConfig = () => {
 
   // Return the function for the call and the necessary data
   return {
-    getWatchdogConfig,
-    data,
+    handleUpdateSchedule,
+    responseStatus,
     fetching,
-    error,
   };
 };
