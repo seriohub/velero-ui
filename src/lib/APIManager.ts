@@ -1,4 +1,5 @@
 'use client';
+
 import * as dotenv from 'dotenv';
 import { env } from 'next-runtime-env';
 
@@ -19,7 +20,11 @@ function APIManager(): APIManagerConfigInterface[] {
   let ws = env(`NEXT_PUBLIC_VELERO_API_WS_1`);
 
   if (name && url && ws) {
-    configs.push({ name, url, ws });
+    configs.push({
+      name,
+      url,
+      ws,
+    });
   }
 
   name = env(`NEXT_PUBLIC_VELERO_API_NAME_2`) || '<cluster name not set>';
@@ -27,7 +32,11 @@ function APIManager(): APIManagerConfigInterface[] {
   ws = env(`NEXT_PUBLIC_VELERO_API_WS_2`);
 
   if (name && url && ws) {
-    configs.push({ name, url, ws });
+    configs.push({
+      name,
+      url,
+      ws,
+    });
   }
 
   if (configs.length == 0) {
@@ -35,7 +44,11 @@ function APIManager(): APIManagerConfigInterface[] {
     const url = env(`NEXT_PUBLIC_VELERO_API_URL`);
     const ws = env(`NEXT_PUBLIC_VELERO_API_WS`);
     if (name && url && ws) {
-      configs.push({ name, url, ws });
+      configs.push({
+        name,
+        url,
+        ws,
+      });
     }
   }
 
