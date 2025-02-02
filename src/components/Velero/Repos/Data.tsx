@@ -208,7 +208,7 @@ export function RepoLocation() {
             accessor: 'metadata.name',
             title: 'Name',
             sortable: true,
-            render: (record) => (
+            render: (record: any) => (
               <Anchor
                 size="sm"
                 onClick={() => {
@@ -237,7 +237,7 @@ export function RepoLocation() {
             accessor: 'spec.backupStorageLocation',
             title: 'Backups Storage Location',
             sortable: true,
-            render: (record) => (
+            render: (record: any) => (
               <Anchor
                 size="sm"
                 onClick={() => {

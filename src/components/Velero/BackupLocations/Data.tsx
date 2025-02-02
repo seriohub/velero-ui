@@ -163,7 +163,7 @@ export function BackupLocation() {
             accessor: 'metadata.name',
             title: 'Name',
             sortable: true,
-            render: (record) => (
+            render: (record: any) => (
               <Anchor
                 size="sm"
                 onClick={() => {
@@ -220,13 +220,13 @@ export function BackupLocation() {
             accessor: 'spec.credential.name',
             title: 'Cred. Secret Name',
             sortable: true,
-            render: ({ spec }) => <>{spec.credential && spec.credential.name}</>,
+            render: ({ spec }: any) => <>{spec.credential && spec.credential.name}</>,
           },
           {
             accessor: 'spec.credential.key',
             title: 'Key Name',
             sortable: true,
-            render: ({ spec }) => <>{spec.credential && spec.credential.key}</>,
+            render: ({ spec }: any) => <>{spec.credential && spec.credential.key}</>,
           },
           {
             accessor: 'status.lastValidationTime',

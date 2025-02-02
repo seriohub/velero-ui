@@ -164,7 +164,7 @@ export function RestoreData() {
             accessor: 'metadata.name',
             title: 'Name',
             sortable: true,
-            render: (record) => (
+            render: (record: any) => (
               <Anchor
                 size="sm"
                 onClick={() => {
@@ -183,7 +183,7 @@ export function RestoreData() {
             accessor: 'spec.backupName',
             title: 'Backups',
             sortable: true,
-            render: (record) => (
+            render: (record: any) => (
               <Anchor
                 size="sm"
                 onClick={() => {
