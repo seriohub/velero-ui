@@ -50,7 +50,7 @@ export function WatchdogUserConfigs({ userConfiguration, setReload }: any) {
         </Text>
       </div>
       <Switch
-        defaultChecked={userConfiguration?.payload?.[item].toLocaleLowerCase() === 'true'}
+        defaultChecked={userConfiguration?.payload?.[item]?.toLocaleLowerCase() === 'true'}
         onLabel="ON"
         offLabel="OFF"
         size="lg"

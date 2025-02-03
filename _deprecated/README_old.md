@@ -22,22 +22,22 @@ This project was created to simplify through a user interface some velero backup
 
 Some screenshots:
 
-- [dashboard](./screenshots/01_dashboard.png)
-- [login](./screenshots/02_login.png)
-- [backups](./screenshots/03_backups.png)
-- [create new backup](./screenshots/04_create_backup.png)
-- [create restore](./screenshots/05_create_restore.png)
-- [schedule](./screenshots/06_schedule.png)
-- [create schedule](./screenshots/07_create_schedule.png)
-- [backup location](./screenshots/08_backup_location.png)
-- [storage location](./screenshots/09_storage_location.png)
-- [repo](./screenshots/10_repo.png)
-- [storage class map](./screenshots/11_sc_map.png)
-- [backup describe](./screenshots/12_backup_describe.png)
-- [backup logs](./screenshots/13_backup_logs.png)
-- [configuration](./screenshots/14_configuration.png)
-- [watchdog configuration](./screenshots/15_watchdog.png)
-- [cron schedule heatmap](./screenshots/16_cron_schedule_heatmap.png)
+- [dashboard](../screenshots/01_dashboard.png)
+- [login](../screenshots/02_login.png)
+- [backups](../screenshots/03_backups.png)
+- [create new backup](../screenshots/04_create_backup.png)
+- [create restore](../screenshots/05_create_restore.png)
+- [schedule](../screenshots/06_schedule.png)
+- [create schedule](../screenshots/07_create_schedule.png)
+- [backup location](../screenshots/08_backup_location.png)
+- [storage location](../screenshots/09_storage_location.png)
+- [repo](../screenshots/10_repo.png)
+- [storage class map](../screenshots/11_sc_map.png)
+- [backup describe](../screenshots/12_backup_describe.png)
+- [backup logs](../screenshots/13_backup_logs.png)
+- [configuration](../screenshots/14_configuration.png)
+- [watchdog configuration](../screenshots/15_watchdog.png)
+- [cron schedule heatmap](../screenshots/16_cron_schedule_heatmap.png)
 
 ## Features
 
@@ -57,7 +57,7 @@ Some screenshots:
 
   8. Multi cluster (Experimental feature)
 
-  see [changelog](CHANGELOG.md) for details.
+  see [changelog](../CHANGELOG.md) for details.
 
 ## Configuration
 
@@ -92,7 +92,7 @@ Clone the repository:
 - Nodejs
 - YARN
 
-1. Navigate to the [src](src) folder
+1. Navigate to the [src](../src) folder
 
 2. Dependencies installation:
 
