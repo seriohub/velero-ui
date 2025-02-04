@@ -1,8 +1,9 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import {Group , Table , Text} from '@mantine/core';
-import { IconAlertSquareRounded } from '@tabler/icons-react';
+import { Group, Table, Text } from '@mantine/core';
+import { IconAlertSquareRounded, IconArrowRight } from '@tabler/icons-react';
+import { MaskedConfiguration } from '@/components/Display/MaskedConfiguration';
 
 interface Props {
   deployConfiguration: Record<string, any>;
@@ -25,8 +26,9 @@ export function WatchdogDeployConfigs({ deployConfiguration, userConfiguration }
   }
 
   // Function to mask sensitive values
-  function maskValue(key: string, value: any): string {
-    return maskedKeys.includes(key) ? '••••••' : String(value);
+  function maskValue(key: string, value: any): any {
+    //return maskedKeys.includes(key) ? '••••••' : String(value);
+    return maskedKeys.includes(key) ? <MaskedConfiguration service={value} /> : String(value);
   }
 
   useEffect(() => {
@@ -35,14 +37,25 @@ export function WatchdogDeployConfigs({ deployConfiguration, userConfiguration }
         <Table.Tr key={key}>
           <Table.Td>
             <Group gap={5}>
-              {hasChanged(key) && <IconAlertSquareRounded size={18} color="var(--mantine-primary-color-light-color)" />}
+              {hasChanged(key) && (
+                <IconAlertSquareRounded
+                  size={18}
+                  color="var(--mantine-primary-color-light-color)"
+                />
+              )}
               {key}
             </Group>
           </Table.Td>
           <Table.Td>
             <Group gap={5}>
-            {maskValue(key, deployConfiguration[key])}
-            {hasChanged(key) && <Text size="sm" c="var(--mantine-primary-color-light-color)">{` -> ${userConfiguration[key]}`}</Text>}
+              {maskValue(key, deployConfiguration[key])}
+              {hasChanged(key) && (
+                <>
+                  <Text size="sm" c="var(--mantine-primary-color-light-color)"></Text>{' '}
+                  <IconArrowRight size={18} color="var(--mantine-primary-color-light-color)" />
+                  <Text>{maskValue(key, userConfiguration[key])}</Text>
+                </>
+              )}
             </Group>
           </Table.Td>
         </Table.Tr>
