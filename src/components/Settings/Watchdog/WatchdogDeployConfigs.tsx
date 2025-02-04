@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Group, Table } from '@mantine/core';
+import {Group , Table , Text} from '@mantine/core';
 import { IconAlertSquareRounded } from '@tabler/icons-react';
 
 interface Props {
@@ -35,11 +35,16 @@ export function WatchdogDeployConfigs({ deployConfiguration, userConfiguration }
         <Table.Tr key={key}>
           <Table.Td>
             <Group gap={5}>
-              {hasChanged(key) && <IconAlertSquareRounded size={16} color="orange" />}
+              {hasChanged(key) && <IconAlertSquareRounded size={18} color="var(--mantine-primary-color-light-color)" />}
               {key}
             </Group>
           </Table.Td>
-          <Table.Td>{maskValue(key, deployConfiguration[key])}</Table.Td>
+          <Table.Td>
+            <Group gap={5}>
+            {maskValue(key, deployConfiguration[key])}
+            {hasChanged(key) && <Text size="sm" c="var(--mantine-primary-color-light-color)">{` -> ${userConfiguration[key]}`}</Text>}
+            </Group>
+          </Table.Td>
         </Table.Tr>
       ));
       setRowApiConfiguration(rows);

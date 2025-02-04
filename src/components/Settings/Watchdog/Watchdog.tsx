@@ -129,7 +129,10 @@ export function Watchdog() {
 
         <Tabs.Panel value="Settings">
           <Box p={10}>
-            <WatchdogUserConfigs userConfiguration={userConfiguration?.payload} setReload={setReload} />
+            <WatchdogUserConfigs
+              userConfiguration={userConfiguration?.payload}
+              setReload={setReload}
+            />
             <Space h={50} />
 
             <CreateWatchdogService />
