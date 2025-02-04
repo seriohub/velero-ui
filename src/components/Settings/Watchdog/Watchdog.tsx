@@ -120,13 +120,16 @@ export function Watchdog() {
                 </Text>
               </Group>
             )}
-            <WatchdogDeployConfigs deployConfiguration={deployConfiguration} />
+            <WatchdogDeployConfigs
+              deployConfiguration={deployConfiguration?.payload}
+              userConfiguration={userConfiguration?.payload}
+            />
           </Box>
         </Tabs.Panel>
 
         <Tabs.Panel value="Settings">
           <Box p={10}>
-            <WatchdogUserConfigs userConfiguration={userConfiguration} setReload={setReload} />
+            <WatchdogUserConfigs userConfiguration={userConfiguration?.payload} setReload={setReload} />
             <Space h={50} />
 
             <CreateWatchdogService />

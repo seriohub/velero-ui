@@ -1,7 +1,7 @@
 'use client';
 
 import { Button, Tooltip } from '@mantine/core';
-import {IconAlertSquareRounded , IconTriangle} from '@tabler/icons-react';
+import { IconAlertSquareRounded } from '@tabler/icons-react';
 
 function differencesToString({ differences }: { differences: any }) {
   if (differences !== undefined && differences !== null) {
@@ -10,7 +10,7 @@ function differencesToString({ differences }: { differences: any }) {
       .join(' ');
   }
 
-  return 'Reload config in watchdog';
+  return 'Restart watchdog';
 }
 
 export default function ReloadConfig({
@@ -32,7 +32,7 @@ export default function ReloadConfig({
         h={38}
         radius="md"
       >
-        Reload Config
+        Restart Config
       </Button>
     );
   }
@@ -55,7 +55,7 @@ export default function ReloadConfig({
         radius="md"
         leftSection={hasDiff ? <IconAlertSquareRounded /> : <></>}
       >
-        Reload Config
+        Restart Config
       </Button>
     </Tooltip>
   );

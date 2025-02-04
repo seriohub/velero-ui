@@ -1,22 +1,50 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { Group, Table } from '@mantine/core';
+import { IconAlertSquareRounded } from '@tabler/icons-react';
 
-import { Table } from '@mantine/core';
+interface Props {
+  deployConfiguration: Record<string, any>;
+  userConfiguration: Record<string, any>;
+}
 
-export function WatchdogDeployConfigs({ deployConfiguration }: any) {
+// List of keys whose values should be masked
+const maskedKeys = ['APPRISE'];
+
+export function WatchdogDeployConfigs({ deployConfiguration, userConfiguration }: Props) {
   const [rowApiConfiguration, setRowApiConfiguration] = useState<React.ReactNode[]>([]);
+
+  // Function to determine if a key has changed
+  function hasChanged(key: string): boolean {
+    return (
+      userConfiguration?.[key] !== undefined &&
+      deployConfiguration?.[key] !== undefined &&
+      userConfiguration[key] !== deployConfiguration[key]
+    );
+  }
+
+  // Function to mask sensitive values
+  function maskValue(key: string, value: any): string {
+    return maskedKeys.includes(key) ? '••••••' : String(value);
+  }
+
   useEffect(() => {
-    if (deployConfiguration !== undefined && deployConfiguration !== null) {
-      const rows = Object.keys(deployConfiguration?.payload).map((key) => (
+    if (deployConfiguration) {
+      const rows = Object.keys(deployConfiguration).map((key) => (
         <Table.Tr key={key}>
-          <Table.Td>{key}</Table.Td>
-          <Table.Td>{deployConfiguration?.payload[key]}</Table.Td>
+          <Table.Td>
+            <Group gap={5}>
+              {hasChanged(key) && <IconAlertSquareRounded size={16} color="orange" />}
+              {key}
+            </Group>
+          </Table.Td>
+          <Table.Td>{maskValue(key, deployConfiguration[key])}</Table.Td>
         </Table.Tr>
       ));
       setRowApiConfiguration(rows);
     }
-  }, [deployConfiguration]);
+  }, [deployConfiguration, userConfiguration]);
 
   return (
     <Table striped highlightOnHover verticalSpacing={0}>

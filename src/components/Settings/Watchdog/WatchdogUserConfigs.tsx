@@ -50,7 +50,7 @@ export function WatchdogUserConfigs({ userConfiguration, setReload }: any) {
         </Text>
       </div>
       <Switch
-        defaultChecked={userConfiguration?.payload?.[item]?.toLocaleLowerCase() === 'true'}
+        defaultChecked={userConfiguration?.[item]?.toLocaleLowerCase() === 'true'}
         onLabel="ON"
         offLabel="OFF"
         size="lg"
@@ -60,39 +60,39 @@ export function WatchdogUserConfigs({ userConfiguration, setReload }: any) {
   );
 
   useEffect(() => {
-    form.setFieldValue('backupEnabled', userConfiguration?.payload?.BACKUP_ENABLED);
-    form.setFieldValue('scheduleEnabled', userConfiguration?.payload?.SCHEDULE_ENABLED);
+    form.setFieldValue('backupEnabled', userConfiguration?.BACKUP_ENABLED);
+    form.setFieldValue('scheduleEnabled', userConfiguration?.SCHEDULE_ENABLED);
     form.setFieldValue(
       'notificationSkipCompleted',
-      userConfiguration?.payload?.NOTIFICATION_SKIP_COMPLETED
+      userConfiguration?.NOTIFICATION_SKIP_COMPLETED
     );
     form.setFieldValue(
       'notificationSkipDeleting',
-      userConfiguration?.payload?.NOTIFICATION_SKIP_DELETING
+      userConfiguration?.NOTIFICATION_SKIP_DELETING
     );
     form.setFieldValue(
       'notificationSkipInProgress',
-      userConfiguration?.payload?.NOTIFICATION_SKIP_INPROGRESS
+      userConfiguration?.NOTIFICATION_SKIP_INPROGRESS
     );
     form.setFieldValue(
       'notificationSkipRemoved',
-      userConfiguration?.payload?.NOTIFICATION_SKIP_REMOVED
+      userConfiguration?.NOTIFICATION_SKIP_REMOVED
     );
     form.setFieldValue(
       'processCycleSeconds',
-      Number(userConfiguration?.payload?.PROCESS_CYCLE_SEC)
+      Number(userConfiguration?.PROCESS_CYCLE_SEC)
     );
     form.setFieldValue(
       'expireDaysWarning',
-      Number(userConfiguration?.payload?.EXPIRES_DAYS_WARNING)
+      Number(userConfiguration?.EXPIRES_DAYS_WARNING)
     );
     form.setFieldValue(
       'reportBackupItemPrefix',
-      userConfiguration?.payload?.REPORT_BACKUP_ITEM_PREFIX || ''
+      userConfiguration?.REPORT_BACKUP_ITEM_PREFIX || ''
     );
     form.setFieldValue(
       'reportScheduleItemPrefix',
-      userConfiguration?.payload?.REPORT_SCHEDULE_ITEM_PREFIX || ''
+      userConfiguration?.REPORT_SCHEDULE_ITEM_PREFIX || ''
     );
     form.resetDirty();
   }, [userConfiguration]);
