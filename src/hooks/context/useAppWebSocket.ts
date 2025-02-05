@@ -32,38 +32,38 @@ export const useAppWebSocket = ({ addSocketHistory = null }: UseAppWebSocketPara
       onOpen: () => {
         // console.log('WebSocket open');
         if (jwtToken) {
-          if (process.env.NODE_ENV === 'development') {
+          //if (process.env.NODE_ENV === 'development') {
             console.log('WebSocket connected, sending JWT token.');
-          }
+          //}
           sendMessage(jwtToken);
         }
         serverValues.setIsServerAvailable(true);
-        if (process.env.NODE_ENV === 'development') {
+        //if (process.env.NODE_ENV === 'development') {
           console.log('Set server available');
-        }
+        //}
       },
       onError: (event) => {
-        if (process.env.NODE_ENV === 'development') {
+        //if (process.env.NODE_ENV === 'development') {
           console.error('WebSocket error observed:', event);
-        }
+        //}
 
         serverValues.setIsServerAvailable(false);
         agentValues.setIsAgentAvailable(false);
-        if (process.env.NODE_ENV === 'development') {
+        //if (process.env.NODE_ENV === 'development') {
           console.log('Set server and agent not available');
-        }
+        //}
       },
       onClose: (event) => {
-        if (process.env.NODE_ENV === 'development') {
+        //if (process.env.NODE_ENV === 'development') {
           console.log('WebSocket closed:', event);
-        }
+        //}
 
         // if (pathname == '/login') return; // tmp workaround
         serverValues.setIsServerAvailable(false);
         agentValues.setIsAgentAvailable(false);
-        if (process.env.NODE_ENV === 'development') {
+        //if (process.env.NODE_ENV === 'development') {
           console.log('Set server and agent not available');
-        }
+        //}
 
         if (event?.code === 1001) {
           console.log('close', event?.code);
@@ -84,21 +84,21 @@ export const useAppWebSocket = ({ addSocketHistory = null }: UseAppWebSocketPara
       ) {
         const response = JSON.parse(lastMessage.data);
 
-        if (response['response_type'] !== 'agent_alive') {
+        if (response.response_type !== 'agent_alive') {
           addSocketHistory((prev: string[]) => prev.concat(lastMessage.data));
         }
 
-        if (response['response_type'] === 'agent_alive') {
-          if (agentValues?.currentAgent?.name === response['agent_name'] && response['is_alive']) {
+        if (response.response_type === 'agent_alive') {
+          if (agentValues?.currentAgent?.name === response.agent_name && response.is_alive) {
             agentValues.setIsAgentAvailable(true);
             // if (process.env.NODE_ENV === 'development')
-            // console.log(`${response['agent_name']} available`);
+            console.log(`${response.agent_name} available`);
           }
-          if (agentValues.currentAgent?.name === response['agent_name'] && !response['is_alive']) {
+          if (agentValues.currentAgent?.name === response.agent_name && !response.is_alive) {
             agentValues.setIsAgentAvailable(false);
-            if (process.env.NODE_ENV === 'development') {
-              console.log(`${response['agent_name']} not available`);
-            }
+            // if (process.env.NODE_ENV === 'development') {
+              console.log(`${response.agent_name} not available`);
+            // }
           }
         }
       }
@@ -115,7 +115,8 @@ export const useAppWebSocket = ({ addSocketHistory = null }: UseAppWebSocketPara
 
   useEffect(() => {
     if (mounted.current) {
-      if (process.env.NODE_ENV === 'development') console.log('connectionStatus', connectionStatus);
+      // if (process.env.NODE_ENV === 'development')
+      console.log('connectionStatus', connectionStatus);
     }
     appValues.setSocketStatus(connectionStatus);
   }, [connectionStatus]);
