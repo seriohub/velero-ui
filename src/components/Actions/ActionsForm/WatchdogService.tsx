@@ -4,9 +4,9 @@ import { useEffect, useState } from 'react';
 
 import { ActionIcon, Box, Card, Group, Text } from '@mantine/core';
 
+import { IconInfoSquare } from '@tabler/icons-react';
 import WatchdogServiceConfigTable from '@/components/Inputs/WatchdogServiceConfigTable';
 import { useWatchdogAppSecrets } from '@/api/Watchdog/useWatchdogAppSecrets';
-import { IconInfoSquare } from '@tabler/icons-react';
 
 export default function WatchdogService() {
   const { data: dataServices, getWatchdogAppSecrets } = useWatchdogAppSecrets();
