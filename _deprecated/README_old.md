@@ -22,22 +22,22 @@ This project was created to simplify through a user interface some velero backup
 
 Some screenshots:
 
-- [dashboard](./screenshots/01_dashboard.png)
-- [login](./screenshots/02_login.png)
-- [backups](./screenshots/03_backups.png)
-- [create new backup](./screenshots/04_create_backup.png)
-- [create restore](./screenshots/05_create_restore.png)
-- [schedule](./screenshots/06_schedule.png)
-- [create schedule](./screenshots/07_create_schedule.png)
-- [backup location](./screenshots/08_backup_location.png)
-- [storage location](./screenshots/09_storage_location.png)
-- [repo](./screenshots/10_repo.png)
-- [storage class map](./screenshots/11_sc_map.png)
-- [backup describe](./screenshots/12_backup_describe.png)
-- [backup logs](./screenshots/13_backup_logs.png)
-- [configuration](./screenshots/14_configuration.png)
-- [watchdog configuration](./screenshots/15_watchdog.png)
-- [cron schedule heatmap](./screenshots/16_cron_schedule_heatmap.png)
+- [dashboard](../screenshots/01_dashboard.png)
+- [login](../screenshots/02_login.png)
+- [backups](../screenshots/03_backups.png)
+- [create new backup](../screenshots/04_create_backup.png)
+- [create restore](../screenshots/05_create_restore.png)
+- [schedule](../screenshots/06_schedule.png)
+- [create schedule](../screenshots/07_create_schedule.png)
+- [backup location](../screenshots/08_backup_location.png)
+- [storage location](../screenshots/09_storage_location.png)
+- [repo](../screenshots/10_repo.png)
+- [storage class map](../screenshots/11_sc_map.png)
+- [backup describe](../screenshots/12_backup_describe.png)
+- [backup logs](../screenshots/13_backup_logs.png)
+- [configuration](../screenshots/14_configuration.png)
+- [watchdog configuration](../screenshots/15_watchdog.png)
+- [cron schedule heatmap](../screenshots/16_cron_schedule_heatmap.png)
 
 ## Features
 
@@ -57,7 +57,7 @@ Some screenshots:
 
   8. Multi cluster (Experimental feature)
 
-  see [changelog](CHANGELOG.md) for details.
+  see [changelog](../CHANGELOG.md) for details.
 
 ## Configuration
 
@@ -92,7 +92,7 @@ Clone the repository:
 - Nodejs
 - YARN
 
-1. Navigate to the [src](src) folder
+1. Navigate to the [src](../src) folder
 
 2. Dependencies installation:
 
@@ -138,7 +138,7 @@ Clone the repository:
 
 2. Kubernetes create objects
 
-   1. Navigate to the [k8s](k8s) folder
+   1. Navigate to the [k8s](_deprecated/k8s) folder
 
    2. Create namespace (If it does not exist, the namespace should already be created if you have installed the [Velero API](https://github.com/seriohub/velero-api)):
 
@@ -149,7 +149,7 @@ Clone the repository:
    3. Create the ConfigMap:
 
       > [!WARNING]  
-      Set the parameters in the [10_config_map.yaml](k8s/10_config_map.yaml) file before applying it according to your environment.</br>
+      Set the parameters in the [10_config_map.yaml](_deprecated/k8s/10_config_map.yaml) file before applying it according to your environment.</br>
       You need to set **NEXT_PUBLIC_VELERO_API_URL** and **NEXT_PUBLIC_VELERO_API_WS** to the port of the Velero API service.
 
       ``` bash
@@ -165,7 +165,7 @@ Clone the repository:
    5. Create the service:
 
       > [!WARNING]  
-      Customizes the [30_service_lb.yaml](k8s/30_service_lb.yaml) or [30_service_nodeport.yaml](k8s/30_service_nodeport.yaml) file before applying it according to your environment.
+      Customizes the [30_service_lb.yaml](_deprecated/k8s/30_service_lb.yaml) or [30_service_nodeport.yaml](_deprecated/k8s/30_service_nodeport.yaml) file before applying it according to your environment.
 
       ``` bash
       kubectl apply -f 30_service_lb.yaml -n velero-ui

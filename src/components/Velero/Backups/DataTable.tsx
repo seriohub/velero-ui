@@ -154,10 +154,8 @@ export function BackupDataTable({
         },
         {
           accessor: 'metadata.labels["velero.io/schedule-name"]',
-          //width: 300,
           ellipsis: true,
-
-          title: 'Schedules name',
+          title: 'Schedule',
           sortable: true,
           filter: (
             <MultiSelect

@@ -113,7 +113,7 @@ export function SnapshotLocation() {
             accessor: 'metadata.name',
             title: 'Name',
             sortable: true,
-            render: (record) => (
+            render: (record: any) => (
               <Anchor
                 size="sm"
                 onClick={() => {

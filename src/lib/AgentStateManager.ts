@@ -5,7 +5,7 @@ import { useAppStatus } from '@/contexts/AppContext';
 interface BooleanState {
   getUiURL: boolean;
   getApiURL: boolean;
-  checkApiReacheable: boolean;
+  checkApiReachable: boolean;
   getArchitecture: boolean;
   getOrigins: boolean;
   validateOrigins: boolean;
@@ -43,7 +43,7 @@ export class AgentStateManager {
     this.booleanState = {
       getUiURL: false,
       getApiURL: false,
-      checkApiReacheable: false,
+      checkApiReachable: false,
       getArchitecture: false,
       getOrigins: false,
       validateOrigins: false,

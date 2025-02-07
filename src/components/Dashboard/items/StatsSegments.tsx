@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Text, Group, Card, Button, CardSection } from '@mantine/core';
+import { Text, Group, Card, Button, CardSection, Anchor, Stack } from '@mantine/core';
 import { useRouter } from 'next/navigation';
 import { IconChevronRight } from '@tabler/icons-react';
 
@@ -41,18 +41,30 @@ export function StatsSegments({ data, title, icon, path }: StatsSegmentsProps) {
             {data.count}
           </Text>
 
-          {data.from_schedule_count > 0 && (
-            <Text size="md" fw={500}>
-              ({data.from_schedule_count} from schedule)
-            </Text>
+          {data.from_schedule_count > 0 && data.from_schedule_count !== data.count && (
+            <>
+              <Text size="md" fw={500}>
+                {data.from_schedule_count} from schedules and{' '}
+                {data.count - data.from_schedule_count} manual backup
+                {data.count - data.from_schedule_count > 1 ? 's' : ''}
+              </Text>
+            </>
           )}
         </Group>
 
-        {React.cloneElement(icon, {
-          size: '3rem',
-          color: 'var(--mantine-primary-color-light-color)',
-          stroke: '1.5',
-        })}
+        <Anchor
+          href="#"
+          onClick={() => {
+            router.push(path);
+          }}
+          underline="never"
+        >
+          {React.cloneElement(icon, {
+            size: '3rem',
+            color: 'var(--mantine-primary-color-light-color)',
+            stroke: '1.5',
+          })}
+        </Anchor>
       </Group>
 
       <Text size="md" c="dimmed">

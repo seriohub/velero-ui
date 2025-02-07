@@ -1,6 +1,6 @@
 'use client';
 
-import {useDisclosure , useElementSize , useMediaQuery , useViewportSize} from '@mantine/hooks';
+import { useDisclosure, useElementSize, useMediaQuery, useViewportSize } from '@mantine/hooks';
 import {
   AppShell,
   Stack,
@@ -70,7 +70,6 @@ export default function AppShellLayout({ children }: AppShellLayoutProps) {
           <AppShellHeader opened={opened} toggle={toggle} />
         </AppShell.Header>
         <AppShell.Navbar
-          //bg={computedColorScheme=='light'? 'var(--mantine-primary-color-filled)' : ''}
           bg={
             uiValues.navbarColored && computedColorScheme === 'light'
               ? 'var(--mantine-primary-color-filled)'
@@ -89,16 +88,13 @@ export default function AppShellLayout({ children }: AppShellLayoutProps) {
             }
             gap={0}
             w={vpWidth < 768 ? '100vw' : 'calc(100vw - 240px)'}
-            // bg={computedColorScheme=='light'? 'var(--mantine-primary-color-light)' : ''}
             bg={
               uiValues.mainColored && computedColorScheme === 'light'
                 ? 'var(--mantine-primary-color-light)'
                 : undefined
             }
-            //bg="blue"
           >
             <Box
-              //bg='orange'
               h={
                 vpWidth < 768
                   ? `calc(100vh - var(--app-shell-header-height, 0px) - ${height.toFixed(0)}px - 0px`
@@ -141,8 +137,6 @@ export default function AppShellLayout({ children }: AppShellLayoutProps) {
 
           {uiValues.showDebugAside && (
             <ActionIcon
-              //size={24}
-              //color= "red"
               variant="default"
               aria-label="ActionIcon with size as a number"
               onClick={() => toggleAside()}
@@ -151,7 +145,7 @@ export default function AppShellLayout({ children }: AppShellLayoutProps) {
                 position: 'fixed',
                 right: 0,
                 top: 65,
-                zIndex: 1000, // Assicurati che il pulsante sia sopra l'Aside
+                zIndex: 1000,
               }}
             >
               {openedAside ? (
@@ -193,8 +187,6 @@ export default function AppShellLayout({ children }: AppShellLayoutProps) {
           <UIConfig />
         </Drawer>
 
-        {/*<AppShell.Aside>
-        </AppShell.Aside>*/}
         <AppShell.Footer visibleFrom="sm">
           <AppShellFooter />
         </AppShell.Footer>

@@ -17,9 +17,6 @@ export const DiagnosticAgentInfoData = ({
   k8sHealth,
   stateManager,
 }: any) => {
-  // console.log('k8sHealth', k8sHealth);
-  //const { uiURL, apiURL, apiArch, origins, k8sHealth, stateManager } = useDiagnosticAgent();
-
   const serverValues = useServerStatus();
 
   const elements = [
@@ -47,7 +44,7 @@ export const DiagnosticAgentInfoData = ({
     <DiagnosticItemTable
       label="API available"
       value=""
-      ok={stateManager.getVariable('checkApiReacheable')}
+      ok={stateManager.getVariable('checkApiReachable')}
       actionIcon={
         !serverValues.isCurrentServerControlPlane ? <DiagnosticLink ApiURL={apiURL} /> : <></>
       }

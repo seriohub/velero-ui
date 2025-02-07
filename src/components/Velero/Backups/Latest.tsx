@@ -9,12 +9,13 @@ import {
   Center,
   Group,
   ScrollArea,
+  Text,
   Title,
   useComputedColorScheme,
 } from '@mantine/core';
 
 import sortBy from 'lodash/sortBy';
-import { IconClick } from '@tabler/icons-react';
+import { IconClick, IconClock } from '@tabler/icons-react';
 
 import { useMediaQuery } from '@mantine/hooks';
 import { useRouter } from 'next/navigation';
@@ -50,12 +51,10 @@ export function BackupLatest({ reload, setReload, latest = [] }: BackupLatestPro
   const [records, setRecords] = useState(items.slice(0, 5));
 
   useEffect(() => {
-
     setItems(latest);
   }, [latest]);
 
   useEffect(() => {
-
     const from = (page - 1) * pageSize;
     const to = from + pageSize;
     const data_sorted = sortBy(items, sortStatus.columnAccessor);
@@ -161,15 +160,25 @@ export function BackupLatest({ reload, setReload, latest = [] }: BackupLatestPro
               },
               {
                 accessor: 'metadata.labels["velero.io/schedule-name"]',
+                title: 'Schedule',
+                sortable: true,
                 render: ({ metadata }: any) => (
                   <>
-                    {metadata.labels && metadata.labels['velero.io/schedule-name']
-                      ? metadata.labels['velero.io/schedule-name']
-                      : undefined}
+                    {metadata.labels && metadata.labels['velero.io/schedule-name'] && (
+                      <Anchor
+                        size="sm"
+                        onClick={() => {
+                          router.push(`/schedules/${metadata.labels['velero.io/schedule-name']}`);
+                        }}
+                      >
+                        <Group gap={5}>
+                          <IconClock size={16} />
+                          <Text>{metadata.labels['velero.io/schedule-name']}</Text>
+                        </Group>
+                      </Anchor>
+                    )}
                   </>
                 ),
-                title: 'Schedules',
-                sortable: true,
               },
               {
                 accessor: 'status.phase',

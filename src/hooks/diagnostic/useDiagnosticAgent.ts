@@ -84,7 +84,7 @@ export const useDiagnosticAgent = () => {
 
   stateManager.setVariable('getUiURL', uiURL !== '');
   stateManager.setVariable('getApiURL', apiURL !== '');
-  stateManager.setVariable('checkApiReacheable', agentStatus.isAgentAvailable === true);
+  stateManager.setVariable('checkApiReachable', agentStatus.isAgentAvailable === true);
   stateManager.setVariable('getArchitecture', apiArch?.payload?.arch !== undefined);
   stateManager.setVariable('getOrigins', origins.length > 0);
   stateManager.setVariable(
