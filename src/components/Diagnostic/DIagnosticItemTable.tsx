@@ -1,8 +1,8 @@
 'use client';
 
-import { Group, List, Table, Text, rem } from '@mantine/core';
-import { IconCheck, IconX } from '@tabler/icons-react';
-import { ReactElement } from 'react';
+import {Group , List , Table , Text , rem} from '@mantine/core';
+import {IconCheck , IconX} from '@tabler/icons-react';
+import {ReactElement} from 'react';
 
 interface DiagnosticItemProps {
   label: string;
@@ -17,22 +17,22 @@ interface DiagnosticItemProps {
 }
 
 export function DiagnosticItemTable({
-  label,
-  value,
-  ok,
-  warning = false,
-  actionIcon,
-  message = '',
-  message2 = '',
-  message3 = '',
-  message4 = '',
-}: DiagnosticItemProps) {
+                                      label ,
+                                      value ,
+                                      ok ,
+                                      warning = false ,
+                                      actionIcon ,
+                                      message = '' ,
+                                      message2 = '' ,
+                                      message3 = '' ,
+                                      message4 = '' ,
+                                    }: DiagnosticItemProps) {
   const IconOk = (
     <IconCheck
       color="green"
       style={{
-        width: rem(16),
-        height: rem(16),
+        width: rem(16) ,
+        height: rem(16) ,
       }}
     />
   );
@@ -40,8 +40,8 @@ export function DiagnosticItemTable({
     <IconX
       color="red"
       style={{
-        width: rem(16),
-        height: rem(16),
+        width: rem(16) ,
+        height: rem(16) ,
       }}
     />
   );
@@ -49,8 +49,8 @@ export function DiagnosticItemTable({
     <IconCheck
       color="orange"
       style={{
-        width: rem(16),
-        height: rem(16),
+        width: rem(16) ,
+        height: rem(16) ,
       }}
     />
   );
@@ -63,7 +63,7 @@ export function DiagnosticItemTable({
           <Text size="sm" fw={600}>
             {value}
           </Text>
-          {(message !== '' || message2 !== '' || message3 !== '') && (
+          {ok !== undefined && (message !== '' || message2 !== '' || message3 !== '') && (
             <List size="sm" mt={5}>
               {message !== '' && <List.Item>{message}</List.Item>}
               {message2 !== '' && <List.Item>{message2}</List.Item>}
@@ -71,14 +71,18 @@ export function DiagnosticItemTable({
               {message4 !== '' && <List.Item>{message4}</List.Item>}
             </List>
           )}
+          {ok === undefined && (
+            <></>
+          )}
         </Table.Td>
         <Table.Td>
-          {ok && !warning && IconOk}
-          {ok && warning && IconWarning}
-          {!ok && IconError}
+          {ok === undefined && '--'}
+          {ok !== undefined && ok && !warning && IconOk}
+          {ok !== undefined && ok && warning && IconWarning}
+          {ok !== undefined && !ok && IconError}
         </Table.Td>
         <Table.Td>
-          <Group>{ok && actionIcon}</Group>
+          <Group>{ok !== undefined && ok && actionIcon}</Group>
         </Table.Td>
       </Table.Tr>
 

@@ -12,13 +12,13 @@ import { useWatchdogSendReport } from '@/api/Watchdog/useWatchdogSendReport';
 import Toolbar from '@/components/Toolbar';
 import RefreshDatatable from '@/components/Actions/ToolbarActionIcons/RefreshDatatable';
 import SendReport from '@/components/Actions/ToolbarActionIcons/SendReport';
-import { CreateWatchdogService } from '@/components/Actions/ActionsForm/CreateWatchdogService';
 import { WatchdogDeployConfigs } from '@/components/Settings/Watchdog/WatchdogDeployConfigs';
 import { useWatchdogAppConfigs } from '@/api/Watchdog/useWatchdogAppConfigs';
 import { WatchdogUserConfigs } from '@/components/Settings/Watchdog/WatchdogUserConfigs';
 import { PageScrollArea } from '@/components/Velero/PageScrollArea';
 import { useWatchdogRestart } from '@/api/Watchdog/useWatchdogRestart';
 import ReloadConfig from '@/components/Actions/ToolbarActionIcons/ReloadConfig';
+import WatchdogService from '@/components/Actions/ActionsForm/WatchdogService';
 
 type Differences<T> = {
   hasDifferences: boolean;
@@ -135,7 +135,7 @@ export function Watchdog() {
             />
             <Space h={50} />
 
-            <CreateWatchdogService />
+            <WatchdogService />
           </Box>
         </Tabs.Panel>
       </Tabs>

@@ -1,7 +1,8 @@
 import React from 'react';
 import { DonutChart } from '@mantine/charts';
-import { Text, Group, Center, Card, Title } from '@mantine/core';
+import { Text, Group, Center, Card, Title, Anchor } from '@mantine/core';
 import { IconActivity } from '@tabler/icons-react';
+import { useRouter } from 'next/navigation';
 
 interface Segment {
   label: keyof typeof segmentColors;
@@ -26,6 +27,7 @@ const segmentColors = {
 };
 
 export function StatsSegmentsDonuts({ data, title, icon, path }: StatsSegmentsProps) {
+  const router = useRouter();
   const sections = data.stats.map((segment) => ({
     value: segment.count,
     color: segmentColors[segment.label],
@@ -37,15 +39,34 @@ export function StatsSegmentsDonuts({ data, title, icon, path }: StatsSegmentsPr
     <>
       <Card withBorder p="md" radius="md" shadow="sm">
         <Group justify="space-between" align="center" gap="xs">
-          <Title order={5} mb={20}>
-            {title} status
-          </Title>
+          <Group gap={5}>
+            {icon}
+            <Title order={3}>{title}</Title>
+          </Group>
 
-          <IconActivity size="2rem" stroke="1.5" color="var(--mantine-primary-color-light-color)" />
+          <Anchor
+            href="#"
+            onClick={() => {
+              router.push(path);
+            }}
+            underline="never"
+          >
+            <IconActivity
+              size="2rem"
+              stroke="1.5"
+              color="var(--mantine-primary-color-light-color)"
+            />
+          </Anchor>
         </Group>
-        <Center>
+        <Center py={30}>
           {sections.length > 0 && (
-            <DonutChart size={160} thickness={25} withLabels labelsType="value" data={sections} />
+            <DonutChart
+              size={200}
+              thickness={30}
+              labelsType="value"
+              data={sections}
+              paddingAngle={1}
+            />
           )}
           {sections.length === 0 && (
             <Text fw={500} mt={50}>

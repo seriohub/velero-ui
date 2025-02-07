@@ -126,7 +126,7 @@ export function WatchdogUserConfigs({ userConfiguration, setReload }: any) {
             <Text fz="lg" fw={500}>
               Configure notifications
             </Text>
-            <Text fz="xs" c="dimmed" mt={3} mb="xl">
+            <Text fz="xs" c="dimmed">
               Choose what notifications you want to receive
             </Text>
           </Card.Section>
@@ -230,8 +230,8 @@ export function WatchdogUserConfigs({ userConfiguration, setReload }: any) {
                 )}
               </div>
             </SimpleGrid>
-            <Card.Section withBorder inheritPadding p="xs" mt={50}>
-              <Group justify="flex-end" mt="md">
+            <Card.Section withBorder inheritPadding pt={5} mt={10}>
+              <Group justify="flex-end">
                 <Button type="submit" disabled={!isModified}>
                   Save
                 </Button>
