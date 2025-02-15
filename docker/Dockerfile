@@ -22,7 +22,7 @@ COPY .yarn/. ./.yarn/
 
 # RUN yarn --immutable --network-timeout 100000;
 # RUN yarn install
-RUN yarn cache clean
+# RUN yarn cache clean
 RUN yarn
 
 ######################################################################
