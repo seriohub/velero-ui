@@ -21,26 +21,32 @@ const montserrat = Montserrat({ subsets: ['latin'] });
 const roboto = Roboto({
   weight: '400',
   subsets: ['latin'],
+  preload: false,
 });
 const lato = Lato({
   weight: '400',
   subsets: ['latin'],
+  preload: false,
 });
 const pt_sans = PT_Sans({
   weight: '400',
   subsets: ['latin'],
+  preload: false,
 });
 const merriwather = Merriweather({
   weight: '400',
   subsets: ['latin'],
+  preload: false,
 });
 const raleway = Raleway({
   weight: '400',
   subsets: ['latin'],
+  preload: false,
 });
 const source_sans = Source_Sans_3({
   weight: '400',
   subsets: ['latin'],
+  preload: false,
 });
 
 export const fonts = {
