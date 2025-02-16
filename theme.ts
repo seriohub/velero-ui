@@ -1,10 +1,10 @@
 'use client';
-import { Open_Sans } from 'next/font/google'
+
+import { Open_Sans } from 'next/font/google';
 import { createTheme, Loader } from '@mantine/core';
 import { RingLoader } from './src/components/RingLoader';
 
-const open_sans = Open_Sans({ subsets: ['latin'] })
-
+const open_sans = Open_Sans({ subsets: ['latin'] });
 
 export const theme = createTheme({
   /* Put your mantine theme override here */
@@ -22,7 +22,10 @@ export const theme = createTheme({
   components: {
     Loader: Loader.extend({
       defaultProps: {
-        loaders: { ...Loader.defaultLoaders, ring: RingLoader },
+        loaders: {
+          ...Loader.defaultLoaders,
+          ring: RingLoader,
+        },
         type: 'ring',
       },
     }),

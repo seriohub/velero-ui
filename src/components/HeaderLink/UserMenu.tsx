@@ -1,10 +1,10 @@
-import { Menu, rem, Group, Switch, Avatar, Text, UnstyledButton } from '@mantine/core';
+import { Menu, rem, Group, Switch, Avatar, Text, UnstyledButton, Badge } from '@mantine/core';
 import {
-  IconSettings,
-  IconLogout,
-  IconPasswordUser,
-  IconLayoutSidebarRight,
-  IconColumns1,
+  IconSettings ,
+  IconLogout ,
+  IconPasswordUser ,
+  IconLayoutSidebarRight ,
+  IconColumns1 , IconUser ,
 } from '@tabler/icons-react';
 
 import { openModal } from '@mantine/modals';
@@ -48,7 +48,7 @@ export default function UserMenu() {
       >
         <Group>
           <Avatar color="var(--mantine-primary-color-filled)" radius="xl">
-            AD
+            <IconUser />
           </Avatar>
         </Group>
       </UnstyledButton>
@@ -74,16 +74,21 @@ export default function UserMenu() {
 
         <Menu.Dropdown>
           <Menu.Label>
-            <Group>
-              <div>
-                <Text fw={500} c="primary">
-                  {`${userValues.user?.username}`}
-                </Text>
-                <Text size="xs" c="dimmed">
-                  {userValues.user?.email}
-                </Text>
-              </div>
+            <Group grow>
+              <Text fw={500} c="primary">
+                {`${userValues.user?.username}`}
+              </Text>
+              {agentValues.agentInfo?.auth_type === 'LDAP' && (
+                <Group justify="flex-end">
+                  <Badge p={2} color="var(--mantine-primary-color-filled)" radius="xs">
+                    LDAP
+                  </Badge>
+                </Group>
+              )}
             </Group>
+            <Text size="xs" c="dimmed">
+              {userValues.user?.email}
+            </Text>
           </Menu.Label>
           <Menu.Divider />
           <Menu.Label>Settings</Menu.Label>
