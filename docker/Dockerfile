@@ -1,4 +1,4 @@
-FROM node:20.11.0-alpine AS base
+FROM node:20.10.0-alpine AS base
 
 ######################################################################
 #
@@ -22,7 +22,7 @@ COPY .yarn/. ./.yarn/
 
 # RUN yarn --immutable --network-timeout 100000;
 # RUN yarn install
-RUN yarn
+RUN yarn install --network-timeout 100000
 
 ######################################################################
 #
@@ -44,6 +44,7 @@ ENV NEXT_TELEMETRY_DISABLED 1
 
 # RUN yarn --network-timeout 100000
 RUN yarn build --network-timeout 100000
+
 
 ######################################################################
 #
