@@ -1,8 +1,8 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
-import { Open_Sans } from 'next/font/google';
+//import { Open_Sans } from 'next/font/google';
 
-const open_sans = Open_Sans({ subsets: ['latin'] });
+//const open_sans = Open_Sans({ subsets: ['latin'] });
 
 interface UIStatus {
   primaryColor: any;
@@ -40,7 +40,7 @@ export const UIProvider: React.FC<{ children: React.ReactNode }> = ({ children }
 
   const [uiFontFamily, setUiFontFamily] = useState({
     name: 'open sans',
-    fontFamily: open_sans,
+    fontFamily: 'open_sans',
   });
   const [uiFontSize, setUiFontSize] = useState(undefined);
   const [navbarColored, setNavbarColored] = useState(false);
