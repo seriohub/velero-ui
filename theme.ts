@@ -2,7 +2,7 @@
 
 import { Open_Sans } from 'next/font/google';
 import { createTheme, Loader } from '@mantine/core';
-import { RingLoader } from './src/components/RingLoader';
+import { RingLoader } from '@/components/RingLoader';
 
 const open_sans = Open_Sans({ subsets: ['latin'] });
 

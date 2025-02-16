@@ -15,32 +15,47 @@ import { Box, Select } from '@mantine/core';
 
 import { useUIStatus } from '@/contexts/UIContext';
 
-const inter = Inter({ subsets: ['latin'] });
-const open_sans = Open_Sans({ subsets: ['latin'] });
-const montserrat = Montserrat({ subsets: ['latin'] });
+const inter = Inter({
+  subsets: ['latin'],
+  preload: false,
+});
+const open_sans = Open_Sans({
+  subsets: ['latin'],
+  preload: true,
+});
+const montserrat = Montserrat({
+  subsets: ['latin'],
+  preload: false,
+});
 const roboto = Roboto({
   weight: '400',
   subsets: ['latin'],
+  preload: false,
 });
 const lato = Lato({
   weight: '400',
   subsets: ['latin'],
+  preload: false,
 });
 const pt_sans = PT_Sans({
   weight: '400',
   subsets: ['latin'],
+  preload: false,
 });
 const merriwather = Merriweather({
   weight: '400',
   subsets: ['latin'],
+  preload: false,
 });
 const raleway = Raleway({
   weight: '400',
   subsets: ['latin'],
+  preload: false,
 });
 const source_sans = Source_Sans_3({
   weight: '400',
   subsets: ['latin'],
+  preload: false,
 });
 
 export const fonts = {
