@@ -59,12 +59,12 @@ export const useApiPut = ({ target = 'agent' }: UseApiPutProps = {}) => {
       .then(async (res) => {
         setResponseStatus(res.status);
 
-        if (res.status !== 200) {
+        /*if (res.status !== 200) {
           ApiResponseShowErrorNotification({
             title: res.status.toString(),
             message: res.statusText,
           });
-        }
+        }*/
 
         if (res.status === 401) {
           logout();

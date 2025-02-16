@@ -1,5 +1,6 @@
 import useSWR from 'swr';
 import axios from 'axios';
+import { env } from 'next-runtime-env';
 import { useAppStatus } from '@/contexts/AppContext';
 import { useServerStatus } from '@/contexts/ServerContext';
 
@@ -9,8 +10,7 @@ interface UseAuthParams {
 }
 
 export const useAuth = ({ middleware, redirectIfAuthenticated }: UseAuthParams = {}) => {
-  // const router = useRouter();
-  // const pathname = usePathname();
+  const NEXT_PUBLIC_AUTH_ENABLED = env('NEXT_PUBLIC_AUTH_ENABLED')?.toLowerCase() === 'true';
 
   const serverValues = useServerStatus();
   const appValues = useAppStatus();
@@ -23,20 +23,22 @@ export const useAuth = ({ middleware, redirectIfAuthenticated }: UseAuthParams =
     data: user,
     error,
     mutate,
-  } = useSWR(`${serverValues?.currentServer?.url}/v1/users/me/info`, () =>
-    axios
-      .get(`${serverValues?.currentServer?.url}/v1/users/me/info`, { headers })
-      .then((res) => {
-        //userValues.setUser(res.data.data);
-        appValues.setIsUserLoaded(true);
-        appValues.setAuthenticated(true);
-        return res.data.data;
-      })
-      .catch((e) => {
-        console.error('error', e);
-        // if (error.response.status === 401) logout()
-        return undefined;
-      })
+  } = useSWR(
+    NEXT_PUBLIC_AUTH_ENABLED ? `${serverValues?.currentServer?.url}/v1/users/me/info` : null,
+    () =>
+      axios
+        .get(`${serverValues?.currentServer?.url}/v1/users/me/info`, { headers })
+        .then((res) => {
+          //userValues.setUser(res.data.data);
+          appValues.setIsUserLoaded(true);
+          appValues.setAuthenticated(true);
+          return res.data.data;
+        })
+        .catch((e) => {
+          console.error('error', e);
+          // if (error.response.status === 401) logout()
+          return undefined;
+        })
   );
 
   /*useEffect(() => {
@@ -60,7 +62,13 @@ export const useAuth = ({ middleware, redirectIfAuthenticated }: UseAuthParams =
   }, [user, error]);*/
 
   return {
-    user,
+    user: NEXT_PUBLIC_AUTH_ENABLED
+      ? user
+      : {
+          id: 0,
+          username: 'Guest',
+          email: '- no guest email -',
+        },
     error,
     mutate,
   };

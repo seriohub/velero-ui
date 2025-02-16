@@ -3,15 +3,15 @@
 import { useRouter } from 'next/navigation';
 import { useForm } from '@mantine/form';
 import {
-  TextInput,
-  PasswordInput,
-  Text,
-  Paper,
-  Group,
-  Button,
-  Stack,
-  Space,
-  ActionIcon,
+  TextInput ,
+  PasswordInput ,
+  Text ,
+  Paper ,
+  Group ,
+  Button ,
+  Stack ,
+  Space ,
+  ActionIcon , Badge , Box ,
 } from '@mantine/core';
 
 import { IconLock, IconUser } from '@tabler/icons-react';
@@ -21,10 +21,12 @@ import { useAppStatus } from '@/contexts/AppContext';
 import { useServerStatus } from '@/contexts/ServerContext';
 
 import { SwitchCluster } from '../SwitchCluster/SwitchCluster';
+import { useAgentStatus } from '@/contexts/AgentContext';
 
 export function AuthenticationForm() {
   const serverValues = useServerStatus();
   const appValues = useAppStatus();
+  const agentValues = useAgentStatus();
 
   const router = useRouter();
 
@@ -59,12 +61,23 @@ export function AuthenticationForm() {
       appValues.setAuthenticated(true);
       router.push('/dashboard');
     } else {
-      form.setErrors({ username: true, password: true });
+      form.setErrors({
+        username: true,
+        password: true,
+      });
     }
   }
 
   return (
-    <Paper radius={0} p="sm" withBorder style={{ width: '100%', border: 'none' }}>
+    <Paper
+      radius={0}
+      p="sm"
+      withBorder
+      style={{
+        width: '100%',
+        border: 'none',
+      }}
+    >
       <Text size="22px" fw={800} lightHidden c="white">
         Velero
       </Text>
@@ -72,7 +85,13 @@ export function AuthenticationForm() {
         Velero
       </Text>
 
-      <Text style={{ fontSize: '12px', marginTop: '2%' }} c="dimmed">
+      <Text
+        style={{
+          fontSize: '12px',
+          marginTop: '2%',
+        }}
+        c="dimmed"
+      >
         Backup Simplified
       </Text>
 
@@ -82,6 +101,7 @@ export function AuthenticationForm() {
 
       <form onSubmit={handleSubmit}>
         <Stack>
+          <Box style={{ marginTop: '8%' }}>
           <TextInput
             //variant="filled"
             leftSection={
@@ -89,14 +109,15 @@ export function AuthenticationForm() {
                 <IconUser />
               </ActionIcon>
             }
+            rightSection={agentValues.agentInfo?.auth_type === 'LDAP' && <Group justify="flex-end"><Badge p={2} color="var(--mantine-primary-color-filled)" radius="xs">LDAP</Badge></Group>}
             size="md"
-            style={{ marginTop: '8%' }}
+            //style={{ marginTop: '8%' }}
             required
             placeholder="Your username"
             value={form.values.username}
             onChange={(event) => form.setFieldValue('username', event.currentTarget.value)}
             error={form.errors.username && 'Login failed!'}
-          />
+          /></Box>
 
           <PasswordInput
             //variant="filled"

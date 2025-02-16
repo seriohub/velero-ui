@@ -17,12 +17,14 @@ import { useUserStatus } from '@/contexts/UserContext';
 import { useUIStatus } from '@/contexts/UIContext';
 
 import { useAuthLogout } from '@/hooks/user/useAuthLogout';
+import { useAgentStatus } from '@/contexts/AgentContext';
 
 export default function UserMenu() {
   //const [projectsItems, setProjectItems] = useState<React.ReactNode[]>([])
   const uiValues = useUIStatus();
 
   const userValues = useUserStatus();
+  const agentValues = useAgentStatus();
 
   const { logout } = useAuthLogout();
 
@@ -74,9 +76,8 @@ export default function UserMenu() {
           <Menu.Label>
             <Group>
               <div>
-                <Text fw={500} c="primary">{
-                  `${userValues.user?.username}`
-                }
+                <Text fw={500} c="primary">
+                  {`${userValues.user?.username}`}
                 </Text>
                 <Text size="xs" c="dimmed">
                   {userValues.user?.email}
@@ -89,6 +90,10 @@ export default function UserMenu() {
 
           <Menu.Item
             key="updatePassword"
+            disabled={
+              agentValues?.agentInfo?.auth_enabled === 'False' ||
+              agentValues?.agentInfo?.auth_type !== 'BUILT-IN'
+            }
             leftSection={
               <IconPasswordUser
                 style={{
@@ -174,6 +179,7 @@ export default function UserMenu() {
           <Menu.Divider />
 
           <Menu.Item
+            disabled={agentValues?.agentInfo?.auth_enabled === 'False'}
             key="profile"
             leftSection={
               <IconLogout

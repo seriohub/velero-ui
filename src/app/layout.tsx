@@ -25,9 +25,8 @@ import { UIProvider, useUIStatus } from '@/contexts/UIContext';
 import { LoggerProvider } from '@/contexts/LoggerContext';
 
 export default function RootLayout({ children }: { children: any }) {
-  // const loggerEnabled = process.env.NEXT_PUBLIC_LOGGER_ENABLED === 'true';
   const loggerEnabled = env('NEXT_PUBLIC_LOGGER_ENABLED')?.toLocaleLowerCase() === 'true';
-  console.log('loggerEnabled', loggerEnabled);
+
   return (
     <html lang="en">
       <head>
