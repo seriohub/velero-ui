@@ -1,16 +1,18 @@
 import { Menu, rem, Group, Switch, Avatar, Text, UnstyledButton, Badge } from '@mantine/core';
 import {
-  IconSettings ,
-  IconLogout ,
-  IconPasswordUser ,
-  IconLayoutSidebarRight ,
-  IconColumns1 , IconUser ,
+  IconSettings,
+  IconLogout,
+  IconPasswordUser,
+  IconLayoutSidebarRight,
+  IconColumns1,
+  IconUser,
 } from '@tabler/icons-react';
 
 import { openModal } from '@mantine/modals';
 
 import { forwardRef } from 'react';
 
+import { env } from 'next-runtime-env';
 import { UpdatePasswordForm } from '@/components/Navlink/UpdatePasswordForm';
 
 import { useUserStatus } from '@/contexts/UserContext';
@@ -20,7 +22,7 @@ import { useAuthLogout } from '@/hooks/user/useAuthLogout';
 import { useAgentStatus } from '@/contexts/AgentContext';
 
 export default function UserMenu() {
-  //const [projectsItems, setProjectItems] = useState<React.ReactNode[]>([])
+  const NEXT_PUBLIC_AUTH_ENABLED = env('NEXT_PUBLIC_AUTH_ENABLED')?.toLowerCase() !== 'false';
   const uiValues = useUIStatus();
 
   const userValues = useUserStatus();
@@ -78,7 +80,7 @@ export default function UserMenu() {
               <Text fw={500} c="primary">
                 {`${userValues.user?.username}`}
               </Text>
-              {agentValues.agentInfo?.auth_type === 'LDAP' && (
+              {NEXT_PUBLIC_AUTH_ENABLED && agentValues.agentInfo?.auth_type === 'LDAP' && (
                 <Group justify="flex-end">
                   <Badge p={2} color="var(--mantine-primary-color-filled)" radius="xs">
                     LDAP

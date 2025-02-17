@@ -10,7 +10,7 @@ interface UseAuthParams {
 }
 
 export const useAuth = ({ middleware, redirectIfAuthenticated }: UseAuthParams = {}) => {
-  const NEXT_PUBLIC_AUTH_ENABLED = env('NEXT_PUBLIC_AUTH_ENABLED')?.toLowerCase() === 'true';
+  const NEXT_PUBLIC_AUTH_ENABLED = env('NEXT_PUBLIC_AUTH_ENABLED')?.toLowerCase() !== 'false';
 
   const serverValues = useServerStatus();
   const appValues = useAppStatus();

@@ -1,6 +1,5 @@
 'use client';
 
-//import { Open_Sans } from 'next/font/google';
 import { createTheme, Loader } from '@mantine/core';
 import { RingLoader } from '@/components/RingLoader';
 
@@ -8,8 +7,7 @@ import { RingLoader } from '@/components/RingLoader';
 
 export const theme = createTheme({
   /* Put your mantine theme override here */
-  // fontFamily: open_sans.style.fontFamily,
-  fontFamily: 'Open Sans, sans-serif',
+  // fontFamily: 'Open Sans, sans-serif',
   // fontFamilyMonospace: 'Monaco, Courier, monospace',
   // headings: { fontFamily: 'Greycliff CF, sans-serif' },
   // Font sizes in px, other units are not supported

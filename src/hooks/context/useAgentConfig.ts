@@ -19,7 +19,7 @@ export const useAgentConfig = () => {
   const serverValues = useServerStatus();
   const agentValues = useAgentStatus();
   const socketValues = useSocketStatus();
-  const NEXT_PUBLIC_AUTH_ENABLED = env('NEXT_PUBLIC_AUTH_ENABLED')?.toLowerCase() === 'true';
+  const NEXT_PUBLIC_AUTH_ENABLED = env('NEXT_PUBLIC_AUTH_ENABLED')?.toLowerCase() !== 'false';
   const { data: agentInfo, getAppInfo } = useAppInfo();
   const { data: agentConfiguration, getAgentConfiguration } = useAgentConfiguration();
   const { data: agentsAvailable, getData: getDataAgent } = useApiGet();

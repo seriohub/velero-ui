@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { useUIStatus } from '@/contexts/UIContext';
 import { fontSizeMap, FontSizeKey } from '@/components/Config/UI/UIConfigFontSize';
-import { fonts, FontKeys } from '@/components/Config/UI/UIConfigFontFamily';
 
 export const useUIConfig = () => {
   const uiValues = useUIStatus();
@@ -19,10 +18,10 @@ export const useUIConfig = () => {
       fontSize: fontSizeMap[fontSizeKey],
     });
 
-    const defaultFontFamily = localStorage.getItem('fontFamily') || 'open_sans';
+    const defaultFontFamily = localStorage.getItem('fontFamily') || 'Open Sans';
     uiValues.setUiFontFamily({
       name: defaultFontFamily,
-      fontFamily: fonts[defaultFontFamily as FontKeys],
+      fontFamily: defaultFontFamily,
     });
 
     const mainColored = localStorage.getItem('mainColored') === 'true';

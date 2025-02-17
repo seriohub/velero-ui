@@ -7,7 +7,7 @@ import { env } from 'next-runtime-env';
 
 export default function LoginPage() {
   const router = useRouter();
-  const NEXT_PUBLIC_AUTH_ENABLED = env('NEXT_PUBLIC_AUTH_ENABLED')?.toLowerCase() === 'true';
+  const NEXT_PUBLIC_AUTH_ENABLED = env('NEXT_PUBLIC_AUTH_ENABLED')?.toLowerCase() !== 'false';
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
