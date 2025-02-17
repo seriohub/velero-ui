@@ -51,10 +51,6 @@ export function UIConfigFontFamily() {
             label: 'Roboto',
           },
           {
-            value: 'Source Sans 3',
-            label: 'Source Sans 3',
-          },
-          {
             value: 'Ubuntu',
             label: 'Ubuntu',
           },
