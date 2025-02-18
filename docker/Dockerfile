@@ -22,7 +22,12 @@ COPY .yarn/. ./.yarn/
 
 # RUN yarn --immutable --network-timeout 100000;
 # RUN yarn install
+<<<<<<< HEAD
 RUN yarn install --network-timeout 100000
+=======
+# RUN yarn cache clean
+RUN yarn
+>>>>>>> f2548fac8062bfb24f1d2ba184e4d660dd6d97bd
 
 ######################################################################
 #
@@ -36,6 +41,9 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 COPY .env.build .env
+
+COPY package.json yarn.lock* .yarnrc.yml ./
+COPY .yarn/. ./.yarn/
 
 # Next.js collects completely anonymous telemetry data about general usage.
 # Learn more here: https://nextjs.org/telemetry
