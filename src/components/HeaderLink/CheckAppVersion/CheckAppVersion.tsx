@@ -14,7 +14,7 @@ import { useCoreInfo } from '@/api/Core/useCoreInfo';
 import { useAppStatus } from '@/contexts/AppContext';
 
 export default function CheckAppVersion() {
-  const [updateAvailable, setUpdateAvailabe] = useState(false);
+  const [updateAvailable, setUpdateAvailable] = useState(false);
   const [opened, { open, close }] = useDisclosure(false);
   const agentValues = useAgentStatus();
   const serverValues = useServerStatus();
@@ -50,14 +50,14 @@ export default function CheckAppVersion() {
       );
 
       if (cmp === 'githubRelease') {
-        setUpdateAvailabe(true);
+        setUpdateAvailable(true);
       }
     }
   }, [agentData, coreData, appValues.repoVersion]);
 
   return (
     <>
-      <Modal opened={opened} onClose={close} title="App Version" size="lg">
+      <Modal opened={opened} onClose={close} title={`App version v${agentValues.agentInfo?.helm_app_version}`} size="lg">
         <TableVersion
           app={agentData?.payload || coreData?.payload}
           githubRelease={appValues.repoVersion}

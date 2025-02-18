@@ -22,7 +22,6 @@ COPY .yarn/. ./.yarn/
 
 # RUN yarn --immutable --network-timeout 100000;
 # RUN yarn install
-# RUN yarn cache clean
 RUN yarn
 
 ######################################################################
@@ -48,6 +47,7 @@ ENV NEXT_TELEMETRY_DISABLED 1
 
 # RUN yarn --network-timeout 100000
 RUN yarn build
+
 
 ######################################################################
 #

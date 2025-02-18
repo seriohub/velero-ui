@@ -6,6 +6,7 @@ import { useAgentStatus } from '@/contexts/AgentContext';
 import { useSocketStatus } from '@/contexts/SocketContext';
 import { useAgentConfiguration } from '@/api/Agent/useAgentConfiguration';
 import { useAppInfo } from '@/api/App/useAppInfo';
+import {env} from "next-runtime-env";
 
 export interface AgentApiConfig {
   name: string;
@@ -18,7 +19,7 @@ export const useAgentConfig = () => {
   const serverValues = useServerStatus();
   const agentValues = useAgentStatus();
   const socketValues = useSocketStatus();
-
+  const NEXT_PUBLIC_AUTH_ENABLED = env('NEXT_PUBLIC_AUTH_ENABLED')?.toLowerCase() !== 'false';
   const { data: agentInfo, getAppInfo } = useAppInfo();
   const { data: agentConfiguration, getAgentConfiguration } = useAgentConfiguration();
   const { data: agentsAvailable, getData: getDataAgent } = useApiGet();
@@ -51,7 +52,7 @@ export const useAgentConfig = () => {
     if (agentValues.isAgentAvailable) {
       getAppInfo(serverValues.isCurrentServerControlPlane ? 'core' : 'agent');
     }
-    if (agentValues.isAgentAvailable && appValues.isAuthenticated) {
+    if (agentValues.isAgentAvailable && (appValues.isAuthenticated || !NEXT_PUBLIC_AUTH_ENABLED)) {
       getAgentConfiguration();
     }
   }, [agentValues.isAgentAvailable, appValues.isAuthenticated]);

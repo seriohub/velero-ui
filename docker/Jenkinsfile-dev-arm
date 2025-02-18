@@ -27,30 +27,20 @@ pipeline {
                     echo 'Clone Git repository...'
 
                     // Clone the GitHub repository
-                    checkout([$class: "GitSCM", branches: [[name: "*/main"]], userRemoteConfigs: [[url: evGit_Source_Code]]])
-
-                    // Get the latest tag in the main branch
-                    evLatestTag = sh(script: 'git describe --tags --abbrev=0', returnStdout: true).trim()
-
-                    // Remove the "v" prefix if it exists
-                    evLatestTag = evLatestTag.startsWith('v') ? evLatestTag.substring(1) : evLatestTag
-
-                    echo "Latest Tag: ${evLatestTag}"
+                    checkout([$class: "GitSCM", branches: [[name: "*/dev"]], userRemoteConfigs: [[url: evGit_Source_Code]]])
 
                     // Set the latest tag as an environment variable for later use
                     GIT_TAG = evLatestTag
 
-                    //Get commit changes
+                    // Get commit changes
                     evCommitChangeset = sh(returnStdout: true, script: "git log -1 --pretty='%s'").trim()
                 }
             }
         }
 
-
         stage('Build Docker Image and Push Image to Registry') {
             steps {
                 script {
-                    // Path to your Dockerfile within the project directory
                     def dockerfilePath = 'docker/Dockerfile'
                     def dockerHubProject = "$evDocker_Project/$evTarget"
 
@@ -62,7 +52,7 @@ pipeline {
                     }
 
                     def now=new Date()
-                    
+
                     echo "Docker registry: ${evDocker_HUB}"
                     def pushTo = ''
                     if (evDocker_HUB != null) {
@@ -88,7 +78,6 @@ pipeline {
                     sh "docker buildx build --platform linux/amd64,linux/arm64 --target deps -f ${dockerfilePath} ."
                     sh "docker buildx build --platform linux/amd64,linux/arm64 --target builder -f ${dockerfilePath} ."
                     sh "docker buildx build --platform linux/amd64,linux/arm64 --build-arg VERSION=${GIT_TAG} --build-arg BUILD_DATE=${now.format("yyyy-MM-dd'T'HH:mm:ss'Z'", TimeZone.getTimeZone('UTC'))} --target ${evTarget} -t ${dockerHubProject}:${GIT_TAG} -t ${dockerHubProject}:latest -f ${dockerfilePath} --push ."
-
                     sh "docker logout"
                 }
             }

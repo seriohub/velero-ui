@@ -1,8 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
-import { Open_Sans } from 'next/font/google';
-
-const open_sans = Open_Sans({ subsets: ['latin'] });
 
 interface UIStatus {
   primaryColor: any;
@@ -10,11 +7,9 @@ interface UIStatus {
   uiFontSize: any | undefined;
   navbarColored: boolean;
   mainColored: boolean;
-
   showBottomDebugBar: boolean;
   showDebugAside: boolean;
   openedUIDrawer: boolean;
-
   isMobile: boolean | undefined;
 }
 
@@ -24,12 +19,9 @@ interface UIStatusContextProps extends UIStatus {
   setUiFontSize: React.Dispatch<React.SetStateAction<any>>;
   setNavbarColored: React.Dispatch<React.SetStateAction<any>>;
   setMainColored: React.Dispatch<React.SetStateAction<any>>;
-
   setShowDebugAside: React.Dispatch<React.SetStateAction<boolean>>;
   setShowBottomDebugBar: React.Dispatch<React.SetStateAction<boolean>>;
-
   toggleUIDrawer: React.Dispatch<React.SetStateAction<boolean>>;
-
   setIsMobile: React.Dispatch<React.SetStateAction<boolean | undefined>>;
 }
 
@@ -39,8 +31,8 @@ export const UIProvider: React.FC<{ children: React.ReactNode }> = ({ children }
   const [primaryColor, setPrimaryColor] = useState('blue');
 
   const [uiFontFamily, setUiFontFamily] = useState({
-    name: 'open sans',
-    fontFamily: open_sans,
+    name: 'Open Sans',
+    fontFamily: 'Open Sans',
   });
   const [uiFontSize, setUiFontSize] = useState(undefined);
   const [navbarColored, setNavbarColored] = useState(false);

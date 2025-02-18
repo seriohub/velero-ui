@@ -7,6 +7,7 @@ import { env, PublicEnvScript } from 'next-runtime-env';
 
 import { ContextMenuProvider } from 'mantine-contextmenu';
 
+import '../styles/fonts.css';
 import '@mantine/charts/styles.css';
 import '@mantine/core/styles.layer.css';
 import '@mantine/dates/styles.layer.css';
@@ -25,9 +26,8 @@ import { UIProvider, useUIStatus } from '@/contexts/UIContext';
 import { LoggerProvider } from '@/contexts/LoggerContext';
 
 export default function RootLayout({ children }: { children: any }) {
-  // const loggerEnabled = process.env.NEXT_PUBLIC_LOGGER_ENABLED === 'true';
   const loggerEnabled = env('NEXT_PUBLIC_LOGGER_ENABLED')?.toLocaleLowerCase() === 'true';
-  console.log('loggerEnabled', loggerEnabled);
+
   return (
     <html lang="en">
       <head>
@@ -83,8 +83,13 @@ function LayoutWithTheme({ children }: { children: any }) {
       theme={{
         ...theme,
         primaryColor: primaryColor || 'blue',
-        fontFamily: uiFontFamily.fontFamily?.style?.fontFamily,
+        //fontFamily: uiFontFamily.fontFamily?.style?.fontFamily,
+        fontFamily: `${uiFontFamily.fontFamily}, sans-serif`,
         ...(uiFontSize !== undefined && { fontSizes: uiFontSize?.fontSize }),
+        headings: {
+          // Use default theme if you want to provide default Mantine fonts as a fallback
+          fontFamily: `${uiFontFamily.fontFamily}, sans-serif`,
+        },
       }}
     >
       <ContextMenuProvider>{children}</ContextMenuProvider>

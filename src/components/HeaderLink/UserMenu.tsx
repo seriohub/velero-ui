@@ -1,28 +1,32 @@
-import { Menu, rem, Group, Switch, Avatar, Text, UnstyledButton } from '@mantine/core';
+import { Menu, rem, Group, Switch, Avatar, Text, UnstyledButton, Badge } from '@mantine/core';
 import {
   IconSettings,
   IconLogout,
   IconPasswordUser,
   IconLayoutSidebarRight,
   IconColumns1,
+  IconUser,
 } from '@tabler/icons-react';
 
 import { openModal } from '@mantine/modals';
 
 import { forwardRef } from 'react';
 
+import { env } from 'next-runtime-env';
 import { UpdatePasswordForm } from '@/components/Navlink/UpdatePasswordForm';
 
 import { useUserStatus } from '@/contexts/UserContext';
 import { useUIStatus } from '@/contexts/UIContext';
 
 import { useAuthLogout } from '@/hooks/user/useAuthLogout';
+import { useAgentStatus } from '@/contexts/AgentContext';
 
 export default function UserMenu() {
-  //const [projectsItems, setProjectItems] = useState<React.ReactNode[]>([])
+  const NEXT_PUBLIC_AUTH_ENABLED = env('NEXT_PUBLIC_AUTH_ENABLED')?.toLowerCase() !== 'false';
   const uiValues = useUIStatus();
 
   const userValues = useUserStatus();
+  const agentValues = useAgentStatus();
 
   const { logout } = useAuthLogout();
 
@@ -46,7 +50,7 @@ export default function UserMenu() {
       >
         <Group>
           <Avatar color="var(--mantine-primary-color-filled)" radius="xl">
-            AD
+            <IconUser />
           </Avatar>
         </Group>
       </UnstyledButton>
@@ -72,23 +76,31 @@ export default function UserMenu() {
 
         <Menu.Dropdown>
           <Menu.Label>
-            <Group>
-              <div>
-                <Text fw={500} c="primary">{
-                  `${userValues.user?.username}`
-                }
-                </Text>
-                <Text size="xs" c="dimmed">
-                  {userValues.user?.email}
-                </Text>
-              </div>
+            <Group grow>
+              <Text fw={500} c="primary">
+                {`${userValues.user?.username}`}
+              </Text>
+              {NEXT_PUBLIC_AUTH_ENABLED && agentValues.agentInfo?.auth_type === 'LDAP' && (
+                <Group justify="flex-end">
+                  <Badge p={2} color="var(--mantine-primary-color-filled)" radius="xs">
+                    LDAP
+                  </Badge>
+                </Group>
+              )}
             </Group>
+            <Text size="xs" c="dimmed">
+              {userValues.user?.email}
+            </Text>
           </Menu.Label>
           <Menu.Divider />
           <Menu.Label>Settings</Menu.Label>
 
           <Menu.Item
             key="updatePassword"
+            disabled={
+              agentValues?.agentInfo?.auth_enabled === 'False' ||
+              agentValues?.agentInfo?.auth_type !== 'BUILT-IN'
+            }
             leftSection={
               <IconPasswordUser
                 style={{
@@ -174,6 +186,7 @@ export default function UserMenu() {
           <Menu.Divider />
 
           <Menu.Item
+            disabled={agentValues?.agentInfo?.auth_enabled === 'False'}
             key="profile"
             leftSection={
               <IconLogout

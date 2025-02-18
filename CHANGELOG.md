@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 
 ***
 
+## [v0.1.22] - 2025-02-17
+
+🔒 Authentication Improvements
+- 🔑 Added LDAP authentication for improved integration with directory services
+- ⚙️ Added an option for no authentication for environments that don't require authentication
+ 
+🎨 UI Enhancements
+- 🗑️ Removed dependency on next/font/google due to random build errors in Docker images
+
 ## [v0.1.21] - 2025-02-07
 
 🚀 New Features

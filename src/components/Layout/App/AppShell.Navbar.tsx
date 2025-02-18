@@ -202,7 +202,7 @@ export function AppShellNavbar({ opened, toggle }: any) {
                       : undefined
                   }
                 >
-                  Kubernetes cluster
+                  Cluster
                 </Text>
                 <Box p={5}>
                   <SwitchAgent />
