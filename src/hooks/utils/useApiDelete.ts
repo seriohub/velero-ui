@@ -5,8 +5,9 @@ import { useBackend } from '../useBackend';
 import { useApiLogger } from '../logger/useApiLogger';
 import { useUserNotificationHistory } from '../user/useUserNotificationHistory';
 import { useAuthErrorHandler } from '../user/useAuthErrorHandler';
-import { ApiResponseShowErrorNotification } from '@/components/APIResponseNotification';
+import { ApiResponseShowErrorNotification } from '@/components/Display/ApiNotification';
 import { handleApiResponse } from './handleApiResponse';
+import { parseApiResponse } from '@/hooks/utils/parseApiResponse';
 
 type DeleteParams = {
   url: string;
@@ -60,66 +61,8 @@ export const useApiDelete = ({ target = 'agent' }: UseApiGetProps = {}) => {
 
     setFetching(true);
     fetch(`${backendUrl}${url}`, requestOptions)
-      .then(async (res) => {
-        if (res.status === 401) {
-          logout();
-        }
-
-        return res.json().then((response) => {
-          return {
-            data: response,
-            status: res.status,
-            xProcessTime: res.headers.get('X-Process-Time'),
-          };
-        });
-      })
+      .then(parseApiResponse)
       .then((res) => {
-        /*const data = res.data;
-        const statusCode = res.status;
-
-        if ('error' in data) {
-          setData(undefined);
-          setError(true);
-
-          ApiResponseShowErrorNotification({
-            title: data.error.title,
-            message: data.error.description
-          })
-          addNotificationHistory({
-            statusCode: statusCode,
-            title: data.error.title,
-            description: data.error.description,
-          });
-        } else if ('data' in data) {
-          setData(res);
-        }
-
-        if ('notifications' in data) {
-          data.notifications.map((message: any) => {
-            ApiResponseShowNotification({
-              title: message.title,
-              message: message.description,
-              type: message?.info,
-            });
-            addNotificationHistory({
-              statusCode: statusCode,
-              title: message.title,
-              description: message.description,
-            });
-            return null;
-          });
-        }
-
-        setFetching(false);
-
-        addApiResponseHistory({
-          method: 'DELETE',
-          url: `${backendUrl}${url}`,
-          param: params,
-          data: data,
-          statusCode: statusCode,
-          xProcessTime: res.xProcessTime,
-        });*/
         setFetching(false);
         handleApiResponse({
           res,
@@ -138,9 +81,17 @@ export const useApiDelete = ({ target = 'agent' }: UseApiGetProps = {}) => {
         setFetching(false);
         setData(undefined);
         setError(true);
+        console.error('Fetch error:', err.message);
+
+        if (err.message.includes('Unauthorized')) {
+          logout();
+        }
+
+        const title = 'Error';
+        const { message } = err;
         ApiResponseShowErrorNotification({
-          title: 'Error',
-          message: `Oops, something went wrong. ${err}`,
+          title,
+          message,
         });
       });
   };

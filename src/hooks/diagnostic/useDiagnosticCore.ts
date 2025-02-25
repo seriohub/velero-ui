@@ -24,7 +24,6 @@ export const useDiagnosticCore = () => {
   const { data: compatibility, getData: getCompatibility } = useApiGet();
 
   useEffect(() => {
-    // if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 90 has been called`, `color: green; font-weight: bold;`)
     if (serverValues.isServerAvailable) {
       getDataK8sHealth({
         url: '/health/k8s',
@@ -56,16 +55,9 @@ export const useDiagnosticCore = () => {
     reload,
   ]);
 
-  /*useEffect(() => {
-    if (apiURL !== undefined) {
-      checkAvailability(apiURL + '/info/health');
-    }
-  }, [apiURL]);*/
-
   useEffect(() => {
-    // if (process.env.NODE_ENV === 'development') console.log(`%cuseEffect 100 has been called`, `color: green; font-weight: bold;`)
     if (apiOrigins !== undefined) {
-      setOrigins(apiOrigins.payload);
+      setOrigins(apiOrigins);
     }
   }, [apiOrigins]);
 
@@ -74,7 +66,7 @@ export const useDiagnosticCore = () => {
   stateManager.setVariable('checkApiReacheable', serverValues.isServerAvailable === true);
   stateManager.setVariable(
     'getArchitecture',
-    serverValues.isServerAvailable === true && apiArch?.payload?.platform === undefined
+    serverValues.isServerAvailable === true && apiArch?.platform === undefined
   );
   stateManager.setVariable('getOrigins', origins.length > 0);
   stateManager.setVariable(
@@ -83,7 +75,7 @@ export const useDiagnosticCore = () => {
   );
   stateManager.setVariable('getClusterHealth', k8sHealth !== undefined);
   stateManager.hasWarnings = origins.length > 0 && origins.includes('*');
-  stateManager.setVariable('getUiApiVerCompatibility', compatibility?.payload?.compatibility);
+  stateManager.setVariable('getUiApiVerCompatibility', compatibility?.compatibility);
   return {
     uiURL,
     apiURL,

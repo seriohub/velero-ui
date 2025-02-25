@@ -1,5 +1,5 @@
 import React, { createContext, useState, useContext } from 'react';
-import { ServerApiConfig, APIManager } from '@/lib/APIManager';
+import { ServerApiConfig, ApiManager } from '@/lib/ApiManager';
 
 interface ServerStatus {
   servers: Array<ServerApiConfig>;
@@ -7,6 +7,7 @@ interface ServerStatus {
   isServerAvailable: Boolean | undefined;
   isCurrentServerControlPlane: Boolean | undefined;
 }
+
 interface ServerStatusContextProps extends ServerStatus {
   setServers: React.Dispatch<React.SetStateAction<Array<ServerApiConfig>>>;
   setCurrentBackend: React.Dispatch<React.SetStateAction<ServerApiConfig | undefined>>;
@@ -17,7 +18,7 @@ interface ServerStatusContextProps extends ServerStatus {
 const ServerStatusContext = createContext<ServerStatusContextProps | undefined>(undefined);
 
 export const ServerProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const serverApiConfigs: ServerApiConfig[] = APIManager();
+  const serverApiConfigs: ServerApiConfig[] = ApiManager();
   const [servers, setServers] = useState<Array<ServerApiConfig>>(serverApiConfigs);
 
   const [currentServer, setCurrentBackend] = useState<ServerApiConfig | undefined>(undefined);

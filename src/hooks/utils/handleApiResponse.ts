@@ -1,8 +1,8 @@
 import {
   ApiResponseShowNotification,
   ApiResponseShowErrorNotification,
-} from '@/components/APIResponseNotification';
-import { APIResponseMessage } from '@/components/APIResponseMessage';
+} from '@/components/Display/ApiNotification';
+import { ApiMessage } from '@/components/Display/ApiMessage';
 
 type HandleApiResponseParams = {
   res: {
@@ -70,7 +70,7 @@ export const handleApiResponse = ({
 
   if ('messages' in data) {
     data.messages.forEach((message: any) => {
-      APIResponseMessage({
+      ApiMessage({
         title: message.title,
         description: message.description,
       });

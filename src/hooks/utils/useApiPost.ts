@@ -7,7 +7,8 @@ import { useUserNotificationHistory } from '../user/useUserNotificationHistory';
 
 import { useAuthErrorHandler } from '../user/useAuthErrorHandler';
 import { handleApiResponse } from './handleApiResponse';
-import { ApiResponseShowErrorNotification } from '@/components/APIResponseNotification';
+import { ApiResponseShowErrorNotification } from '@/components/Display/ApiNotification';
+import { parseApiResponse } from '@/hooks/utils/parseApiResponse';
 
 interface UseApiPostProps {
   target?: 'core' | 'agent' | 'static';
@@ -56,17 +57,7 @@ export const useApiPost = ({ target = 'agent' }: UseApiPostProps = {}) => {
 
     setFetching(true);
     fetch(`${backendUrl}${url}`, requestOptions)
-      .then(async (res) => {
-        if (res.status === 401) {
-          logout();
-        }
-
-        return res.json().then((response) => ({
-          data: response,
-          status: res.status,
-          xProcessTime: res.headers.get('X-Process-Time'),
-        }));
-      })
+      .then(parseApiResponse)
       .then((res) => {
         setFetching(false);
         handleApiResponse({
@@ -86,9 +77,17 @@ export const useApiPost = ({ target = 'agent' }: UseApiPostProps = {}) => {
         setFetching(false);
         setData(undefined);
         setError(true);
+        console.error('Fetch error:', err.message);
+
+        if (err.message.includes('Unauthorized')) {
+          logout();
+        }
+
+        const title = 'Error';
+        const { message } = err;
         ApiResponseShowErrorNotification({
-          title: 'Error',
-          message: `Oops, something went wrong. ${err}`,
+          title,
+          message,
         });
       });
   };

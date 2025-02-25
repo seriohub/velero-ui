@@ -1,7 +1,7 @@
 'use client';
 
-import { BackupLocation } from '@/components/Velero/BackupLocations/Data';
+import { BslDatatable } from '@/components/Features/Velero/BackupLocations/BslDatatable';
 
 export default function BackupStorageLocationsPage() {
-  return <BackupLocation />;
+  return <BslDatatable />;
 }

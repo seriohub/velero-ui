@@ -1,6 +1,5 @@
 import { useApiPatch } from '@/hooks/utils/useApiPatch';
 
-// Hook to handle category task fetching logic
 export const useSchedulesPause = () => {
   const { data, patchData, fetching, error } = useApiPatch();
 

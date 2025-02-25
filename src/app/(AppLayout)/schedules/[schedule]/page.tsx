@@ -1,11 +1,11 @@
 'use client';
 
-import { Schedule } from '@/components/Velero/Schedule/Schedule';
+import { ScheduleDetails } from '@/components/Features/Velero/Schedules/ScheduleDetails';
 
 export default function SchedulePage({ params }: any) {
   return (
     <>
-      <Schedule params={params} />
+      <ScheduleDetails params={params} />
     </>
   );
 }

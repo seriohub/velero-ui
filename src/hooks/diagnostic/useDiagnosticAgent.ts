@@ -30,8 +30,6 @@ export const useDiagnosticAgent = () => {
 
   useEffect(() => {
     if (agentStatus.isAgentAvailable) {
-      // if (process.env.NODE_ENV === 'development')
-      //  console.log(`%cuseEffect 70 has been called`, `color: green; font-weight: bold;`);
 
       getDataK8sHealth({ url: '/health/k8s' });
       getApiOrigins({
@@ -43,7 +41,7 @@ export const useDiagnosticAgent = () => {
         target: 'agent',
       });
       getWatchdog({
-        url: '/info/watchdog',
+        url: '/health/watchdog',
         target: 'agent',
       });
       getCompatibility({
@@ -66,39 +64,34 @@ export const useDiagnosticAgent = () => {
 
   useEffect(() => {
     if (apiOrigins !== undefined) {
-      // if (process.env.NODE_ENV === 'development')
-      //  console.log(`%cuseEffect 80 has been called`, `color: green; font-weight: bold;`);
 
-      setOrigins(apiOrigins.payload);
+      setOrigins(apiOrigins);
     }
   }, [apiOrigins]);
 
   stateManager.uiURL = uiURL;
   stateManager.apiURL = apiURL;
 
-  stateManager.k8sHealth = k8sHealth?.payload;
-  stateManager.arch = apiArch?.payload?.arch;
-  stateManager.watchdog = watchdog?.payload?.status;
-  stateManager.compatibility = compatibility?.payload?.compatibility;
-  if (apiOrigins !== undefined) stateManager.apiOrigins = apiOrigins?.payload;
+  stateManager.k8sHealth = k8sHealth;
+  stateManager.arch = apiArch?.arch;
+  stateManager.watchdog = watchdog?.status;
+  stateManager.compatibility = compatibility?.compatibility;
+  if (apiOrigins !== undefined) stateManager.apiOrigins = apiOrigins;
 
   stateManager.setVariable('getUiURL', uiURL !== '');
   stateManager.setVariable('getApiURL', apiURL !== '');
   stateManager.setVariable('checkApiReachable', agentStatus.isAgentAvailable === true);
-  stateManager.setVariable('getArchitecture', apiArch?.payload?.arch !== undefined);
+  stateManager.setVariable('getArchitecture', apiArch?.arch !== undefined);
   stateManager.setVariable('getOrigins', origins.length > 0);
   stateManager.setVariable(
     'validateOrigins',
     serverValues.isCurrentServerControlPlane ||
       (origins.length > 0 && (origins.includes(uiURL) || origins.includes('*')))
   );
-  stateManager.setVariable(
-    'getWatchdogInfo',
-    !!(watchdog && watchdog?.payload !== undefined)
-  );
+  stateManager.setVariable('getWatchdogInfo', !!(watchdog && watchdog !== undefined));
   stateManager.setVariable('getClusterHealth', k8sHealth !== undefined);
 
-  stateManager.setVariable('getUiApiVerCompatibility', compatibility?.payload?.compatibility);
+  stateManager.setVariable('getUiApiVerCompatibility', compatibility?.compatibility);
 
   stateManager.hasWarnings =
     !serverValues.isCurrentServerControlPlane && origins.length > 0 && origins.includes('*');

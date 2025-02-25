@@ -5,8 +5,9 @@ import { useAgentStatus } from '@/contexts/AgentContext';
 import { useApiLogger } from '@/hooks/logger/useApiLogger';
 import { useUserNotificationHistory } from '../user/useUserNotificationHistory';
 import { useAuthErrorHandler } from '../user/useAuthErrorHandler';
-import { ApiResponseShowErrorNotification } from '@/components/APIResponseNotification';
+import { ApiResponseShowErrorNotification } from '@/components/Display/ApiNotification';
 import { handleApiResponse } from './handleApiResponse';
+import { parseApiResponse } from './parseApiResponse';
 
 type TargetType = 'core' | 'agent' | 'static';
 
@@ -90,23 +91,7 @@ export const useApiGet = () => {
       method: 'GET',
       headers,
     })
-      .then(async (res) => {
-        if (res.status === 400) {
-          console.log('Bad request');
-          throw new Error('400. Bad request');
-        }
-
-        if (res.status === 401) {
-          logout();
-        }
-
-        return res.json().then((response) => ({
-            data: response,
-            status: res.status,
-            xProcessTime: res.headers.get('X-Process-Time'),
-          }));
-      })
-
+      .then(parseApiResponse)
       .then((res) => {
         setFetching(false);
         handleApiResponse({
@@ -127,11 +112,18 @@ export const useApiGet = () => {
         setFetching(false);
         setData(undefined);
         setError(true);
+        console.error('Fetch error:', err.message);
+
+        if (err.message.includes('Unauthorized')) {
+          logout();
+        }
+
+        const title = 'Error';
+        const { message } = err;
         ApiResponseShowErrorNotification({
-          title: 'Error',
-          message: `Oops, something went wrong. ${err}`,
+          title,
+          message,
         });
-        // if (err === 'Agent Offline') return;
       });
   };
 

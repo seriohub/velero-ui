@@ -26,8 +26,8 @@ export const useServerConfig = () => {
   }, [serverValues.isServerAvailable]);
 
   useEffect(() => {
-    if (data?.payload?.type !== undefined) {
-      if (data?.payload?.type === 'core') {
+    if (data?.type !== undefined) {
+      if (data?.type === 'core') {
         serverValues.setCurrentServerAsControlPlane(true);
       } else {
         serverValues.setCurrentServerAsControlPlane(false);

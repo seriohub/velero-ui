@@ -1,6 +1,5 @@
 import { useApiPost } from '@/hooks/utils/useApiPost';
 
-// Hook to handle category task fetching logic
 export const useWatchdogRestart = () => {
   const { data, postData, fetching, error } = useApiPost();
 
@@ -8,7 +7,7 @@ export const useWatchdogRestart = () => {
     try {
       // Execute the API call with the generic method
       await postData('/v1/watchdog/restart', {});
-      //params: `email=${email}&slack=${slack}&telegram=${telegram}`
+
       // This code will be executed only in case of success
       // console.log('Request successful, execute final action...');
     } catch (e) {

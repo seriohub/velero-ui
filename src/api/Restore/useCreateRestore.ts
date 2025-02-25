@@ -1,21 +1,20 @@
 import { useApiPost } from '@/hooks/utils/useApiPost';
 
-// Hook per gestire la logica di fetching dei task di categoria
 export const useCreateRestore = () => {
   const { data, postData, fetching, error } = useApiPost();
 
   const handleCreateRestore = async (
-    resourceName: string,
-    resourceType: string,
-    mappingNamespace: any,
+    backupName: string,
+    name: string,
+    namespaceMapping: any,
     parameters: string
   ) => {
     try {
       // Esegui la chiamata API con il metodo generico
       await postData('/v1/restore', {
-        resourceName,
-        resourceType,
-        mappingNamespace,
+        name,
+        backupName,
+        namespaceMapping,
         parameters,
       });
 

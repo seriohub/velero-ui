@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { env } from 'next-runtime-env';
 import { useAppStatus } from '@/contexts/AppContext';
 import { useApiGet } from '@/hooks/utils/useApiGet';
 import { useServerStatus } from '@/contexts/ServerContext';
@@ -6,7 +7,6 @@ import { useAgentStatus } from '@/contexts/AgentContext';
 import { useSocketStatus } from '@/contexts/SocketContext';
 import { useAgentConfiguration } from '@/api/Agent/useAgentConfiguration';
 import { useAppInfo } from '@/api/App/useAppInfo';
-import {env} from "next-runtime-env";
 
 export interface AgentApiConfig {
   name: string;
@@ -24,28 +24,15 @@ export const useAgentConfig = () => {
   const { data: agentConfiguration, getAgentConfiguration } = useAgentConfiguration();
   const { data: agentsAvailable, getData: getDataAgent } = useApiGet();
 
-  // get
-
   // agent list if core connected
   useEffect(() => {
-    //if (serverValues.isServerAvailable && serverValues.isCurrentServerControlPlane !== undefined) {
     if (serverValues.isCurrentServerControlPlane && appValues.isAuthenticated) {
       getDataAgent({
         url: '/v1/agents',
         target: 'core',
       });
-    } // else {
-    // agentValues.setCurrentAgent(serverValues.currentServer);
-    // agentValues.setIsAgentAvailable(serverValues.isServerAvailable);
-    // }
-    //}
-  }, [
-    // serverValues.currentServer,
-    serverValues.isCurrentServerControlPlane,
-    // serverValues.isServerAvailable,
-    appValues.isAuthenticated,
-    agentValues.reload,
-  ]);
+    }
+  }, [serverValues.isCurrentServerControlPlane, appValues.isAuthenticated, agentValues.reload]);
 
   // agent info and agent configuration
   useEffect(() => {
@@ -62,29 +49,21 @@ export const useAgentConfig = () => {
   // set initial agent
   useEffect(() => {
     if (serverValues.isCurrentServerControlPlane) {
-      if (agentsAvailable !== undefined) {
-        agentValues.setAgents(agentsAvailable?.payload);
+      if (agentsAvailable !== undefined && Array.isArray(agentsAvailable)) {
+        agentValues.setAgents(agentsAvailable);
         const agentIndex =
           localStorage.getItem('agent') &&
-          Number(localStorage.getItem('agent')) < agentsAvailable?.payload.length
+          Number(localStorage.getItem('agent')) < agentsAvailable?.length
             ? Number(localStorage.getItem('agent'))
             : 0;
 
-        agentValues.setCurrentAgent(agentsAvailable?.payload[agentIndex]);
+        agentValues.setCurrentAgent(agentsAvailable[agentIndex]);
       }
     }
 
     if (!serverValues.isCurrentServerControlPlane) {
       agentValues.setCurrentAgent(serverValues.currentServer);
     }
-    /*if (dataAgent?.payload.length == 0) {
-      notifications.show({
-        icon: <IconExclamationMark />,
-        color: 'red',
-        title: 'Agents error',
-        message: 'No agent registered in the core',
-      });
-    }*/
   }, [agentsAvailable, serverValues.isCurrentServerControlPlane]);
 
   // agent available
@@ -116,6 +95,8 @@ export const useAgentConfig = () => {
       // agentValues.setCurrentAgent(serverValues.currentServer);
       agentValues.setIsAgentAvailable(serverValues.isServerAvailable);
     }
+
+    return undefined;
   }, [
     agentValues.currentAgent,
     serverValues.isServerAvailable,
@@ -124,15 +105,15 @@ export const useAgentConfig = () => {
 
   // agent configuration
   useEffect(() => {
-    if (agentConfiguration !== undefined) {
-      agentValues.setAgentConfig(agentConfiguration?.payload);
+    if (agentConfiguration !== undefined && typeof agentConfiguration === 'object') {
+      agentValues.setAgentConfig(agentConfiguration);
     }
   }, [agentConfiguration]);
 
   // agent info
   useEffect(() => {
-    if (agentInfo) {
-      agentValues.setAgentInfo(agentInfo?.payload);
+    if (agentInfo && Array.isArray(agentInfo)) {
+      agentValues.setAgentInfo(agentInfo);
     }
   }, [agentInfo]);
 };

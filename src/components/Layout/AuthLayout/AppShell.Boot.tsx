@@ -4,13 +4,12 @@ import { useEffect } from 'react';
 
 import { useServerStatus } from '@/contexts/ServerContext';
 import { useAppStatus } from '@/contexts/AppContext';
+import { SocketProvider } from '@/contexts/SocketContext';
 
 import { useServerConfig } from '@/hooks/context/useServerConfig';
-
 import { useUIConfig } from '@/hooks/context/useUIConfig';
 
 import AppShellBootConnection from './Boot/AppShell.BootConnection';
-import { SocketProvider } from '@/contexts/SocketContext';
 import AppShellLoader from '../AppShell.Loader';
 
 interface AppShellBootProps {

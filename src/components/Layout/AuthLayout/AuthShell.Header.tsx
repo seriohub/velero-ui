@@ -4,7 +4,7 @@ import { IconBrandGithub } from '@tabler/icons-react';
 
 import Link from 'next/link';
 
-import SwitchColorScheme from '@/components/HeaderLink/SwitchColorScheme/SwitchColorScheme';
+import SwitchColorScheme from '@/components/Layout/Header/SwitchColorScheme/SwitchColorScheme';
 
 export function AuthShellHeader() {
   return (
@@ -14,7 +14,7 @@ export function AuthShellHeader() {
         target="_blank"
         size={38}
         radius={8}
-        variant="default"
+        variant="outline"
         href="https://github.com/seriohub/velero-ui"
       >
         <IconBrandGithub />

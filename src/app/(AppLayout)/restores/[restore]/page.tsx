@@ -1,7 +1,7 @@
 'use client';
 
-import { Restore } from '@/components/Velero/Restore/Restore';
+import { RestoreDetails } from '@/components/Features/Velero/Restores/RestoreDetails';
 
 export default function RestorePage({ params }: any) {
-  return <Restore params={params} />;
+  return <RestoreDetails params={params} />;
 }

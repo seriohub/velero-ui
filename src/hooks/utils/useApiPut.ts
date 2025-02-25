@@ -6,7 +6,8 @@ import { useApiLogger } from '../logger/useApiLogger';
 import { useUserNotificationHistory } from '../user/useUserNotificationHistory';
 import { useAuthErrorHandler } from '../user/useAuthErrorHandler';
 import { handleApiResponse } from './handleApiResponse';
-import { ApiResponseShowErrorNotification } from '@/components/APIResponseNotification';
+import { ApiResponseShowErrorNotification } from '@/components/Display/ApiNotification';
+import { parseApiResponse } from '@/hooks/utils/parseApiResponse';
 
 interface UseApiPutProps {
   target?: 'core' | 'agent' | 'static';
@@ -56,28 +57,7 @@ export const useApiPut = ({ target = 'agent' }: UseApiPutProps = {}) => {
 
     setFetching(true);
     fetch(`${backendUrl}${url}`, requestOptions)
-      .then(async (res) => {
-        setResponseStatus(res.status);
-
-        /*if (res.status !== 200) {
-          ApiResponseShowErrorNotification({
-            title: res.status.toString(),
-            message: res.statusText,
-          });
-        }*/
-
-        if (res.status === 401) {
-          logout();
-        }
-
-        return res.json().then((response) => {
-          return {
-            data: response,
-            status: res.status,
-            xProcessTime: res.headers.get('X-Process-Time'),
-          };
-        });
-      })
+      .then(parseApiResponse)
       .then((res) => {
         setFetching(false);
         handleApiResponse({
@@ -96,9 +76,17 @@ export const useApiPut = ({ target = 'agent' }: UseApiPutProps = {}) => {
       .catch((err) => {
         setFetching(false);
         setError(true);
+        console.error('Fetch error:', err.message);
+
+        if (err.message.includes('Unauthorized')) {
+          logout();
+        }
+
+        const title = 'Error';
+        const { message } = err;
         ApiResponseShowErrorNotification({
-          title: 'Error',
-          message: `Oops, something went wrong. ${err}`,
+          title,
+          message,
         });
       });
   };

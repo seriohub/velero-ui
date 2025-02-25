@@ -6,11 +6,7 @@ const checkUrlAvailability = async (url: string) => {
   try {
     const response = await fetch(url);
     // If the response status code is between 200 and 299, the URL is reachable
-    if (response.ok) {
-      return true;
-    } else {
-      return false;
-    }
+    return response.ok;
   } catch (error) {
     // If there is an error during the request, the URL is unreachable
     console.error('Error checkUrlAvailability');

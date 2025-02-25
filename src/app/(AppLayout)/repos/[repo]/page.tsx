@@ -1,11 +1,11 @@
 'use client';
 
-import { Repo } from '@/components/Velero/Repo/Repo';
+import { RepoDetails } from '@/components/Features/Velero/Repos/RepoDetails';
 
 export default function RepoPage({ params }: any) {
   return (
     <>
-      <Repo params={params} />
+      <RepoDetails params={params} />
     </>
   );
 }

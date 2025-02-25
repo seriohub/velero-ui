@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useUIStatus } from '@/contexts/UIContext';
-import { fontSizeMap, FontSizeKey } from '@/components/Config/UI/UIConfigFontSize';
+import { fontSizeMap, FontSizeKey } from '@/components/Features/Config/UI/UIConfigFontSize';
 
 export const useUIConfig = () => {
   const uiValues = useUIStatus();

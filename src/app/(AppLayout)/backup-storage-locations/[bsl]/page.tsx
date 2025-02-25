@@ -1,7 +1,7 @@
 'use client';
 
-import { BackupLocation } from '@/components/Velero/BackupLocation/BackupLocation';
+import { BslDetails } from '@/components/Features/Velero/BackupLocations/BslDetails';
 
 export default function BslPage({ params }: any) {
-  return <BackupLocation params={params} />;
+  return <BslDetails params={params} />;
 }

@@ -3,30 +3,24 @@ import { env } from 'next-runtime-env';
 
 interface AppStatus {
   socketStatus: string;
-
   isAppInitialized: boolean;
   isAuthenticated: boolean;
   isUserLoaded: boolean;
-
   refreshDatatableAfter: number;
   refreshRecent: number;
   xProcessTimer: Array<number>;
-
   repoVersion: any;
   refreshGithubRepoVersion: any | undefined;
 }
 
 interface AppStatusContextProps extends AppStatus {
   setSocketStatus: React.Dispatch<React.SetStateAction<string>>;
-
   setAppInitialized: React.Dispatch<React.SetStateAction<boolean>>;
   setAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
   setIsUserLoaded: React.Dispatch<React.SetStateAction<boolean>>;
-
   setRefreshDatatableAfter: React.Dispatch<React.SetStateAction<number>>;
   setRefreshRecent: React.Dispatch<React.SetStateAction<number>>;
   addXProcessTimer: React.Dispatch<React.SetStateAction<Array<number>>>;
-
   setRepoVersion: React.Dispatch<React.SetStateAction<any>>;
   setRefreshRepoVersion: React.Dispatch<React.SetStateAction<any>>;
 }
@@ -38,7 +32,6 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const NEXT_PUBLIC_REFRESH_RECENT = env('NEXT_PUBLIC_REFRESH_RECENT');
 
   const [socketStatus, setSocketStatus] = useState<string>('');
-
   const [isAppInitialized, setAppInitialized] = useState(false);
   const [isAuthenticated, setAuthenticated] = useState(false);
   const [isUserLoaded, setIsUserLoaded] = useState(false);
@@ -61,28 +54,21 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     <AppStatusContext.Provider
       value={{
         socketStatus,
-
         isAppInitialized,
         isAuthenticated,
         isUserLoaded,
-
         refreshDatatableAfter,
         refreshRecent,
         xProcessTimer,
-
         repoVersion,
         refreshGithubRepoVersion,
-
         setSocketStatus,
-
         setAppInitialized,
         setAuthenticated,
         setIsUserLoaded,
-
         setRefreshDatatableAfter,
         setRefreshRecent,
         addXProcessTimer,
-
         setRepoVersion,
         setRefreshRepoVersion,
       }}

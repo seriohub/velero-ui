@@ -1,6 +1,5 @@
 import { useApiPost } from '@/hooks/utils/useApiPost';
 
-// Hook per gestire la logica di fetching dei task di categoria
 export const useCreateLocationCredentials = () => {
   const { data, postData, fetching, error } = useApiPost();
 

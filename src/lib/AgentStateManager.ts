@@ -22,7 +22,7 @@ export class AgentStateManager {
   public uiURL: string;
   public apiURL: string;
   public k8sHealth: any;
-  public apiOrigins: string[];
+  public apiOrigins: Record<string, any>;
   public arch: string;
   public watchdog: string;
   public compatibility: string;
@@ -78,21 +78,20 @@ export class AgentStateManager {
 
     if (result) {
       const protocol = result[1];
-      const domain = result[2];
+      // const domain = result[2];
       const path = result[3];
 
       // replace domain with mask
       return `${protocol}${maskedDomain}${path}`;
-    } else {
-      return url;
     }
+    return url;
   }
 
   public generateMarkdownReport(): string {
     let markdown = '';
-    markdown += `# Agent State Manager Report**\n\n`;
+    markdown += '# Agent State Manager Report**\n\n';
 
-    markdown += `- Backend info\n`;
+    markdown += '- Backend info\n';
     markdown += `  - app_name: **${this.agentValues?.agentInfo?.app_name}**;\n`;
     markdown += `  - helm_app_version: **${this.agentValues?.agentInfo?.helm_app_version}**;\n`;
     markdown += `  - helm_version: **${this.agentValues?.agentInfo?.helm_version}**;\n`;
@@ -104,20 +103,20 @@ export class AgentStateManager {
     markdown += `- UI URL: **${this.maskDomain(this.uiURL)}**\n`;
     markdown += `- API URL: **${this.maskDomain(this.apiURL)}**\n`;
 
-    markdown += `- K8s Health\n`;
+    markdown += '- K8s Health\n';
     markdown += `  - cluster online: **${this.k8sHealth?.cluster_online}**\n`;
-    markdown += `  - nodes:\n`;
+    markdown += '  - nodes:\n';
     markdown += `    - total: **${this.k8sHealth?.nodes?.total}**;\n`;
     markdown += `    - in error: **${this.k8sHealth?.nodes?.in_error}**;\n`;
 
-    markdown += `- API Origins\n`;
-    markdown += this.apiOrigins.map((origin) => `  - ${origin};`).join('\n') + '\n';
+    markdown += '- API Origins\n';
+    markdown += `${this.apiOrigins.map((origin: any) => `  - ${origin};`).join('\n')}\n`;
 
     markdown += `- Architecture: **${this.arch}**\n`;
     markdown += `- Watchdog: **${this.watchdog}**\n`;
     markdown += `- Compatibility: **${this.compatibility}**\n`;
 
-    markdown += `- Boolean State\n`;
+    markdown += '- Boolean State\n';
     for (const [key, value] of Object.entries(this.booleanState)) {
       markdown += `  - ${key}: **${value}**;\n`;
     }

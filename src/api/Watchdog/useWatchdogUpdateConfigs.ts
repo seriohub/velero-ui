@@ -1,6 +1,5 @@
 import { useApiPut } from '@/hooks/utils/useApiPut';
 
-// Hook to handle category task fetching logic
 export const useWatchdogUpdateConfigs = () => {
   const { responseStatus, putData, fetching } = useApiPut();
 

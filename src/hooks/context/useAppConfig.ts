@@ -35,6 +35,6 @@ export const useAppConfig = () => {
   }, [appValues.refreshGithubRepoVersion]);
 
   useEffect(() => {
-    appValues.setRepoVersion(repoVersion?.payload);
+    appValues.setRepoVersion(repoVersion);
   }, [repoVersion]);
 };

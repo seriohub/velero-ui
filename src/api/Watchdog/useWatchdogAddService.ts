@@ -1,16 +1,13 @@
 import { useApiPost } from '@/hooks/utils/useApiPost';
 
 interface ChannelTest {
-  config: string
+  config: string;
 }
 
-// Hook to handle category task fetching logic
 export const useWatchdogAddService = () => {
   const { data, postData, fetching, error } = useApiPost();
 
-  const watchdogAddService = async ({
-    config,
-  }: ChannelTest) => {
+  const watchdogAddService = async ({ config }: ChannelTest) => {
     try {
       // Execute the API call with the generic method
       await postData('/v1/watchdog/user/service', {
