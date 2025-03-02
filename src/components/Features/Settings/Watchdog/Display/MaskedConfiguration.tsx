@@ -9,10 +9,10 @@ export function MaskedConfiguration({ service }: { service: string }) {
 
   return (
     <Group gap={5}>
-      <ActionIcon variant="outline" onClick={() => setVisible((v) => !v)}>
-        {visible ? <IconEyeOff /> : <IconEye />}
+      <ActionIcon variant="transparent" onClick={() => setVisible((v) => !v)}>
+        {visible ? <IconEyeOff size={20} /> : <IconEye size={20} />}
       </ActionIcon>
-      <Text>{visible ? service : '*******'}</Text>
+      <Text size="sm">{visible ? service : '*******'}</Text>
     </Group>
   );
 }

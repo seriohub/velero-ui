@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 import { ScrollArea, Table } from '@mantine/core';
 
@@ -11,6 +11,7 @@ import { useServerStatus } from '@/contexts/ServerContext';
 import { MainStack } from '@/components/Commons/MainStack';
 import Toolbar from '@/components/Display/Toolbar';
 import ReloadData from '@/components/Inputs/ReloadData';
+import { DataTable } from 'mantine-datatable';
 
 export function UI() {
   const serverValues = useServerStatus();
@@ -44,29 +45,31 @@ export function UI() {
     },
   ];
 
-  const rowUiConfiguration = uiConfiguration.map((element) => (
-    <Table.Tr key={element.name}>
-      <Table.Td>{element.name}</Table.Td>
-      <Table.Td>{element.value}</Table.Td>
-    </Table.Tr>
-  ));
-
   return (
     <MainStack>
       <Toolbar title="Backup" breadcrumbItem={[{ name: 'UI' }]}>
         <ReloadData setReload={setReload} reload={reload} />
       </Toolbar>
-      <ScrollArea p={0} style={{ height: '100%' }} offsetScrollbars>
-        <Table striped highlightOnHover verticalSpacing={0}>
-          <Table.Thead>
-            <Table.Tr>
-              <Table.Th w="400px">Name</Table.Th>
-              <Table.Th>Value</Table.Th>
-            </Table.Tr>
-          </Table.Thead>
-          <Table.Tbody>{rowUiConfiguration}</Table.Tbody>
-        </Table>
-      </ScrollArea>
+      <DataTable
+        withTableBorder
+        striped
+        columns={[
+          {
+            accessor: 'name',
+            title: 'Environment variable',
+
+          },
+          {
+            accessor: 'key',
+            title: 'value',
+            render: (record: any) => <>{record.value}</>,
+            sortable: true,
+
+            ellipsis: true,
+          },
+        ]}
+        records={uiConfiguration}
+      />
     </MainStack>
   );
 }

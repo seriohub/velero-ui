@@ -1,5 +1,3 @@
-'use client';
-
 import { ActionIcon, Tooltip } from '@mantine/core';
 import { openModal } from '@mantine/modals';
 
@@ -9,7 +7,7 @@ import { CreateBslForm } from '@/components/Features/Velero/BackupLocations/Form
 
 interface CreateBslToolbarIconProps {
   reload: number;
-  setReload: any;
+  setReload: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export default function CreateBslToolbarIcon({ reload, setReload }: CreateBslToolbarIconProps) {
@@ -24,8 +22,11 @@ export default function CreateBslToolbarIcon({ reload, setReload }: CreateBslToo
           openModal({
             modalId: 'newBSL',
             title: 'Create New Backups Storage Location',
-            size: 'xl',
+            size: '60rem',
             children: <CreateBslForm reload={reload} setReload={setReload} />,
+            padding: 'md',
+            radius: 'md',
+            centered: true,
           });
         }}
       >

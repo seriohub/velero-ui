@@ -1,7 +1,4 @@
-'use client';
-
 import { useForm } from '@mantine/form';
-import { closeModal } from '@mantine/modals';
 
 import { useAppStatus } from '@/contexts/AppContext';
 
@@ -10,10 +7,11 @@ import { useCreateLocationCredentials } from '@/api/Velero/useCreateLocationCred
 
 interface CreateBslProps {
   reload: number;
-  setReload: any;
+  setReload: React.Dispatch<React.SetStateAction<number>>;
+  close: any
 }
 
-export function CreateLocationCredentialsView({ reload, setReload }: CreateBslProps) {
+export function CreateLocationCredentialsView({ reload, setReload, close }: CreateBslProps) {
   const appValues = useAppStatus();
 
   const { handleCreateCredentials } = useCreateLocationCredentials();
@@ -36,7 +34,7 @@ export function CreateLocationCredentialsView({ reload, setReload }: CreateBslPr
 
   function createBsl(values: any) {
     handleCreateCredentials(values);
-    closeModal('newCredential');
+    close();
     const interval = setInterval(() => {
       setReload(reload + 1);
       clearInterval(interval);

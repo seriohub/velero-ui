@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { IconPlus, IconSend, IconTrashX } from '@tabler/icons-react';
-import { Group, TextInput, Table, Space, ActionIcon, Tooltip, Text } from '@mantine/core';
+import { Group, TextInput, Table, Space, ActionIcon, Tooltip, Text, Button } from '@mantine/core';
 import { modals } from '@mantine/modals';
 
 import { useWatchdogTestService } from '@/api/Watchdog/useWatchdogTestService';
@@ -54,7 +54,7 @@ export default function WatchdogServiceConfigTable({
           <Tooltip label="Test Service">
             <ActionIcon
               size="sm"
-              variant="outline"
+              variant="transparent"
               onClick={() => watchdogTestService({ config: element })}
             >
               <IconSend />
@@ -62,7 +62,7 @@ export default function WatchdogServiceConfigTable({
           </Tooltip>
 
           <Tooltip label="Delete Service">
-            <ActionIcon size="sm" variant="outline" onClick={() => openModal(element)}>
+            <ActionIcon size="sm" variant="transparent" onClick={() => openModal(element)}>
               <IconTrashX color="red" />
             </ActionIcon>
           </Tooltip>
@@ -73,37 +73,30 @@ export default function WatchdogServiceConfigTable({
 
   return (
     <>
-      <Group mt={30}>
+      <Group justify="space-between" gap={0}>
         <TextInput
-          w="calc(100% - 100px)"
+          w="calc(100% - 300px)"
           onChange={(e) => setValue(e.target.value)}
           value={value}
           placeholder="value"
         />
         <Tooltip label="Test Service">
-          <ActionIcon
-            variant="outline"
-            w={32}
-            size={32}
-            onClick={() => watchdogTestService({ config: value })}
-          >
-            <IconSend size={18} stroke={1.5} />
-          </ActionIcon>
+          <Button onClick={() => watchdogTestService({ config: value })} leftSection={<IconSend />}>
+            Test Service
+          </Button>
         </Tooltip>
         <Tooltip label="Add Service">
-          <ActionIcon
-            w={32}
-            size={32}
-            variant="outline"
+          <Button
             onClick={() => {
               watchdogAddService({ config: value }).then(() => {
                 setServices((current: any) => [...current, value]);
                 setValue('');
               });
             }}
+            leftSection={<IconPlus />}
           >
-            <IconPlus size={18} stroke={1.5} />
-          </ActionIcon>
+            Add Service
+          </Button>
         </Tooltip>
       </Group>
 

@@ -13,9 +13,9 @@ import { useAgentStatus } from '@/contexts/AgentContext';
 
 import { useStatsInProgress } from '@/api/Stats/useStatsInProgress';
 
-import { getExpirationString } from '@/utils/GetExpirationString';
+import { getExpirationString } from '@/utils/getExpirationString';
 
-import DeleteActionIcon from '@/components/Features/Velero/Commons/Actions/DeleteActionIcon';
+import DeleteAction from '@/components/Features/Velero/Commons/Actions/DeleteAction';
 import DescribeActionIcon from '@/components/Features/Velero/Commons/Actions/DescribeActionIcon';
 import LogsActionIcon from '@/components/Features/Velero/Commons/Actions/LogsActionIcon';
 
@@ -70,10 +70,9 @@ export default function TaskInProgress() {
       <DescribeActionIcon resourceType={record.kind.toLowerCase()} record={record} />
       <LogsActionIcon resourceType={record.kind.toLowerCase()} record={record} />
       {record.kind.toLowerCase() === 'backup' && (
-        <DeleteActionIcon
+        <DeleteAction
           resourceType="backup"
           record={record}
-          reload={reload}
           setReload={setReload}
         />
       )}

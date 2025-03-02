@@ -23,6 +23,9 @@ export default function SchedulesHeatmapToolbarIcon() {
             size: '80rem',
             fullScreen: isMobile,
             children: <HeatMapBox />,
+            padding: 'md',
+            radius: 'md',
+            centered: true,
           });
         }}
       >

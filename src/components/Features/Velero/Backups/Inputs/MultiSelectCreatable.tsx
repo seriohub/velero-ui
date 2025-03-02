@@ -16,7 +16,8 @@ interface MultiSelectCreatableProps {
   content: any[];
   form: any;
   fieldName: string;
-  defaultValue: string[];
+  initalValue: string[];
+  description?: string;
 }
 
 export function MultiSelectCreatable({
@@ -24,7 +25,8 @@ export function MultiSelectCreatable({
   content = [],
   form,
   fieldName,
-  defaultValue = [],
+  initalValue = [],
+  description = '',
 }: MultiSelectCreatableProps) {
   const combobox = useCombobox({
     onDropdownClose: () => combobox.resetSelectedOption(),
@@ -33,7 +35,7 @@ export function MultiSelectCreatable({
 
   const [search, setSearch] = useState('');
   const [data, setData] = useState(content);
-  const [value, setValue] = useState<string[]>(defaultValue);
+  const [value, setValue] = useState<string[]>(initalValue);
 
   const exactOptionMatch = data.some((item) => item === search);
 
@@ -75,7 +77,7 @@ export function MultiSelectCreatable({
 
   return (
     <>
-      <Input.Wrapper label={label}>
+      <Input.Wrapper label={label} description={description}>
         <Combobox store={combobox} onOptionSubmit={handleValueSelect} withinPortal={false}>
           <Combobox.DropdownTarget>
             <PillsInput onClick={() => combobox.openDropdown()}>

@@ -1,9 +1,8 @@
 'use client';
 
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 
-import { ScrollArea } from '@mantine/core';
-
+import { Button, CopyButton } from '@mantine/core';
 import { useAgentStatus } from '@/contexts/AgentContext';
 
 import { useDiagnosticAgent } from '@/hooks/diagnostic/useDiagnosticAgent';
@@ -25,19 +24,24 @@ export function Agent() {
   return (
     <MainStack>
       <Toolbar title="Agent" breadcrumbItem={[{ name: 'Agent Info' }]}>
+        <CopyButton value={stateManager.generateMarkdownReport()}>
+          {({ copied, copy }) => (
+            <Button color={copied ? 'teal' : 'var(--mantine-primary-color-filled)'} onClick={copy}>
+              {copied ? 'Copied!' : 'Copy Diagnostic Report to Clipboard'}
+            </Button>
+          )}
+        </CopyButton>
         <ReloadData setReload={setReload} reload={reload} />
       </Toolbar>
 
-      <ScrollArea p={0} style={{ height: '100%' }} offsetScrollbars>
-        <DiagnosticAgentInfoData
-          uiURL={uiURL}
-          apiURL={apiURL}
-          apiArch={apiArch}
-          origins={origins}
-          k8sHealth={k8sHealth}
-          stateManager={stateManager}
-        />
-      </ScrollArea>
+      <DiagnosticAgentInfoData
+        uiURL={uiURL}
+        apiURL={apiURL}
+        apiArch={apiArch}
+        origins={origins}
+        k8sHealth={k8sHealth}
+        stateManager={stateManager}
+      />
     </MainStack>
   );
 }

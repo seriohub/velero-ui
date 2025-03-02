@@ -1,5 +1,3 @@
-'use client';
-
 import { Button, Group, Text } from '@mantine/core';
 import { closeAllModals } from '@mantine/modals';
 import { useAppStatus } from '@/contexts/AppContext';
@@ -8,7 +6,7 @@ import { useSCDelete } from '@/api/SCMapping/useSCDelete';
 interface SCMappingDeleteProps {
   record: any;
   reload: number;
-  setReload: any;
+  setReload: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export function SCMappingDelete({ record, reload, setReload }: SCMappingDeleteProps) {
@@ -17,8 +15,8 @@ export function SCMappingDelete({ record, reload, setReload }: SCMappingDeletePr
 
   function deleteSCMap() {
     handleDeleteSCMap({
-      oldStorageClass: record['oldStorageClass'],
-      newStorageClass: record['newStorageClass'],
+      oldStorageClass: record.oldStorageClass,
+      newStorageClass: record.newStorageClass,
     });
 
     const interval = setInterval(() => {
@@ -30,7 +28,7 @@ export function SCMappingDelete({ record, reload, setReload }: SCMappingDeletePr
   return (
     <>
       <Text>
-        Confirm delete Storage Mapping {record['oldStorageClass']}:{record['newStorageClass']}?
+        Confirm delete Storage Mapping {record.oldStorageClass}:{record.newStorageClass}?
       </Text>
       <Group mt="md" gap="sm" justify="flex-end">
         <Button

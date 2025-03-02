@@ -1,6 +1,6 @@
 import { Group, Text } from '@mantine/core';
 
-import { getExpirationString } from '@/utils/GetExpirationString';
+import { getExpirationString } from '@/utils/getExpirationString';
 
 export const DataFetchedInfo = ({ metadata }: any) => (
   <>

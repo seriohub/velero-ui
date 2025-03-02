@@ -1,21 +1,21 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { Group, Table, Text } from '@mantine/core';
-import { IconAlertSquareRounded, IconArrowRight } from '@tabler/icons-react';
+import React from 'react';
+import { Group, Text } from '@mantine/core';
+import { IconAlertTriangle, IconArrowRight } from '@tabler/icons-react';
+import { DataTable } from 'mantine-datatable';
 import { MaskedConfiguration } from '@/components/Features/Settings/Watchdog/Display/MaskedConfiguration';
 
 interface Props {
   deployConfiguration: Record<string, any>;
   userConfiguration: Record<string, any>;
+  fetching: boolean;
 }
 
 // List of keys whose values should be masked
 const maskedKeys = ['APPRISE'];
 
-export function WatchdogDeployConfigs({ deployConfiguration, userConfiguration }: Props) {
-  const [rowApiConfiguration, setRowApiConfiguration] = useState<React.ReactNode[]>([]);
-
+export function WatchdogDeployConfigs({ deployConfiguration, userConfiguration, fetching }: Props) {
   // Function to determine if a key has changed
   function hasChanged(key: string): boolean {
     return (
@@ -31,48 +31,57 @@ export function WatchdogDeployConfigs({ deployConfiguration, userConfiguration }
     return maskedKeys.includes(key) ? <MaskedConfiguration service={value} /> : String(value);
   }
 
-  useEffect(() => {
-    if (deployConfiguration) {
-      const rows = Object.keys(deployConfiguration).map((key) => (
-        <Table.Tr key={key}>
-          <Table.Td>
-            <Group gap={5}>
-              {hasChanged(key) && (
-                <IconAlertSquareRounded
-                  size={18}
-                  color="var(--mantine-primary-color-light-color)"
-                />
-              )}
-              {key}
-            </Group>
-          </Table.Td>
-          <Table.Td>
-            <Group gap={5}>
-              {maskValue(key, deployConfiguration[key])}
-              {hasChanged(key) && (
-                <>
-                  <Text size="sm" c="var(--mantine-primary-color-light-color)"></Text>{' '}
-                  <IconArrowRight size={18} color="var(--mantine-primary-color-light-color)" />
-                  <Text>{maskValue(key, userConfiguration[key])}</Text>
-                </>
-              )}
-            </Group>
-          </Table.Td>
-        </Table.Tr>
-      ));
-      setRowApiConfiguration(rows);
-    }
-  }, [deployConfiguration, userConfiguration]);
-
+  const array = Object.entries(deployConfiguration).map(([key, value]) => ({
+    key,
+    value,
+  }));
   return (
-    <Table striped highlightOnHover verticalSpacing={0}>
-      <Table.Thead>
-        <Table.Tr>
-          <Table.Th w="400px">Name</Table.Th>
-          <Table.Th>Value</Table.Th>
-        </Table.Tr>
-      </Table.Thead>
-      <Table.Tbody>{rowApiConfiguration}</Table.Tbody>
-    </Table>
+    <>
+      <DataTable
+        withTableBorder
+        striped
+        //minHeight={160}
+        fetching={fetching}
+        columns={[
+          {
+            accessor: 'name',
+            title: 'Environment variable',
+            width: 150,
+            render: ({ key }) => (
+              <>
+                <Group gap={5}>
+                  {hasChanged(key) && (
+                    <IconAlertTriangle size={20} color="var(--mantine-primary-color-light-color)" />
+                  )}
+                  {key}
+                </Group>
+              </>
+            ),
+          },
+          {
+            accessor: 'value',
+            title: 'value',
+            render: ({ key }: any) => (
+              <>
+                <Group gap={2}>
+                  {maskValue(key, deployConfiguration[key])}
+                  {hasChanged(key) && (
+                    <>
+                      <Text size="sm" c="var(--mantine-primary-color-light-color)"></Text>{' '}
+                      <IconArrowRight size={20} color="var(--mantine-primary-color-light-color)" />
+                      <Text>{maskValue(key, userConfiguration[key])}</Text>
+                    </>
+                  )}
+                </Group>
+              </>
+            ),
+            sortable: true,
+            width: 600,
+            ellipsis: true,
+          },
+        ]}
+        records={array}
+      />
+    </>
   );
 }

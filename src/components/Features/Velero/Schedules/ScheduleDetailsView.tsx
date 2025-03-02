@@ -1,5 +1,5 @@
-import { Anchor, Box, Card, Divider, Group, ScrollArea, Text } from '@mantine/core';
-import { IconCamera, IconServer } from '@tabler/icons-react';
+import { Anchor, Box, Card, Group, ScrollArea, Space, Text, Title } from '@mantine/core';
+import { IconCalendar, IconCamera, IconServer } from '@tabler/icons-react';
 import { useRouter } from 'next/navigation';
 import VeleroResourceStatusBadge from '@/components/Features/Velero/Commons/Display/VeleroResourceStatusBadge';
 
@@ -7,21 +7,28 @@ export function ScheduleDetailsView({ data }: any) {
   const router = useRouter();
   return (
     <Card shadow="sm" padding="lg" radius="md" withBorder h="100%">
-      <Card.Section withBorder inheritPadding p="xs">
-        <Text fw={600}>Details</Text>
-      </Card.Section>
       <Card.Section p="sm">
         <ScrollArea>
-          <Group>
-            <Text w={170}>Uid:</Text>
-            <Text fw={600}>{data?.metadata.uid}</Text>
+          <Group gap={5}>
+            <IconCalendar size={80} />
+            <Box>
+              <Title order={2} fw={800}>
+                {data?.metadata?.name}
+              </Title>
+              <Text size="md" fw={600} c="dimmed">
+                {data?.metadata?.uid}
+              </Text>
+            </Box>
           </Group>
+
+          <Space mt={20} h={20} />
+
           <Group mt={10}>
-            <Text w={170}>Cron:</Text>
+            <Text w={170}>Cron</Text>
             <Text fw={600}>{data?.spec.schedule}</Text>
           </Group>
-          <Divider mt={20} h={20} />
-          <Group>
+
+          <Group mt={10}>
             <Text w={170}>Status:</Text>
             {data?.status?.phase && <VeleroResourceStatusBadge status={data?.status.phase} />}
           </Group>
@@ -30,8 +37,7 @@ export function ScheduleDetailsView({ data }: any) {
             <Text fw={600}>{data?.status?.lastBackup || '-'}</Text>
           </Group>
 
-          <Divider mt={20} h={20} />
-          <Group>
+          <Group mt={10}>
             <Text w={170}>Included namespaces:</Text>
             <Box>
               {data?.spec?.template?.includedNamespaces?.length > 0 ? (

@@ -1,62 +1,60 @@
 'use client';
 
-import { ActionIcon, Tooltip } from '@mantine/core';
-
+import { ActionIcon, Button, Tooltip } from '@mantine/core';
 import { IconPlayerPause, IconPlayerPlay } from '@tabler/icons-react';
 
 import { useAppStatus } from '@/contexts/AppContext';
 import { useSchedulesStart } from '@/api/Schedule/useScheduleStart';
 import { useSchedulesPause } from '@/api/Schedule/useSchedulePause';
-import { useUIStatus } from '@/contexts/UIContext';
 
 interface StartStopActionIconProps {
   resourceName: string;
   paused: boolean;
   reload: number;
-  setReload: any;
+  setReload: React.Dispatch<React.SetStateAction<number>>;
+  buttonType?: 'actionIcon' | 'button';
 }
 
-export default function StartStopActionIcon({
+const StartStopActionIcon: React.FC<StartStopActionIconProps> = ({
   resourceName,
   paused,
   reload,
   setReload,
-}: StartStopActionIconProps) {
+  buttonType = 'actionIcon',
+}) => {
   const appValues = useAppStatus();
-
   const { scheduleStart } = useSchedulesStart();
   const { schedulePause } = useSchedulesPause();
 
-  function unpause_schedule() {
-    //getData({url:'/v1/schedule/unpause', param:`resource_name=${resourceName}`});
-    scheduleStart(resourceName);
+  const handleAction = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (paused) {
+      scheduleStart(resourceName);
+    } else {
+      schedulePause(resourceName);
+    }
     const interval = setInterval(() => {
       setReload(reload + 1);
       clearInterval(interval);
     }, appValues.refreshDatatableAfter);
-  }
+  };
 
-  function pause_schedule() {
-    schedulePause(resourceName);
-    const interval = setInterval(() => {
-      setReload(reload + 1);
-      clearInterval(interval);
-    }, appValues.refreshDatatableAfter);
-  }
-
-  return (
+  return buttonType === 'actionIcon' ? (
     <Tooltip label={paused ? 'Start' : 'Pause'}>
-      <ActionIcon
-        size="sm"
-        variant="subtle"
-        onClick={(e) => {
-          e.stopPropagation();
-          paused ? unpause_schedule() : pause_schedule();
-        }}
-      >
-        {paused && <IconPlayerPlay color="green" />}
-        {!paused && <IconPlayerPause color="orange" />}
+      <ActionIcon size="sm" variant="subtle" onClick={handleAction}>
+        {paused ? <IconPlayerPlay color="green" /> : <IconPlayerPause color="orange" />}
       </ActionIcon>
     </Tooltip>
+  ) : (
+    <Button
+      h={38}
+      leftSection={paused ? <IconPlayerPlay /> : <IconPlayerPause />}
+      color={paused ? 'green' : 'orange'}
+      onClick={handleAction}
+    >
+      {paused ? 'Start' : 'Pause'}
+    </Button>
   );
-}
+};
+
+export default StartStopActionIcon;

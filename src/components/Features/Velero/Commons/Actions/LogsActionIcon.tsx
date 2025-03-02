@@ -5,7 +5,7 @@ import { openModal } from '@mantine/modals';
 
 import { IconFileDescription } from '@tabler/icons-react';
 
-import { ResourceLogs } from '@/components/Features/Velero/Commons/Forms/ResourceLogs';
+import { ResourceLogs } from '@/components/Features/Velero/Logs/ResourceLogs';
 import { useUIStatus } from '@/contexts/UIContext';
 
 interface LogsActionIconProps {

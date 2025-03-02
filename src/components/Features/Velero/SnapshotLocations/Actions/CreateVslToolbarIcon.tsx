@@ -1,15 +1,13 @@
-'use client';
-
 import { ActionIcon, Tooltip } from '@mantine/core';
 import { openModal } from '@mantine/modals';
 
 import { IconPlus } from '@tabler/icons-react';
 
-import { CreateVsl } from '@/components/Features/Velero/SnapshotLocations/Forms/CreateVsl';
+import { CreateVslForm } from '@/components/Features/Velero/SnapshotLocations/Forms/CreateVslForm';
 
 interface CreateVslToolbarIconProps {
   reload: number;
-  setReload: any;
+  setReload: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export default function CreateVslToolbarIcon({ reload, setReload }: CreateVslToolbarIconProps) {
@@ -24,8 +22,11 @@ export default function CreateVslToolbarIcon({ reload, setReload }: CreateVslToo
           openModal({
             modalId: 'newVSL',
             title: 'Create New Volume Snapshot Location',
-            size: 'xl',
-            children: <CreateVsl reload={reload} setReload={setReload} />,
+            size: '60rem',
+            children: <CreateVslForm reload={reload} setReload={setReload} />,
+            padding: 'md',
+            radius: 'md',
+            centered: true,
           });
         }}
       >

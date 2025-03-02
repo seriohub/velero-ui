@@ -3,20 +3,10 @@ import { useApiPost } from '@/hooks/utils/useApiPost';
 export const useCreateRestore = () => {
   const { data, postData, fetching, error } = useApiPost();
 
-  const handleCreateRestore = async (
-    backupName: string,
-    name: string,
-    namespaceMapping: any,
-    parameters: string
-  ) => {
+  const handleCreateRestore = async (values: any) => {
     try {
       // Esegui la chiamata API con il metodo generico
-      await postData('/v1/restore', {
-        name,
-        backupName,
-        namespaceMapping,
-        parameters,
-      });
+      await postData('/v1/restore', values);
 
       // Questo codice verrà eseguito solo in caso di successo
       // console.log('Richiesta riuscita, eseguo azioni finali...');

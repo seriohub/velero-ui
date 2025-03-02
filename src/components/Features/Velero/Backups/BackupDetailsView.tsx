@@ -1,9 +1,9 @@
-import { Anchor, Box, Card, Divider, Group, ScrollArea, Text, Tooltip } from '@mantine/core';
+import { Anchor, Box, Card, Group, ScrollArea, Space, Text, Title, Tooltip } from '@mantine/core';
 import { useRouter } from 'next/navigation';
-import { IconCamera, IconClock, IconServer } from '@tabler/icons-react';
+import { IconCamera, IconClock, IconDeviceFloppy, IconServer } from '@tabler/icons-react';
 
-import { getExpirationString } from '@/utils/GetExpirationString';
-import { getDurationDetails } from '@/utils/GetDurationDetails';
+import { getExpirationString } from '@/utils/getExpirationString';
+import { getDurationDetails } from '@/utils/getDurationDetails';
 
 import VeleroResourceStatusBadge from '@/components/Features/Velero/Commons/Display/VeleroResourceStatusBadge';
 
@@ -24,20 +24,59 @@ function get_duration({ status }: { status: any }) {
 export function BackupDetailsView({ data }: any) {
   const router = useRouter();
   return (
-    <Card shadow="sm" padding="lg" radius="md" withBorder h="100%">
-      <Card.Section withBorder inheritPadding p="xs">
-        <Text fw={600}>Details</Text>
-      </Card.Section>
-      <Card.Section p="sm">
-        <ScrollArea h={600}>
-          <Group>
-            <Text w={170}>Uid:</Text>
-            <Text fw={600}>{data?.metadata.uid}</Text>
+    <Card shadow="sm" padding="lg" radius="md" h={600} withBorder>
+      <Card.Section withBorder inheritPadding p="sm">
+        <ScrollArea h={550}>
+          <Group gap={5}>
+            <IconDeviceFloppy size={80} />
+            <Box>
+              <Title order={2} fw={800}>
+                {data?.metadata?.name}
+              </Title>
+              <Text size="md" fw={600} c="dimmed">
+                {data?.metadata?.uid}
+              </Text>
+            </Box>
           </Group>
 
-          {data?.metadata?.labels['velero.io/schedule-name'] && (
+          <Space mt={20} h={20} />
+
+          <Group>
+            <Text w={170}>Status</Text>
+            {data?.status?.phase && <VeleroResourceStatusBadge status={data?.status.phase} />}
+          </Group>
+
+          {data?.status?.errors && (
             <Group mt={10}>
-              <Text w={170}>Schedule:</Text>
+              <Text w={170}>Error:</Text>
+
+              <Text fw={600}>{data?.status.errors}</Text>
+            </Group>
+          )}
+          {data?.status?.warnings && (
+            <Group mt={10}>
+              <Text w={170}>Warnings:</Text>
+              <Text fw={600}>{data?.status.warnings}</Text>
+            </Group>
+          )}
+          <Group mt={10}>
+            <Text w={170}>Expire in</Text>
+
+            <Tooltip label={data?.status?.expiration} offset={5}>
+              <Text fw={600}>
+                {data?.status?.expiration && <>{getExpirationString(data?.status?.expiration)}</>}
+              </Text>
+            </Tooltip>
+          </Group>
+
+          <Group mt={10}>
+            <Text w={170}>Items</Text>
+            <Text fw={600}>{data?.status?.progress?.totalItems}</Text>
+          </Group>
+
+          {data?.metadata?.labels?.['velero.io/schedule-name'] && (
+            <Group mt={10}>
+              <Text w={170}>Schedule</Text>
 
               <Anchor
                 size="sm"
@@ -52,44 +91,14 @@ export function BackupDetailsView({ data }: any) {
               </Anchor>
             </Group>
           )}
-          <Divider mt={20} h={20} />
-          <Group>
-            <Text w={170}>Status:</Text>
-            {data?.status?.phase && <VeleroResourceStatusBadge status={data?.status.phase} />}
-          </Group>
-          {data?.status.errors && (
-            <Group mt={10}>
-              <Text w={170}>Error:</Text>
 
-              <Text fw={600}>{data?.status.errors}</Text>
-            </Group>
-          )}
-          {data?.status.warnings && (
-            <Group mt={10}>
-              <Text w={170}>Warnings:</Text>
-              <Text fw={600}>{data?.status.warnings}</Text>
-            </Group>
-          )}
           <Group mt={10}>
-            <Text w={170}>Duration:</Text>
+            <Text w={170}>Duration</Text>
             {data?.status && <>{get_duration({ status: data?.status })}</>}
           </Group>
-          <Group mt={10}>
-            <Text w={170}>Expire in:</Text>
 
-            <Tooltip label={data?.status.expiration} offset={5}>
-              <Text fw={600}>
-                {data?.status.expiration && <>{getExpirationString(data?.status?.expiration)}</>}
-              </Text>
-            </Tooltip>
-          </Group>
           <Group mt={10}>
-            <Text w={170}>Items:</Text>
-            <Text fw={600}>{data?.status?.progress?.totalItems}</Text>
-          </Group>
-          <Divider mt={20} h={20} />
-          <Group>
-            <Text w={170}>Included namespaces:</Text>
+            <Text w={170}>Included namespaces</Text>
             <Box>
               {data?.spec?.includedNamespaces?.length > 0 ? (
                 data.spec.includedNamespaces.map((location: string, index: string) => (
@@ -103,7 +112,7 @@ export function BackupDetailsView({ data }: any) {
             </Box>
           </Group>
           <Group mt={10}>
-            <Text w={170}>Storage Location:</Text>
+            <Text w={170}>Storage Location</Text>
             {data?.spec.storageLocation && (
               <Anchor
                 size="sm"
@@ -119,7 +128,7 @@ export function BackupDetailsView({ data }: any) {
             )}
           </Group>
           <Group mt={10}>
-            <Text w={170}>Snapshot Locations:</Text>
+            <Text w={170}>Snapshot Locations</Text>
             <Box>
               {data?.spec.volumeSnapshotLocations?.length > 0 ? (
                 data.spec.volumeSnapshotLocations.map((location: string, index: string) => (

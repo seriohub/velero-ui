@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { Card, Grid } from '@mantine/core';
 
-import { useManifest } from '@/api/Velero/useManifest';
+import { useVeleroManifest } from '@/api/Velero/useVeleroManifest';
 
 import { useAgentStatus } from '@/contexts/AgentContext';
 
@@ -12,25 +12,33 @@ import { PageScrollArea } from '@/components/Commons/PageScrollArea';
 import Toolbar from '@/components/Display/Toolbar';
 import ReloadData from '@/components/Inputs/ReloadData';
 
-import { ResourceLogs } from '@/components/Features/Velero/Commons/Forms/ResourceLogs';
+import { ResourceLogs } from '@/components/Features/Velero/Logs/ResourceLogs';
 import { PVBDetails } from '@/components/Features/Velero/Restores/PodDetails';
 import { Manifest } from '@/components/Features/Velero/Commons/Display/Manifest';
+import DeleteAction from '@/components/Features/Velero/Commons/Actions/DeleteAction';
+import { isRecordStringAny } from '@/utils/isRecordStringIsType';
 
 interface RestoreProps {
   params: any;
 }
 
 export function RestoreDetails({ params }: RestoreProps) {
-  const { data, getManifest } = useManifest();
+  const { data, getManifest } = useVeleroManifest();
   const [reload, setReload] = useState(1);
   const agentValues = useAgentStatus();
-
+  const [manifest, setManifest] = useState<Record<string, any>>([]);
   useEffect(() => {
     if (params.restore) {
-      getManifest('restores', params.restore);
+      getManifest('restores', params.restore, false);
     }
   }, [agentValues.isAgentAvailable, reload]);
-
+  useEffect(() => {
+    if (isRecordStringAny(data)) {
+      setManifest(data);
+    } else {
+      setManifest([]);
+    }
+  }, [data]);
   return (
     <PageScrollArea>
       <Toolbar
@@ -45,6 +53,13 @@ export function RestoreDetails({ params }: RestoreProps) {
           },
         ]}
       >
+        <DeleteAction
+          resourceType="restore"
+          record={manifest}
+          setReload={setReload}
+          buttonType="button"
+          redirectAfterDelete="/backups"
+        />
         <ReloadData setReload={setReload} reload={reload} />
       </Toolbar>
 
@@ -66,7 +81,7 @@ export function RestoreDetails({ params }: RestoreProps) {
             lg: 6,
           }}
         >
-          <Manifest manifest={data} />
+          <Manifest resourceType="restores" resourceName={params.restore} />
         </Grid.Col>
         <Grid.Col
           span={{

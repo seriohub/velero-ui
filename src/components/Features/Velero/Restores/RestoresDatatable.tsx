@@ -20,9 +20,8 @@ import ReloadData from '@/components/Inputs/ReloadData';
 import Toolbar from '@/components/Display/Toolbar';
 import { DataFetchedInfo } from '@/components/Display/DataFetchedInfo';
 
-import DescribeActionIcon from '@/components/Features/Velero/Commons/Actions/DescribeActionIcon';
 import LogsActionIcon from '@/components/Features/Velero/Commons/Actions/LogsActionIcon';
-import DeleteActionIcon from '@/components/Features/Velero/Commons/Actions/DeleteActionIcon';
+import DeleteAction from '@/components/Features/Velero/Commons/Actions/DeleteAction';
 
 import VeleroResourceStatusBadge from '../Commons/Display/VeleroResourceStatusBadge';
 
@@ -82,12 +81,10 @@ export function RestoresDatatable() {
 
   const renderActions: DataTableColumn<any>['render'] = (record) => (
     <Group gap={4} justify="right" wrap="nowrap">
-      <DescribeActionIcon resourceType="restore" record={record} />
       <LogsActionIcon resourceType="restore" record={record} />
-      <DeleteActionIcon
+      <DeleteAction
         resourceType="restore"
         record={record}
-        reload={reload}
         setReload={setReload}
       />
     </Group>

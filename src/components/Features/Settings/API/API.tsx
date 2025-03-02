@@ -2,8 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 
-import { ScrollArea, Table } from '@mantine/core';
-
+import { DataTable } from 'mantine-datatable';
 import { useAgentStatus } from '@/contexts/AgentContext';
 
 import { MainStack } from '@/components/Commons/MainStack';
@@ -15,17 +14,14 @@ export function API() {
   const agentValues = useAgentStatus();
 
   const [reload, setReload] = useState(1);
-  const [rowApiConfiguration, setRowApiConfiguration] = useState<React.ReactNode[]>([]);
+  const [rowApiConfiguration, setRowApiConfiguration] = useState<any>([]);
 
   useEffect(() => {
     if (agentValues.agentConfig !== undefined) {
-      const rows = Object.keys(agentValues.agentConfig).map((key) => (
-        <Table.Tr key={key}>
-          <Table.Td>{key}</Table.Td>
-          <Table.Td>{agentValues.agentConfig[key]}</Table.Td>
-        </Table.Tr>
-      ));
-
+      const rows = Object.keys(agentValues.agentConfig).map((key) => ({
+        key,
+        value: agentValues.agentConfig[key],
+      }));
       setRowApiConfiguration(rows);
     }
   }, [agentValues.agentConfig]);
@@ -35,17 +31,27 @@ export function API() {
       <Toolbar title="Backup" breadcrumbItem={[{ name: 'API' }]}>
         <ReloadData setReload={setReload} reload={reload} />
       </Toolbar>
-      <ScrollArea p={0} style={{ height: '100%' }} offsetScrollbars>
-        <Table striped highlightOnHover verticalSpacing={0}>
-          <Table.Thead>
-            <Table.Tr>
-              <Table.Th w="400px">Name</Table.Th>
-              <Table.Th>Value</Table.Th>
-            </Table.Tr>
-          </Table.Thead>
-          <Table.Tbody>{rowApiConfiguration}</Table.Tbody>
-        </Table>
-      </ScrollArea>
+
+      <DataTable
+        withTableBorder
+        striped
+        columns={[
+          {
+            accessor: 'key',
+            title: 'Environment variable',
+            width: 150,
+          },
+          {
+            accessor: 'key',
+            title: 'value',
+            render: ({ key }: any) => <>{agentValues.agentConfig[key]}</>,
+            sortable: true,
+            width: 600,
+            ellipsis: true,
+          },
+        ]}
+        records={rowApiConfiguration}
+      />
     </MainStack>
   );
 }

@@ -1,32 +1,36 @@
-'use client';
-
 import { Button, Group, Text } from '@mantine/core';
 import { closeAllModals } from '@mantine/modals';
 
+import { useRouter } from 'next/navigation';
 import { useAppStatus } from '@/contexts/AppContext';
 import { useResourceDelete } from '@/api/Velero/useResourceDelete';
 
 interface ResourceDeleteProps {
   resourceType: string;
   resourceName: string;
-  reload: number;
-  setReload: any;
+  setReload: React.Dispatch<React.SetStateAction<number>>;
+  redirectAfterDelete: string;
 }
 
 export function ResourceDelete({
   resourceType,
   resourceName,
-  reload,
   setReload,
+  redirectAfterDelete = '',
 }: ResourceDeleteProps) {
+  const router = useRouter();
   const appValues = useAppStatus();
   const { handleDeleteResource } = useResourceDelete();
 
   function deleteResource() {
-    handleDeleteResource(resourceType, { name: resourceName });
+    handleDeleteResource(resourceType, { name: resourceName }).then(() => {
+      if (redirectAfterDelete !== '') {
+        router.push(redirectAfterDelete);
+      }
+    });
 
     const interval = setInterval(() => {
-      setReload(reload + 1);
+      setReload((prev) => prev + 1);
       clearInterval(interval);
     }, appValues.refreshDatatableAfter);
   }

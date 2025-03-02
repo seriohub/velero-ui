@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { Card, Grid } from '@mantine/core';
-import { useManifest } from '@/api/Velero/useManifest';
+import { useVeleroManifest } from '@/api/Velero/useVeleroManifest';
 import { useAgentStatus } from '@/contexts/AgentContext';
 
 import { PageScrollArea } from '@/components/Commons/PageScrollArea';
@@ -10,27 +10,43 @@ import { PageScrollArea } from '@/components/Commons/PageScrollArea';
 import Toolbar from '@/components/Display/Toolbar';
 import ReloadData from '@/components/Inputs/ReloadData';
 
-import { ResourceLogs } from '@/components/Features/Velero/Commons/Forms/ResourceLogs';
+import { ResourceLogs } from '@/components/Features/Velero/Logs/ResourceLogs';
 
 import { Manifest } from '@/components/Features/Velero/Commons/Display/Manifest';
 
 import { PVBDetails } from '@/components/Features/Velero/Backups/PVBDetails';
 import { BackupDetailsView } from '@/components/Features/Velero/Backups/BackupDetailsView';
+import RestoreAction from '@/components/Features/Velero/Backups/Actions/RestoreAction';
+import UpdateExpirationAction from '@/components/Features/Velero/Backups/Actions/UpdateExpirationAction';
+import DeleteAction from '@/components/Features/Velero/Commons/Actions/DeleteAction';
+import { isRecordStringAny } from '@/utils/isRecordStringIsType';
+import DownloadAction from '@/components/Features/Velero/Backups/Actions/DownloadAction';
+import InspectAction from '@/components/Features/Velero/Backups/Actions/InspectAction';
 
 interface BackupProps {
   params: any;
 }
 
 export function BackupDetails({ params }: BackupProps) {
-  const { data, getManifest, fetching } = useManifest();
+  const { data, getManifest, fetching } = useVeleroManifest();
   const [reload, setReload] = useState(1);
   const agentValues = useAgentStatus();
 
+  const [manifest, setManifest] = useState<Record<string, any>>([]);
+
   useEffect(() => {
     if (params.backup) {
-      getManifest('backups', params.backup);
+      getManifest('backups', params.backup, false);
     }
   }, [agentValues.isAgentAvailable, reload]);
+
+  useEffect(() => {
+    if (isRecordStringAny(data)) {
+      setManifest(data);
+    } else {
+      setManifest([]);
+    }
+  }, [data]);
 
   return (
     <PageScrollArea>
@@ -47,6 +63,18 @@ export function BackupDetails({ params }: BackupProps) {
         ]}
       >
         <ReloadData setReload={setReload} reload={reload} />
+
+        <RestoreAction record={manifest} setReload={setReload} buttonType="button" />
+        <InspectAction record={manifest} buttonType="button" />
+        <DownloadAction record={manifest} buttonType="button" />
+        <UpdateExpirationAction record={manifest} setReload={setReload} buttonType="button" />
+        <DeleteAction
+          resourceType="backup"
+          record={manifest}
+          setReload={setReload}
+          buttonType="button"
+          redirectAfterDelete="/backups"
+        />
       </Toolbar>
 
       <Grid gutter="sm">
@@ -54,7 +82,7 @@ export function BackupDetails({ params }: BackupProps) {
           span={{
             base: 12,
             md: 12,
-            lg: 3,
+            lg: 4,
           }}
         >
           <BackupDetailsView data={data} fetching={fetching} />
@@ -64,10 +92,10 @@ export function BackupDetails({ params }: BackupProps) {
           span={{
             base: 12,
             md: 12,
-            lg: 6,
+            lg: 5,
           }}
         >
-          <Manifest manifest={data} />
+          <Manifest resourceType="backups" resourceName={params.backup} />
         </Grid.Col>
         <Grid.Col
           span={{

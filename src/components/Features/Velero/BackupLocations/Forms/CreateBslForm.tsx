@@ -1,17 +1,17 @@
-'use client';
-
 import { useForm } from '@mantine/form';
 import { closeAllModals } from '@mantine/modals';
 
 import { useAppStatus } from '@/contexts/AppContext';
 
-import CreateBslView from '@/components/Features/Velero/BackupLocations/Forms/CreateBslView';
+import CreateBslFormView from '@/components/Features/Velero/BackupLocations/Forms/CreateBslFormView';
 import { useCreateBsl } from '@/api/BackupLocation/useCreateBsl';
 
 interface CreateBslProps {
   reload: number;
-  setReload: any;
+  setReload: React.Dispatch<React.SetStateAction<number>>;
 }
+
+const ttlRegex = /^(\d+h)?(\d+m)?(\d+s)?$/;
 
 export function CreateBslForm({ reload, setReload }: CreateBslProps) {
   const appValues = useAppStatus();
@@ -21,25 +21,33 @@ export function CreateBslForm({ reload, setReload }: CreateBslProps) {
   const form = useForm({
     initialValues: {
       name: '',
+
       provider: '',
-      bucketName: '',
-      config: {},
+      bucket: '',
+      prefix: '',
       accessMode: 'ReadWrite',
+
+      config: {},
 
       credentialName: '',
       credentialKey: '',
 
-      synchronizationPeriod: '',
-      validationFrequency: '',
+      backupSyncPeriod: '2m0s',
+      validationFrequency: '1m0s',
 
       default: false,
     },
 
     validate: {
-      name: (value) => (value.length === 0 ? 'Invalid name' : null),
-      provider: (value) => (value.length === 0 ? 'Invalid provider' : null),
-      bucketName: (value) => (value.length === 0 ? 'Invalid bucket name' : null),
-      accessMode: (value) => (value.length === 0 ? 'Invalid access mode' : null),
+      name: (value) => (value.length >= 3 ? null : 'Name must be at least 3 characters long'),
+      backupSyncPeriod: (value) =>
+        ttlRegex.test(value)
+          ? null
+          : 'Invalid format. Expected a number followed by s, m, or h',
+      validationFrequency: (value) =>
+        ttlRegex.test(value)
+          ? null
+          : 'Invalid format. Expected a number followed by s, m, or h',
     },
   });
 
@@ -52,5 +60,5 @@ export function CreateBslForm({ reload, setReload }: CreateBslProps) {
     }, appValues.refreshDatatableAfter);
   }
 
-  return <CreateBslView mode="create" form={form} onDone={createBsl} />;
+  return <CreateBslFormView mode="create" form={form} onDone={createBsl} />;
 }

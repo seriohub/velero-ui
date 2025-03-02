@@ -10,21 +10,21 @@ import {
 } from '@mantine/core';
 
 import {
-  IconDashboard,
-  IconRestore,
-  IconDeviceFloppy,
-  IconCalendarEvent,
-  IconDatabase,
-  IconLink,
-  IconSettings,
-  IconServer,
-  IconHome,
-  IconAffiliate,
-  IconFolders,
-  IconDog,
-  IconSpy,
-  IconInfoCircle,
-  IconAppWindow,
+  IconDashboard ,
+  IconRestore ,
+  IconDeviceFloppy ,
+  IconCalendarEvent ,
+  IconDatabase ,
+  IconLink ,
+  IconSettings ,
+  IconServer ,
+  IconHome ,
+  IconAffiliate ,
+  IconFolders ,
+  IconDog ,
+  IconSpy ,
+  IconInfoCircle ,
+  IconAppWindow , IconZoomCode ,
 } from '@tabler/icons-react';
 
 import { useRouter, usePathname } from 'next/navigation';
@@ -194,7 +194,8 @@ export function AppShellNavbar({ opened, toggle }: any) {
               <Box mt={20}>
                 <Text
                   ml="12"
-                  size="xs"
+                  size="sm"
+                  fw={600}
                   c={
                     computedColorScheme === 'light'
                       ? uiValues.navbarColored
@@ -213,7 +214,8 @@ export function AppShellNavbar({ opened, toggle }: any) {
               <Box mt={20}>
                 <Text
                   ml="12"
-                  size="xs"
+                  size="sm"
+                  fw={600}
                   c={
                     computedColorScheme === 'light'
                       ? uiValues.navbarColored
@@ -229,8 +231,60 @@ export function AppShellNavbar({ opened, toggle }: any) {
 
               <Box mt={10}>
                 <Text
+                  size="sm"
+                  fw={600}
                   ml="12"
-                  size="xs"
+                  c={
+                    computedColorScheme === 'light'
+                      ? uiValues.navbarColored
+                        ? 'white'
+                        : undefined
+                      : undefined
+                  }
+                >
+                  Inspect
+                </Text>
+                <Box p={5} mt={0}>
+                  <NavLink
+                    className={
+                      computedColorScheme === 'light'
+                        ? uiValues.navbarColored
+                          ? classesColored.link
+                          : classesSimple.link
+                        : classesSimple.link
+                    }
+                    key="inspect-backups"
+                    active={pathname === '/inspect/backups' || undefined}
+                    label="Backups"
+                    leftSection={
+                      <IconZoomCode
+                        className={
+                          computedColorScheme === 'light'
+                            ? uiValues.navbarColored
+                              ? classesColored.linkIcon
+                              : classesSimple.linkIcon
+                            : classesSimple.linkIcon
+                        }
+                      />
+                    }
+                    onClick={(event) => {
+                      event.preventDefault();
+                      router.push('/inspect/backups');
+                    }}
+                    color={
+                      uiValues.navbarColored && computedColorScheme === 'light'
+                        ? 'var(--mantine-color-white)'
+                        : undefined
+                    }
+                  />
+                </Box>
+              </Box>
+
+              <Box mt={10}>
+                <Text
+                  size="sm"
+                  fw={600}
+                  ml="12"
                   c={
                     computedColorScheme === 'light'
                       ? uiValues.navbarColored
@@ -344,8 +398,9 @@ export function AppShellNavbar({ opened, toggle }: any) {
                 {/* system */}
                 <Box mt={10}>
                   <Text
+                    size="sm"
+                    fw={600}
                     ml="12"
-                    size="xs"
                     c={
                       computedColorScheme === 'light'
                         ? uiValues.navbarColored

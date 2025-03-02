@@ -39,7 +39,7 @@ import InfoRepositoryActionIcon from '@/components/Features/Velero/Repos/InfoRep
 
 import VeleroResourceStatusBadge from '../Commons/Display/VeleroResourceStatusBadge';
 
-const PAGE_SIZES = [5, 10, 15, 20];
+const PAGE_SIZES = [10, 15, 20];
 
 export function ReposDatatable() {
   const router = useRouter();

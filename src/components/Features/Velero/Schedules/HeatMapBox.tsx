@@ -37,8 +37,9 @@ export function HeatMapBox() {
 
   return (
     <>
-      <Text>Heatmap constructed as follows:</Text>
+      <Text size="sm">Heatmap constructed as follows:</Text>
       <List
+        mt={5}
         spacing="xs"
         size="sm"
         center
@@ -59,7 +60,7 @@ export function HeatMapBox() {
           schedule
         </List.Item>
       </List>
-      <Space h={20} />
+      <Space h={10} />
       <Tabs defaultValue="0">
         <Tabs.List>
           <Tabs.Tab value="0" onClick={() => setDay(0)}>

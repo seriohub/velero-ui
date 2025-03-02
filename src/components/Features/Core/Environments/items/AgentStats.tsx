@@ -7,7 +7,7 @@ import { IconCheck, IconPlugConnected, IconServer } from '@tabler/icons-react';
 import { useRouter } from 'next/navigation';
 import styles from './AgentStats.module.css';
 import { useAgentStatus } from '@/contexts/AgentContext';
-import { getExpirationString } from '@/utils/GetExpirationString';
+import { getExpirationString } from '@/utils/getExpirationString';
 
 interface AgentStatsProps {
   name: string;

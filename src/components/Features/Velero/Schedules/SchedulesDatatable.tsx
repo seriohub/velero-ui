@@ -20,13 +20,14 @@ import ReloadData from '@/components/Inputs/ReloadData';
 import Toolbar from '@/components/Display/Toolbar';
 
 import DescribeActionIcon from '@/components/Features/Velero/Commons/Actions/DescribeActionIcon';
-import DeleteActionIcon from '@/components/Features/Velero/Commons/Actions/DeleteActionIcon';
+import DeleteAction from '@/components/Features/Velero/Commons/Actions/DeleteAction';
 
 import StartStopActionIcon from '@/components/Features/Velero/Schedules/StartStopActionIcon';
-import CreateBackupFromScheduleActionIcon from '@/components/Features/Velero/Schedules/Action/CreateBackupFromScheduleActionIcon';
-import CreateSecheduleToolbarIcon from '@/components/Features/Velero/Schedules/Action/CreateScheduleToolbarIcon';
-import EditScheduleActionIcon from '@/components/Features/Velero/Schedules/Action/EditScheduleActionIcon';
+import CreateBackupFromScheduleAction from '@/components/Features/Velero/Schedules/Action/CreateBackupFromScheduleAction';
+
+import EditScheduleAction from '@/components/Features/Velero/Schedules/Action/EditScheduleAction';
 import SchedulesHeatmapToolbarIcon from '@/components/Features/Velero/Schedules/SchedulesHeatmap';
+import CreateSecheduleAction from '@/components/Features/Velero/Schedules/Action/CreateScheduleAction';
 
 import VeleroResourceStatusBadge from '../Commons/Display/VeleroResourceStatusBadge';
 
@@ -80,20 +81,15 @@ export function SchedulesDatatable() {
   const renderActions: DataTableColumn<any>['render'] = (record) => (
     <Group gap={4} justify="right" wrap="nowrap">
       <DescribeActionIcon resourceType="schedule" record={record} />
-      <CreateBackupFromScheduleActionIcon record={record} />
+      <CreateBackupFromScheduleAction record={record} />
       <StartStopActionIcon
         resourceName={record.metadata.name}
         paused={record.spec.paused === true}
         reload={reload}
         setReload={setReload}
       />
-      <EditScheduleActionIcon record={record} reload={reload} setReload={setReload} />
-      <DeleteActionIcon
-        resourceType="schedule"
-        record={record}
-        reload={reload}
-        setReload={setReload}
-      />
+      <EditScheduleAction record={record} setReload={setReload} />
+      <DeleteAction resourceType="schedule" record={record} setReload={setReload} />
     </Group>
   );
 
@@ -101,7 +97,7 @@ export function SchedulesDatatable() {
     <MainStack>
       <Toolbar title="Schedule" breadcrumbItem={[{ name: 'Schedules' }]}>
         <SchedulesHeatmapToolbarIcon />
-        <CreateSecheduleToolbarIcon setReload={setReload} reload={reload} />
+        <CreateSecheduleAction setReload={setReload} reload={reload} />
         <ReloadData setReload={setReload} reload={reload} />
       </Toolbar>
       <DataFetchedInfo metadata={data?.metadata} />
@@ -109,7 +105,6 @@ export function SchedulesDatatable() {
         minHeight={160}
         withTableBorder
         borderRadius="sm"
-        // withColumnBorders
         striped
         highlightOnHover
         records={records}

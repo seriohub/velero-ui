@@ -1,5 +1,3 @@
-'use client';
-
 import { ActionIcon, Tooltip } from '@mantine/core';
 import { openModal } from '@mantine/modals';
 
@@ -9,7 +7,7 @@ import { SCMappingForm } from './Forms/SCMappingForm';
 
 interface CreateSCMappingIconProps {
   reload: number;
-  setReload: any;
+  setReload: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export default function CreateSCMappingIcon({ reload, setReload }: CreateSCMappingIconProps) {

@@ -10,46 +10,79 @@ import {
   ActionIcon,
   CopyButton,
   Tooltip,
+  Switch,
+  Loader,
+  Center,
 } from '@mantine/core';
 
 import { IconCopy, IconCheck } from '@tabler/icons-react';
-
-const convertJsonToYaml = (jsonObject: Record<string, any>): string => {
-  const yamlString = yaml.dump(jsonObject, {
-    indent: 2,
-    lineWidth: 80,
-    noRefs: true,
-  });
-  return yamlString;
-};
+import { useEffect, useState } from 'react';
+import { useVeleroManifest } from '@/api/Velero/useVeleroManifest';
+import { useAgentStatus } from '@/contexts/AgentContext';
+import { isRecordStringAny } from '@/utils/isRecordStringIsType';
+import { convertJsonToYaml } from '@/utils/jsonToYaml';
 
 interface ManifestProps {
-  manifest: string | any;
+  resourceType: string;
+  resourceName: string;
 }
 
-export function Manifest({ manifest }: ManifestProps) {
+export function Manifest({ resourceType, resourceName }: ManifestProps) {
+  const { fetching, data, getManifest } = useVeleroManifest();
+  const agentValues = useAgentStatus();
+  const [neat, setNeat] = useState(false);
+  const [manifest, setManifest] = useState<Record<string, any>>([]);
+
+  useEffect(() => {
+    getManifest(resourceType, resourceName, neat);
+  }, [agentValues.isAgentAvailable, neat]);
+
+  useEffect(() => {
+    if (isRecordStringAny(data)) {
+      setManifest(data);
+    } else {
+      setManifest([]);
+    }
+  }, [data]);
+
   return (
-    <Card shadow="sm" padding="lg" radius="md" withBorder>
-      <Card.Section withBorder inheritPadding p="xs">
+    <Card shadow="sm" padding="lg" radius="md" withBorder h={600}>
+      <Card.Section withBorder inheritPadding p="sm">
         <Group justify="space-between">
-          <Text fw={500}>Manifest</Text>
-          <CopyButton value={convertJsonToYaml(manifest)} timeout={2000}>
-            {({ copied, copy }) => (
-              <Tooltip label={copied ? 'Copied' : 'Copy'} withArrow position="right">
-                <ActionIcon color={copied ? 'teal' : 'gray'} variant="outline" onClick={copy}>
-                  {copied ? <IconCheck size={16} /> : <IconCopy size={16} />}
-                </ActionIcon>
-              </Tooltip>
-            )}
-          </CopyButton>
+          <Group gap={5}>
+            <CopyButton value={convertJsonToYaml(manifest)} timeout={2000}>
+              {({ copied, copy }) => (
+                <Tooltip label={copied ? 'Copied' : 'Copy'} withArrow position="right">
+                  <ActionIcon color={copied ? 'teal' : 'gray'} variant="transparent" onClick={copy}>
+                    {copied ? <IconCheck size={16} /> : <IconCopy size={16} />}
+                  </ActionIcon>
+                </Tooltip>
+              )}
+            </CopyButton>
+
+            <Text fw={600}>Manifest</Text>
+          </Group>
+          <Switch
+            checked={neat}
+            onChange={(event) => setNeat(event.currentTarget.checked)}
+            label="Neat"
+            labelPosition="left"
+          />
         </Group>
       </Card.Section>
       <Card.Section p="sm">
-        <ScrollArea p={0} h={600}>
+        <ScrollArea p={0} h={525}>
           <Code block>
-            <pre>
-              <Text size="sm">{convertJsonToYaml(manifest)}</Text>
-            </pre>
+            {fetching && (
+              <Center>
+                <Loader />
+              </Center>
+            )}
+            {!fetching && (
+              <pre>
+                <Text size="sm">{convertJsonToYaml(manifest)}</Text>
+              </pre>
+            )}
           </Code>
         </ScrollArea>
       </Card.Section>

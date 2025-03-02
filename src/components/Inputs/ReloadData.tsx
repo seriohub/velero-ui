@@ -13,8 +13,8 @@ export default function ReloadData({ setReload, reload, fetching = false }: any)
           setReload(reload + 1);
         }}
         size={38}
-        //variant="default"
-        variant="outline"
+        variant="default"
+        //variant="outline"
         radius={8}
         disabled={fetching}
       >

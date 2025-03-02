@@ -5,7 +5,7 @@ import { Grid } from '@mantine/core';
 
 import { useAgentStatus } from '@/contexts/AgentContext';
 
-import { useManifest } from '@/api/Velero/useManifest';
+import { useVeleroManifest } from '@/api/Velero/useVeleroManifest';
 
 import { PageScrollArea } from '@/components/Commons/PageScrollArea';
 
@@ -14,22 +14,33 @@ import ReloadData from '@/components/Inputs/ReloadData';
 
 import { BslDetailsView } from '@/components/Features/Velero/BackupLocations/BslDetailsView';
 import { Manifest } from '@/components/Features/Velero/Commons/Display/Manifest';
+import DeleteAction from '@/components/Features/Velero/Commons/Actions/DeleteAction';
+import { isRecordStringAny } from '@/utils/isRecordStringIsType';
 
 interface BackupProps {
   params: any;
 }
 
 export function BslDetails({ params }: BackupProps) {
-  const { data, getManifest } = useManifest();
+  const { data, getManifest } = useVeleroManifest();
   const [reload, setReload] = useState(1);
   const agentValues = useAgentStatus();
 
+  const [manifest, setManifest] = useState<Record<string, any>>([]);
+
   useEffect(() => {
     if (params.bsl) {
-      getManifest('backupstoragelocations', params.bsl);
+      getManifest('backupstoragelocations', params.bsl, false);
     }
   }, [agentValues.isAgentAvailable]);
 
+  useEffect(() => {
+    if (isRecordStringAny(data)) {
+      setManifest(data);
+    } else {
+      setManifest([]);
+    }
+  }, [data]);
   return (
     <PageScrollArea>
       <Toolbar
@@ -44,6 +55,13 @@ export function BslDetails({ params }: BackupProps) {
           },
         ]}
       >
+        <DeleteAction
+          resourceType="bsl"
+          record={manifest}
+          setReload={setReload}
+          redirectAfterDelete="/backup-storage-locations"
+          buttonType="button"
+        />
         <ReloadData setReload={setReload} reload={reload} />
       </Toolbar>
 
@@ -53,7 +71,7 @@ export function BslDetails({ params }: BackupProps) {
         </Grid.Col>
 
         <Grid.Col span={8}>
-          <Manifest manifest={data} />
+          <Manifest resourceType="backupstoragelocations" resourceName={params.bsl} />
         </Grid.Col>
       </Grid>
     </PageScrollArea>

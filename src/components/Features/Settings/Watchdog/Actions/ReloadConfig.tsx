@@ -3,7 +3,7 @@
 import { Button, Tooltip } from '@mantine/core';
 import { IconAlertSquareRounded } from '@tabler/icons-react';
 
-function differencesToString({ differences }: { differences: any }) {
+/*function differencesToString({ differences }: { differences: any }) {
   if (differences !== undefined && differences !== null) {
     return Object.entries(differences)
       .map(([key, values]: any) => `${key}: pod env=${values.obj1}, new value=${values.obj2}; `)
@@ -11,7 +11,7 @@ function differencesToString({ differences }: { differences: any }) {
   }
 
   return 'Restart watchdog';
-}
+}*/
 
 export default function ReloadConfig({
   watchdogReloadConfig,
@@ -32,14 +32,14 @@ export default function ReloadConfig({
         h={38}
         radius="md"
       >
-        Restart Config
+        Restart Watchdog
       </Button>
     );
   }
   return (
     <Tooltip
       multiline
-      label={`Reload configuration in watchdog pod ${differencesToString({ differences: difference })}`}
+      label="Restart Watchdog to apply the new configuration"
       w={300}
       style={{ whiteSpace: 'pre-wrap' }}
     >
@@ -55,7 +55,7 @@ export default function ReloadConfig({
         radius="md"
         leftSection={hasDiff ? <IconAlertSquareRounded /> : <></>}
       >
-        Restart Config
+        Restart Watchdog
       </Button>
     </Tooltip>
   );

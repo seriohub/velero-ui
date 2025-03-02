@@ -1,8 +1,9 @@
 'use client';
 
-import { ScrollArea, Table } from '@mantine/core';
 import { env } from 'next-runtime-env';
 
+import React from 'react';
+import { DataTable } from 'mantine-datatable';
 import { MainStack } from '@/components/Commons/MainStack';
 
 import { useDiagnosticAgent } from '@/hooks/diagnostic/useDiagnosticAgent';
@@ -69,36 +70,45 @@ export function Security() {
     },
   ];
 
-  // useEffect(() => {}, [reload, agentValues.isAgentAvailable]);
-
-  const rows = elements.map((element) => (
-    <Table.Tr key={`${element.component}-${element.description}`}>
-      <Table.Td>{element.component}</Table.Td>
-      <Table.Td>{element.description}</Table.Td>
-      <Table.Td>{element.value}</Table.Td>
-      <Table.Td>{element.status}</Table.Td>
-    </Table.Tr>
-  ));
-
   return (
     <MainStack>
       <Toolbar title="Info" breadcrumbItem={[{ name: 'Security' }]}>
         <ReloadData setReload={setReload} reload={reload} />
       </Toolbar>
 
-      <ScrollArea p={0} style={{ height: '100%' }} offsetScrollbars>
-        <Table striped>
-          <Table.Thead>
-            <Table.Tr>
-              <Table.Th>Component</Table.Th>
-              <Table.Th>Description</Table.Th>
-              <Table.Th>Value</Table.Th>
-              <Table.Th>Status</Table.Th>
-            </Table.Tr>
-          </Table.Thead>
-          <Table.Tbody>{rows}</Table.Tbody>
-        </Table>
-      </ScrollArea>
+      <DataTable
+        withTableBorder
+        striped
+        columns={[
+          {
+            accessor: 'component',
+            title: 'Component',
+            width: 600,
+          },
+          {
+            accessor: 'description',
+            title: 'Description',
+            sortable: true,
+            width: 600,
+            ellipsis: true,
+          },
+          {
+            accessor: 'value',
+            title: 'Value',
+            sortable: true,
+            width: 600,
+            ellipsis: true,
+          },
+          {
+            accessor: 'status',
+            title: 'Status',
+            sortable: true,
+            width: 600,
+            ellipsis: true,
+          },
+        ]}
+        records={elements}
+      />
     </MainStack>
   );
 }

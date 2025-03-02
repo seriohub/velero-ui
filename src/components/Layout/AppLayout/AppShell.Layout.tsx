@@ -91,7 +91,7 @@ export default function AppShellLayout({ children }: AppShellLayoutProps) {
             bg={
               uiValues.mainColored && computedColorScheme === 'light'
                 ? 'var(--mantine-primary-color-light)'
-                : undefined
+                : 'var(--mantine-color-dark-8)'
             }
           >
             <Box
@@ -130,15 +130,13 @@ export default function AppShellLayout({ children }: AppShellLayoutProps) {
 
           {uiValues.showDebugAside && (
             <ActionIcon
-              //variant="outline"
               color="red"
-              aria-label="ActionIcon with size as a number"
               onClick={() => toggleAside()}
               style={{
                 height: '60px',
                 position: 'fixed',
                 right: -5,
-                top: 120,
+                top: 160,
                 zIndex: 1000,
               }}
             >

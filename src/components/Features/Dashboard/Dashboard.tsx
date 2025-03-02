@@ -128,7 +128,7 @@ export function Dashboard() {
                 lg: 9,
               }}
             >
-              <LatestBackup latest={data.backups.latest} reload={reload} setReload={setReload} />
+              <LatestBackup latest={data.backups.latest} setReload={setReload} />
             </Grid.Col>
             <Grid.Col
               span={{

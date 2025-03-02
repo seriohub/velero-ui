@@ -1,5 +1,3 @@
-'use client';
-
 import { useEffect, useState } from 'react';
 
 import { DataTable, DataTableColumn, DataTableSortStatus } from 'mantine-datatable';
@@ -23,8 +21,8 @@ import { useRouter } from 'next/navigation';
 import DescribeActionIcon from '@/components/Features/Velero/Commons/Actions/DescribeActionIcon';
 import LogsActionIcon from '@/components/Features/Velero/Commons/Actions/LogsActionIcon';
 
-import RestoreActionIcon from '@/components/Features/Velero/Backups/Actions/RestoreActionIcon';
-import DeleteActionIcon from '@/components/Features/Velero/Commons/Actions/DeleteActionIcon';
+import RestoreAction from '@/components/Features/Velero/Backups/Actions/RestoreAction';
+import DeleteAction from '@/components/Features/Velero/Commons/Actions/DeleteAction';
 
 import VeleroResourceStatusBadge from '../Commons/Display/VeleroResourceStatusBadge';
 
@@ -32,11 +30,10 @@ const PAGE_SIZES = [10, 15, 20];
 
 interface BackupLatestProps {
   latest: Array<any>;
-  reload: number;
-  setReload: any;
+  setReload: React.Dispatch<React.SetStateAction<number>>;
 }
 
-export function LatestBackup({ reload, setReload, latest = [] }: BackupLatestProps) {
+export function LatestBackup({ setReload, latest = [] }: BackupLatestProps) {
   const router = useRouter();
   const [items, setItems] = useState<Array<any>>(latest);
   const isMobile = useMediaQuery('(max-width: 36em)');
@@ -72,13 +69,8 @@ export function LatestBackup({ reload, setReload, latest = [] }: BackupLatestPro
     <Group gap={4} justify="right" wrap="nowrap">
       <DescribeActionIcon resourceType="backup" record={record} />
       <LogsActionIcon resourceType="backup" record={record} />
-      <RestoreActionIcon record={record} reload={reload} setReload={setReload} />
-      <DeleteActionIcon
-        resourceType="backup"
-        record={record}
-        reload={reload}
-        setReload={setReload}
-      />
+      <RestoreAction record={record} setReload={setReload} />
+      <DeleteAction resourceType="backup" record={record} setReload={setReload} />
     </Group>
   );
 

@@ -19,7 +19,7 @@ export default function Toolbar({ title, children, breadcrumbItem }: ToolbarProp
   const agentValues = useAgentStatus();
   const userValues = useUserStatus();
   return (
-    <Box mt={5} mb={15}>
+    <Box mt={10} mb={20}>
       <Group justify="space-between">
         {title === 'Dashboard' && (
           <Title order={2} fw={800}>
@@ -30,12 +30,12 @@ export default function Toolbar({ title, children, breadcrumbItem }: ToolbarProp
           </Title>
         )}
       </Group>
-      <Group mb={20} justify="space-between" align="center">
+      <Group justify="space-between" align="center">
         {title !== 'Dashboard' && breadcrumbItem && <Breadcrumb {...breadcrumbItem} />}
         {title === 'Dashboard' && <Text mt={20}>Welcome back, {userValues.user?.username}!</Text>}
         <Group gap="xs">{children}</Group>
       </Group>
-      <Divider />
+      {/*<Divider />*/}
     </Box>
   );
 }

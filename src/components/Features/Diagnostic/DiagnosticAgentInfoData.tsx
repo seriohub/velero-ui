@@ -1,13 +1,7 @@
 'use client';
 
-import { ActionIcon, Anchor, Box, Button, CopyButton, Table } from '@mantine/core';
-
-import { IconExternalLink } from '@tabler/icons-react';
-
-import { useServerStatus } from '@/contexts/ServerContext';
-
-import { DiagnosticItemTable } from './DIagnosticItemTable';
-import { DiagnosticLink } from './DiagnosticLink';
+import { DataTable } from 'mantine-datatable';
+import React from 'react';
 
 export const DiagnosticAgentInfoData = ({
   uiURL,
@@ -17,131 +11,108 @@ export const DiagnosticAgentInfoData = ({
   k8sHealth,
   stateManager,
 }: any) => {
-  const serverValues = useServerStatus();
-
   const elements = [
-    <DiagnosticItemTable
-      label="Get UI URL"
-      value={uiURL !== undefined ? uiURL : ''}
-      ok={stateManager.getVariable('getUiURL')}
-    />,
-    <DiagnosticItemTable
-      label="Get API URL"
-      value={apiURL !== undefined ? `${apiURL}/` : ''}
-      ok={stateManager.getVariable('getApiURL')}
-      actionIcon={
-        <ActionIcon
-          component="a"
-          variant="outline"
-          href={`${apiURL}/`}
-          size="sm"
-          aria-label="Open in a new tab"
-          target="_blank"
-        >
-          <IconExternalLink size={20} />
-        </ActionIcon>
-      }
-    />,
-    <DiagnosticItemTable
-      label="API available"
-      value=""
-      ok={stateManager.getVariable('checkApiReachable')}
-      actionIcon={
-        !serverValues.isCurrentServerControlPlane ? <DiagnosticLink ApiURL={apiURL} /> : <></>
-      }
-    />,
-    <DiagnosticItemTable
-      label="Get API architecture"
-      value={`${apiArch?.arch} ${apiArch?.platform || ''}`}
-      ok={stateManager.getVariable('getArchitecture')}
-    />,
-    <DiagnosticItemTable
-      label="Get Origins"
-      value={origins ? origins?.join(', ') : ''}
-      ok={stateManager.getVariable('getOrigins')}
-    />,
-
-    <DiagnosticItemTable
-      label="Validate Origins"
-      value=""
-      ok={stateManager.getVariable('validateOrigins')}
-      warning={origins.length > 0 && origins.includes('*')}
-      message={origins.length > 0 && origins.includes('*') ? 'Warning: ORIGINS contains "*"' : ''}
-      message2={
+    {
+      label: 'Get UI URL',
+      value: uiURL !== undefined ? uiURL : '',
+      status: stateManager.getVariable('getUiURL') ? 'ok' : 'error',
+    },
+    {
+      label: 'Get API URL',
+      value: apiURL !== undefined ? `${apiURL}/` : '',
+      status: stateManager.getVariable('getApiURL') ? 'ok' : 'error',
+    },
+    {
+      label: 'API available',
+      value: '',
+      status: stateManager.getVariable('checkApiReachable') ? 'ok' : 'error',
+    },
+    {
+      label: 'Get API architecture',
+      value: `${apiArch?.arch} ${apiArch?.platform || ''}`,
+      status: stateManager.getVariable('getArchitecture') ? 'ok' : 'error',
+    },
+    {
+      label: 'Get Origins',
+      value: origins ? origins?.join(', ') : '',
+      status: stateManager.getVariable('getOrigins') ? 'ok' : 'error',
+    },
+    {
+      label: 'Validate Origins',
+      status: stateManager.getVariable('validateOrigins') ? 'ok' : 'error',
+      warning: [origins.length > 0 && origins.includes('*') ? 'Warning: ORIGINS contains "*"' : ''],
+      error: [
         origins.length === 0 || (origins.length > 0 && !origins.includes(uiURL))
           ? `Error: Origins must contain ${uiURL}`
-          : ''
-      }
-      message3={
+          : '',
+      ],
+      value: [
         !origins.includes('*') && origins.length > 0 && !origins.includes(uiURL)
           ? "If you have problems you can try to use '*'"
-          : ''
-      }
-    />,
-
-    <DiagnosticItemTable
-      label="Check Watchdog"
-      value=""
-      ok={stateManager.getVariable('getWatchdogInfo')}
-    />,
-
-    <DiagnosticItemTable
-      label="Get cluster data"
-      value=""
-      ok={stateManager.getVariable('getClusterHealth')}
-      message={`Online: ${k8sHealth?.cluster_online ? 'true' : 'false'}`}
-      message2={`Nodes: ${k8sHealth?.nodes?.total}`}
-      message3={`Nodes not ready: ${k8sHealth?.nodes?.in_error}`}
-    />,
-    <DiagnosticItemTable
-      label="UI/API Check Compatibility"
-      value=""
-      ok={stateManager.getVariable('getUiApiVerCompatibility')}
-      message={
+          : '',
+      ].filter((msg) => msg !== ''),
+    },
+    {
+      label: 'Check Watchdog',
+      status: stateManager.getVariable('getWatchdogInfo') ? 'ok' : 'error',
+    },
+    {
+      label: 'Get cluster data',
+      status: stateManager.getVariable('getClusterHealth') ? 'ok' : 'error',
+      value: [
+        `Online: ${k8sHealth?.cluster_online ? 'true' : 'false'}`,
+        `Nodes: ${k8sHealth?.nodes?.total}`,
+        `Nodes not ready: ${k8sHealth?.nodes?.in_error}`,
+      ],
+    },
+    {
+      label: 'UI/API Check Compatibility',
+      status: stateManager.getVariable('getUiApiVerCompatibility') ? 'ok' : 'error',
+      messages: [
         stateManager.getVariable('getUiApiVerCompatibility')
           ? ''
-          : 'UI/API versions not shown in the compatibility list. You can proceed, but errors may occur.'
-      }
-      message4={
-        stateManager.getVariable('getUiApiVerCompatibility') ? (
-          <></>
-        ) : (
-          <>
-            <Anchor
-              href="https://github.com/seriohub/velero-helm/blob/main/components.txt"
-              target="_blank"
-              size="sm"
-            >
-              see compatibility list for details
-            </Anchor>
-          </>
-        )
-      }
-    />,
+          : 'UI/API versions not shown in the compatibility list. You can proceed, but errors may occur.',
+      ].filter((msg) => msg !== ''),
+    },
   ];
 
   return (
     <>
-      <Table striped>
-        <Table.Thead>
-          <Table.Tr>
-            <Table.Th>Description</Table.Th>
-            <Table.Th>Value</Table.Th>
-            <Table.Th>Status</Table.Th>
-            <Table.Th>Action</Table.Th>
-          </Table.Tr>
-        </Table.Thead>
-        <Table.Tbody>{elements}</Table.Tbody>
-      </Table>
-      <Box mt={30}>
-        <CopyButton value={stateManager.generateMarkdownReport()}>
-          {({ copied, copy }) => (
-            <Button color={copied ? 'teal' : 'var(--mantine-primary-color-filled)'} onClick={copy}>
-              {copied ? 'Copied!' : 'Copy diagnostic report to clipboard'}
-            </Button>
-          )}
-        </CopyButton>
-      </Box>
+      <DataTable
+        withTableBorder
+        striped
+        columns={[
+          {
+            accessor: 'label',
+            title: 'Component',
+            width: 250,
+          },
+          {
+            accessor: 'value',
+            title: 'Value',
+            width: 500,
+          },
+          {
+            accessor: 'status',
+            render: ({ status }: any) => <>{status?.toString()}</>,
+            title: 'Status',
+            width: 500,
+          },
+          {
+            accessor: 'warning',
+            title: 'Warning',
+            render: ({ warning }: any) => <>{warning?.join(', ')}</>,
+            width: 500,
+          },
+          {
+            accessor: 'error',
+            title: 'Error',
+            render: ({ error }: any) => <>{error?.join(', ')}</>,
+            width: 500,
+          },
+        ]}
+        records={elements}
+      />
     </>
   );
 };

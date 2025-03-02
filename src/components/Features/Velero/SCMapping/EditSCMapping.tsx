@@ -1,5 +1,3 @@
-'use client';
-
 import { ActionIcon, Tooltip } from '@mantine/core';
 import { openModal } from '@mantine/modals';
 
@@ -10,7 +8,7 @@ import { SCMappingForm } from './Forms/SCMappingForm';
 interface EditSCMappingProps {
   record: any;
   reload: number;
-  setReload: any;
+  setReload: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export default function EditSCMapping({ record, reload, setReload }: EditSCMappingProps) {

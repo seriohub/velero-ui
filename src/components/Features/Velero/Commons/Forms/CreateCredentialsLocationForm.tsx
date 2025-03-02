@@ -1,4 +1,4 @@
-import { Box, Button, Group, TextInput, Divider } from '@mantine/core';
+import { Box, Button, Group, TextInput, Divider, Input } from '@mantine/core';
 
 interface CreateCredentialsLocationFormProps {
   form: any;
@@ -18,36 +18,33 @@ export default function CreateCredentialsLocationForm({
           onDone(values);
         })}
       >
-        <TextInput
+        <Input.Wrapper
           label="Secret name"
-          placeholder=""
-          {...form.getInputProps('newSecretName')}
+          description="Name of the secret within the Velero namespace to store the credentials"
           required
-        />
+        >
+          <TextInput placeholder="" {...form.getInputProps('newSecretName')} />
+        </Input.Wrapper>
 
-        <TextInput
-          label="Secret key"
-          placeholder="cloud"
-          {...form.getInputProps('newSecretKey')}
+        <Input.Wrapper
+          label="Secret name"
+          description="The key to use within the secret"
+          mt={10}
           required
-        />
+        >
+          <TextInput placeholder="cloud" {...form.getInputProps('newSecretKey')} />
+        </Input.Wrapper>
 
-        <TextInput
-          label="AWS access key id"
-          placeholder=""
-          {...form.getInputProps('awsAccessKeyId')}
-          required
-        />
+        <Input.Wrapper label="AWS access key id" mt={10} required>
+          <TextInput placeholder="" {...form.getInputProps('awsAccessKeyId')} />
+        </Input.Wrapper>
 
-        <TextInput
-          label="AWS secret access key"
-          placeholder=""
-          {...form.getInputProps('awsSecretAccessKey')}
-          required
-        />
-
-        <Divider my="sm" />
-
+        <Input.Wrapper label="AWS access key id" mt={10} required>
+          <TextInput
+            placeholder=""
+            {...form.getInputProps('awsSecretAccessKey')}
+          />
+        </Input.Wrapper>
         <Group justify="flex-end" mt="md">
           <Button type="submit"> {mode === 'create' ? 'Create' : 'Update'}</Button>
         </Group>

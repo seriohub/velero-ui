@@ -1,7 +1,7 @@
 'use client';
 
-import { SnapshotLocation } from '@/components/Features/Velero/SnaphotLocation/SnapshotLocation';
+import { SnapshotLocationDetails } from '@/components/Features/Velero/SnapshotLocations/SnapshotLocationDetails';
 
 export default function VslPage({ params }: any) {
-  return <SnapshotLocation params={params} />;
+  return <SnapshotLocationDetails params={params} />;
 }

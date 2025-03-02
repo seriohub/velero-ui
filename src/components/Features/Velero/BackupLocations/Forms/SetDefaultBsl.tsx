@@ -1,5 +1,3 @@
-'use client';
-
 import { Button, Group, Text } from '@mantine/core';
 import { closeAllModals } from '@mantine/modals';
 
@@ -9,7 +7,7 @@ import { useDefaultBsl } from '@/api/BackupLocation/useDefaultBsl';
 interface ResourceDeleteProps {
   name: string;
   reload: number;
-  setReload: any;
+  setReload: React.Dispatch<React.SetStateAction<number>>;
   def: boolean;
 }
 

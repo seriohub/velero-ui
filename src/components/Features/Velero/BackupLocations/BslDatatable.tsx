@@ -25,13 +25,13 @@ import ReloadData from '@/components/Inputs/ReloadData';
 
 import DetailActionIcon from '@/components/Features/Velero/Commons/Actions/DetailActionIcon';
 import CredentialActionIcon from '@/components/Features/Velero/Commons/Actions/CredentialActionIcon';
-import DeleteActionIcon from '@/components/Features/Velero/Commons/Actions/DeleteActionIcon';
+import DeleteAction from '@/components/Features/Velero/Commons/Actions/DeleteAction';
 import { SetDefaultBsl } from '@/components/Features/Velero/BackupLocations/Forms/SetDefaultBsl';
 import CreateBslToolbarIcon from '@/components/Features/Velero/BackupLocations/Actions/CreateBslToolbarIcon';
 
 import VeleroResourceStatusBadge from '../Commons/Display/VeleroResourceStatusBadge';
 
-const PAGE_SIZES = [5, 10, 15, 20];
+const PAGE_SIZES = [10, 15, 20];
 
 export function BslDatatable() {
   const router = useRouter();
@@ -83,7 +83,7 @@ export function BslDatatable() {
     <Group gap={4} justify="right" wrap="nowrap">
       <CredentialActionIcon name={record.metadata.name} record={record} />
       <DetailActionIcon name={record.metadata.name} record={record} />
-      <DeleteActionIcon resourceType="bsl" record={record} reload={reload} setReload={setReload} />
+      <DeleteAction resourceType="bsl" record={record} setReload={setReload} />
     </Group>
   );
 

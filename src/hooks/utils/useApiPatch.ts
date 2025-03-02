@@ -77,7 +77,8 @@ export const useApiPatch = ({ target = 'agent' }: UseApiPatchProps = {}) => {
         setFetching(false);
         setData(undefined);
         setError(true);
-        console.error('Fetch error:', err.message);
+
+        // console.error('Fetch error:', err.message);
 
         if (err.message.includes('Unauthorized')) {
           logout();

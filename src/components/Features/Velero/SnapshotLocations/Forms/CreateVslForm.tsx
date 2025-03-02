@@ -1,106 +1,44 @@
-import { useEffect, useState } from 'react';
+import { useForm } from '@mantine/form';
+import { closeAllModals } from '@mantine/modals';
 
-import { openModal } from '@mantine/modals';
-import { Box, Button, Group, TextInput, Divider, Select, SimpleGrid } from '@mantine/core';
+import { useAppStatus } from '@/contexts/AppContext';
 
-import { useVeleroSecrets } from '@/api/Velero/useVeleroSecrets';
-import { useVeleroSecretKey } from '@/api/Velero/useVeleroSecretKey';
+import { useCreateVsl } from '@/api/SnapshotLocation/useCreateVsl';
+import CreateVslFormView from '@/components/Features/Velero/SnapshotLocations/Forms/CreateVslFormView';
 
-import { CreateLocationCredentialsView } from '@/components/Features/Velero/Commons/Forms/CreateLocationCredentialsView';
-import ConfigurationOptions from '@/components/Features/Velero/Commons/Inputs/ConfigurationOptions';
-
-interface CreateVslFormProps {
-  form: any;
-  onDone: any;
-  mode: string;
+interface CreateVslProps {
+  reload: number;
+  setReload: React.Dispatch<React.SetStateAction<number>>;
 }
 
-export default function CreateVslForm({ form, onDone, mode }: CreateVslFormProps) {
-  const { data: secrets, getVeleroSecrets } = useVeleroSecrets();
-  const { data: secretKeys, getVeleroSecretKey } = useVeleroSecretKey();
+export function CreateVslForm({ reload, setReload }: CreateVslProps) {
+  const appValues = useAppStatus();
 
-  const [sKeys, setSeks] = useState<Record<string, any>[]>([]);
-  const [config, setConfig] = useState([]);
-  const [reload, setReload] = useState(1);
+  const { handleCreateVsl } = useCreateVsl();
 
-  useEffect(() => {
-    form.setFieldValue('config', config);
-  }, [config]);
+  const form = useForm({
+    initialValues: {
+      name: '',
+      provider: '',
+      config: {},
+      credentialName: '',
+      credentialKey: '',
+    },
 
-  useEffect(() => {
-    getVeleroSecrets();
-  }, [reload]);
+    validate: {
+      name: (value) => (value.length === 0 ? 'Invalid name' : null),
+      provider: (value) => (value.length === 0 ? 'Invalid provider' : null),
+    },
+  });
 
-  useEffect(() => {
-    setSeks(Array.isArray(secretKeys) ? secretKeys : []);
-  }, [secretKeys]);
+  function createVsl(values: any) {
+    handleCreateVsl(values);
+    closeAllModals();
+    const interval = setInterval(() => {
+      setReload(reload + 1);
+      clearInterval(interval);
+    }, appValues.refreshDatatableAfter);
+  }
 
-  useEffect(() => {
-    if (form.values.credentialName) {
-      getVeleroSecretKey(form.values.credentialName);
-    } else {
-      form.setFieldValue('credentialKey', '');
-      setSeks([]);
-    }
-  }, [form.values.credentialName]);
-
-  return (
-    <>
-      <Box mx="auto">
-        <form
-          onSubmit={form.onSubmit((values: any) => {
-            onDone(values);
-          })}
-        >
-          <SimpleGrid cols={2} spacing="lg" verticalSpacing="xl">
-            <TextInput
-              label="Volume Snapshot Location name"
-              placeholder=""
-              {...form.getInputProps('name')}
-              disabled={mode === 'edit'}
-              required
-            />
-
-            <TextInput
-              label="Provider"
-              placeholder=""
-              {...form.getInputProps('provider')}
-              required
-            />
-          </SimpleGrid>
-          <Divider my="xs" label="Credentials" labelPosition="left" mt={30} />
-          <SimpleGrid cols={2} spacing="lg" verticalSpacing="lg">
-            <Select
-              clearable
-              label="Credential secret name"
-              data={secrets}
-              {...form.getInputProps('credentialName')}
-            />
-
-            <Select label="Credential key" data={sKeys} {...form.getInputProps('credentialKey')} />
-          </SimpleGrid>
-          <Divider my="xs" label="Configuration Fields" labelPosition="left" mt={30} />
-
-          <ConfigurationOptions config={config} setConfig={setConfig} />
-
-          <Group justify="space-between" mt="xl">
-            <Button
-              onClick={(e) => {
-                e.stopPropagation();
-                openModal({
-                  modalId: 'newCredential',
-                  title: 'Create New Credentials',
-                  size: 'lg',
-                  children: <CreateLocationCredentialsView reload={reload} setReload={setReload} />,
-                });
-              }}
-            >
-              Add new credentials
-            </Button>
-            <Button type="submit"> {mode === 'create' ? 'Create' : 'Update'}</Button>
-          </Group>
-        </form>
-      </Box>
-    </>
-  );
+  return <CreateVslFormView mode="create" form={form} onDone={createVsl} />;
 }

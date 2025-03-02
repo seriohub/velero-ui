@@ -71,17 +71,12 @@ export function SCMappingData() {
         fetching={fetching}
         columns={[
           {
-            accessor: 'id',
-            title: '#',
-            width: 105,
-          },
-          {
             accessor: 'oldStorageClass',
-            title: 'Backups Storage Class',
+            title: 'Storage class used in backup',
           },
           {
             accessor: 'newStorageClass',
-            title: 'Restore Storage Class',
+            title: 'New Storage Class to be used for restore',
           },
           {
             accessor: 'actions',

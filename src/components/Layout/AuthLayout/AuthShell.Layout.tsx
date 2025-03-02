@@ -61,14 +61,13 @@ export default function AuthShellLayout({ children }: AuthShellLayoutProps) {
 
             {process.env.NODE_ENV === 'development' && (
               <ActionIcon
-                size={24}
-                variant="outline"
-                aria-label="ActionIcon with size as a number"
+                color="red"
                 onClick={() => toggleAside()}
                 style={{
                   position: 'fixed',
-                  right: 0,
-                  top: 60,
+                  height: '60px',
+                  right: -5,
+                  top: 160,
                   zIndex: 1000,
                 }}
               >
