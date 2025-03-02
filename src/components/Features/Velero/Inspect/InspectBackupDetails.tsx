@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import ReactDiffViewer from 'react-diff-viewer-continued';
 import { Box, Flex } from '@mantine/core';
 
+import { env } from 'next-runtime-env';
 import { useInspectFolderContent } from '@/api/Inspect/useInspectBackupContent';
 
 import { useInspectFile } from '@/api/Inspect/useInspectFile';
@@ -33,6 +34,8 @@ export function InspectBackupDetails({ params }: BackupProps) {
   const [oldValue, setOldValue] = useState<Record<string, any>>({});
   const [currentValue, setCurrentValue] = useState<Record<string, any>>({});
 
+  const InspectBackupEnabled = env('NEXT_PUBLIC_INSPECT_BACKUP_ENABLED')?.toLowerCase() === 'true';
+
   useEffect(() => {
     if (params?.backup) {
       getInspectFolderContent(params.backup);
@@ -47,14 +50,21 @@ export function InspectBackupDetails({ params }: BackupProps) {
 
   useEffect(() => {
     if (oldValue?.kind) {
-      getManifest(
-        file?.kind,
-        file?.metadata?.name,
-        file?.apiVersion,
-        file?.metadata?.namespace === undefined || file?.kind === 'namespaces',
-        file?.metadata?.namespace,
-        false
-      );
+      if (InspectBackupEnabled) {
+        getManifest(
+          file?.kind,
+          file?.metadata?.name,
+          file?.apiVersion,
+          file?.metadata?.namespace === undefined || file?.kind === 'namespaces',
+          file?.metadata?.namespace,
+          false
+        );
+      } else {
+        setCurrentValue({
+          IMPORTANT:
+            'To use the comparison feature, enable the property apiConfig.inspectBackupEnabled in Helm. Please read the notes beforehand',
+        });
+      }
     }
   }, [oldValue]);
 
@@ -102,7 +112,7 @@ export function InspectBackupDetails({ params }: BackupProps) {
               />
             </Box>
 
-            {file && manifestData && (
+            {oldValue && currentValue && (
               <ReactDiffViewer
                 oldValue={convertJsonToYaml(oldValue)}
                 newValue={convertJsonToYaml(currentValue)}
