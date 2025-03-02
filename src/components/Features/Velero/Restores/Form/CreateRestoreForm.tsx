@@ -4,10 +4,6 @@ import { closeAllModals } from '@mantine/modals';
 
 import { useForm } from '@mantine/form';
 
-import { useResourceDescribe } from '@/api/Velero/useResourceDescribe';
-import { useStorageClasses } from '@/api/Kubernetes/useStorageClasses';
-import { usePvcBackupSC } from '@/api/Restore/usePvcBackupSC';
-import { useStorageClassesMap } from '@/api/SCMapping/useStorageClassesMap';
 import { useCreateRestore } from '@/api/Restore/useCreateRestore';
 
 import RestoreFormView from '@/components/Features/Velero/Restores/Form/RestoreFormView';

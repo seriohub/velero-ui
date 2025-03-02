@@ -89,8 +89,10 @@ export default function AppShellLayout({ children }: AppShellLayoutProps) {
             gap={0}
             w={vpWidth < 768 ? '100vw' : 'calc(100vw - 240px)'}
             bg={
-              uiValues.mainColored && computedColorScheme === 'light'
-                ? 'var(--mantine-primary-color-light)'
+              computedColorScheme === 'light'
+                ? uiValues.mainColored
+                  ? 'var(--mantine-primary-color-light)'
+                  : 'white'
                 : 'var(--mantine-color-dark-8)'
             }
           >
