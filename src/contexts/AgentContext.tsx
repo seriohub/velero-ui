@@ -15,7 +15,7 @@ interface AgentStatusContextProps extends AgentStatus {
   setCurrentAgent: React.Dispatch<React.SetStateAction<AgentApiConfig | undefined>>;
   setIsAgentAvailable: React.Dispatch<React.SetStateAction<Boolean | undefined>>;
   reloadAgents: React.Dispatch<React.SetStateAction<number>>;
-  setAgentInfo: React.Dispatch<React.SetStateAction<Array<any>>>;
+  setAgentInfo: React.Dispatch<React.SetStateAction<Record<string, any>>>;
   setAgentConfig: React.Dispatch<React.SetStateAction<Record<string, any>>>;
 }
 

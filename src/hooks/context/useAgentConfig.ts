@@ -7,6 +7,7 @@ import { useAgentStatus } from '@/contexts/AgentContext';
 import { useSocketStatus } from '@/contexts/SocketContext';
 import { useAgentConfiguration } from '@/api/Agent/useAgentConfiguration';
 import { useAppInfo } from '@/api/App/useAppInfo';
+import { isRecordStringAny } from '@/utils/isRecordStringIsType';
 
 export interface AgentApiConfig {
   name: string;
@@ -112,7 +113,7 @@ export const useAgentConfig = () => {
 
   // agent info
   useEffect(() => {
-    if (agentInfo && Array.isArray(agentInfo)) {
+    if (agentInfo && isRecordStringAny(agentInfo)) {
       agentValues.setAgentInfo(agentInfo);
     }
   }, [agentInfo]);
