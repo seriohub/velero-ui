@@ -86,8 +86,6 @@ export function Watchdog() {
     }
   }, [deployConfiguration, userConfiguration]);
 
-  useEffect(() => {}, [reload]);
-
   return (
     <MainStack>
       <Toolbar title="Watchdog" breadcrumbItem={[{ name: 'Watchdog' }]}>

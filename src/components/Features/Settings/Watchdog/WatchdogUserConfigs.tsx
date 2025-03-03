@@ -91,11 +91,11 @@ export function WatchdogUserConfigs({ userConfiguration, setReload }: any) {
   }, [form.values]);
 
   function onDone(values: any) {
-    handleUpdateSchedule(values).then(() => {
+    handleUpdateSchedule(values).finally(() => {
       setReload((prev: number) => prev + 1);
+      form.resetDirty();
+      setIsModified(false);
     });
-    form.resetDirty();
-    setIsModified(false);
   }
 
   if (!userConfiguration) {
