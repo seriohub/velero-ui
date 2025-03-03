@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 
 import { DataTable, DataTableColumn } from 'mantine-datatable';
 import {
@@ -98,7 +98,7 @@ export function BackupDataTableView({
   const phase = useMemo(() => {
     const schedule_list = Array.from(new Set<string>(items.map((e: any) => e?.status?.phase)));
     return [...schedule_list];
-  }, [data]);
+  }, [items]);
 
   const renderActions: DataTableColumn<any>['render'] = (record) => (
     <Group gap={4} justify="center" wrap="nowrap">
@@ -110,6 +110,7 @@ export function BackupDataTableView({
       <DeleteAction resourceType="backup" record={record} setReload={setReload} />
     </Group>
   );
+
 
   return (
     <DataTable

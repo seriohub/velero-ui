@@ -81,7 +81,7 @@ export function RestoresDatatable() {
 
   const renderActions: DataTableColumn<any>['render'] = (record) => (
     <Group gap={4} justify="right" wrap="nowrap">
-      <LogsActionIcon resourceType="restore" record={record} />
+      {/*<LogsActionIcon resourceType="restore" record={record} />*/}
       <DeleteAction
         resourceType="restore"
         record={record}

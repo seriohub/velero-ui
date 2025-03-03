@@ -24,6 +24,7 @@ export function Agent() {
   return (
     <MainStack>
       <Toolbar title="Agent" breadcrumbItem={[{ name: 'Agent Info' }]}>
+        <ReloadData setReload={setReload} reload={reload} />
         <CopyButton value={stateManager.generateMarkdownReport()}>
           {({ copied, copy }) => (
             <Button color={copied ? 'teal' : 'var(--mantine-primary-color-filled)'} onClick={copy}>
@@ -31,7 +32,6 @@ export function Agent() {
             </Button>
           )}
         </CopyButton>
-        <ReloadData setReload={setReload} reload={reload} />
       </Toolbar>
 
       <DiagnosticAgentInfoData

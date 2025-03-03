@@ -68,7 +68,7 @@ export function LatestBackup({ setReload, latest = [] }: BackupLatestProps) {
   const renderActions: DataTableColumn<any>['render'] = (record) => (
     <Group gap={4} justify="right" wrap="nowrap">
       <DescribeActionIcon resourceType="backup" record={record} />
-      <LogsActionIcon resourceType="backup" record={record} />
+      {/*<LogsActionIcon resourceType="backup" record={record} />*/}
       <RestoreAction record={record} setReload={setReload} />
       <DeleteAction resourceType="backup" record={record} setReload={setReload} />
     </Group>
