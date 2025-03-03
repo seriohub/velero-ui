@@ -34,8 +34,6 @@ export function InspectBackupDetails({ params }: BackupProps) {
   const [oldValue, setOldValue] = useState<Record<string, any>>({});
   const [currentValue, setCurrentValue] = useState<Record<string, any>>({});
 
-  const InspectBackupEnabled = env('NEXT_PUBLIC_INSPECT_BACKUP_ENABLED')?.toLowerCase() === 'true';
-
   useEffect(() => {
     if (params?.backup) {
       getInspectFolderContent(params.backup);
@@ -50,21 +48,14 @@ export function InspectBackupDetails({ params }: BackupProps) {
 
   useEffect(() => {
     if (oldValue?.kind) {
-      if (InspectBackupEnabled) {
-        getManifest(
-          file?.kind,
-          file?.metadata?.name,
-          file?.apiVersion,
-          file?.metadata?.namespace === undefined || file?.kind === 'namespaces',
-          file?.metadata?.namespace,
-          false
-        );
-      } else {
-        setCurrentValue({
-          IMPORTANT:
-            'To use the comparison feature, enable the property apiConfig.inspectBackupEnabled in Helm. Please read the notes beforehand',
-        });
-      }
+      getManifest(
+        file?.kind,
+        file?.metadata?.name,
+        file?.apiVersion,
+        file?.metadata?.namespace === undefined || file?.kind === 'namespaces',
+        file?.metadata?.namespace,
+        false
+      );
     }
   }, [oldValue]);
 
