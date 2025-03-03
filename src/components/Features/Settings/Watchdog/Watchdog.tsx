@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 
-import { Space, Tabs, Box, Stack } from '@mantine/core';
+import { Tabs, Stack } from '@mantine/core';
 
 import { IconSettings, IconVariable } from '@tabler/icons-react';
 
@@ -59,7 +59,6 @@ export function Watchdog() {
   const { data: userConfiguration, getWatchdogAppConfigs } = useWatchdogAppConfigs();
 
   const [hasDiff, setHasDiff] = useState(false);
-  const [difference, setDifference] = useState({});
 
   const { watchdogSendReport, fetching: reportFetching } = useWatchdogSendReport();
   const { watchdogRestart } = useWatchdogRestart();
@@ -77,14 +76,15 @@ export function Watchdog() {
 
   useEffect(() => {
     if (deployConfiguration && userConfiguration) {
-      const { hasDifferences: diff1, differences: diffs1 } = hasDifferentValues(
+      const { hasDifferences: hDiff, differences: diffs } = hasDifferentValues(
         deployConfiguration,
         userConfiguration
       );
-      setHasDiff(diff1);
-      setDifference(diffs1);
+      setHasDiff(hDiff);
     }
   }, [deployConfiguration, userConfiguration]);
+
+  useEffect(() => {}, [hasDiff]);
 
   return (
     <MainStack>
@@ -94,7 +94,6 @@ export function Watchdog() {
         <ReloadConfig
           watchdogReloadConfig={watchdogRestart}
           hasDiff={hasDiff}
-          difference={difference}
           setReload={setReload}
         />
       </Toolbar>
