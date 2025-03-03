@@ -2,6 +2,7 @@
 
 import { Button, Tooltip } from '@mantine/core';
 import { IconAlertSquareRounded } from '@tabler/icons-react';
+import { notifications } from '@mantine/notifications';
 
 export default function ReloadConfig({ watchdogReloadConfig, hasDiff, setReload }: any) {
   if (!hasDiff) {
@@ -33,6 +34,10 @@ export default function ReloadConfig({ watchdogReloadConfig, hasDiff, setReload 
           e.stopPropagation();
           watchdogReloadConfig().finally(() => {
             setReload((prev: number) => prev + 1);
+          });
+          notifications.show({
+            title: 'Watchod reboot in progress!',
+            message: 'The data on this page will be available again shortly',
           });
         }}
         aria-label="ActionIcon with size as a number"
