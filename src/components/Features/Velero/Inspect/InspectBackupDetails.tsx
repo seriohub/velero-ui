@@ -24,7 +24,7 @@ interface BackupProps {
 export function InspectBackupDetails({ params }: BackupProps) {
   const { data, getInspectFolderContent } = useInspectFolderContent();
   const [reload, setReload] = useState(1);
-
+  const inspectBackupEnabled = env('NEXT_PUBLIC_INSPECT_BACKUP_ENABLED')?.toLocaleLowerCase() === 'true';
   const [currentFilePath, setCurrentFilePath] = useState('');
   const [backupTreeData, setBackupTreeData] = useState({});
 
@@ -47,15 +47,22 @@ export function InspectBackupDetails({ params }: BackupProps) {
   }, [data]);
 
   useEffect(() => {
-    if (oldValue?.kind) {
-      getManifest(
-        file?.kind,
-        file?.metadata?.name,
-        file?.apiVersion,
-        file?.metadata?.namespace === undefined || file?.kind === 'namespaces',
-        file?.metadata?.namespace,
-        false
-      );
+    if (inspectBackupEnabled) {
+      if (oldValue?.kind) {
+        getManifest(
+          file?.kind,
+          file?.metadata?.name,
+          file?.apiVersion,
+          file?.metadata?.namespace === undefined || file?.kind === 'namespaces',
+          file?.metadata?.namespace,
+          false
+        );
+      }
+    } else {
+      setCurrentValue({
+        IMPORTANT:
+          'To use this feature, you must enable apiConfig.inspectBackupEnabled. Read the notes before proceeding',
+      });
     }
   }, [oldValue]);
 
