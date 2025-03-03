@@ -36,7 +36,7 @@ export default function ShellCommands() {
       <CopyButton value={item} timeout={2000}>
         {({ copied, copy }) => (
           <Tooltip label={copied ? 'Copied' : 'Copy'} withArrow position="right">
-            <ActionIcon color={copied ? 'teal' : 'gray'} variant="outline" onClick={copy}>
+            <ActionIcon color={copied ? 'teal' : 'gray'} variant="transparent" onClick={copy}>
               {copied ? (
                 <IconCheck
                   style={{
@@ -65,10 +65,6 @@ export default function ShellCommands() {
   useEffect(() => {
     scrollToBottom();
   }, [socketValues.socketHistory]);
-
-  /*if (lastMessage === null || lastMessage === undefined || !('data' in lastMessage)) {
-    return <></>;
-  }*/
 
   return (
     <>

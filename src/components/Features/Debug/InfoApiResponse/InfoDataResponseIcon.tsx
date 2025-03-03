@@ -17,7 +17,7 @@ export default function InfoDataResponseIcon({ data }: InfoDataResponseIconProps
     <Tooltip label="Data">
       <ActionIcon
         // size="sm"
-        variant="outline"
+        variant="transparent"
         onClick={(e) => {
           e.stopPropagation();
           openModal({

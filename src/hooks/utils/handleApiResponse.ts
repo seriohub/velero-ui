@@ -87,6 +87,7 @@ export const handleApiResponse = ({
         xProcessTime: res.xProcessTime,
       });
     } else {
+      console.log("data", data)
       addApiResponseHistory({
         method,
         url: `${backendUrl}${url}`,

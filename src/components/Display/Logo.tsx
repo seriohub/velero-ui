@@ -4,17 +4,14 @@ import React from 'react';
 
 import { useRouter } from 'next/navigation';
 
-import { Anchor, Box, Group, Text, useComputedColorScheme } from '@mantine/core';
+import { Anchor, Box, Group, Text } from '@mantine/core';
 import { IconSailboat } from '@tabler/icons-react';
 import { useUIStatus } from '@/contexts/UIContext';
 
 export function Logo() {
   const router = useRouter();
-  const computedColorScheme = useComputedColorScheme();
   const uiValues = useUIStatus();
 
-  console.log(computedColorScheme === 'light');
-  console.log(uiValues.navbarColored);
   return (
     <>
       <Anchor

@@ -50,7 +50,7 @@ export default function InfoApiRequest() {
       <CopyButton value={item.url} timeout={2000}>
         {({ copied, copy }) => (
           <Tooltip label={copied ? 'Copied' : 'Copy'} withArrow position="right">
-            <ActionIcon color={copied ? 'teal' : 'gray'} variant="outline" onClick={copy}>
+            <ActionIcon color={copied ? 'teal' : 'gray'} variant="transparent" onClick={copy}>
               {copied ? (
                 <IconCheck
                   style={{
@@ -79,7 +79,7 @@ export default function InfoApiRequest() {
         {item.url}
       </Text>
       <Tooltip label="Params">
-        <ActionIcon component={Link} variant="outline" href={item.url} target="_blank">
+        <ActionIcon component={Link} variant="transparent" href={item.url} target="_blank">
           <IconExternalLink
             style={{
               height: rem(14),
