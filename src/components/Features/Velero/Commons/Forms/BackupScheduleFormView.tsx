@@ -367,14 +367,14 @@ export default function BackupScheduleFormView({
               <SimpleGrid cols={2} mt={20}>
                 <Input.Wrapper
                   label="CSI Snapshot Timeout"
-                  description="Specifies the time used to wait for CSI VolumeSnapshot status turns to ReadyToUse"
+                  description="Time used to wait for CSI VolumeSnapshot status turns to ReadyToUse"
                 >
                   <TextInput placeholder="" {...form.getInputProps('csiSnapshotTimeout')} />
                 </Input.Wrapper>
                 {resource === 'backup' && (
                   <Input.Wrapper
                     label="Item Operation Timeout"
-                    description="Specifies the time used to wait for asynchronous BackupItemAction operations"
+                    description="Time used to wait for asynchronous BackupItemAction operations"
                   >
                     <TextInput {...form.getInputProps('itemOperationTimeout')} />
                   </Input.Wrapper>
