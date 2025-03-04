@@ -23,7 +23,7 @@ const InspectAction: React.FC<RestoreActionIconProps> = ({ record, buttonType = 
     e.stopPropagation();
     notifications.show({
       title: 'Download for inspect requested',
-      message: 'Will soon be available on the inspectorate page',
+      message: 'Will soon be available on the inspector page',
     });
     inspectBackup(backupName);
   };
