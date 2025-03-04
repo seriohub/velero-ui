@@ -33,7 +33,9 @@ FROM base AS builder
 
 WORKDIR /app
 
-COPY --from=deps /app/node_modules ./node_modules
+#COPY --from=deps /app/node_modules ./node_modules
+COPY --from=deps /app/node_modules /app/node_modules
+
 COPY . .
 COPY .env.build .env
 
