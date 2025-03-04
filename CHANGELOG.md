@@ -4,6 +4,20 @@ All notable changes to this project will be documented in this file.
 
 ***
 
+## [v0.2.0] - 2025-03-04
+
+🚀 Major Improvements
+- Enhanced Forms: Improved the user experience for creating and modifying backups, schedules, restores, backup locations, and volume locations.
+- Refined Resource Views: Enhanced the display of resource properties for better readability and usability.
+
+🆕 New Features
+- Clean Manifest View: Added a feature to visualize clean Kubernetes manifests, improving clarity and usability.
+- Backup Download: Users can now download backups directly from the UI.
+- Backup Comparison Prototype: Introduced an experimental feature to compare backups with the current Kubernetes manifests, providing better insight into changes.
+
+🎨 General UI Enhancements
+- Various UI improvements for a smoother and more intuitive experience.
+
 ## [v0.1.22] - 2025-02-17
 
 🔒 Authentication Improvements

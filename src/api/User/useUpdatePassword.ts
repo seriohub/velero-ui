@@ -1,22 +1,21 @@
 import { useApiPut } from '@/hooks/utils/useApiPut';
 
-// Hook per gestire la logica di fetching dei task di categoria
 export const useUpdatePassword = () => {
   const { putData, responseStatus, fetching } = useApiPut({ target: 'static' });
 
   const handleUpdatePassword = async (password: string) => {
     try {
-      // Esegui la chiamata API con il metodo generico
+      // Execute the API call with the generic method
       await putData('/v1/users/me/update/pwd', { password });
 
-      // Questo codice verrà eseguito solo in caso di successo
-      // console.log('Richiesta riuscita, eseguo azioni finali...');
+      // This code will be executed only in case of success
+      // console.log('Request successful, execute final action...');
     } catch (e) {
-      // Gestione dell'errore
-      // console.error('Errore durante la chiamata:', error);
+      // Error handling
+      // console.error('Error during call:', error);
     } finally {
-      // Questo codice verrà eseguito sempre
-      // console.log('Azione finale dopo la richiesta');
+      // This code will always be executed
+      // console.log('Final action after request')
     }
   };
 

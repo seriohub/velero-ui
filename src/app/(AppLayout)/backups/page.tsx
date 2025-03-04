@@ -1,5 +1,5 @@
-import { BackupData } from '@/components/Velero/Backups/Data';
+import { BackupsDatatable } from '@/components/Features/Velero/Backups/BackupsDatatable';
 
 export default function BackupsPage() {
-  return <BackupData />;
+  return <BackupsDatatable />;
 }

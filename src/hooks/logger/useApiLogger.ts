@@ -4,7 +4,7 @@ import { useLoggerStatus } from '@/contexts/LoggerContext';
 
 export function useApiLogger() {
   const appValues = useAppStatus();
-  // const loggerEnabled = process.env.NEXT_PUBLIC_LOGGER_ENABLED === 'true';
+
   const loggerEnabled = env('NEXT_PUBLIC_LOGGER_ENABLED')?.toLocaleLowerCase() === 'true';
 
   if (!loggerEnabled) {

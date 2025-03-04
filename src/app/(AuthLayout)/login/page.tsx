@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
-import { AuthenticationForm } from '@/components/Auth/AuthenticationForm';
+import { AuthenticationForm } from '@/components/Features/Auth/AuthenticationForm';
 
 export default function LoginPage() {
   const router = useRouter();

@@ -39,11 +39,8 @@ export const UIProvider: React.FC<{ children: React.ReactNode }> = ({ children }
   const [mainColored, setMainColored] = useState(false);
 
   const [showDebugAside, setShowDebugAside] = useState(false);
-
   const [showBottomDebugBar, setShowBottomDebugBar] = useState(false);
-
   const [openedUIDrawer, { toggle: toggleUIDrawer }] = useDisclosure();
-
   const [isMobile, setIsMobile] = useState(useMediaQuery('(max-width: 1024px)'));
 
   useEffect(() => {
@@ -76,6 +73,7 @@ export const UIProvider: React.FC<{ children: React.ReactNode }> = ({ children }
         isMobile,
 
         setPrimaryColor,
+
         setUiFontFamily,
         setUiFontSize,
         setNavbarColored,

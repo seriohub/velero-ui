@@ -1,21 +1,15 @@
 'use client';
 
-import {
-  AppShell,
-  Stack,
-  Box,
-  Flex,
-  ActionIcon,
-  rem,
-  Drawer,
-} from '@mantine/core';
+import { AppShell, Stack, Box, Flex, ActionIcon, rem, Drawer } from '@mantine/core';
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 
 import { IconArrowLeft, IconArrowRight } from '@tabler/icons-react';
 import { AuthShellHeader } from './AuthShell.Header';
-import { AppShellFooter } from '../App/AppShell.Footer';
-import { LoginSponsorMessage } from '../../Sponsor/LoginSponsorMessage';
-import { DebugAside } from '@/components/Debug/DebugAside';
+
+import { AppShellFooter } from '@/components/Layout/AppLayout/AppShell.Footer';
+import { LoginSponsorMessage } from '@/components/Commons/Sponsor/LoginSponsorMessage';
+
+import DebugAside from '@/components/Features/Debug/DebugAside';
 
 interface AuthShellLayoutProps {
   children: any;
@@ -67,15 +61,14 @@ export default function AuthShellLayout({ children }: AuthShellLayoutProps) {
 
             {process.env.NODE_ENV === 'development' && (
               <ActionIcon
-                size={24}
-                variant="default"
-                aria-label="ActionIcon with size as a number"
+                color="red"
                 onClick={() => toggleAside()}
                 style={{
                   position: 'fixed',
-                  right: 0,
-                  top: 60,
-                  zIndex: 1000, // Assicurati che il pulsante sia sopra l'Aside
+                  height: '60px',
+                  right: -5,
+                  top: 160,
+                  zIndex: 1000,
                 }}
               >
                 {openedAside ? (

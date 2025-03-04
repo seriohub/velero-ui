@@ -1,7 +1,7 @@
 'use client';
 
-import { Backup } from '@/components/Velero/Backup/Backup';
+import { BackupDetails } from '@/components/Features/Velero/Backups/BackupDetails';
 
 export default function BackupPage({ params }: any) {
-  return <Backup params={params} />;
+  return <BackupDetails params={params} />;
 }

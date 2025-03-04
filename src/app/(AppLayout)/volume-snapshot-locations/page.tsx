@@ -1,7 +1,7 @@
 'use client';
 
-import { SnapshotLocation } from '@/components/Velero/SnapshotLocations/Data';
+import { SnapshotLocationsDatatable } from '@/components/Features/Velero/SnapshotLocations/SnapshotLocationsDatatable';
 
 export default function VolumeSnapshotLocationsPage() {
-  return <SnapshotLocation />;
+  return <SnapshotLocationsDatatable />;
 }

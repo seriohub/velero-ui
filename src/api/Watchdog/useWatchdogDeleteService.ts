@@ -1,19 +1,18 @@
 import { useApiDelete } from '@/hooks/utils/useApiDelete';
 
 interface Service {
-  config: string;
+  name: string;
 }
 
-// Hook to handle category task fetching logic
 export const useWatchdogDeleteService = () => {
   const { data, deleteData, error } = useApiDelete();
 
-  const watchdogDeleteService = async ({ config }: Service) => {
+  const watchdogDeleteService = async ({ name }: Service) => {
     try {
       // Execute the API call with the generic method
       await deleteData({
         url: '/v1/watchdog/user/service',
-        params: { config },
+        params: { name },
       });
     } catch (e) {
       // Error handling

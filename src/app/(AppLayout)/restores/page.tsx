@@ -1,5 +1,5 @@
-import { RestoreData } from '@/components/Velero/Restores/Data';
+import { RestoresDatatable } from '@/components/Features/Velero/Restores/RestoresDatatable';
 
 export default function RestoresPage() {
-  return <RestoreData />;
+  return <RestoresDatatable />;
 }

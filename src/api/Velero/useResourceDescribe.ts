@@ -1,6 +1,5 @@
 import { useApiGet } from '@/hooks/utils/useApiGet';
 
-// Hook to handle category task fetching logic
 export const useResourceDescribe = () => {
   const { data, getData, fetching, error } = useApiGet();
 

@@ -15,8 +15,8 @@ interface AgentStatusContextProps extends AgentStatus {
   setCurrentAgent: React.Dispatch<React.SetStateAction<AgentApiConfig | undefined>>;
   setIsAgentAvailable: React.Dispatch<React.SetStateAction<Boolean | undefined>>;
   reloadAgents: React.Dispatch<React.SetStateAction<number>>;
-  setAgentInfo: React.Dispatch<React.SetStateAction<Array<any>>>;
-  setAgentConfig: React.Dispatch<React.SetStateAction<Array<any>>>;
+  setAgentInfo: React.Dispatch<React.SetStateAction<Record<string, any>>>;
+  setAgentConfig: React.Dispatch<React.SetStateAction<Record<string, any>>>;
 }
 
 const AgentStatusContext = createContext<AgentStatusContextProps | undefined>(undefined);
@@ -27,7 +27,7 @@ export const AgentProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const [isAgentAvailable, setIsAgentAvailable] = useState<Boolean | undefined>(undefined);
   const [reload, reloadAgents] = useState<number>(1);
   const [agentInfo, setAgentInfo] = useState<any>([]);
-  const [agentConfig, setAgentConfig] = useState<any>([]);
+  const [agentConfig, setAgentConfig] = useState<Record<string, any>>([]);
 
   return (
     <AgentStatusContext.Provider

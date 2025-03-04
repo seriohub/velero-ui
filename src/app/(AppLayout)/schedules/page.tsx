@@ -1,5 +1,5 @@
-import { ScheduleData } from '@/components/Velero/Schedules/Data';
+import { SchedulesDatatable } from '@/components/Features/Velero/Schedules/SchedulesDatatable';
 
 export default function ScheduledPage() {
-  return <ScheduleData />;
+  return <SchedulesDatatable />;
 }
