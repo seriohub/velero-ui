@@ -1,7 +1,7 @@
-import {Anchor , Box , Card , Group , ScrollArea , Space , Text , Title} from '@mantine/core';
-import {IconFolders , IconServer} from '@tabler/icons-react';
-import VeleroResourceStatusBadge from "@/components/Features/Velero/Commons/Display/VeleroResourceStatusBadge";
-import {useRouter} from "next/navigation";
+import { Anchor, Box, Card, Group, ScrollArea, Space, Text, Title } from '@mantine/core';
+import { IconFolders, IconServer } from '@tabler/icons-react';
+import { useRouter } from 'next/navigation';
+import VeleroResourceStatusBadge from '@/components/Features/Velero/Commons/Display/VeleroResourceStatusBadge';
 
 export function DetailsView({ data }: any) {
   const router = useRouter();
@@ -25,11 +25,15 @@ export function DetailsView({ data }: any) {
 
           <Group>
             <Text w={180}>Type</Text>
-            <Text fw={600}><VeleroResourceStatusBadge status={data?.spec?.repositoryType} /></Text>
+            <Text fw={600}>
+              <VeleroResourceStatusBadge status={data?.spec?.repositoryType} />
+            </Text>
           </Group>
           <Group mt={10}>
             <Text w={180}>Restic Identifier</Text>
-            <Text fw={600} size="sm">{data?.spec?.resticIdentifier}</Text>
+            <Text fw={600} size="sm">
+              {data?.spec?.resticIdentifier}
+            </Text>
           </Group>
           <Group mt={10}>
             <Text w={180}>Maintenance Frequency</Text>

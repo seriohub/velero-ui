@@ -5,7 +5,6 @@ import {
   Button,
   Group,
   TextInput,
-  Divider,
   Select,
   SimpleGrid,
   Modal,
@@ -94,7 +93,7 @@ export default function CreateVslFormView({ form, onDone, mode }: CreateVslFormP
             <SimpleGrid cols={2} spacing="lg" verticalSpacing="lg">
               <Input.Wrapper
                 label="Secret name"
-                description="Name of the secret within the Velero namespace which contains the credentials"
+                description="Secret name within the Velero namespace which contains the credentials"
               >
                 <Select clearable data={secrets} {...form.getInputProps('credentialName')} />
               </Input.Wrapper>

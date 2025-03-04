@@ -7,7 +7,6 @@ import { IconClipboard } from '@tabler/icons-react';
 
 import { JsonViewer } from '@/components/Features/Velero/Commons/Display/JsonViewer';
 
-
 interface DetailActionIconProps {
   name: string;
   record: any;

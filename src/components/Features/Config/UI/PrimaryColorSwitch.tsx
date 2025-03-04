@@ -61,7 +61,6 @@ const swatchesWithNames = [
 ];
 
 export default function PrimaryColorSwitch() {
-
   const { setPrimaryColor } = useUIStatus(); // Usa il contesto per gestire il colore primario
 
   function setColor(value: any) {

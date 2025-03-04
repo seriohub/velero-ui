@@ -6,7 +6,7 @@ import { DataTable, DataTableColumn, DataTableSortStatus } from 'mantine-datatab
 import sortBy from 'lodash/sortBy';
 
 import { Anchor, Center, Group, Text } from '@mantine/core';
-import { IconBucket, IconCamera, IconClick } from '@tabler/icons-react';
+import { IconCamera, IconClick } from '@tabler/icons-react';
 
 import { useRouter } from 'next/navigation';
 

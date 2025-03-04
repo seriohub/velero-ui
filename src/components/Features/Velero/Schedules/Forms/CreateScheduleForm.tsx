@@ -26,6 +26,7 @@ export function CreateScheduleForm({ reload, setReload }: CreateScheduleProps) {
   const [backupLocation, setBackupLocation] = useState([]);
   const [snapshotLocation, setSnapshotLocation] = useState([]);
   const [resources, setResources] = useState([]);
+  const [resourcesPolicy, setResourcesPolicy] = useState([]);
 
   const form = useForm({
     initialValues: {
@@ -45,10 +46,11 @@ export function CreateScheduleForm({ reload, setReload }: CreateScheduleProps) {
       includeClusterResources: null,
       defaultVolumesToFsBackup: true,
       snapshotVolumes: true,
-      storageLocation: '',
+      storageLocation: null,
       volumeSnapshotLocations: [],
       datamover: '',
       parallelFilesUpload: 10,
+      resourcePolicy: null,
 
       // spec.labelselector
       labelSelector: {},
@@ -76,6 +78,7 @@ export function CreateScheduleForm({ reload, setReload }: CreateScheduleProps) {
       setBackupLocation(data.backup_location);
       setSnapshotLocation(data.snapshot_location);
       setResources(data.resources);
+      setResourcesPolicy(data.resource_policy);
     }
   }, [data]);
 
@@ -97,6 +100,7 @@ export function CreateScheduleForm({ reload, setReload }: CreateScheduleProps) {
       backupLocation={backupLocation}
       snapshotLocation={snapshotLocation}
       resources={resources}
+      resourcePolicy={resourcesPolicy}
       onDone={createSchedule}
     />
   );

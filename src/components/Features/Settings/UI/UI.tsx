@@ -2,16 +2,14 @@
 
 import React, { useState } from 'react';
 
-import { ScrollArea, Table } from '@mantine/core';
-
 import { env } from 'next-runtime-env';
 
+import { DataTable } from 'mantine-datatable';
 import { useServerStatus } from '@/contexts/ServerContext';
 
 import { MainStack } from '@/components/Commons/MainStack';
 import Toolbar from '@/components/Display/Toolbar';
 import ReloadData from '@/components/Inputs/ReloadData';
-import { DataTable } from 'mantine-datatable';
 
 export function UI() {
   const serverValues = useServerStatus();

@@ -1,6 +1,6 @@
 'use client';
 
-import { Text, Group, Divider, Box, Title } from '@mantine/core';
+import { Text, Group, Box, Title } from '@mantine/core';
 
 import { useUserStatus } from '@/contexts/UserContext';
 import { useServerStatus } from '@/contexts/ServerContext';

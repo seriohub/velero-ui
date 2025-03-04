@@ -20,7 +20,6 @@ import ReloadData from '@/components/Inputs/ReloadData';
 import Toolbar from '@/components/Display/Toolbar';
 import { DataFetchedInfo } from '@/components/Display/DataFetchedInfo';
 
-import LogsActionIcon from '@/components/Features/Velero/Commons/Actions/LogsActionIcon';
 import DeleteAction from '@/components/Features/Velero/Commons/Actions/DeleteAction';
 
 import VeleroResourceStatusBadge from '../Commons/Display/VeleroResourceStatusBadge';

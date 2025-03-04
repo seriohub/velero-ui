@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 
-import { Box, Card, Group, ScrollArea, Stack, Text } from '@mantine/core';
+import { Card, Group, ScrollArea, Stack, Text } from '@mantine/core';
 import { IconArchive, IconWeight } from '@tabler/icons-react';
 import { useAgentStatus } from '@/contexts/AgentContext';
 

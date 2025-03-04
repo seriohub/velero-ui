@@ -34,7 +34,6 @@ const DownloadAction: React.FC<RestoreActionIconProps> = ({
 
   useEffect(() => {
     if (data) {
-
       const a = document.createElement('a');
       a.href = data?.url;
       a.download = `${backupName}.tar.gz`; // Assumendo che sia un file zip, cambiare estensione se necessario

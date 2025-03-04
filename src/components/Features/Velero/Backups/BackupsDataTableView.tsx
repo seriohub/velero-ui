@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 
 import { DataTable, DataTableColumn } from 'mantine-datatable';
 import {
@@ -110,7 +110,6 @@ export function BackupDataTableView({
       <DeleteAction resourceType="backup" record={record} setReload={setReload} />
     </Group>
   );
-
 
   return (
     <DataTable

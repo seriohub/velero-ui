@@ -6,7 +6,6 @@ import { openModal } from '@mantine/modals';
 import { IconKey } from '@tabler/icons-react';
 
 import { CredentialView } from '../Display/CredentialView';
-import { useUIStatus } from '@/contexts/UIContext';
 
 interface DetailActionIconProps {
   name: string;

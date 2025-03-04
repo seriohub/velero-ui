@@ -88,7 +88,7 @@ export const useDiagnosticAgent = () => {
     serverValues.isCurrentServerControlPlane ||
       (origins.length > 0 && (origins.includes(uiURL) || origins.includes('*')))
   );
-  stateManager.setVariable('getWatchdogInfo', !!(watchdog && watchdog !== undefined));
+  stateManager.setVariable('getWatchdogInfo', !!(watchdog && true));
   stateManager.setVariable('getClusterHealth', k8sHealth !== undefined);
 
   stateManager.setVariable('getUiApiVerCompatibility', compatibility?.compatibility);

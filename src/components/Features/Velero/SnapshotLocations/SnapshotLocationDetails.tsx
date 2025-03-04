@@ -13,15 +13,14 @@ import ReloadData from '@/components/Inputs/ReloadData';
 
 import { SnapshotLocationDetailsView } from '@/components/Features/Velero/SnapshotLocations/SnapshotLocationDetailsView';
 import { Manifest } from '@/components/Features/Velero/Commons/Display/Manifest';
-import DeleteAction from "@/components/Features/Velero/Commons/Actions/DeleteAction";
-import {isRecordStringAny} from "@/utils/isRecordStringIsType";
+import DeleteAction from '@/components/Features/Velero/Commons/Actions/DeleteAction';
+import { isRecordStringAny } from '@/utils/isRecordStringIsType';
 
 interface BackupProps {
   params: any;
 }
 
 export function SnapshotLocationDetails({ params }: BackupProps) {
-
   const { data, getManifest } = useVeleroManifest();
   const [reload, setReload] = useState(1);
   const agentValues = useAgentStatus();
@@ -61,7 +60,7 @@ export function SnapshotLocationDetails({ params }: BackupProps) {
           resourceType="vsl"
           record={manifest}
           setReload={setReload}
-          redirectAfterDelete="volume-snapshot-locations"
+          redirectAfterDelete="/volume-snapshot-locations"
           buttonType="button"
         />
       </Toolbar>

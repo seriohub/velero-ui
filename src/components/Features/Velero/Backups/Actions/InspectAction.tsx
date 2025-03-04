@@ -1,11 +1,9 @@
 'use client';
 
 import { ActionIcon, Button, Tooltip } from '@mantine/core';
-import {IconDownload , IconZoomCode} from '@tabler/icons-react';
-import { useEffect } from 'react';
+import { IconZoomCode } from '@tabler/icons-react';
 import { notifications } from '@mantine/notifications';
-import { useDownloadBackup } from '@/api/Backup/useBackupDownload';
-import {useInspectBackup} from "@/api/Backup/useBackupInspect";
+import { useInspectBackup } from '@/api/Backup/useBackupInspect';
 
 interface RestoreActionIconProps {
   record: {
@@ -15,10 +13,7 @@ interface RestoreActionIconProps {
   buttonType?: 'actionIcon' | 'button';
 }
 
-const InspectAction: React.FC<RestoreActionIconProps> = ({
-  record,
-  buttonType = 'actionIcon',
-}) => {
+const InspectAction: React.FC<RestoreActionIconProps> = ({ record, buttonType = 'actionIcon' }) => {
   const isDisabled = ['inprogress', 'new'].includes(record?.status?.phase.toLowerCase() ?? '');
 
   const backupName = record?.metadata?.name || 'Unknown';

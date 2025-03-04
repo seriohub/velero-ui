@@ -26,6 +26,7 @@ export function EditScheduleForm({ record, setReload }: EditScheduleProps) {
   const [backupLocation, setBackupLocation] = useState([]);
   const [snapshotLocation, setSnapshotLocation] = useState([]);
   const [resources, setResources] = useState([]);
+  const [resourcesPolicy, setResourcesPolicy] = useState([]);
 
   const form = useForm({
     initialValues: {
@@ -49,6 +50,9 @@ export function EditScheduleForm({ record, setReload }: EditScheduleProps) {
       volumeSnapshotLocations: record.spec.template.volumeSnapshotLocations || [],
       datamover: record.spec.template.datamover || '',
       parallelFilesUpload: record.spec.template?.uploaderConfig?.parallelFilesUpload || 10,
+
+      // spec.template.resourcePolicy
+      resourcePolicy: record.spec.template?.resourcePolicy?.name || null,
 
       // spec.labelselector
       labelSelector: record.spec.template?.labelSelector?.matchLabels || {},
@@ -76,6 +80,7 @@ export function EditScheduleForm({ record, setReload }: EditScheduleProps) {
       setBackupLocation(data.backup_location);
       setSnapshotLocation(data.snapshot_location);
       setResources(data.resources);
+      setResourcesPolicy(data.resource_policy);
     }
   }, [data]);
 
@@ -97,6 +102,7 @@ export function EditScheduleForm({ record, setReload }: EditScheduleProps) {
       backupLocation={backupLocation}
       snapshotLocation={snapshotLocation}
       resources={resources}
+      resourcePolicy={resourcesPolicy}
       onDone={createSchedule}
     />
   );

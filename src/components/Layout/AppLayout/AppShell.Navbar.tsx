@@ -10,21 +10,22 @@ import {
 } from '@mantine/core';
 
 import {
-  IconDashboard ,
-  IconRestore ,
-  IconDeviceFloppy ,
-  IconCalendarEvent ,
-  IconDatabase ,
-  IconLink ,
-  IconSettings ,
-  IconServer ,
-  IconHome ,
-  IconAffiliate ,
-  IconFolders ,
-  IconDog ,
-  IconSpy ,
-  IconInfoCircle ,
-  IconAppWindow , IconZoomCode ,
+  IconDashboard,
+  IconRestore,
+  IconDeviceFloppy,
+  IconCalendarEvent,
+  IconDatabase,
+  IconLink,
+  IconSettings,
+  IconServer,
+  IconHome,
+  IconAffiliate,
+  IconFolders,
+  IconDog,
+  IconSpy,
+  IconInfoCircle,
+  IconAppWindow,
+  IconZoomCode,
 } from '@tabler/icons-react';
 
 import { useRouter, usePathname } from 'next/navigation';

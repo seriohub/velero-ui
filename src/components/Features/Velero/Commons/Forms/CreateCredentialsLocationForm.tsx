@@ -1,4 +1,4 @@
-import { Box, Button, Group, TextInput, Divider, Input } from '@mantine/core';
+import { Box, Button, Group, TextInput, Input } from '@mantine/core';
 
 interface CreateCredentialsLocationFormProps {
   form: any;

@@ -19,7 +19,6 @@ import { useMediaQuery } from '@mantine/hooks';
 import { useRouter } from 'next/navigation';
 
 import DescribeActionIcon from '@/components/Features/Velero/Commons/Actions/DescribeActionIcon';
-import LogsActionIcon from '@/components/Features/Velero/Commons/Actions/LogsActionIcon';
 
 import RestoreAction from '@/components/Features/Velero/Backups/Actions/RestoreAction';
 import DeleteAction from '@/components/Features/Velero/Commons/Actions/DeleteAction';

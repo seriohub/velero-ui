@@ -64,22 +64,16 @@ export function CredentialView({
   return (
     <>
       <Box mx="auto">
-        <form
-          onSubmit={form.onSubmit((values: any) => {
-            // onDone(values);
-          })}
-        >
-          <TextInput
-            label="aws_access_key_id"
-            placeholder=""
-            {...form.getInputProps('aws_access_key_id')}
-          />
-          <TextInput
-            label="aws_secret_access_key"
-            placeholder=""
-            {...form.getInputProps('aws_secret_access_key')}
-          />
-        </form>
+        <TextInput
+          label="aws_access_key_id"
+          placeholder=""
+          {...form.getInputProps('aws_access_key_id')}
+        />
+        <TextInput
+          label="aws_secret_access_key"
+          placeholder=""
+          {...form.getInputProps('aws_secret_access_key')}
+        />
       </Box>
     </>
   );

@@ -32,6 +32,7 @@ interface CreateBackupScheduleFormProps {
   backupLocation: string[];
   snapshotLocation: string[];
   resources: string[];
+  resourcePolicy: string[];
   onDone: any;
   mode: string;
 }
@@ -43,6 +44,7 @@ export default function BackupScheduleFormView({
   backupLocation = [],
   snapshotLocation = [],
   resources = [],
+  resourcePolicy = [],
   onDone,
   mode,
 }: CreateBackupScheduleFormProps) {
@@ -186,7 +188,7 @@ export default function BackupScheduleFormView({
                     placeholder=""
                     data={snapshotLocation}
                     {...form.getInputProps('volumeSnapshotLocations')}
-                    initialValue={form.values.volumeSnapshotLocations}
+                    defaultValue={form.values.volumeSnapshotLocations}
                   />
                 </Input.Wrapper>
               </SimpleGrid>
@@ -316,6 +318,21 @@ export default function BackupScheduleFormView({
                   initalValue={form.values.excludedResources}
                   description="Resources to exclude from the backup"
                 />
+              </SimpleGrid>
+
+              <SimpleGrid cols={2} mt={20}>
+                <Input.Wrapper
+                  label="Resource Policy"
+                  description="Specifies the referenced resource policies that backup should follow"
+                >
+                  <Select
+                    placeholder=""
+                    clearable
+                    data={resourcePolicy}
+                    {...form.getInputProps('resourcePolicy')}
+                    defaultValue={form.values.resourcePolicy}
+                  />
+                </Input.Wrapper>
               </SimpleGrid>
 
               <Space h={20} />

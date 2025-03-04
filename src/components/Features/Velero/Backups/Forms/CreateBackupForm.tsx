@@ -26,6 +26,7 @@ export function CreateBackupForm({ reload, setReload }: CreateBackupProps) {
   const [backupLocation, setBackupLocation] = useState([]);
   const [snapshotLocation, setSnapshotLocation] = useState([]);
   const [resources, setResources] = useState([]);
+  const [resourcesPolicy, setResourcesPolicy] = useState([]);
 
   const form = useForm({
     initialValues: {
@@ -43,10 +44,13 @@ export function CreateBackupForm({ reload, setReload }: CreateBackupProps) {
       includeClusterResources: true,
       defaultVolumesToFsBackup: true,
       snapshotVolumes: true,
-      storageLocation: '',
+      storageLocation: null,
       volumeSnapshotLocations: [],
       datamover: '',
       parallelFilesUpload: 10,
+
+      // resourcePolicy
+      resourcePolicy: null,
 
       // spec.labelselector
       labelSelector: {},
@@ -54,13 +58,17 @@ export function CreateBackupForm({ reload, setReload }: CreateBackupProps) {
 
     validate: {
       name: (value) => (value.length >= 3 ? null : 'Name must be at least 3 characters long'),
-      ttl: (value) => (ttlRegex.test(value) ? null : 'Invalid TTL format. Expected format: 720h0m0s'),
-      parallelFilesUpload: (value) =>
-        Number.isInteger(value) ? null : 'Value must be an integer',
+      ttl: (value) =>
+        ttlRegex.test(value) ? null : 'Invalid TTL format. Expected format: 720h0m0s',
+      parallelFilesUpload: (value) => (Number.isInteger(value) ? null : 'Value must be an integer'),
       csiSnapshotTimeout: (value) =>
-        timeoutRegex.test(value) ? null : 'Invalid format. Expected a number followed by s, m, or h',
+        timeoutRegex.test(value)
+          ? null
+          : 'Invalid format. Expected a number followed by s, m, or h',
       itemOperationTimeout: (value) =>
-        timeoutRegex.test(value) ? null : 'Invalid format. Expected a number followed by s, m, or h',
+        timeoutRegex.test(value)
+          ? null
+          : 'Invalid format. Expected a number followed by s, m, or h',
     },
   });
 
@@ -74,6 +82,7 @@ export function CreateBackupForm({ reload, setReload }: CreateBackupProps) {
       setBackupLocation(data.backup_location);
       setSnapshotLocation(data.snapshot_location);
       setResources(data.resources);
+      setResourcesPolicy(data.resource_policy);
     }
   }, [data]);
 
@@ -95,6 +104,7 @@ export function CreateBackupForm({ reload, setReload }: CreateBackupProps) {
       backupLocation={backupLocation}
       snapshotLocation={snapshotLocation}
       resources={resources}
+      resourcePolicy={resourcesPolicy}
       onDone={createBackup}
     />
   );

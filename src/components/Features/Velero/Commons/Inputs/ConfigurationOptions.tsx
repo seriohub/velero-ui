@@ -1,19 +1,16 @@
 import { useState } from 'react';
-import { IconPlus, IconTrashX } from '@tabler/icons-react';
+import { IconPlus } from '@tabler/icons-react';
 import {
   TextInput,
   Text,
   Table,
   Space,
   ActionIcon,
-  Tooltip,
   Input,
   Flex,
   Button,
   Card,
 } from '@mantine/core';
-
-// import { ConfigurationOptionsField } from '@/components/Features/Velero/Commons/Inputs/ConfigurationOptionsField';
 
 interface ConfigurationOptionsProps {
   label: string;

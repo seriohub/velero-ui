@@ -1,6 +1,5 @@
 'use client';
 
-import * as yaml from 'js-yaml';
 import {
   Card,
   Code,

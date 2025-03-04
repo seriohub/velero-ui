@@ -6,7 +6,6 @@ import { openModal } from '@mantine/modals';
 import { IconClipboard } from '@tabler/icons-react';
 
 import { ResourceDescribe } from '@/components/Features/Velero/Commons/Forms/ResourceDescribe';
-import { useUIStatus } from '@/contexts/UIContext';
 
 interface DescribeActionIconProps {
   resourceType: string;
