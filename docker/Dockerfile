@@ -22,7 +22,7 @@ COPY .yarn/. ./.yarn/
 
 # RUN yarn --immutable --network-timeout 100000;
 # RUN yarn install
-RUN yarn
+RUN yarn && ls -la /app/node_modules
 
 ######################################################################
 #
