@@ -21,8 +21,8 @@ COPY package.json yarn.lock* .yarnrc.yml ./
 COPY .yarn/. ./.yarn/
 
 # RUN yarn --immutable --network-timeout 100000;
-# RUN yarn install
-RUN yarn && ls -la /app/node_modules
+RUN yarn install --network-timeout 1000000 && ls -la /app/node_modules
+# RUN yarn && ls -la /app/node_modules
 
 ######################################################################
 #
