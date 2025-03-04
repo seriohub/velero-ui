@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import ReactDiffViewer from 'react-diff-viewer-continued';
-import { Box, Flex } from '@mantine/core';
+import { Flex, Paper, ScrollArea } from '@mantine/core';
 
 import { env } from 'next-runtime-env';
 import { useInspectFolderContent } from '@/api/Inspect/useInspectBackupContent';
@@ -14,7 +14,6 @@ import { ExplorerFolder } from '@/components/Features/Velero/Inspect/ExplorerFol
 import { MainStack } from '@/components/Commons/MainStack';
 import { convertJsonToYaml } from '@/utils/jsonToYaml';
 import { useK8sManifest } from '@/api/Kubernetes/useK8sManifest';
-import { PageScrollArea } from '@/components/Commons/PageScrollArea';
 import { isRecordStringAny } from '@/utils/isRecordStringIsType';
 
 interface BackupProps {
@@ -24,7 +23,8 @@ interface BackupProps {
 export function InspectBackupDetails({ params }: BackupProps) {
   const { data, getInspectFolderContent } = useInspectFolderContent();
   const [reload, setReload] = useState(1);
-  const inspectBackupEnabled = env('NEXT_PUBLIC_INSPECT_BACKUP_ENABLED')?.toLocaleLowerCase() === 'true';
+  const inspectBackupEnabled =
+    env('NEXT_PUBLIC_INSPECT_BACKUP_ENABLED')?.toLocaleLowerCase() === 'true';
   const [currentFilePath, setCurrentFilePath] = useState('');
   const [backupTreeData, setBackupTreeData] = useState({});
 
@@ -79,54 +79,39 @@ export function InspectBackupDetails({ params }: BackupProps) {
   }, [manifestData]);
 
   return (
-    <>
-      <MainStack bg="red">
-        <Toolbar
-          title="Inspect Backups"
-          breadcrumbItem={[
-            { name: '!!  PROTOTYPE FEATURE  !! Inspect Backup' },
-            { name: currentFilePath },
-          ]}
-        >
-          <ReloadData setReload={setReload} reload={reload} />
-        </Toolbar>
-        <PageScrollArea>
-          <Flex>
-            <Box
-              style={{
-                position: 'sticky',
-                top: '0px',
-                alignSelf: 'flex-start',
-              }}
-              w={400}
-              h="100%"
-              bg="var(--mantine-color-body)"
-            >
-              <ExplorerFolder
-                backupName={params.backup}
-                content={backupTreeData}
-                getInspectFile={getInspectFile}
-                setCurrentFile={setCurrentFilePath}
-              />
-            </Box>
+    <MainStack>
+      <Toolbar
+        title="Inspect Backups"
+        breadcrumbItem={[
+          { name: '!!  PROTOTYPE FEATURE  !! Inspect Backup' },
+          { name: `📦 Backup ${params?.backup} --- 📄 ${currentFilePath}` },
+        ]}
+      >
+        <ReloadData setReload={setReload} reload={reload} />
+      </Toolbar>
 
-            {oldValue && currentValue && (
+      <Paper withBorder h="calc(100% - 68px)" p={0}>
+        <Flex h="calc(100%)">
+          <ExplorerFolder
+            backupName={params.backup}
+            content={backupTreeData}
+            getInspectFile={getInspectFile}
+            setCurrentFile={setCurrentFilePath}
+          />
+
+          {oldValue && currentValue && (
+            <ScrollArea w="calc(100% - 400px)" offsetScrollbars>
               <ReactDiffViewer
                 oldValue={convertJsonToYaml(oldValue)}
                 newValue={convertJsonToYaml(currentValue)}
                 leftTitle="Backuped data"
                 rightTitle="Current kubernetes data"
-                styles={{
-                  line: {
-                    wordBreak: 'break-all',
-                  },
-                }}
                 splitView
               />
-            )}
-          </Flex>
-        </PageScrollArea>
-      </MainStack>
-    </>
+            </ScrollArea>
+          )}
+        </Flex>
+      </Paper>
+    </MainStack>
   );
 }
