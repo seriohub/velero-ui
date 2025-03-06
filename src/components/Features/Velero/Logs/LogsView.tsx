@@ -1,6 +1,6 @@
 'use client';
 
-import { Center, Code, Loader } from '@mantine/core';
+import { Center, Loader, Text, Stack } from '@mantine/core';
 
 interface LogsProps {
   items: Array<any>;
@@ -15,9 +15,12 @@ export function LogsView({ items = [], fetching }: LogsProps) {
       </Center>
     );
   }
+
   return (
-    <Code block h={400}>
-      {items.join('\n')}
-    </Code>
+    <Stack h={400} gap={0}>
+      {items.map((item, index) => (
+        <Text key={index} size="sm">{item}</Text>
+      ))}
+    </Stack>
   );
 }

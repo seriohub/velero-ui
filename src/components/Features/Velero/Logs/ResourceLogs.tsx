@@ -2,11 +2,12 @@
 
 import { useEffect, useState } from 'react';
 
-import { useResourceLogs } from '@/api/Velero/useResourceLogs';
-import { Button, Center, Tabs } from '@mantine/core';
+import { Button, Center, ScrollArea, Tabs } from '@mantine/core';
 import { IconFileText, IconTable } from '@tabler/icons-react';
+import { useResourceLogs } from '@/api/Velero/useResourceLogs';
 import { LogsTable } from '@/components/Features/Velero/Logs/LogsTable';
 import { LogsView } from '@/components/Features/Velero/Logs/LogsView';
+import { useMediaQuery } from '@mantine/hooks';
 
 interface ResourceLogsProps {
   resourceType: string;
@@ -14,6 +15,7 @@ interface ResourceLogsProps {
 }
 
 export function ResourceLogs({ resourceType, resourceName }: ResourceLogsProps) {
+  const isNavbarHidden = useMediaQuery('(max-width: 576px)');
   const { data, getResourceLogs, error, fetching } = useResourceLogs();
   const [refresh, setRefresh] = useState(0);
   useEffect(() => {
@@ -39,7 +41,19 @@ export function ResourceLogs({ resourceType, resourceName }: ResourceLogsProps) 
             <Button onClick={() => setRefresh((prev) => prev + 1)}>Download logs</Button>
           </Center>
         )}
-        {refresh > 0 && <LogsView items={data?.text} fetching={fetching} />}
+        {refresh > 0 && (
+          <ScrollArea
+            type="always"
+            w={
+              isNavbarHidden
+                ? 'calc(100vw - 5px)'
+                : 'calc(100vw - var(--app-shell-navbar-width) - 25px)'
+            }
+            h={400}
+          >
+            <LogsView items={data?.text} fetching={fetching} />
+          </ScrollArea>
+        )}
       </Tabs.Panel>
 
       <Tabs.Panel value="LogsTable">
