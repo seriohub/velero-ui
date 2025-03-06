@@ -24,6 +24,7 @@ import { WatchdogUserConfigs } from '@/components/Features/Settings/Watchdog/Wat
 import WatchdogService from '@/components/Features/Settings/Watchdog/WatchdogService';
 import { WatchdogEnvironment } from '@/components/Features/Settings/Watchdog/Display/WatchdogEnvironment';
 import { MainStack } from '@/components/Commons/MainStack';
+import {PageScrollArea} from "@/components/Commons/PageScrollArea";
 
 type Differences<T> = {
   hasDifferences: boolean;
@@ -87,7 +88,7 @@ export function Watchdog() {
   useEffect(() => {}, [hasDiff]);
 
   return (
-    <MainStack>
+    <PageScrollArea>
       <Toolbar title="Watchdog" breadcrumbItem={[{ name: 'Watchdog' }]}>
         <ReloadData setReload={setReload} reload={reload} />
         <SendReport fetching={reportFetching} requestSendReport={watchdogSendReport} />
@@ -123,6 +124,6 @@ export function Watchdog() {
           <WatchdogService />
         </Tabs.Panel>
       </Tabs>
-    </MainStack>
+    </PageScrollArea>
   );
 }
