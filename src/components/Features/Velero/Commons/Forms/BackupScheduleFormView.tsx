@@ -216,7 +216,6 @@ export default function BackupScheduleFormView({
                             ? 'false'
                             : 'null'
                       }
-                      //{...form.getInputProps('includeClusterResources')}
                       onChange={(val) =>
                         form.setFieldValue(
                           'snapshotVolumes',
@@ -352,7 +351,6 @@ export default function BackupScheduleFormView({
                           ? 'false'
                           : 'null'
                     }
-                    //{...form.getInputProps('includeClusterResources')}
                     onChange={(val) =>
                       form.setFieldValue(
                         'includeClusterResources',

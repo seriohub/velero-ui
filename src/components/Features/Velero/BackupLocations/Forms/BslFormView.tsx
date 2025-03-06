@@ -84,10 +84,6 @@ export default function BslFormView({ form, onDone, mode }: CreateBslFormProps) 
     }
   }, [form.values.credentialName]);
 
-  function updateConfigs(configs: any) {
-    form.setFieldValue('config', configs);
-  }
-
   return (
     <>
       <Box mx="auto">
@@ -206,7 +202,7 @@ export default function BslFormView({ form, onDone, mode }: CreateBslFormProps) 
               <Space h={20} />
               <ConfigurationOptions
                 config={form.values.config}
-                setConfig={updateConfigs}
+                setConfig={(configs: any) => form.setFieldValue('config', configs)}
                 label="Configs"
                 description="Provider-specific configuration keys/values to be passed to the object store plugin"
               />

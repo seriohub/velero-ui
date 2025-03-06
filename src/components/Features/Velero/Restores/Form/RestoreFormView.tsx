@@ -71,7 +71,7 @@ export default function RestoreFormView({
                   <TextInput {...form.getInputProps('backupName')} disabled />
                 </Input.Wrapper>
               </SimpleGrid>
-              <SimpleGrid cols={2} mt={20}>
+              <SimpleGrid cols={1} mt={20}>
                 <Card withBorder radius="md" p={10}>
                   <Group justify="space-between" wrap="nowrap" gap={0}>
                     <div>
@@ -85,7 +85,7 @@ export default function RestoreFormView({
                     <Switch
                       labelPosition="left"
                       defaultChecked={form.values.restorePVs}
-                      {...form.getInputProps('snapshotVolumes')}
+                      {...form.getInputProps('restorePVs')}
                       radius="xs"
                     />
                   </Group>
@@ -101,7 +101,7 @@ export default function RestoreFormView({
                     <Switch
                       labelPosition="left"
                       defaultChecked={form.values.preserveNodePorts}
-                      {...form.getInputProps('paused')}
+                      {...form.getInputProps('preserveNodePorts')}
                       radius="xs"
                     />
                   </Group>
@@ -117,44 +117,11 @@ export default function RestoreFormView({
                     <Switch
                       labelPosition="left"
                       defaultChecked={form.values.writeSparseFiles}
-                      {...form.getInputProps('paused')}
+                      {...form.getInputProps('writeSparseFiles')}
                       radius="xs"
                     />
                   </Group>
                 </Card>
-                <Box>
-                  <Card withBorder radius="md" p={5}>
-                    <Input.Wrapper
-                      label="Include Cluster Resources"
-                      description="Whether or not to include cluster-scoped resources"
-                    >
-                      <Center>
-                        <SegmentedControl
-                          mt={10}
-                          style={{ width: '300px' }}
-                          transitionDuration={200}
-                          color="var(--mantine-primary-color-filled)"
-                          value={form.values.includeClusterResources}
-                          {...form.getInputProps('includeClusterResources')}
-                          data={[
-                            {
-                              label: 'Auto',
-                              value: '',
-                            },
-                            {
-                              label: 'True',
-                              value: 'true',
-                            },
-                            {
-                              label: 'False',
-                              value: 'false',
-                            },
-                          ]}
-                        />
-                      </Center>
-                    </Input.Wrapper>
-                  </Card>
-                </Box>
               </SimpleGrid>
             </Stepper.Step>
             <Stepper.Step label="Content Selection" description="Namespaces, resources">
@@ -196,6 +163,54 @@ export default function RestoreFormView({
                 />
               </SimpleGrid>
 
+              <SimpleGrid cols={1} mt={20}>
+                <Card withBorder radius="md" p={10} mt={22}>
+                  <Group justify="space-between" wrap="nowrap" gap={0}>
+                    <div>
+                      <Text size="sm" fw={500}>
+                        Include Cluster Resources
+                      </Text>
+                      <Text size="xs" c="dimmed">
+                        Whether to include cluster-scoped resources
+                      </Text>
+                    </div>
+
+                    <SegmentedControl
+                      mt={10}
+                      style={{ width: '300px' }}
+                      transitionDuration={200}
+                      color="var(--mantine-primary-color-filled)"
+                      value={
+                        form.values.includeClusterResources === true
+                          ? 'true'
+                          : form.values.includeClusterResources === false
+                            ? 'false'
+                            : 'null'
+                      }
+                      onChange={(val) =>
+                        form.setFieldValue(
+                          'includeClusterResources',
+                          val === 'true' ? true : val === 'false' ? false : null
+                        )
+                      }
+                      data={[
+                        {
+                          label: 'Auto',
+                          value: 'null',
+                        },
+                        {
+                          label: 'True',
+                          value: 'true',
+                        },
+                        {
+                          label: 'False',
+                          value: 'false',
+                        },
+                      ]}
+                    />
+                  </Group>
+                </Card>
+              </SimpleGrid>
               <Space h={20} />
               <ConfigurationOptions
                 label="Mapping Namespaces"

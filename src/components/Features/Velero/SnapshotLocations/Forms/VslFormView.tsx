@@ -82,10 +82,6 @@ export default function VslFormView({ form, onDone, mode }: CreateVslFormProps) 
     }
   }, [form.values.credentialName]);
 
-  function updateConfigs(configs: any) {
-    form.setFieldValue('config', configs);
-  }
-
   return (
     <>
       <Box mx="auto">
@@ -141,7 +137,7 @@ export default function VslFormView({ form, onDone, mode }: CreateVslFormProps) 
 
               <ConfigurationOptions
                 config={form.values.config}
-                setConfig={updateConfigs}
+                setConfig={(configs: any) => form.setFieldValue('config', configs)}
                 label="Configs"
                 description="Provider-specific configuration keys/values to be passed to the volume snapshotter plugin."
               />
