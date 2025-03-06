@@ -6,7 +6,7 @@ interface CreateCredentialsLocationFormProps {
   mode: string;
 }
 
-export default function CreateCredentialsLocationForm({
+export default function CreateCredentialsLocationFormView({
   form,
   onDone,
   mode,
@@ -14,9 +14,12 @@ export default function CreateCredentialsLocationForm({
   return (
     <Box mx="auto">
       <form
-        onSubmit={form.onSubmit((values: any) => {
-          onDone(values);
-        })}
+        onSubmit={(event) => {
+          event.stopPropagation();
+          form.onSubmit((values: any) => {
+            onDone(values);
+          })(event);
+        }}
       >
         <Input.Wrapper
           label="Secret name"
@@ -40,10 +43,7 @@ export default function CreateCredentialsLocationForm({
         </Input.Wrapper>
 
         <Input.Wrapper label="AWS access key id" mt={10} required>
-          <TextInput
-            placeholder=""
-            {...form.getInputProps('awsSecretAccessKey')}
-          />
+          <TextInput placeholder="" {...form.getInputProps('awsSecretAccessKey')} />
         </Input.Wrapper>
         <Group justify="flex-end" mt="md">
           <Button type="submit"> {mode === 'create' ? 'Create' : 'Update'}</Button>

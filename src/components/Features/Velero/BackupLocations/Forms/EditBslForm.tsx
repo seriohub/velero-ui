@@ -4,49 +4,48 @@ import { closeAllModals } from '@mantine/modals';
 import { useAppStatus } from '@/contexts/AppContext';
 
 import BslFormView from '@/components/Features/Velero/BackupLocations/Forms/BslFormView';
-import { useCreateBsl } from '@/api/BackupLocation/useCreateBsl';
+import { useUpdateBsl } from '@/api/BackupLocation/useUpdateBsl';
 
-interface CreateBslProps {
-  reload: number;
-  setReload: React.Dispatch<React.SetStateAction<number>>;
+interface EditBslProps {
+  record: any;
+  setReload: any;
 }
 
 const ttlRegex = /^(\d+h)?(\d+m)?(\d+s)?$/;
 
-export function CreateBslForm({ reload, setReload }: CreateBslProps) {
+export function EditBslForm({ record, setReload }: EditBslProps) {
   const appValues = useAppStatus();
 
-  const { handleCreateBsl } = useCreateBsl();
+  const { handleUpdateBsl } = useUpdateBsl();
 
   const form = useForm({
     initialValues: {
-      name: '',
+      name: record?.metadata?.name,
 
-      provider: '',
-      bucket: '',
-      prefix: null,
-      accessMode: 'ReadWrite',
+      provider: record?.spec?.provider,
+      bucket: record?.spec?.objectStorage?.bucket,
+      prefix: record?.spec?.objectStorage?.prefix || null,
+      accessMode: record?.spec?.accessMode,
 
-      config: {},
+      config: record?.spec?.config || {},
 
-      credentialName: null,
-      credentialKey: null,
+      credentialName: record?.spec?.credential?.name || null,
+      credentialKey: record?.spec?.credential?.key || null,
 
-      backupSyncPeriod: '2m0s',
-      validationFrequency: '1m0s',
+      backupSyncPeriod: record?.spec?.backupSyncPeriod,
+      validationFrequency: record?.spec?.validationFrequency,
 
       default: false,
     },
 
     validate: {
       name: (value) => (value.length >= 3 ? null : 'Name must be at least 3 characters long'),
-      provider: (value) => (value.length >= 1 ? null : 'Invalid provider'),
-      bucket: (value) => (value.length >= 1 ? null : 'Invalid bucket'),
+      provider: (value) => (value?.length >= 1 ? null : 'Invalid provider'),
+      bucket: (value) => (value?.length >= 1 ? null : 'Invalid bucket'),
       backupSyncPeriod: (value) =>
         value.replace(/\s+/, '') !== '' && ttlRegex.test(value) ? null : 'Invalid format. Expected a number followed by s, m, or h',
       validationFrequency: (value) =>
         value.replace(/\s+/, '') !== '' && ttlRegex.test(value) ? null : 'Invalid format. Expected a number followed by s, m, or h',
-
       credentialName: (value, values) => {
         if ((value && !values.credentialKey) || (!value && values.credentialKey)) {
           return 'Both credentialName and credentialKey must be filled or both must be empty';
@@ -64,14 +63,14 @@ export function CreateBslForm({ reload, setReload }: CreateBslProps) {
     },
   });
 
-  function createBsl(values: any) {
-    handleCreateBsl(values);
+  function updateBsl(values: any) {
+    handleUpdateBsl(values);
     closeAllModals();
     const interval = setInterval(() => {
-      setReload(reload + 1);
+      setReload((prev: number) => prev + 1);
       clearInterval(interval);
     }, appValues.refreshDatatableAfter);
   }
 
-  return <BslFormView mode="create" form={form} onDone={createBsl} />;
+  return <BslFormView mode="edit" form={form} onDone={updateBsl} />;
 }

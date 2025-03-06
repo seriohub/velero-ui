@@ -43,7 +43,7 @@ export const Version = () => {
           >
             Velero installed
           </Text>
-          <Code fw={700}>{data.toString()}</Code>
+          <Code fw={700}>{data?.toString()}</Code>
         </Group>
         {data.warning && (
           <Group>

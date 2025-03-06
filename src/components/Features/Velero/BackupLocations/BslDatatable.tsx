@@ -27,9 +27,10 @@ import DetailActionIcon from '@/components/Features/Velero/Commons/Actions/Detai
 import CredentialActionIcon from '@/components/Features/Velero/Commons/Actions/CredentialActionIcon';
 import DeleteAction from '@/components/Features/Velero/Commons/Actions/DeleteAction';
 import { SetDefaultBsl } from '@/components/Features/Velero/BackupLocations/Forms/SetDefaultBsl';
-import CreateBslToolbarIcon from '@/components/Features/Velero/BackupLocations/Actions/CreateBslToolbarIcon';
+import CreateBslToolbar from '@/components/Features/Velero/BackupLocations/Actions/CreateBslToolbar';
 
 import VeleroResourceStatusBadge from '../Commons/Display/VeleroResourceStatusBadge';
+import EditBslAction from '@/components/Features/Velero/BackupLocations/Actions/EditBSLAction';
 
 const PAGE_SIZES = [10, 15, 20];
 
@@ -83,6 +84,7 @@ export function BslDatatable() {
     <Group gap={4} justify="right" wrap="nowrap">
       <CredentialActionIcon name={record.metadata.name} record={record} />
       <DetailActionIcon name={record.metadata.name} record={record} />
+      <EditBslAction record={record} setReload={setReload} />
       <DeleteAction resourceType="bsl" record={record} setReload={setReload} />
     </Group>
   );
@@ -97,7 +99,7 @@ export function BslDatatable() {
           },
         ]}
       >
-        <CreateBslToolbarIcon setReload={setReload} reload={reload} />
+        <CreateBslToolbar setReload={setReload} reload={reload} />
         <ReloadData setReload={setReload} reload={reload} />
       </Toolbar>
       <DataFetchedInfo metadata={data?.metadata} />

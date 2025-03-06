@@ -24,7 +24,8 @@ import DetailActionIcon from '@/components/Features/Velero/Commons/Actions/Detai
 import DeleteAction from '@/components/Features/Velero/Commons/Actions/DeleteAction';
 
 import CredentialActionIcon from '@/components/Features/Velero/Commons/Actions/CredentialActionIcon';
-import CreateVslToolbarIcon from '@/components/Features/Velero/SnapshotLocations/Actions/CreateVslToolbarIcon';
+import CreateVslToolbar from '@/components/Features/Velero/SnapshotLocations/Actions/CreateVslToolbar';
+import EditVslAction from "@/components/Features/Velero/SnapshotLocations/Actions/EditVSLAction";
 
 const PAGE_SIZES = [10, 15, 20];
 
@@ -77,6 +78,7 @@ export function SnapshotLocationsDatatable() {
     <Group gap={4} justify="right" wrap="nowrap">
       <CredentialActionIcon name={record.metadata.name} record={record} />
       <DetailActionIcon name={record.metadata.name} record={record} />
+      <EditVslAction record={record} setReload={setReload} />
       <DeleteAction resourceType="vsl" record={record} setReload={setReload} />
     </Group>
   );
@@ -91,7 +93,7 @@ export function SnapshotLocationsDatatable() {
           },
         ]}
       >
-        <CreateVslToolbarIcon setReload={setReload} reload={reload} />
+        <CreateVslToolbar setReload={setReload} reload={reload} />
         <ReloadData setReload={setReload} reload={reload} />
       </Toolbar>
       <DataFetchedInfo metadata={data?.metadata} />

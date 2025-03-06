@@ -384,7 +384,7 @@ export default function BackupScheduleFormView({
 
             <Stepper.Completed>
               <JsonViewer record={form?.values} />
-              <Text>Completed! click create button to create a backup</Text>
+              <Text size="sm" mt={10}>Completed! click create button to create a {resource}</Text>
             </Stepper.Completed>
           </Stepper>
           <Group justify="space-between" mt="md">

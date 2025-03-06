@@ -10,7 +10,7 @@ interface CreateVslToolbarIconProps {
   setReload: React.Dispatch<React.SetStateAction<number>>;
 }
 
-export default function CreateVslToolbarIcon({ reload, setReload }: CreateVslToolbarIconProps) {
+export default function CreateVslToolbar({ reload, setReload }: CreateVslToolbarIconProps) {
   return (
     <Tooltip label="Create VSL">
       <ActionIcon
