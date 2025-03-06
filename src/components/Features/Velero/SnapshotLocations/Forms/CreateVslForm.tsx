@@ -31,13 +31,13 @@ export function CreateVslForm({ reload, setReload }: CreateVslProps) {
 
       credentialName: (value, values) => {
         if ((value && !values.credentialKey) || (!value && values.credentialKey)) {
-          return 'Both credentialName and credentialKey must be filled or both must be empty';
+          return 'Both Secret Name and Secret Key must be filled or both must be empty';
         }
         return null;
       },
       credentialKey: (value, values) => {
         if ((value && !values.credentialName) || (!value && values.credentialName)) {
-          return 'Both credentialName and credentialKey must be filled or both must be empty';
+          return 'Both Secret Name and Secret Key must be filled or both must be empty';
         }
         return null;
       },
