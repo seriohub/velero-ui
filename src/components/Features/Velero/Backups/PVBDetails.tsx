@@ -7,6 +7,7 @@ import { IconArchive, IconWeight } from '@tabler/icons-react';
 import { useAgentStatus } from '@/contexts/AgentContext';
 
 import { usePodVolumeBackup } from '@/api/PodVolumeBackups/usePodVolumeBackup';
+import VeleroResourceStatusBadge from "@/components/Features/Velero/Commons/Display/VeleroResourceStatusBadge";
 
 function formatBytes(bytes: number, decimals = 0) {
   if (bytes === 0) return '0 Bytes';
@@ -41,22 +42,46 @@ export function PVBDetails({ backupName }: PVBSummaryProps) {
         />
 
         <Stack w="100%" gap={0}>
-          <Text fz="xs" tt="uppercase" fw={700} c="dimmed">
-            {item.metadata.name}
-          </Text>
-
-          <Group wrap="nowrap" justify="space-between">
-            <Text fz="lg" fw={500}>
-              {item.spec.pod.name}
+          <Group justify="space-between">
+          <Group gap={3}>
+            <Text size="xs" c="dimmed" w={60}>
+              Name
             </Text>
-
-            <Group gap={2}>
-              <IconWeight stroke={1.5} size={18} />
-              <Text fz="md">{formatBytes(item.status.progress.totalBytes)}</Text>
-            </Group>
+            <Text fz="xs" tt="uppercase" fw={700} c="dimmed">
+              {item.metadata.name}
+            </Text>
+          </Group>
+            {item?.status?.phase && (
+            <VeleroResourceStatusBadge status={item?.status?.phase || undefined} />
+            )}
           </Group>
 
-          <Text c="dimmed">{item.spec.tags.volume}</Text>
+          <Group wrap="nowrap" justify="space-between" mt={5}>
+            <Group gap={3}>
+              <Text size="xs" c="dimmed" w={60}>
+                Pod Name
+              </Text>
+              <Text fz="sm" fw={500}>
+                {item.spec.pod.name}
+              </Text>
+            </Group>
+
+            {item?.status?.progress?.totalBytes && (
+            <Group gap={2}>
+              <IconWeight stroke={1.5} size={18} />
+                <Text fz="sm">{formatBytes(item.status.progress.totalBytes)}</Text>
+            </Group>
+            )}
+          </Group>
+
+          <Group gap={3}>
+            <Text size="xs" c="dimmed" mt={5} w={60}>
+              Volume
+            </Text>
+            <Text c="dimmed" size="sm">
+              {item.spec.tags.volume}
+            </Text>
+          </Group>
         </Stack>
       </Group>
     </>

@@ -127,11 +127,11 @@ export function BackupDetailsView({ data }: any) {
               </Anchor>
             )}
           </Group>
-          <Group mt={10}>
-            <Text w={170}>Snapshot Locations</Text>
-            <Box>
-              {data?.spec.volumeSnapshotLocations?.length > 0 ? (
-                data.spec.volumeSnapshotLocations.map((location: string, index: string) => (
+          {data?.spec?.snapshotVolumes && data?.spec.volumeSnapshotLocations?.length > 0 && (
+            <Group mt={10}>
+              <Text w={170}>Snapshot Locations</Text>
+              <Box>
+                {data.spec.volumeSnapshotLocations.map((location: string, index: string) => (
                   <Anchor
                     size="sm"
                     onClick={() => {
@@ -144,12 +144,10 @@ export function BackupDetailsView({ data }: any) {
                       <Text size="md">{location}</Text>
                     </Group>
                   </Anchor>
-                ))
-              ) : (
-                <></>
-              )}
-            </Box>
-          </Group>
+                ))}
+              </Box>
+            </Group>
+          )}
         </ScrollArea>
       </Card.Section>
     </Card>
