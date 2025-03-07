@@ -8,10 +8,14 @@ export default function Breadcrumb(breadcrumbItem = []) {
   const serverValues = useServerStatus();
   const agentValues = useAgentStatus();
   const router = useRouter();
-
   const items = Object.values(breadcrumbItem).map((item: any, index: number) =>
     item?.href ? (
-      <Anchor href={item.href} key={index}>
+      <Anchor
+        onClick={() => {
+          router.push(`${item?.href}`);
+        }}
+        key={index}
+      >
         {item.name}
       </Anchor>
     ) : (

@@ -13,10 +13,11 @@ import Toolbar from '@/components/Display/Toolbar';
 import ReloadData from '@/components/Inputs/ReloadData';
 
 import { ResourceLogs } from '@/components/Features/Velero/Logs/ResourceLogs';
-import { PVBDetails } from '@/components/Features/Velero/Restores/PodDetails';
+
 import { Manifest } from '@/components/Features/Velero/Commons/Display/Manifest';
 import DeleteAction from '@/components/Features/Velero/Commons/Actions/DeleteAction';
 import { isRecordStringAny } from '@/utils/isRecordStringIsType';
+import { RestoreDetailsView } from '@/components/Features/Velero/Restores/RestoreDetailsView';
 
 interface RestoreProps {
   params: any;
@@ -68,29 +69,20 @@ export function RestoreDetails({ params }: RestoreProps) {
           span={{
             base: 12,
             md: 12,
-            lg: 3,
+            lg: 4,
           }}
         >
-          <PVBDetails data={data} />
+          <RestoreDetailsView data={data} />
         </Grid.Col>
 
         <Grid.Col
           span={{
             base: 12,
             md: 12,
-            lg: 6,
+            lg: 8,
           }}
         >
           <Manifest resourceType="restores" resourceName={params.restore} />
-        </Grid.Col>
-        <Grid.Col
-          span={{
-            base: 12,
-            md: 12,
-            lg: 3,
-          }}
-        >
-          <PVBDetails backupName={params.restore} />
         </Grid.Col>
       </Grid>
 

@@ -1,5 +1,5 @@
 import { Box, Card, Group, Space, Text, Title } from '@mantine/core';
-import { IconCalendar } from '@tabler/icons-react';
+import { IconDatabase } from '@tabler/icons-react';
 
 export function SnapshotLocationDetailsView({ data }: any) {
   return (
@@ -9,7 +9,7 @@ export function SnapshotLocationDetailsView({ data }: any) {
       </Card.Section>
       <Card.Section p="sm">
         <Group gap={5}>
-          <IconCalendar size={80} />
+          <IconDatabase size={80} />
           <Box>
             <Title order={2} fw={800}>
               {data?.metadata?.name}

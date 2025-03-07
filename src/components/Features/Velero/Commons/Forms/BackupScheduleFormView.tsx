@@ -133,7 +133,7 @@ export default function BackupScheduleFormView({
                     <Group justify="space-between" wrap="nowrap" gap={0}>
                       <div>
                         <Text size="sm" fw={500}>
-                          Snapshot Volumes
+                          Owner References
                         </Text>
                         <Text size="xs" c="dimmed">
                           Specifies whether to use OwnerReferences on backups created by this
@@ -142,8 +142,8 @@ export default function BackupScheduleFormView({
                       </div>
                       <Switch
                         labelPosition="left"
-                        defaultChecked={form.values.snapshotVolumes === true}
-                        {...form.getInputProps('snapshotVolumes')}
+                        defaultChecked={form.values.useOwnerReferencesInBackup === true}
+                        {...form.getInputProps('useOwnerReferencesInBackup')}
                         radius="xs"
                       />
                     </Group>
@@ -192,94 +192,87 @@ export default function BackupScheduleFormView({
                   />
                 </Input.Wrapper>
               </SimpleGrid>
-              {resource === 'backup' && (
-                <SimpleGrid cols={2} mt={20}>
-                  <Card withBorder radius="md" p={10}>
-                    <Group justify="space-between" wrap="nowrap" gap={0}>
-                      <div>
-                        <Text size="sm" fw={500}>
-                          Snapshot Volumes
-                        </Text>
-                        <Text size="xs" c="dimmed">
-                          Take snapshots of persistent volume in a Velero backup
-                        </Text>
-                      </div>
-                      <Switch
-                        labelPosition="left"
-                        defaultChecked={form.values.snapshotVolumes}
-                        {...form.getInputProps('snapshotVolumes')}
-                        radius="xs"
-                      />
-                    </Group>
 
-                    <Group justify="space-between" wrap="nowrap" gap={0} mt={10}>
-                      <div>
-                        <Text size="sm" fw={500}>
-                          Default Volume to Fs Backup
-                        </Text>
-                        <Text size="xs" c="dimmed">
-                          Enables file-system-based backup for persistent volumes by default
-                        </Text>
-                      </div>
-                      <Switch
-                        labelPosition="left"
-                        defaultChecked={form.values.defaultVolumesToFsBackup === true}
-                        {...form.getInputProps('defaultVolumesToFsBackup')}
-                        radius="xs"
-                      />
-                    </Group>
-                    <Group justify="space-between" wrap="nowrap" gap={0} mt={10}>
-                      <div>
-                        <Text size="sm" fw={500}>
-                          Snapshot Move Data
-                        </Text>
-                        <Text size="xs" c="dimmed">
-                          Indicate if snapshot data should be relocated
-                        </Text>
-                      </div>
-                      <Switch
-                        labelPosition="left"
-                        defaultChecked={form.values.defaultVolumesToFsBackup === true}
-                        {...form.getInputProps('defaultVolumesToFsBackup')}
-                        radius="xs"
-                      />
-                    </Group>
-                  </Card>
-                  <Box>
-                    <Card withBorder radius="md" p={5}>
-                      <Input.Wrapper
-                        label="Include Cluster Resources"
-                        description="Whether to include cluster-scoped resources."
-                      >
-                        <Center>
-                          <SegmentedControl
-                            mt={10}
-                            style={{ width: '300px' }}
-                            transitionDuration={200}
-                            color="var(--mantine-primary-color-filled)"
-                            value={form.values.includeClusterResources}
-                            {...form.getInputProps('includeClusterResources')}
-                            data={[
-                              {
-                                label: 'Auto',
-                                value: '',
-                              },
-                              {
-                                label: 'True',
-                                value: 'true',
-                              },
-                              {
-                                label: 'False',
-                                value: 'false',
-                              },
-                            ]}
-                          />
-                        </Center>
-                      </Input.Wrapper>
-                    </Card>
-                  </Box>
-                </SimpleGrid>
-              )}
+              <SimpleGrid cols={1} mt={20}>
+                <Card withBorder radius="md" p={10}>
+                  <Group justify="space-between" wrap="nowrap" gap={0}>
+                    <div>
+                      <Text size="sm" fw={500}>
+                        Snapshot Volumes
+                      </Text>
+                      <Text size="xs" c="dimmed">
+                        Take snapshots of persistent volume in a Velero backup
+                      </Text>
+                    </div>
+                    <SegmentedControl
+                      mt={10}
+                      style={{ width: '300px' }}
+                      transitionDuration={200}
+                      color="var(--mantine-primary-color-filled)"
+                      value={
+                        form.values.snapshotVolumes === true
+                          ? 'true'
+                          : form.values.snapshotVolumes === false
+                            ? 'false'
+                            : 'null'
+                      }
+                      onChange={(val) =>
+                        form.setFieldValue(
+                          'snapshotVolumes',
+                          val === 'true' ? true : val === 'false' ? false : null
+                        )
+                      }
+                      data={[
+                        {
+                          label: 'Auto',
+                          value: 'null',
+                        },
+                        {
+                          label: 'True',
+                          value: 'true',
+                        },
+                        {
+                          label: 'False',
+                          value: 'false',
+                        },
+                      ]}
+                    />
+                  </Group>
+
+                  <Group justify="space-between" wrap="nowrap" gap={0} mt={10}>
+                    <div>
+                      <Text size="sm" fw={500}>
+                        Default Volume to Fs Backup
+                      </Text>
+                      <Text size="xs" c="dimmed">
+                        Enables file-system-based backup for persistent volumes by default
+                      </Text>
+                    </div>
+                    <Switch
+                      labelPosition="left"
+                      defaultChecked={form.values.defaultVolumesToFsBackup === true}
+                      {...form.getInputProps('defaultVolumesToFsBackup')}
+                      radius="xs"
+                    />
+                  </Group>
+                  <Group justify="space-between" wrap="nowrap" gap={0} mt={10}>
+                    <div>
+                      <Text size="sm" fw={500}>
+                        Snapshot Move Data
+                      </Text>
+                      <Text size="xs" c="dimmed">
+                        Indicate if snapshot data should be relocated
+                      </Text>
+                    </div>
+                    <Switch
+                      labelPosition="left"
+                      defaultChecked={form.values.snapshotMoveData === true}
+                      {...form.getInputProps('snapshotMoveData')}
+                      radius="xs"
+                    />
+                  </Group>
+                </Card>
+              </SimpleGrid>
             </Stepper.Step>
             <Stepper.Step label="Content Selection" description="Namespaces, resources">
               <SimpleGrid cols={2} mt={20}>
@@ -335,6 +328,53 @@ export default function BackupScheduleFormView({
                 </Input.Wrapper>
               </SimpleGrid>
 
+              <Card withBorder radius="md" p={10} mt={22}>
+                <Group justify="space-between" wrap="nowrap" gap={0}>
+                  <div>
+                    <Text size="sm" fw={500}>
+                      Include Cluster Resources
+                    </Text>
+                    <Text size="xs" c="dimmed">
+                      Whether to include cluster-scoped resources
+                    </Text>
+                  </div>
+
+                  <SegmentedControl
+                    mt={10}
+                    style={{ width: '300px' }}
+                    transitionDuration={200}
+                    color="var(--mantine-primary-color-filled)"
+                    value={
+                      form.values.includeClusterResources === true
+                        ? 'true'
+                        : form.values.includeClusterResources === false
+                          ? 'false'
+                          : 'null'
+                    }
+                    onChange={(val) =>
+                      form.setFieldValue(
+                        'includeClusterResources',
+                        val === 'true' ? true : val === 'false' ? false : null
+                      )
+                    }
+                    data={[
+                      {
+                        label: 'Auto',
+                        value: 'null',
+                      },
+                      {
+                        label: 'True',
+                        value: 'true',
+                      },
+                      {
+                        label: 'False',
+                        value: 'false',
+                      },
+                    ]}
+                  />
+                </Group>
+              </Card>
+
               <Space h={20} />
               <ConfigurationOptions
                 label="Label Selector"
@@ -384,7 +424,9 @@ export default function BackupScheduleFormView({
 
             <Stepper.Completed>
               <JsonViewer record={form?.values} />
-              <Text>Completed! click create button to create a backup</Text>
+              <Text size="sm" mt={10}>
+                Completed! click create button to create a {resource}
+              </Text>
             </Stepper.Completed>
           </Stepper>
           <Group justify="space-between" mt="md">

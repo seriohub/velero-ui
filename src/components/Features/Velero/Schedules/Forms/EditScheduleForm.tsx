@@ -50,6 +50,7 @@ export function EditScheduleForm({ record, setReload }: EditScheduleProps) {
       volumeSnapshotLocations: record.spec.template.volumeSnapshotLocations || [],
       datamover: record.spec.template.datamover || '',
       parallelFilesUpload: record.spec.template?.uploaderConfig?.parallelFilesUpload || 10,
+      snapshotMoveData: record.spec.template.snapshotMoveData || null,
 
       // spec.template.resourcePolicy
       resourcePolicy: record.spec.template?.resourcePolicy?.name || null,

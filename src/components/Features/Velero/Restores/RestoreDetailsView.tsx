@@ -18,7 +18,7 @@ function get_duration({ status }: { status: any }) {
   return <></>;
 }
 
-export function PVBDetails({ data }: any) {
+export function RestoreDetailsView({ data }: any) {
   return (
     <Card shadow="sm" padding="lg" radius="md" withBorder h={600}>
       <Card.Section withBorder inheritPadding p="xs">

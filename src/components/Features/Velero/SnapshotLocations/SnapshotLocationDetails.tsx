@@ -15,6 +15,7 @@ import { SnapshotLocationDetailsView } from '@/components/Features/Velero/Snapsh
 import { Manifest } from '@/components/Features/Velero/Commons/Display/Manifest';
 import DeleteAction from '@/components/Features/Velero/Commons/Actions/DeleteAction';
 import { isRecordStringAny } from '@/utils/isRecordStringIsType';
+import EditVslAction from "@/components/Features/Velero/SnapshotLocations/Actions/EditVSLAction";
 
 interface BackupProps {
   params: any;
@@ -31,7 +32,7 @@ export function SnapshotLocationDetails({ params }: BackupProps) {
     if (params.vsl) {
       getManifest('volumesnapshotlocations', params.vsl, false);
     }
-  }, [agentValues.isAgentAvailable]);
+  }, [agentValues.isAgentAvailable, reload]);
 
   useEffect(() => {
     if (isRecordStringAny(data)) {
@@ -56,6 +57,7 @@ export function SnapshotLocationDetails({ params }: BackupProps) {
         ]}
       >
         <ReloadData setReload={setReload} reload={reload} />
+        <EditVslAction record={manifest} setReload={setReload} buttonType="button" />
         <DeleteAction
           resourceType="vsl"
           record={manifest}
@@ -70,7 +72,7 @@ export function SnapshotLocationDetails({ params }: BackupProps) {
         </Grid.Col>
 
         <Grid.Col span={8}>
-          <Manifest resourceType="volumesnapshotlocations" resourceName={params.vsl} />
+          <Manifest resourceType="volumesnapshotlocations" resourceName={params.vsl} reload={reload}/>
         </Grid.Col>
       </Grid>
     </PageScrollArea>

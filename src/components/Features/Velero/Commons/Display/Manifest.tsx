@@ -24,9 +24,10 @@ import { convertJsonToYaml } from '@/utils/jsonToYaml';
 interface ManifestProps {
   resourceType: string;
   resourceName: string;
+  reload?: number;
 }
 
-export function Manifest({ resourceType, resourceName }: ManifestProps) {
+export function Manifest({ resourceType, resourceName, reload }: ManifestProps) {
   const { fetching, data, getManifest } = useVeleroManifest();
   const agentValues = useAgentStatus();
   const [neat, setNeat] = useState(false);
@@ -34,7 +35,7 @@ export function Manifest({ resourceType, resourceName }: ManifestProps) {
 
   useEffect(() => {
     getManifest(resourceType, resourceName, neat);
-  }, [agentValues.isAgentAvailable, neat]);
+  }, [agentValues.isAgentAvailable, neat, reload]);
 
   useEffect(() => {
     if (isRecordStringAny(data)) {

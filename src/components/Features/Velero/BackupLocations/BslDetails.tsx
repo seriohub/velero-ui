@@ -16,6 +16,7 @@ import { BslDetailsView } from '@/components/Features/Velero/BackupLocations/Bsl
 import { Manifest } from '@/components/Features/Velero/Commons/Display/Manifest';
 import DeleteAction from '@/components/Features/Velero/Commons/Actions/DeleteAction';
 import { isRecordStringAny } from '@/utils/isRecordStringIsType';
+import EditBslAction from '@/components/Features/Velero/BackupLocations/Actions/EditBSLAction';
 
 interface BackupProps {
   params: any;
@@ -32,7 +33,7 @@ export function BslDetails({ params }: BackupProps) {
     if (params.bsl) {
       getManifest('backupstoragelocations', params.bsl, false);
     }
-  }, [agentValues.isAgentAvailable]);
+  }, [agentValues.isAgentAvailable, reload]);
 
   useEffect(() => {
     if (isRecordStringAny(data)) {
@@ -55,6 +56,7 @@ export function BslDetails({ params }: BackupProps) {
           },
         ]}
       >
+        <EditBslAction record={manifest} setReload={setReload} buttonType="button" />
         <DeleteAction
           resourceType="bsl"
           record={manifest}
@@ -71,7 +73,11 @@ export function BslDetails({ params }: BackupProps) {
         </Grid.Col>
 
         <Grid.Col span={8}>
-          <Manifest resourceType="backupstoragelocations" resourceName={params.bsl} />
+          <Manifest
+            resourceType="backupstoragelocations"
+            resourceName={params.bsl}
+            reload={reload}
+          />
         </Grid.Col>
       </Grid>
     </PageScrollArea>

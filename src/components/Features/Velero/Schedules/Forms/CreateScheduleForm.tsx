@@ -45,12 +45,13 @@ export function CreateScheduleForm({ reload, setReload }: CreateScheduleProps) {
       excludedResources: [],
       includeClusterResources: null,
       defaultVolumesToFsBackup: true,
-      snapshotVolumes: true,
+      snapshotVolumes: null,
       storageLocation: null,
       volumeSnapshotLocations: [],
       datamover: '',
       parallelFilesUpload: 10,
       resourcePolicy: null,
+      snapshotMoveData:true,
 
       // spec.labelselector
       labelSelector: {},

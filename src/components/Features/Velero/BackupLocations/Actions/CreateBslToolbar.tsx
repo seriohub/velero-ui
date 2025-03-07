@@ -10,7 +10,7 @@ interface CreateBslToolbarIconProps {
   setReload: React.Dispatch<React.SetStateAction<number>>;
 }
 
-export default function CreateBslToolbarIcon({ reload, setReload }: CreateBslToolbarIconProps) {
+export default function CreateBslToolbar({ reload, setReload }: CreateBslToolbarIconProps) {
   return (
     <Tooltip label="Create BSL">
       <ActionIcon

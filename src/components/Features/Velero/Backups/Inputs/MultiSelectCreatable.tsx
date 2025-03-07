@@ -73,6 +73,7 @@ export function MultiSelectCreatable({
 
   useEffect(() => {
     form.setFieldValue(fieldName, value);
+    setSearch('')
   }, [value]);
 
   return (

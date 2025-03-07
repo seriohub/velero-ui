@@ -2,16 +2,16 @@ import { useForm } from '@mantine/form';
 
 import { useAppStatus } from '@/contexts/AppContext';
 
-import CreateCredentialsLocationForm from '@/components/Features/Velero/Commons/Forms/CreateCredentialsLocationForm';
+import CreateCredentialsLocationFormView from '@/components/Features/Velero/Commons/Forms/CreateCredentialsLocationFormView';
 import { useCreateLocationCredentials } from '@/api/Velero/useCreateLocationCredentials';
 
 interface CreateBslProps {
   reload: number;
   setReload: React.Dispatch<React.SetStateAction<number>>;
-  close: any
+  close: any;
 }
 
-export function CreateLocationCredentialsView({ reload, setReload, close }: CreateBslProps) {
+export function CreateLocationCredentialsForm({ reload, setReload, close }: CreateBslProps) {
   const appValues = useAppStatus();
 
   const { handleCreateCredentials } = useCreateLocationCredentials();
@@ -41,5 +41,5 @@ export function CreateLocationCredentialsView({ reload, setReload, close }: Crea
     }, appValues.refreshDatatableAfter);
   }
 
-  return <CreateCredentialsLocationForm mode="create" form={form} onDone={createBsl} />;
+  return <CreateCredentialsLocationFormView mode="create" form={form} onDone={createBsl} />;
 }

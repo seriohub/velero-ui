@@ -8,9 +8,10 @@ export function PageScrollArea({ children }: any) {
       p={isNavbarVisible ? 2 : 10}
       h="100%"
       scrollbars="y"
-      w={
-        isNavbarVisible ? 'calc(100vw - 5px)' : 'calc(100vw - var(--app-shell-navbar-width))'
-      }
+      // offsetScrollbars
+      // overscrollBehavior="contain"
+      w={isNavbarVisible ? 'calc(100vw - 5px)' : 'calc(100vw - var(--app-shell-navbar-width))'}
+      maw={isNavbarVisible ? 'calc(100vw - 5px)' : 'calc(100vw - var(--app-shell-navbar-width))'}
     >
       {children}
     </ScrollArea>
