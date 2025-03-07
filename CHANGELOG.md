@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 
 ***
 
+## [v0.2.1] - 2025-03-07
+
+🆕 New Features
+- Added BSL update feature
+- Added VSL update feature
+
+Fixed
+- Minor fix
+ 
 ## [v0.2.0] - 2025-03-04
 
 🚀 Major Improvements
