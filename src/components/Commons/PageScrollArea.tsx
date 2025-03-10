@@ -4,15 +4,7 @@ import { useMediaQuery } from '@mantine/hooks';
 export function PageScrollArea({ children }: any) {
   const isNavbarVisible = useMediaQuery('(max-width: 576px)');
   return (
-    <ScrollArea
-      p={isNavbarVisible ? 2 : 10}
-      h="100%"
-      scrollbars="y"
-      // offsetScrollbars
-      // overscrollBehavior="contain"
-      w={isNavbarVisible ? 'calc(100vw - 5px)' : 'calc(100vw - var(--app-shell-navbar-width))'}
-      maw={isNavbarVisible ? 'calc(100vw - 5px)' : 'calc(100vw - var(--app-shell-navbar-width))'}
-    >
+    <ScrollArea p={isNavbarVisible ? 2 : 10} h="100%" scrollbars="y">
       {children}
     </ScrollArea>
   );

@@ -14,43 +14,54 @@ export function AppShellMainFooter() {
   return (
     <>
       {uiValues.showBottomDebugBar && (
-        <Accordion.Item key="Debug" value="Debug" visibleFrom="xl">
-          <Accordion.Control icon={<IconPrompt />}>Debug</Accordion.Control>
-          <Accordion.Panel>
-            <Tabs defaultValue="Shell" orientation="vertical">
-              <Tabs.List>
-                <Tabs.Tab value="Shell" leftSection={<IconTerminal2 />}>
-                  Shell & K8s
-                </Tabs.Tab>
-                <Tabs.Tab value="API-Request" leftSection={<IconApi />}>
-                  Request
-                </Tabs.Tab>
-                <Tabs.Tab value="API-Response" leftSection={<IconApi />}>
-                  Response
-                </Tabs.Tab>
-                <Tabs.Tab value="Notification" leftSection={<IconBell />}>
-                  User Notification
-                </Tabs.Tab>
-              </Tabs.List>
+        <Accordion
+          chevronPosition="left"
+          multiple
+          radius={0}
+          pt={0}
+          style={{
+            borderTop: '1px solid',
+            borderColor: 'var(--mantine-color-default-border)',
+          }}
+        >
+          <Accordion.Item key="Debug" value="Debug" visibleFrom="xl">
+            <Accordion.Control icon={<IconPrompt />}>Debug</Accordion.Control>
+            <Accordion.Panel>
+              <Tabs defaultValue="Shell" orientation="vertical">
+                <Tabs.List>
+                  <Tabs.Tab value="Shell" leftSection={<IconTerminal2 />}>
+                    Shell & K8s
+                  </Tabs.Tab>
+                  <Tabs.Tab value="API-Request" leftSection={<IconApi />}>
+                    Request
+                  </Tabs.Tab>
+                  <Tabs.Tab value="API-Response" leftSection={<IconApi />}>
+                    Response
+                  </Tabs.Tab>
+                  <Tabs.Tab value="Notification" leftSection={<IconBell />}>
+                    User Notification
+                  </Tabs.Tab>
+                </Tabs.List>
 
-              <Tabs.Panel value="Shell">
-                <ShellCommands />
-              </Tabs.Panel>
+                <Tabs.Panel value="Shell">
+                  <ShellCommands />
+                </Tabs.Panel>
 
-              <Tabs.Panel value="API-Request">
-                <InfoApiRequest />
-              </Tabs.Panel>
+                <Tabs.Panel value="API-Request">
+                  <InfoApiRequest />
+                </Tabs.Panel>
 
-              <Tabs.Panel value="API-Response">
-                <InfoApiResponse />
-              </Tabs.Panel>
+                <Tabs.Panel value="API-Response">
+                  <InfoApiResponse />
+                </Tabs.Panel>
 
-              <Tabs.Panel value="Notification">
-                <InfoNotification />
-              </Tabs.Panel>
-            </Tabs>
-          </Accordion.Panel>
-        </Accordion.Item>
+                <Tabs.Panel value="Notification">
+                  <InfoNotification />
+                </Tabs.Panel>
+              </Tabs>
+            </Accordion.Panel>
+          </Accordion.Item>
+        </Accordion>
       )}
     </>
   );

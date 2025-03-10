@@ -30,7 +30,7 @@ export function RestoreDetails({ params }: RestoreProps) {
   const [manifest, setManifest] = useState<Record<string, any>>([]);
   useEffect(() => {
     if (params.restore) {
-      getManifest('restores', params.restore, false);
+      getManifest('restore', params.restore, false);
     }
   }, [agentValues.isAgentAvailable, reload]);
   useEffect(() => {
@@ -82,7 +82,12 @@ export function RestoreDetails({ params }: RestoreProps) {
             lg: 8,
           }}
         >
-          <Manifest resourceType="restores" resourceName={params.restore} />
+          <Card shadow="sm" padding="lg" radius="md" withBorder h={600}>
+            <Card.Section withBorder inheritPadding p="sm">
+              <Manifest resourceType="restore" resourceName={params.restore} h={570} />
+            </Card.Section>
+          </Card>
+
         </Grid.Col>
       </Grid>
 

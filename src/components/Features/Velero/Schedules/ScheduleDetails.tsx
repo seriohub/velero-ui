@@ -29,7 +29,7 @@ export function ScheduleDetails({ params }: ScheduleProps) {
 
   useEffect(() => {
     if (params.schedule) {
-      getManifest('schedules', params.schedule, false);
+      getManifest('schedule', params.schedule, false);
     }
   }, [agentValues.isAgentAvailable, reload]);
 
@@ -92,7 +92,11 @@ export function ScheduleDetails({ params }: ScheduleProps) {
             lg: 8,
           }}
         >
-          <Manifest resourceType="schedules" resourceName={params.schedule} />
+          <Card shadow="sm" padding="lg" radius="md" withBorder h={600}>
+            <Card.Section withBorder inheritPadding p="sm">
+              <Manifest resourceType="schedule" resourceName={params.schedule} h={570} />
+            </Card.Section>
+          </Card>
         </Grid.Col>
       </Grid>
 

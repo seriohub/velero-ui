@@ -23,6 +23,7 @@ import { DataFetchedInfo } from '@/components/Display/DataFetchedInfo';
 import DeleteAction from '@/components/Features/Velero/Commons/Actions/DeleteAction';
 
 import VeleroResourceStatusBadge from '../Commons/Display/VeleroResourceStatusBadge';
+import DescribeActionIcon from "@/components/Features/Velero/Commons/Actions/DescribeActionIcon";
 
 const PAGE_SIZES = [10, 15, 20];
 
@@ -80,7 +81,7 @@ export function RestoresDatatable() {
 
   const renderActions: DataTableColumn<any>['render'] = (record) => (
     <Group gap={4} justify="right" wrap="nowrap">
-      {/*<LogsActionIcon resourceType="restore" record={record} />*/}
+      <DescribeActionIcon resourceType="restore" record={record} />
       <DeleteAction
         resourceType="restore"
         record={record}

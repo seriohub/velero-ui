@@ -1,11 +1,11 @@
 'use client';
 
-import { ActionIcon, Tooltip } from '@mantine/core';
-import { openModal } from '@mantine/modals';
+import { ActionIcon, Button, Group, Tooltip } from '@mantine/core';
+import { openModal, closeAllModals } from '@mantine/modals';
 
 import { IconClipboard } from '@tabler/icons-react';
 
-import { ResourceDescribe } from '@/components/Features/Velero/Commons/Forms/ResourceDescribe';
+import { Manifest } from '@/components/Features/Velero/Commons/Display/Manifest';
 
 interface DescribeActionIconProps {
   resourceType: string;
@@ -13,21 +13,33 @@ interface DescribeActionIconProps {
 }
 
 export default function DescribeActionIcon({ resourceType, record }: DescribeActionIconProps) {
+  /*<ResourceDescribe resourceType={resourceType} resourceName={record.metadata.name} />*/
+
   return (
     <Tooltip label="Describe">
       <ActionIcon
         size="sm"
         variant="subtle"
-        disabled={
+        /*disabled={
           record.status?.phase !== undefined && record.status.phase.toLowerCase() === 'inprogress'
-        }
+        }*/
         onClick={(e) => {
           e.stopPropagation();
           openModal({
-            title: `${resourceType} describe ${record.metadata.name}`,
-            size: '80%',
+            withCloseButton: false,
+            title: null,
+            size: '100rem',
             children: (
-              <ResourceDescribe resourceType={resourceType} resourceName={record.metadata.name} />
+              <>
+                <Manifest
+                  resourceType={resourceType}
+                  resourceName={record.metadata.name}
+                  h={800}
+                />
+                <Group justify="flex-end" mt="md">
+                  <Button onClick={() => closeAllModals()}>Close</Button>
+                </Group>
+              </>
             ),
           });
         }}

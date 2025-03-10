@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Grid } from '@mantine/core';
+import { Card, Grid } from '@mantine/core';
 import { useVeleroManifest } from '@/api/Velero/useVeleroManifest';
 import { useAgentStatus } from '@/contexts/AgentContext';
 
@@ -24,7 +24,7 @@ export function RepoDetails({ params }: BackupProps) {
   const [manifest, setManifest] = useState<Record<string, any>>([]);
   useEffect(() => {
     if (params.repo) {
-      getManifest('backuprepositories', params.repo, false);
+      getManifest('BackupRepository', params.repo, false);
     }
   }, [agentValues.isAgentAvailable]);
 
@@ -58,7 +58,11 @@ export function RepoDetails({ params }: BackupProps) {
         </Grid.Col>
 
         <Grid.Col span={8}>
-          <Manifest resourceType="backuprepositories" resourceName={params.repo} />
+          <Card shadow="sm" padding="lg" radius="md" withBorder h={600}>
+            <Card.Section withBorder inheritPadding p="sm">
+              <Manifest resourceType="BackupRepository" resourceName={params.repo} h={570} />
+            </Card.Section>
+          </Card>
         </Grid.Col>
       </Grid>
     </PageScrollArea>

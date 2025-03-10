@@ -36,7 +36,7 @@ export function BackupDetails({ params }: BackupProps) {
 
   useEffect(() => {
     if (params.backup) {
-      getManifest('backups', params.backup, false);
+      getManifest('backup', params.backup, false);
     }
   }, [agentValues.isAgentAvailable, reload]);
 
@@ -95,7 +95,11 @@ export function BackupDetails({ params }: BackupProps) {
             lg: 5,
           }}
         >
-          <Manifest resourceType="backups" resourceName={params.backup} />
+          <Card shadow="sm" padding="lg" radius="md" withBorder h={600}>
+            <Card.Section withBorder inheritPadding p="sm">
+              <Manifest resourceType="backup" resourceName={params.backup} h={570} />
+            </Card.Section>
+          </Card>
         </Grid.Col>
         <Grid.Col
           span={{

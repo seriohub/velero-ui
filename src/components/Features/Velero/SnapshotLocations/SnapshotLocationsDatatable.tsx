@@ -20,12 +20,12 @@ import ReloadData from '@/components/Inputs/ReloadData';
 import Toolbar from '@/components/Display/Toolbar';
 import { DataFetchedInfo } from '@/components/Display/DataFetchedInfo';
 
-import DetailActionIcon from '@/components/Features/Velero/Commons/Actions/DetailActionIcon';
 import DeleteAction from '@/components/Features/Velero/Commons/Actions/DeleteAction';
 
 import CredentialActionIcon from '@/components/Features/Velero/Commons/Actions/CredentialActionIcon';
 import CreateVslToolbar from '@/components/Features/Velero/SnapshotLocations/Actions/CreateVslToolbar';
-import EditVslAction from "@/components/Features/Velero/SnapshotLocations/Actions/EditVSLAction";
+import EditVslAction from '@/components/Features/Velero/SnapshotLocations/Actions/EditVSLAction';
+import DescribeActionIcon from '@/components/Features/Velero/Commons/Actions/DescribeActionIcon';
 
 const PAGE_SIZES = [10, 15, 20];
 
@@ -77,7 +77,7 @@ export function SnapshotLocationsDatatable() {
   const renderActions: DataTableColumn<any>['render'] = (record) => (
     <Group gap={4} justify="right" wrap="nowrap">
       <CredentialActionIcon name={record.metadata.name} record={record} />
-      <DetailActionIcon name={record.metadata.name} record={record} />
+      <DescribeActionIcon resourceType={record.kind} record={record} />
       <EditVslAction record={record} setReload={setReload} />
       <DeleteAction resourceType="vsl" record={record} setReload={setReload} />
     </Group>

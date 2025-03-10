@@ -22,16 +22,16 @@ export function Logo() {
         underline="never"
       >
         <Box lightHidden>
-          <Group p={5} gap={5}>
-            <IconSailboat size={48} stroke="1.5" color="white" />
+          <Group p={0} gap={2}>
+            <IconSailboat size={40} stroke="1.5" color="white" />
             <Text fz="xl" size="xl" fw={800} c="white">
               Vui
             </Text>
           </Group>
         </Box>
         <Box darkHidden>
-          <Group p={5} gap={5}>
-            <IconSailboat size={48} stroke="1.5" color={uiValues.navbarColored ? 'white' : 'var(--mantine-primary-color-filled)'} />
+          <Group p={0} gap={2}>
+            <IconSailboat size={40} stroke="1.5" color={uiValues.navbarColored ? 'white' : 'var(--mantine-primary-color-filled)'} />
             <Text
               fz="xl"
               size="xl"

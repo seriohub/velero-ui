@@ -23,7 +23,6 @@ import Toolbar from '../../../Display/Toolbar';
 import { DataFetchedInfo } from '../../../Display/DataFetchedInfo';
 import ReloadData from '@/components/Inputs/ReloadData';
 
-import DetailActionIcon from '@/components/Features/Velero/Commons/Actions/DetailActionIcon';
 import CredentialActionIcon from '@/components/Features/Velero/Commons/Actions/CredentialActionIcon';
 import DeleteAction from '@/components/Features/Velero/Commons/Actions/DeleteAction';
 import { SetDefaultBsl } from '@/components/Features/Velero/BackupLocations/Forms/SetDefaultBsl';
@@ -31,6 +30,7 @@ import CreateBslToolbar from '@/components/Features/Velero/BackupLocations/Actio
 
 import VeleroResourceStatusBadge from '../Commons/Display/VeleroResourceStatusBadge';
 import EditBslAction from '@/components/Features/Velero/BackupLocations/Actions/EditBSLAction';
+import DescribeActionIcon from '@/components/Features/Velero/Commons/Actions/DescribeActionIcon';
 
 const PAGE_SIZES = [10, 15, 20];
 
@@ -83,7 +83,7 @@ export function BslDatatable() {
   const renderActions: DataTableColumn<any>['render'] = (record) => (
     <Group gap={4} justify="right" wrap="nowrap">
       <CredentialActionIcon name={record.metadata.name} record={record} />
-      <DetailActionIcon name={record.metadata.name} record={record} />
+      <DescribeActionIcon resourceType={record.kind} record={record} />
       <EditBslAction record={record} setReload={setReload} />
       <DeleteAction resourceType="bsl" record={record} setReload={setReload} />
     </Group>

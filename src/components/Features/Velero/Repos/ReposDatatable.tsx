@@ -38,6 +38,7 @@ import DetailActionIcon from '@/components/Features/Velero/Commons/Actions/Detai
 import InfoRepositoryActionIcon from '@/components/Features/Velero/Repos/InfoRepositoryActionIcon';
 
 import VeleroResourceStatusBadge from '../Commons/Display/VeleroResourceStatusBadge';
+import DescribeActionIcon from "@/components/Features/Velero/Commons/Actions/DescribeActionIcon";
 
 const PAGE_SIZES = [10, 15, 20];
 
@@ -94,7 +95,7 @@ export function ReposDatatable() {
 
   const renderActions: DataTableColumn<any>['render'] = (record) => (
     <Group gap={4} justify="right" wrap="nowrap">
-      <DetailActionIcon name={record.metadata.name} record={record} />
+      <DescribeActionIcon resourceType={record.kind} record={record} />
       <InfoRepositoryActionIcon
         repositoryURL={record.spec.resticIdentifier}
         backupStorageLocation={record.spec.backupStorageLocation}

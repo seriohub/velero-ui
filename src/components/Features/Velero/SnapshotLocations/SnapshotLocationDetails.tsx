@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Grid } from '@mantine/core';
+import { Card, Grid } from '@mantine/core';
 
 import { useAgentStatus } from '@/contexts/AgentContext';
 
@@ -15,7 +15,7 @@ import { SnapshotLocationDetailsView } from '@/components/Features/Velero/Snapsh
 import { Manifest } from '@/components/Features/Velero/Commons/Display/Manifest';
 import DeleteAction from '@/components/Features/Velero/Commons/Actions/DeleteAction';
 import { isRecordStringAny } from '@/utils/isRecordStringIsType';
-import EditVslAction from "@/components/Features/Velero/SnapshotLocations/Actions/EditVSLAction";
+import EditVslAction from '@/components/Features/Velero/SnapshotLocations/Actions/EditVSLAction';
 
 interface BackupProps {
   params: any;
@@ -30,7 +30,7 @@ export function SnapshotLocationDetails({ params }: BackupProps) {
 
   useEffect(() => {
     if (params.vsl) {
-      getManifest('volumesnapshotlocations', params.vsl, false);
+      getManifest('VolumeSnapshotLocation', params.vsl, false);
     }
   }, [agentValues.isAgentAvailable, reload]);
 
@@ -72,7 +72,16 @@ export function SnapshotLocationDetails({ params }: BackupProps) {
         </Grid.Col>
 
         <Grid.Col span={8}>
-          <Manifest resourceType="volumesnapshotlocations" resourceName={params.vsl} reload={reload}/>
+          <Card shadow="sm" padding="lg" radius="md" withBorder h={600}>
+            <Card.Section withBorder inheritPadding p="sm">
+              <Manifest
+                resourceType="VolumeSnapshotLocation"
+                resourceName={params.vsl}
+                reload={reload}
+                h={570}
+              />
+            </Card.Section>
+          </Card>
         </Grid.Col>
       </Grid>
     </PageScrollArea>

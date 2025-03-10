@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Grid } from '@mantine/core';
+import { Card, Grid } from '@mantine/core';
 
 import { useAgentStatus } from '@/contexts/AgentContext';
 
@@ -31,7 +31,7 @@ export function BslDetails({ params }: BackupProps) {
 
   useEffect(() => {
     if (params.bsl) {
-      getManifest('backupstoragelocations', params.bsl, false);
+      getManifest('BackupStorageLocation', params.bsl, false);
     }
   }, [agentValues.isAgentAvailable, reload]);
 
@@ -73,11 +73,16 @@ export function BslDetails({ params }: BackupProps) {
         </Grid.Col>
 
         <Grid.Col span={8}>
-          <Manifest
-            resourceType="backupstoragelocations"
-            resourceName={params.bsl}
-            reload={reload}
-          />
+          <Card shadow="sm" padding="lg" radius="md" withBorder h={600}>
+            <Card.Section withBorder inheritPadding p="sm">
+              <Manifest
+                resourceType="BackupStorageLocation"
+                resourceName={params.bsl}
+                reload={reload}
+                h={570}
+              />
+            </Card.Section>
+          </Card>
         </Grid.Col>
       </Grid>
     </PageScrollArea>

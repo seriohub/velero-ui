@@ -3,18 +3,17 @@
 import { useDisclosure, useElementSize, useViewportSize } from '@mantine/hooks';
 import {
   AppShell,
-  Stack,
   Box,
-  Accordion,
   useComputedColorScheme,
   ActionIcon,
   rem,
   Drawer,
+  Flex,
 } from '@mantine/core';
-import { useEffect, useState } from 'react';
 
 import { IconArrowRight, IconArrowLeft } from '@tabler/icons-react';
 
+import { useEffect } from 'react';
 import { useUIStatus } from '@/contexts/UIContext';
 
 import { AppShellHeader } from './AppShell.Header';
@@ -24,7 +23,7 @@ import { AppShellMainFooter } from './AppShell.Main.Footer';
 
 import AgentError from '@/components/Features/Errors/AgentError';
 import DebugAside from '@/components/Features/Debug/DebugAside';
-import TaskInProgress from '@/components/Display/TaskInProgress';
+import TaskInProgressAccordion from '@/components/Display/TaskInProgressAccordion';
 import UIConfig from '@/components/Features/Config/UI/UIConfig';
 
 interface AppShellLayoutProps {
@@ -35,8 +34,7 @@ export default function AppShellLayout({ children }: AppShellLayoutProps) {
   const uiValues = useUIStatus();
 
   const [opened, { toggle }] = useDisclosure();
-
-  const [value, setValue] = useState<string[]>([]);
+  const [collapsed, { toggle: toggleCollapsed, open }] = useDisclosure();
 
   const { height: vpHeight, width: vpWidth } = useViewportSize();
   const { ref, width, height } = useElementSize();
@@ -45,16 +43,22 @@ export default function AppShellLayout({ children }: AppShellLayoutProps) {
   const [openedAside, { toggle: toggleAside }] = useDisclosure();
 
   useEffect(() => {
-    const accordionValue = localStorage.getItem('accordion');
-    setValue(accordionValue !== null ? accordionValue.split(',') : []);
+    if (localStorage.getItem('navbarCollapsed') === 'true') {
+      open();
+    }
   }, []);
+
+  useEffect(() => {
+    console.log('collapsed', collapsed);
+    localStorage.setItem('navbarCollapsed', collapsed ? 'true' : 'false');
+  }, [collapsed]);
 
   return (
     <>
       <AppShell
         header={{ height: 60 }}
         navbar={{
-          width: '240px',
+          width: !collapsed ? '240px' : '60px',
           breakpoint: 'xs',
           collapsed: { mobile: !opened },
         }}
@@ -70,16 +74,23 @@ export default function AppShellLayout({ children }: AppShellLayoutProps) {
           <AppShellHeader opened={opened} toggle={toggle} />
         </AppShell.Header>
         <AppShell.Navbar
+          style={{ transition: 'width 0.2s ease' }}
           bg={
             uiValues.navbarColored && computedColorScheme === 'light'
               ? 'var(--mantine-primary-color-filled)'
               : undefined
           }
         >
-          <AppShellNavbar opened={opened} toggle={toggle} />
+          <AppShellNavbar
+            opened={opened}
+            toggle={toggle}
+            collapsed={collapsed}
+            toggleCollapsed={toggleCollapsed}
+          />
         </AppShell.Navbar>
         <AppShell.Main>
-          <Stack
+          <Flex
+            direction="column"
             justify="space-between"
             h={
               vpWidth < 768
@@ -87,7 +98,6 @@ export default function AppShellLayout({ children }: AppShellLayoutProps) {
                 : 'calc(100vh - var(--app-shell-header-height, 0px) - var(--app-shell-footer-height, 0px) - 20px)'
             }
             gap={0}
-            w={vpWidth < 768 ? '100vw' : 'calc(100vw - 240px)'}
             bg={
               computedColorScheme === 'light'
                 ? uiValues.mainColored
@@ -97,38 +107,19 @@ export default function AppShellLayout({ children }: AppShellLayoutProps) {
             }
           >
             <Box
-              h={
-                vpWidth < 768
-                  ? `calc(100vh - var(--app-shell-header-height, 0px) - ${height.toFixed(0)}px - 0px`
-                  : `calc(100vh - var(--app-shell-header-height, 0px) - ${height.toFixed(0)}px - 20px`
-              }
+              style={{
+                flexGrow: 1,
+                minHeight: 0,
+              }}
             >
               {children}
             </Box>
             <Box ref={ref} p={0}>
-              <Accordion
-                chevronPosition="left"
-                multiple
-                // variant="contained"
-                radius={0}
-                defaultValue={value}
-                value={value}
-                pt={0}
-                onChange={(val) => {
-                  setValue(val);
-                  localStorage.setItem('accordion', val.toString());
-                }}
-                style={{
-                  borderTop: '1px solid',
-                  borderColor: 'var(--mantine-color-default-border)',
-                }}
-              >
-                <AgentError />
-                <TaskInProgress />
-                <AppShellMainFooter />
-              </Accordion>
+              <AgentError />
+              <TaskInProgressAccordion />
+              <AppShellMainFooter />
             </Box>
-          </Stack>
+          </Flex>
 
           {uiValues.showDebugAside && (
             <ActionIcon

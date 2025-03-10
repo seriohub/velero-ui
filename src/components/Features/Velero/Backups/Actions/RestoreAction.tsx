@@ -19,7 +19,7 @@ const RestoreAction: React.FC<RestoreActionIconProps> = ({
   setReload,
   buttonType = 'actionIcon',
 }) => {
-  const isDisabled = record?.status?.phase !== 'Completed';
+  const isDisabled = record?.status?.phase === 'InProgress' || record?.status?.phase === 'Unknown' || record?.status?.phase === 'Failed';
   const backupName = record?.metadata?.name || 'Unknown';
 
   const handleOpenModal = (e: React.MouseEvent) => {

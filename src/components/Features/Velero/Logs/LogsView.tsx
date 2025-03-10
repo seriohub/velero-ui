@@ -3,11 +3,12 @@
 import { Center, Loader, Text, Stack } from '@mantine/core';
 
 interface LogsProps {
-  items: Array<any>;
+  items: Record<string, any>;
   fetching: boolean;
 }
 
 export function LogsView({ items = [], fetching }: LogsProps) {
+  console.log(items);
   if (fetching) {
     return (
       <Center mt={50}>
@@ -18,8 +19,10 @@ export function LogsView({ items = [], fetching }: LogsProps) {
 
   return (
     <Stack h={400} gap={0}>
-      {items.map((item, index) => (
-        <Text key={index} size="sm">{item}</Text>
+      {items?.logs?.map((item: any, index: any) => (
+        <Text key={index} size="sm">
+          {item}
+        </Text>
       ))}
     </Stack>
   );

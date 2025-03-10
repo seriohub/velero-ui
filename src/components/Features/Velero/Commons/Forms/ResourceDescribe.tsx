@@ -6,7 +6,7 @@ import { Button, Group } from '@mantine/core';
 import { closeAllModals } from '@mantine/modals';
 
 import { Describe } from '@/components/Features/Velero/Commons/Display/Describe';
-import { useResourceDescribe } from '@/api/Velero/useResourceDescribe';
+import { useVeleroManifest } from '@/api/Velero/useVeleroManifest';
 
 interface ResourceDescribeProps {
   resourceType: string;
@@ -18,10 +18,11 @@ function isJSONObject(variable: any) {
 }
 
 export function ResourceDescribe({ resourceType, resourceName }: ResourceDescribeProps) {
-  const { data, getResourceDescribe, error, fetching } = useResourceDescribe();
+  // const { data, getResourceDescribe, error, fetching } = useResourceDescribe();
+  const { data, getManifest, error, fetching } = useVeleroManifest();
 
   useEffect(() => {
-    getResourceDescribe(resourceType, resourceName);
+    getManifest(resourceType, resourceName, false);
   }, [resourceName]);
 
   return (
