@@ -5,15 +5,7 @@ import { IconPlus } from '@tabler/icons-react';
 
 import { CreateBackupForm } from '../Forms/CreateBackupForm';
 
-interface CreateBackupToolbarIconProps {
-  reload: number;
-  setReload: React.Dispatch<React.SetStateAction<number>>;
-}
-
-export default function CreateBackupAction({
-  reload,
-  setReload,
-}: CreateBackupToolbarIconProps) {
+export default function CreateBackupAction() {
   return (
     <Tooltip label="Create backup">
       <ActionIcon
@@ -25,11 +17,10 @@ export default function CreateBackupAction({
           openModal({
             title: 'Create New Backup',
             size: '60rem',
-            children: <CreateBackupForm reload={reload} setReload={setReload} />,
+            children: <CreateBackupForm />,
             padding: 'md',
             radius: 'md',
             centered: true,
-
           });
         }}
       >

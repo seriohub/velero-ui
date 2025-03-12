@@ -7,8 +7,9 @@ import { DataTable, DataTableColumn, DataTableSortStatus } from 'mantine-datatab
 import { Group, Center, Tooltip, ActionIcon, rem, CopyButton } from '@mantine/core';
 import { IconCheck, IconClick, IconCopy } from '@tabler/icons-react';
 
-import { useAppStatus } from '@/contexts/AppContext';
+// import { useAppStatus } from '@/contexts/AppContext';
 
+import { debounce } from 'lodash';
 import { useAgentStatus } from '@/contexts/AgentContext';
 
 import { getExpirationString } from '@/utils/getExpirationString';
@@ -20,9 +21,10 @@ import VeleroResourceStatusBadge from '@/components/Features/Velero/Commons/Disp
 
 import { useDownloadRequests } from '@/api/Requests/useDownloadRequests';
 import DownloadAction from '@/components/Features/Velero/Requests/Actions/DownloadAction';
+import { eventEmitter } from '@/lib/EventEmitter.js';
 
 export default function DownloadRequests({ reload, setReload, active, setFetchingData }: any) {
-  const appValues = useAppStatus();
+  // const appValues = useAppStatus();
   const agentValues = useAgentStatus();
 
   const { data, getDownloadRequests, fetching } = useDownloadRequests();
@@ -33,6 +35,23 @@ export default function DownloadRequests({ reload, setReload, active, setFetchin
     columnAccessor: 'Name',
     direction: 'asc',
   });
+
+  /* watch */
+  //useWatchResources(type ? 'podvolumebackups' : 'podvolumerestores');
+  const handleWatchResources = debounce((message) => {
+    if (message?.resources === 'downloadrequests') {
+      setReload((prev: number) => prev + 1);
+    }
+  }, 250);
+
+  useEffect(() => {
+    eventEmitter.on('watchResources', handleWatchResources);
+
+    return () => {
+      eventEmitter.off('watchResources', handleWatchResources);
+    };
+  }, []);
+  /* end watch */
 
   useEffect(() => {
     if (agentValues.isAgentAvailable) {
@@ -64,10 +83,11 @@ export default function DownloadRequests({ reload, setReload, active, setFetchin
   useEffect(() => {
     if (!active) return undefined;
     getDownloadRequests();
-    const interval = setInterval(() => {
+    return undefined;
+    /*const interval = setInterval(() => {
       getDownloadRequests();
     }, appValues.refreshRecent);
-    return () => clearInterval(interval);
+    return () => clearInterval(interval);*/
   }, [agentValues.currentAgent, agentValues.isAgentAvailable, active]);
 
   const renderActions: DataTableColumn<any>['render'] = (record) => (
@@ -75,11 +95,7 @@ export default function DownloadRequests({ reload, setReload, active, setFetchin
       <CopyButton value={record?.status?.downloadURL} timeout={2000}>
         {({ copied, copy }) => (
           <Tooltip label={copied ? 'Copied' : 'Copy URL'} withArrow position="right">
-            <ActionIcon
-              color={copied ? 'teal' : ''}
-              variant="transparent"
-              onClick={copy}
-            >
+            <ActionIcon color={copied ? 'teal' : ''} variant="transparent" onClick={copy}>
               {copied ? (
                 <IconCheck
                   style={{
@@ -113,7 +129,7 @@ export default function DownloadRequests({ reload, setReload, active, setFetchin
       // withColumnBorders
       striped
       highlightOnHover
-      idAccessor="id"
+      idAccessor="metadata.name"
       records={records}
       sortStatus={sortStatus}
       onSortStatusChange={setSortStatus}

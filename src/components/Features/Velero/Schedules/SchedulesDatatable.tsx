@@ -30,6 +30,9 @@ import SchedulesHeatmapToolbarIcon from '@/components/Features/Velero/Schedules/
 import CreateSecheduleAction from '@/components/Features/Velero/Schedules/Action/CreateScheduleAction';
 
 import VeleroResourceStatusBadge from '../Commons/Display/VeleroResourceStatusBadge';
+import { useWatchResources } from '@/hooks/useWatchResources';
+import { debounce } from 'lodash';
+import { eventEmitter } from '@/lib/EventEmitter.js';
 
 const PAGE_SIZES = [10, 15, 20];
 
@@ -49,6 +52,23 @@ export function SchedulesDatatable() {
   const [page, setPage] = useState(1);
 
   const [records, setRecords] = useState(items.slice(0, pageSize));
+
+  /* watch */
+  useWatchResources('schedules');
+  const handleWatchResources = debounce((message) => {
+    if (message?.resources === 'schedules') {
+      setReload((prev) => prev + 1);
+    }
+  }, 250);
+
+  useEffect(() => {
+    eventEmitter.on('watchResources', handleWatchResources);
+
+    return () => {
+      eventEmitter.off('watchResources', handleWatchResources);
+    };
+  }, []);
+  /* end watch */
 
   useEffect(() => {
     if (agentValues.isAgentAvailable && reload > 1) getSchedules(true);
@@ -117,7 +137,7 @@ export function SchedulesDatatable() {
         onRecordsPerPageChange={setPageSize}
         sortStatus={sortStatus}
         onSortStatusChange={setSortStatus}
-        fetching={fetching}
+        fetching={fetching && records?.length === 0}
         columns={[
           {
             accessor: 'metadata.name',

@@ -4,11 +4,12 @@ import { useEffect, useState } from 'react';
 import sortBy from 'lodash/sortBy';
 
 import { DataTable, DataTableColumn, DataTableSortStatus } from 'mantine-datatable';
-import { Group, Center, Anchor, Text } from '@mantine/core';
+import { Group, Center, Anchor, Text, Progress } from '@mantine/core';
 import { IconClick, IconDeviceFloppy, IconRestore } from '@tabler/icons-react';
 
 import { useRouter } from 'next/navigation';
-import { useAppStatus } from '@/contexts/AppContext';
+import { debounce } from 'lodash';
+// import { useAppStatus } from '@/contexts/AppContext';
 
 import { useAgentStatus } from '@/contexts/AgentContext';
 
@@ -20,6 +21,8 @@ import DeleteAction from '@/components/Features/Velero/Commons/Actions/DeleteAct
 import DescribeActionIcon from '@/components/Features/Velero/Commons/Actions/DescribeActionIcon';
 
 import VeleroResourceStatusBadge from '@/components//Features/Velero/Commons/Display/VeleroResourceStatusBadge';
+// import { useWatchResources } from '@/hooks/useWatchResources';
+import { eventEmitter } from '@/lib/EventEmitter.js';
 
 export default function BackupRestoreInProgress({
   reload,
@@ -28,7 +31,7 @@ export default function BackupRestoreInProgress({
   setFetchingData,
 }: any) {
   const router = useRouter();
-  const appValues = useAppStatus();
+  // const appValues = useAppStatus();
   const agentValues = useAgentStatus();
 
   const { data, getStatsInProgress, fetching } = useStatsInProgress();
@@ -39,6 +42,23 @@ export default function BackupRestoreInProgress({
     columnAccessor: 'Number',
     direction: 'asc',
   });
+
+  /* watch */
+  //useWatchResources(type ? 'podvolumebackups' : 'podvolumerestores');
+  const handleWatchResources = debounce((message) => {
+    if (message?.resources === 'backups' || message?.resources === 'restores') {
+      setReload((prev: number) => prev + 1);
+    }
+  }, 250);
+
+  useEffect(() => {
+    eventEmitter.on('watchResources', handleWatchResources);
+
+    return () => {
+      eventEmitter.off('watchResources', handleWatchResources);
+    };
+  }, []);
+  /* end watch */
 
   useEffect(() => {
     if (agentValues.isAgentAvailable) {
@@ -70,10 +90,11 @@ export default function BackupRestoreInProgress({
   useEffect(() => {
     if (!active) return undefined;
     getStatsInProgress();
-    const interval = setInterval(() => {
+    return undefined;
+    /*const interval = setInterval(() => {
       getStatsInProgress();
     }, appValues.refreshRecent);
-    return () => clearInterval(interval);
+    return () => clearInterval(interval);*/
   }, [agentValues.currentAgent, agentValues.isAgentAvailable, active]);
 
   const renderActions: DataTableColumn<any>['render'] = (record) => (
@@ -93,7 +114,7 @@ export default function BackupRestoreInProgress({
       // withColumnBorders
       striped
       highlightOnHover
-      idAccessor="id"
+      idAccessor="metadata.name"
       records={records}
       sortStatus={sortStatus}
       onSortStatusChange={setSortStatus}
@@ -109,7 +130,7 @@ export default function BackupRestoreInProgress({
           accessor: 'metadata.name',
           title: 'Name',
           sortable: true,
-          width: 300,
+          width: 250,
           ellipsis: true,
           render: (record: Record<string, any>) => (
             <Anchor
@@ -143,11 +164,41 @@ export default function BackupRestoreInProgress({
           accessor: 'status.phase',
           title: 'Status',
           sortable: true,
-          width: 100,
+          width: 120,
           ellipsis: true,
           render: ({ status }: any) => (
             <VeleroResourceStatusBadge status={status?.phase || undefined} />
           ),
+        },
+        {
+          accessor: 'status.progress.itemsBackedUp',
+          title: 'Progress',
+          sortable: true,
+          width: 120,
+          ellipsis: true,
+          render: ({ status }: any) => {
+            const progressValue =
+              status?.progress?.itemsBackedUp ?? status?.progress?.itemsRestored;
+            const totalValue = status?.progress?.totalItems;
+
+            return (
+              <>
+                {progressValue && totalValue && (
+                  <Progress.Root size={20}>
+                    <Progress.Section
+                      animated={Number(progressValue) / Number(totalValue) !== 1}
+                      color="var(--mantine-primary-color-filled)"
+                      value={(100 * Number(progressValue)) / Number(totalValue)}
+                    >
+                      <Progress.Label>
+                        {Math.round((100 * Number(progressValue)) / Number(totalValue))}%
+                      </Progress.Label>
+                    </Progress.Section>
+                  </Progress.Root>
+                )}
+              </>
+            );
+          }
         },
         {
           accessor: 'status.errors',

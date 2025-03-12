@@ -8,7 +8,6 @@ interface LogsProps {
 }
 
 export function LogsView({ items = [], fetching }: LogsProps) {
-  console.log(items);
   if (fetching) {
     return (
       <Center mt={50}>

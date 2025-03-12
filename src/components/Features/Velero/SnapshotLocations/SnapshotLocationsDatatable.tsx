@@ -10,6 +10,7 @@ import { IconCamera, IconClick } from '@tabler/icons-react';
 
 import { useRouter } from 'next/navigation';
 
+import { debounce } from 'lodash';
 import { useAgentStatus } from '@/contexts/AgentContext';
 
 import { useSnapshotLocation } from '@/api/SnapshotLocation/useSnapshotLocation';
@@ -26,6 +27,8 @@ import CredentialActionIcon from '@/components/Features/Velero/Commons/Actions/C
 import CreateVslToolbar from '@/components/Features/Velero/SnapshotLocations/Actions/CreateVslToolbar';
 import EditVslAction from '@/components/Features/Velero/SnapshotLocations/Actions/EditVSLAction';
 import DescribeActionIcon from '@/components/Features/Velero/Commons/Actions/DescribeActionIcon';
+import { useWatchResources } from '@/hooks/useWatchResources';
+import { eventEmitter } from '@/lib/EventEmitter.js';
 
 const PAGE_SIZES = [10, 15, 20];
 
@@ -45,6 +48,23 @@ export function SnapshotLocationsDatatable() {
   const [page, setPage] = useState(1);
 
   const [records, setRecords] = useState(items.slice(0, pageSize));
+
+  /* watch */
+  useWatchResources('volumesnapshotlocations');
+  const handleWatchResources = debounce((message) => {
+    if (message?.resources === 'volumesnapshotlocations') {
+      setReload((prev) => prev + 1);
+    }
+  }, 250);
+
+  useEffect(() => {
+    eventEmitter.on('watchResources', handleWatchResources);
+
+    return () => {
+      eventEmitter.off('watchResources', handleWatchResources);
+    };
+  }, []);
+  /* end watch */
 
   useEffect(() => {
     if (agentValues.isAgentAvailable && reload > 1) getSnapshotLocation(true);
@@ -114,7 +134,7 @@ export function SnapshotLocationsDatatable() {
         onRecordsPerPageChange={setPageSize}
         sortStatus={sortStatus}
         onSortStatusChange={setSortStatus}
-        fetching={fetching}
+        fetching={fetching && records?.length === 0}
         columns={[
           {
             accessor: 'metadata.name',

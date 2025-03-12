@@ -17,6 +17,9 @@ import { Manifest } from '@/components/Features/Velero/Commons/Display/Manifest'
 import DeleteAction from '@/components/Features/Velero/Commons/Actions/DeleteAction';
 import { isRecordStringAny } from '@/utils/isRecordStringIsType';
 import EditBslAction from '@/components/Features/Velero/BackupLocations/Actions/EditBSLAction';
+import { debounce } from 'lodash';
+import { eventEmitter } from '@/lib/EventEmitter.js';
+import {useWatchResources} from "@/hooks/useWatchResources";
 
 interface BackupProps {
   params: any;
@@ -28,6 +31,23 @@ export function BslDetails({ params }: BackupProps) {
   const agentValues = useAgentStatus();
 
   const [manifest, setManifest] = useState<Record<string, any>>([]);
+
+  /* watch */
+  useWatchResources('backupstoragelocations');
+  const handleWatchResources = debounce((message) => {
+    if (message?.resources === 'backupstoragelocations' && message?.resource?.metadata?.name === params.bsl) {
+      setManifest(message?.resource);
+    }
+  }, 250);
+
+  useEffect(() => {
+    eventEmitter.on('watchResources', handleWatchResources);
+
+    return () => {
+      eventEmitter.off('watchResources', handleWatchResources);
+    };
+  }, []);
+  /* end watch */
 
   useEffect(() => {
     if (params.bsl) {
@@ -69,7 +89,7 @@ export function BslDetails({ params }: BackupProps) {
 
       <Grid gutter="sm">
         <Grid.Col span={4}>
-          <BslDetailsView data={data} />
+          <BslDetailsView data={manifest} h={600}/>
         </Grid.Col>
 
         <Grid.Col span={8}>

@@ -16,10 +16,12 @@ import {
 
 import { IconCopy, IconCheck } from '@tabler/icons-react';
 import { useEffect, useState } from 'react';
+import { debounce } from 'lodash';
 import { useVeleroManifest } from '@/api/Velero/useVeleroManifest';
 import { useAgentStatus } from '@/contexts/AgentContext';
 import { isRecordStringAny } from '@/utils/isRecordStringIsType';
 import { convertJsonToYaml } from '@/utils/jsonToYaml';
+import { eventEmitter } from '@/lib/EventEmitter.js';
 
 interface ManifestProps {
   resourceType: string;
@@ -34,6 +36,26 @@ export function Manifest({ resourceType, resourceName, reload, ...rest }: Manife
   const agentValues = useAgentStatus();
   const [neat, setNeat] = useState(false);
   const [manifest, setManifest] = useState<Record<string, any>>([]);
+
+  /* watch */
+  const handleWatchResources = debounce((message) => {
+    if (
+      message?.resource?.kind === resourceType &&
+      message?.resource?.metadata?.name === resourceName
+    ) {
+      // setManifest(message?.resource);
+      getManifest(resourceType, resourceName, neat);
+    }
+  }, 250);
+
+  useEffect(() => {
+    eventEmitter.on('watchResources', handleWatchResources);
+
+    return () => {
+      eventEmitter.off('watchResources', handleWatchResources);
+    };
+  }, []);
+  /* end watch */
 
   useEffect(() => {
     getManifest(resourceType, resourceName, neat);
@@ -72,14 +94,14 @@ export function Manifest({ resourceType, resourceName, reload, ...rest }: Manife
 
       <ScrollArea>
         <Code block style={{ borderRadius: '0px' }}>
-          {fetching && (
+          {fetching && manifest.length === 0 && (
             <Center>
               <Loader />
             </Center>
           )}
-          {!fetching && (
+          {manifest.length !== 0 && (
             <pre>
-              <Text size="sm">{convertJsonToYaml(manifest)}</Text>
+              <Text size="xs">{convertJsonToYaml(manifest)}</Text>
             </pre>
           )}
         </Code>

@@ -20,6 +20,10 @@ export const parseApiResponse = async (res: Response): Promise<any> => {
     throw new Error(`HTTP 422 Validation Error: Unprocessable Entity ${formattedErrors}`);
   }
 
+  if (res.status === 404) {
+    throw new Error('HTTP 404');
+  }
+
   return res.json().then((response) => ({
     data: response,
     status: res.status,

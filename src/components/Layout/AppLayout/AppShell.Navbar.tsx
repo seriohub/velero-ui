@@ -12,24 +12,24 @@ import {
 } from '@mantine/core';
 
 import {
-  IconDashboard,
-  IconRestore,
-  IconDeviceFloppy,
-  IconCalendarEvent,
-  IconDatabase,
-  IconLink,
-  IconSettings,
-  IconServer,
-  IconHome,
-  IconAffiliate,
-  IconFolders,
-  IconDog,
-  IconSpy,
-  IconInfoCircle,
-  IconAppWindow,
-  IconZoomCode,
-  IconArrowBarLeft,
-  IconArrowBarRight,
+  IconDashboard ,
+  IconRestore ,
+  IconDeviceFloppy ,
+  IconCalendarEvent ,
+  IconDatabase ,
+  IconLink ,
+  IconSettings ,
+  IconServer ,
+  IconHome ,
+  IconAffiliate ,
+  IconFolders ,
+  IconDog ,
+  IconSpy ,
+  IconInfoCircle ,
+  IconAppWindow ,
+  IconZoomCode ,
+  IconArrowBarLeft ,
+  IconArrowBarRight , IconDatabaseExport , IconDatabaseImport , IconShield ,
 } from '@tabler/icons-react';
 
 import { useRouter, usePathname } from 'next/navigation';
@@ -89,10 +89,16 @@ const veleroResourceLinks = [
     tooltip: 'Repositories',
   },
   {
-    link: '/sc-mapping',
-    label: 'SC mapping',
-    icon: IconLink,
-    tooltip: 'Storage Class Mapping',
+    link: '/pod-volume-backups',
+    label: 'Pod Volume Backups',
+    icon: IconDatabaseExport,
+    tooltip: 'Pod Volumes Backup',
+  },
+  {
+    link: '/pod-volume-restores',
+    label: 'Pod Volume Restores',
+    icon: IconDatabaseImport,
+    tooltip: 'Pod Volumes Restore',
   },
 ];
 
@@ -107,22 +113,28 @@ const natsLink = [
 
 const settingsLink = [
   {
+    link: '/sc-mapping',
+    label: 'Storage Class Mapping',
+    icon: IconLink,
+    tooltip: 'Storage Class Mapping',
+  },
+  {
     link: '/settings/api',
     label: 'Api',
     icon: IconSettings,
-    tooltip: 'Settings API',
+    tooltip: 'API Settings',
   },
   {
     link: '/settings/watchdog',
     label: 'Watchodg',
     icon: IconDog,
-    tooltip: 'Settings Watchdog',
+    tooltip: 'Watchdog Settings',
   },
   {
     link: '/settings/ui',
     label: 'UI',
     icon: IconAppWindow,
-    tooltip: 'Settings UI',
+    tooltip: 'UI Settings',
   },
 ];
 
@@ -130,7 +142,7 @@ const systemLink = [
   {
     link: '/system/security',
     label: 'Security',
-    icon: IconInfoCircle,
+    icon: IconShield,
     tooltip: 'Security',
   },
   {

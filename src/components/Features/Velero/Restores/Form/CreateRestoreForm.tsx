@@ -81,10 +81,10 @@ export function CreateRestoreForm({ backupName, setReload }: RestoreBackupProps)
     //console.log(values)
     handleCreateRestore(values);
     closeAllModals();
-    const interval = setInterval(() => {
+    /*const interval = setInterval(() => {
       setReload((prev) => prev + 1);
       clearInterval(interval);
-    }, appValues.refreshDatatableAfter);
+    }, appValues.refreshDatatableAfter);*/
   }
 
   return (

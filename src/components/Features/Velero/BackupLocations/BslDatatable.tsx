@@ -31,6 +31,9 @@ import CreateBslToolbar from '@/components/Features/Velero/BackupLocations/Actio
 import VeleroResourceStatusBadge from '../Commons/Display/VeleroResourceStatusBadge';
 import EditBslAction from '@/components/Features/Velero/BackupLocations/Actions/EditBSLAction';
 import DescribeActionIcon from '@/components/Features/Velero/Commons/Actions/DescribeActionIcon';
+import { useWatchResources } from '@/hooks/useWatchResources';
+import { debounce } from 'lodash';
+import { eventEmitter } from '@/lib/EventEmitter.js';
 
 const PAGE_SIZES = [10, 15, 20];
 
@@ -51,6 +54,23 @@ export function BslDatatable() {
   const [page, setPage] = useState(1);
 
   const [records, setRecords] = useState(items.slice(0, pageSize));
+
+  /* watch */
+  useWatchResources('backupstoragelocations');
+  const handleWatchResources = debounce((message) => {
+    if (message?.resources === 'backupstoragelocations') {
+      setReload((prev) => prev + 1);
+    }
+  }, 250);
+
+  useEffect(() => {
+    eventEmitter.on('watchResources', handleWatchResources);
+
+    return () => {
+      eventEmitter.off('watchResources', handleWatchResources);
+    };
+  }, []);
+  /* end watch */
 
   useEffect(() => {
     if (agentValues.isAgentAvailable && reload > 1) getBackupLocation(true);
@@ -119,7 +139,7 @@ export function BslDatatable() {
         onRecordsPerPageChange={setPageSize}
         sortStatus={sortStatus}
         onSortStatusChange={setSortStatus}
-        fetching={fetching}
+        fetching={fetching && records?.length === 0}
         idAccessor="metadata.uid"
         onRowContextMenu={({ record, event }: any) => {
           showContextMenu([

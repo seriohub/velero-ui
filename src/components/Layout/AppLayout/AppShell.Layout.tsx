@@ -25,6 +25,7 @@ import AgentError from '@/components/Features/Errors/AgentError';
 import DebugAside from '@/components/Features/Debug/DebugAside';
 import TaskInProgressAccordion from '@/components/Display/TaskInProgressAccordion';
 import UIConfig from '@/components/Features/Config/UI/UIConfig';
+import RouteChangeHandler from '@/components/RouteChageHandler';
 
 interface AppShellLayoutProps {
   children: any;
@@ -49,12 +50,12 @@ export default function AppShellLayout({ children }: AppShellLayoutProps) {
   }, []);
 
   useEffect(() => {
-    console.log('collapsed', collapsed);
     localStorage.setItem('navbarCollapsed', collapsed ? 'true' : 'false');
   }, [collapsed]);
 
   return (
     <>
+      <RouteChangeHandler />
       <AppShell
         header={{ height: 60 }}
         navbar={{
@@ -117,7 +118,7 @@ export default function AppShellLayout({ children }: AppShellLayoutProps) {
             <Box ref={ref} p={0}>
               <AgentError />
               <TaskInProgressAccordion />
-              <AppShellMainFooter />
+              {process.env.NODE_ENV === 'development' && <AppShellMainFooter />}
             </Box>
           </Flex>
 

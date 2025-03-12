@@ -38,7 +38,10 @@ import DetailActionIcon from '@/components/Features/Velero/Commons/Actions/Detai
 import InfoRepositoryActionIcon from '@/components/Features/Velero/Repos/InfoRepositoryActionIcon';
 
 import VeleroResourceStatusBadge from '../Commons/Display/VeleroResourceStatusBadge';
-import DescribeActionIcon from "@/components/Features/Velero/Commons/Actions/DescribeActionIcon";
+import DescribeActionIcon from '@/components/Features/Velero/Commons/Actions/DescribeActionIcon';
+import { useWatchResources } from '@/hooks/useWatchResources';
+import { debounce } from 'lodash';
+import { eventEmitter } from '@/lib/EventEmitter.js';
 
 const PAGE_SIZES = [10, 15, 20];
 
@@ -64,6 +67,23 @@ export function ReposDatatable() {
   const [page, setPage] = useState(1);
 
   const [records, setRecords] = useState(items.slice(0, pageSize));
+
+  /* watch */
+  useWatchResources('backuprepositories');
+  const handleWatchResources = debounce((message) => {
+    if (message?.resources === 'backuprepositories') {
+      setReload((prev) => prev + 1);
+    }
+  }, 250);
+
+  useEffect(() => {
+    eventEmitter.on('watchResources', handleWatchResources);
+
+    return () => {
+      eventEmitter.off('watchResources', handleWatchResources);
+    };
+  }, []);
+  /* end watch */
 
   useEffect(() => {
     if (agentValues.isAgentAvailable && reload > 1) getRepositories(true);
@@ -158,7 +178,7 @@ export function ReposDatatable() {
         onRecordsPerPageChange={setPageSize}
         sortStatus={sortStatus}
         onSortStatusChange={setSortStatus}
-        fetching={fetching}
+        fetching={fetching && records?.length === 0}
         onRowContextMenu={({ record, event }: any) =>
           showContextMenu([
             {

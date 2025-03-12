@@ -16,6 +16,8 @@ import DescribeActionIcon from '@/components/Features/Velero/Commons/Actions/Des
 import VeleroResourceStatusBadge from '@/components/Features/Velero/Commons/Display/VeleroResourceStatusBadge';
 
 import { useDownloadBackupRequests } from '@/api/Requests/useDownloadBackupRequests';
+import { debounce } from 'lodash';
+import { eventEmitter } from '@/lib/EventEmitter.js';
 
 export default function DeleteBackupRequests({ reload, setReload, active, setFetchingData }: any) {
   const appValues = useAppStatus();
@@ -29,6 +31,23 @@ export default function DeleteBackupRequests({ reload, setReload, active, setFet
     columnAccessor: 'Name',
     direction: 'asc',
   });
+
+  /* watch */
+  //useWatchResources(type ? 'podvolumebackups' : 'podvolumerestores');
+  const handleWatchResources = debounce((message) => {
+    if (message?.resources === 'deletebackuprequests') {
+      setReload((prev: number) => prev + 1);
+    }
+  }, 250);
+
+  useEffect(() => {
+    eventEmitter.on('watchResources', handleWatchResources);
+
+    return () => {
+      eventEmitter.off('watchResources', handleWatchResources);
+    };
+  }, []);
+  /* end watch */
 
   useEffect(() => {
     if (agentValues.isAgentAvailable) {
@@ -82,7 +101,7 @@ export default function DeleteBackupRequests({ reload, setReload, active, setFet
       // withColumnBorders
       striped
       highlightOnHover
-      idAccessor="id"
+      idAccessor="metadata.name"
       records={records}
       sortStatus={sortStatus}
       onSortStatusChange={setSortStatus}

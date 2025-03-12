@@ -86,10 +86,10 @@ export function CreateScheduleForm({ reload, setReload }: CreateScheduleProps) {
   function createSchedule(values: any) {
     handleCreateSchedule(values);
     closeAllModals();
-    const interval = setInterval(() => {
+    /*const interval = setInterval(() => {
       setReload(reload + 1);
       clearInterval(interval);
-    }, appValues.refreshDatatableAfter);
+    }, appValues.refreshDatatableAfter);*/
   }
 
   return (

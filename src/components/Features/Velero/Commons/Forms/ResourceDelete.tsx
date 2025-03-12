@@ -29,10 +29,10 @@ export function ResourceDelete({
       }
     });
 
-    const interval = setInterval(() => {
+    /*const interval = setInterval(() => {
       setReload((prev) => prev + 1);
       clearInterval(interval);
-    }, appValues.refreshDatatableAfter);
+    }, appValues.refreshDatatableAfter);*/
   }
 
   return (

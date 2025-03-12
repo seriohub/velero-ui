@@ -33,10 +33,10 @@ const StartStopActionIcon: React.FC<StartStopActionIconProps> = ({
     } else {
       schedulePause(resourceName);
     }
-    const interval = setInterval(() => {
+    /*const interval = setInterval(() => {
       setReload(reload + 1);
       clearInterval(interval);
-    }, appValues.refreshDatatableAfter);
+    }, appValues.refreshDatatableAfter);*/
   };
 
   return buttonType === 'actionIcon' ? (
