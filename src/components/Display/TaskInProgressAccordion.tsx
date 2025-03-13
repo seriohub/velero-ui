@@ -2,14 +2,25 @@
 
 import { useEffect, useState } from 'react';
 
-import { Group, Tooltip, Tabs, Space, Button, Box, Text, Indicator } from '@mantine/core';
+import {
+  Group,
+  Tooltip,
+  Tabs,
+  Space,
+  Button,
+  Box,
+  Text,
+  Indicator,
+  ActionIcon,
+} from '@mantine/core';
 import {
   IconDeviceFloppy,
   IconDownload,
   IconServer,
   IconProgress,
   IconRefresh,
-  IconX,
+  IconChevronUp,
+  IconChevronDown,
 } from '@tabler/icons-react';
 
 import { debounce } from 'lodash';
@@ -18,6 +29,7 @@ import ServerStatusRequests from '@/components/Features/Velero/Requests/ServerSt
 import DownloadRequests from '@/components/Features/Velero/Requests/DownloadRequests';
 import DeleteBackupRequests from '@/components/Features/Velero/Requests/DeleteBackupRequests';
 import { eventEmitter } from '@/lib/EventEmitter.js';
+import styles from '@/styles/TasksProgressAccordion.module.css';
 
 export default function TaskInProgressAccordion() {
   const [reload, setReload] = useState(1);
@@ -28,7 +40,7 @@ export default function TaskInProgressAccordion() {
   const [backupRestoreNotify, setBackupRestoreNotify] = useState(false);
   const [serverStatusRequestNotify, setServerStatusRequestNotify] = useState(false);
   const [downloadRequestsNotify, setDownloadRequests] = useState(false);
-  const [deleteBackupRequests, setDeleteBackupRequests] = useState(false);
+  const [deleteBackupRequestsNotify, setDeleteBackupRequestsNotify] = useState(false);
 
   const handleWatchResources = debounce((message) => {
     if (message?.resources === 'backups' || message?.resources === 'restores') {
@@ -59,9 +71,9 @@ export default function TaskInProgressAccordion() {
       };
     }
     if (message?.resources === 'deletebackuprequests') {
-      setDeleteBackupRequests(true);
+      setDeleteBackupRequestsNotify(true);
       const timer = setTimeout(() => {
-        setDeleteBackupRequests(false);
+        setDeleteBackupRequestsNotify(false);
       }, 5000);
       return () => {
         clearTimeout(timer);
@@ -101,16 +113,16 @@ export default function TaskInProgressAccordion() {
               cursor: 'pointer',
             }}
             onClick={() => setOpened(!opened)}
+            gap={5}
+            className={styles.element}
           >
-            {/*<Button size="xs" onClick={() => setOpened(!opened)}>
-              Show Task in progress
-            </Button>*/}
+            <IconChevronUp />
             <Text size="sm">Show Task in progress</Text>
           </Group>
         )}
 
         {opened && (
-          <Box p="sm">
+          <Box p="sm" bg="light-dark(var(--mantine-primary-color-light-hover), var(--mantine-color-body))">
             <Tabs defaultValue="BackupRestoreInProgress" value={activeTab} onChange={setActiveTab}>
               <Group justify="space-between">
                 <Tabs.List>
@@ -142,14 +154,14 @@ export default function TaskInProgressAccordion() {
                     value="DeleteBackupRequests"
                     leftSection={<IconDeviceFloppy size={16} />}
                   >
-                    <Indicator disabled={!deleteBackupRequests} processing>
+                    <Indicator disabled={!deleteBackupRequestsNotify} processing>
                       <Text size="sm" mr={5}>
                         Delete Backup Requests
                       </Text>
                     </Indicator>
                   </Tabs.Tab>
                 </Tabs.List>
-                <Group gap={10}>
+                <Group gap={5}>
                   <Tooltip label="Click to refresh">
                     <Button
                       //variant="transparent"
@@ -166,13 +178,16 @@ export default function TaskInProgressAccordion() {
                     </Button>
                   </Tooltip>
 
-                  <Button
-                    rightSection={<IconX stroke={1.5} />}
-                    onClick={() => setOpened(!opened)}
-                    // variant="transparent"
-                  >
-                    Close
-                  </Button>
+                  <Tooltip label="Close">
+                    <ActionIcon
+                      variant="subtle"
+                      aria-label="Settings"
+                      onClick={() => setOpened(!opened)}
+                      h={36}
+                    >
+                      <IconChevronDown stroke={1.5} />
+                    </ActionIcon>
+                  </Tooltip>
                 </Group>
               </Group>
 

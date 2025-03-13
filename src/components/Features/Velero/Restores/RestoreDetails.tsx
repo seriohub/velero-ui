@@ -76,6 +76,7 @@ export function RestoreDetails({ params }: RestoreProps) {
           },
         ]}
       >
+        <ReloadData setReload={setReload} reload={reload} />
         <DeleteAction
           resourceType="restore"
           record={manifest}
@@ -83,7 +84,6 @@ export function RestoreDetails({ params }: RestoreProps) {
           buttonType="button"
           redirectAfterDelete="/backups"
         />
-        <ReloadData setReload={setReload} reload={reload} />
       </Toolbar>
 
       <Grid gutter="sm">

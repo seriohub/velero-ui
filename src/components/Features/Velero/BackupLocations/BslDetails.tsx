@@ -19,7 +19,7 @@ import { isRecordStringAny } from '@/utils/isRecordStringIsType';
 import EditBslAction from '@/components/Features/Velero/BackupLocations/Actions/EditBSLAction';
 import { debounce } from 'lodash';
 import { eventEmitter } from '@/lib/EventEmitter.js';
-import {useWatchResources} from "@/hooks/useWatchResources";
+import { useWatchResources } from '@/hooks/useWatchResources';
 
 interface BackupProps {
   params: any;
@@ -35,7 +35,10 @@ export function BslDetails({ params }: BackupProps) {
   /* watch */
   useWatchResources('backupstoragelocations');
   const handleWatchResources = debounce((message) => {
-    if (message?.resources === 'backupstoragelocations' && message?.resource?.metadata?.name === params.bsl) {
+    if (
+      message?.resources === 'backupstoragelocations' &&
+      message?.resource?.metadata?.name === params.bsl
+    ) {
       setManifest(message?.resource);
     }
   }, 250);
@@ -76,6 +79,7 @@ export function BslDetails({ params }: BackupProps) {
           },
         ]}
       >
+        <ReloadData setReload={setReload} reload={reload} />
         <EditBslAction record={manifest} setReload={setReload} buttonType="button" />
         <DeleteAction
           resourceType="bsl"
@@ -84,12 +88,11 @@ export function BslDetails({ params }: BackupProps) {
           redirectAfterDelete="/backup-storage-locations"
           buttonType="button"
         />
-        <ReloadData setReload={setReload} reload={reload} />
       </Toolbar>
 
       <Grid gutter="sm">
         <Grid.Col span={4}>
-          <BslDetailsView data={manifest} h={600}/>
+          <BslDetailsView data={manifest} h={600} />
         </Grid.Col>
 
         <Grid.Col span={8}>

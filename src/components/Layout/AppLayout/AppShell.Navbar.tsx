@@ -12,24 +12,27 @@ import {
 } from '@mantine/core';
 
 import {
-  IconDashboard ,
-  IconRestore ,
-  IconDeviceFloppy ,
-  IconCalendarEvent ,
-  IconDatabase ,
-  IconLink ,
-  IconSettings ,
-  IconServer ,
-  IconHome ,
-  IconAffiliate ,
-  IconFolders ,
-  IconDog ,
-  IconSpy ,
-  IconInfoCircle ,
-  IconAppWindow ,
-  IconZoomCode ,
-  IconArrowBarLeft ,
-  IconArrowBarRight , IconDatabaseExport , IconDatabaseImport , IconShield ,
+  IconDashboard,
+  IconRestore,
+  IconDeviceFloppy,
+  IconCalendarEvent,
+  IconDatabase,
+  IconLink,
+  IconSettings,
+  IconServer,
+  IconHome,
+  IconAffiliate,
+  IconFolders,
+  IconDog,
+  IconSpy,
+  IconInfoCircle,
+  IconAppWindow,
+  IconZoomCode,
+  IconArrowBarLeft,
+  IconArrowBarRight,
+  IconDatabaseExport,
+  IconDatabaseImport,
+  IconShield,
 } from '@tabler/icons-react';
 
 import { useRouter, usePathname } from 'next/navigation';
@@ -295,13 +298,12 @@ export function AppShellNavbar({ opened, toggle, collapsed, toggleCollapsed }: a
               )}
             </Group>
 
-            {/*isCore && (*/}
             <Box p={5}>
               {generateNavLinks(homeLink, serverValues.isCurrentServerControlPlane !== true)}
             </Box>
 
             {!collapsed && (
-              <Box mt={20}>
+              <Box mt={5}>
                 <Text
                   ml="12"
                   size="sm"
@@ -322,7 +324,7 @@ export function AppShellNavbar({ opened, toggle, collapsed, toggleCollapsed }: a
               </Box>
             )}
 
-            <Box mt={20}>
+            <Box mt={5}>
               {(!collapsed || isNavbarHidden) && (
                 <Text
                   ml="12"
@@ -339,10 +341,12 @@ export function AppShellNavbar({ opened, toggle, collapsed, toggleCollapsed }: a
                   Velero resource
                 </Text>
               )}
-              <Box p={5}>{generateNavLinks(veleroResourceLinks)}</Box>
+              <Box p={5} mt={0}>
+                {generateNavLinks(veleroResourceLinks)}
+              </Box>
             </Box>
 
-            <Box mt={10}>
+            <Box mt={5}>
               {(!collapsed || isNavbarHidden) && (
                 <Text
                   size="sm"
@@ -364,7 +368,7 @@ export function AppShellNavbar({ opened, toggle, collapsed, toggleCollapsed }: a
               </Box>
             </Box>
 
-            <Box mt={10}>
+            <Box mt={5}>
               {(!collapsed || isNavbarHidden) && (
                 <Text
                   size="sm"
@@ -387,7 +391,7 @@ export function AppShellNavbar({ opened, toggle, collapsed, toggleCollapsed }: a
               </Box>
 
               {/* system */}
-              <Box mt={10}>
+              <Box mt={5}>
                 {(!collapsed || isNavbarHidden) && (
                   <Text
                     size="sm"
