@@ -10,6 +10,7 @@ import { IconCamera, IconClick } from '@tabler/icons-react';
 
 import { useRouter } from 'next/navigation';
 
+import { debounce } from 'lodash';
 import { useAgentStatus } from '@/contexts/AgentContext';
 
 import { useSnapshotLocation } from '@/api/SnapshotLocation/useSnapshotLocation';
@@ -20,12 +21,14 @@ import ReloadData from '@/components/Inputs/ReloadData';
 import Toolbar from '@/components/Display/Toolbar';
 import { DataFetchedInfo } from '@/components/Display/DataFetchedInfo';
 
-import DetailActionIcon from '@/components/Features/Velero/Commons/Actions/DetailActionIcon';
 import DeleteAction from '@/components/Features/Velero/Commons/Actions/DeleteAction';
 
 import CredentialActionIcon from '@/components/Features/Velero/Commons/Actions/CredentialActionIcon';
 import CreateVslToolbar from '@/components/Features/Velero/SnapshotLocations/Actions/CreateVslToolbar';
-import EditVslAction from "@/components/Features/Velero/SnapshotLocations/Actions/EditVSLAction";
+import EditVslAction from '@/components/Features/Velero/SnapshotLocations/Actions/EditVSLAction';
+import DescribeActionIcon from '@/components/Features/Velero/Commons/Actions/DescribeActionIcon';
+import { useWatchResources } from '@/hooks/useWatchResources';
+import { eventEmitter } from '@/lib/EventEmitter.js';
 
 const PAGE_SIZES = [10, 15, 20];
 
@@ -45,6 +48,23 @@ export function SnapshotLocationsDatatable() {
   const [page, setPage] = useState(1);
 
   const [records, setRecords] = useState(items.slice(0, pageSize));
+
+  /* watch */
+  useWatchResources('volumesnapshotlocations');
+  const handleWatchResources = debounce((message) => {
+    if (message?.resources === 'volumesnapshotlocations') {
+      setReload((prev) => prev + 1);
+    }
+  }, 250);
+
+  useEffect(() => {
+    eventEmitter.on('watchResources', handleWatchResources);
+
+    return () => {
+      eventEmitter.off('watchResources', handleWatchResources);
+    };
+  }, []);
+  /* end watch */
 
   useEffect(() => {
     if (agentValues.isAgentAvailable && reload > 1) getSnapshotLocation(true);
@@ -77,7 +97,7 @@ export function SnapshotLocationsDatatable() {
   const renderActions: DataTableColumn<any>['render'] = (record) => (
     <Group gap={4} justify="right" wrap="nowrap">
       <CredentialActionIcon name={record.metadata.name} record={record} />
-      <DetailActionIcon name={record.metadata.name} record={record} />
+      <DescribeActionIcon resourceType={record.kind} record={record} />
       <EditVslAction record={record} setReload={setReload} />
       <DeleteAction resourceType="vsl" record={record} setReload={setReload} />
     </Group>
@@ -114,7 +134,7 @@ export function SnapshotLocationsDatatable() {
         onRecordsPerPageChange={setPageSize}
         sortStatus={sortStatus}
         onSortStatusChange={setSortStatus}
-        fetching={fetching}
+        fetching={fetching && records?.length === 0}
         columns={[
           {
             accessor: 'metadata.name',

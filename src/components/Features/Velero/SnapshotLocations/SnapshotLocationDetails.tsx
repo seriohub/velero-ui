@@ -1,8 +1,9 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Grid } from '@mantine/core';
+import { Card, Grid } from '@mantine/core';
 
+import { debounce } from 'lodash';
 import { useAgentStatus } from '@/contexts/AgentContext';
 
 import { useVeleroManifest } from '@/api/Velero/useVeleroManifest';
@@ -15,7 +16,9 @@ import { SnapshotLocationDetailsView } from '@/components/Features/Velero/Snapsh
 import { Manifest } from '@/components/Features/Velero/Commons/Display/Manifest';
 import DeleteAction from '@/components/Features/Velero/Commons/Actions/DeleteAction';
 import { isRecordStringAny } from '@/utils/isRecordStringIsType';
-import EditVslAction from "@/components/Features/Velero/SnapshotLocations/Actions/EditVSLAction";
+import EditVslAction from '@/components/Features/Velero/SnapshotLocations/Actions/EditVSLAction';
+import { useWatchResources } from '@/hooks/useWatchResources';
+import { eventEmitter } from '@/lib/EventEmitter.js';
 
 interface BackupProps {
   params: any;
@@ -28,9 +31,29 @@ export function SnapshotLocationDetails({ params }: BackupProps) {
 
   const [manifest, setManifest] = useState<Record<string, any>>([]);
 
+  /* watch */
+  useWatchResources('volumesnapshotlocations');
+  const handleWatchResources = debounce((message) => {
+    if (
+      message?.resources === 'volumesnapshotlocations' &&
+      message?.resource?.metadata?.name === params.vsl
+    ) {
+      setManifest(message?.resource);
+    }
+  }, 250);
+
+  useEffect(() => {
+    eventEmitter.on('watchResources', handleWatchResources);
+
+    return () => {
+      eventEmitter.off('watchResources', handleWatchResources);
+    };
+  }, []);
+  /* end watch */
+
   useEffect(() => {
     if (params.vsl) {
-      getManifest('volumesnapshotlocations', params.vsl, false);
+      getManifest('VolumeSnapshotLocation', params.vsl, false);
     }
   }, [agentValues.isAgentAvailable, reload]);
 
@@ -68,11 +91,20 @@ export function SnapshotLocationDetails({ params }: BackupProps) {
       </Toolbar>
       <Grid gutter="sm">
         <Grid.Col span={4}>
-          <SnapshotLocationDetailsView data={manifest} />
+          <SnapshotLocationDetailsView data={manifest} h={600} />
         </Grid.Col>
 
         <Grid.Col span={8}>
-          <Manifest resourceType="volumesnapshotlocations" resourceName={params.vsl} reload={reload}/>
+          <Card shadow="sm" padding="lg" radius="md" withBorder h={600}>
+            <Card.Section withBorder inheritPadding p="sm">
+              <Manifest
+                resourceType="VolumeSnapshotLocation"
+                resourceName={params.vsl}
+                reload={reload}
+                h={570}
+              />
+            </Card.Section>
+          </Card>
         </Grid.Col>
       </Grid>
     </PageScrollArea>

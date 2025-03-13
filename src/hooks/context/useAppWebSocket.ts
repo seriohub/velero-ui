@@ -5,6 +5,7 @@ import { useServerStatus } from '@/contexts/ServerContext';
 import { useAgentStatus } from '@/contexts/AgentContext';
 
 import { useAuthErrorHandler } from '../user/useAuthErrorHandler';
+import { eventEmitter } from '@/lib/EventEmitter.js';
 
 type UseAppWebSocketParams = {
   addSocketHistory: any;
@@ -76,13 +77,17 @@ export const useAppWebSocket = ({ addSocketHistory = null }: UseAppWebSocketPara
           addSocketHistory((prev: string[]) => prev.concat(lastMessage.data));
         }
 
-        if (response.type === 'agent_alive') {
+        /*if (response.type === 'agent_alive') {
           if (agentValues?.currentAgent?.name === response.agent_name && response.is_alive) {
             agentValues.setIsAgentAvailable(true);
           }
           if (agentValues.currentAgent?.name === response.agent_name && !response.is_alive) {
             agentValues.setIsAgentAvailable(false);
           }
+        }*/
+
+        if (response.type === 'user_watch' || response.type === 'global_watch') {
+          eventEmitter.emit('watchResources', response);
         }
       }
     }

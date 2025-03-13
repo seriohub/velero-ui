@@ -55,7 +55,7 @@ function get_duration(status: any) {
   return <></>;
 }
 
-export function BackupDataTableView({
+export function BackupDatatableView({
   records,
   dataFiltered,
   pageSize,

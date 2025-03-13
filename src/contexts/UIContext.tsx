@@ -11,6 +11,7 @@ interface UIStatus {
   showDebugAside: boolean;
   openedUIDrawer: boolean;
   isMobile: boolean | undefined;
+  badgeVariant: string;
 }
 
 interface UIStatusContextProps extends UIStatus {
@@ -23,6 +24,7 @@ interface UIStatusContextProps extends UIStatus {
   setShowBottomDebugBar: React.Dispatch<React.SetStateAction<boolean>>;
   toggleUIDrawer: React.Dispatch<React.SetStateAction<boolean>>;
   setIsMobile: React.Dispatch<React.SetStateAction<boolean | undefined>>;
+  setBadgeVariant: React.Dispatch<React.SetStateAction<any>>;
 }
 
 const UIStateContext = createContext<UIStatusContextProps | undefined>(undefined);
@@ -37,6 +39,7 @@ export const UIProvider: React.FC<{ children: React.ReactNode }> = ({ children }
   const [uiFontSize, setUiFontSize] = useState(undefined);
   const [navbarColored, setNavbarColored] = useState(false);
   const [mainColored, setMainColored] = useState(false);
+  const [badgeVariant, setBadgeVariant] = useState('Filled');
 
   const [showDebugAside, setShowDebugAside] = useState(false);
   const [showBottomDebugBar, setShowBottomDebugBar] = useState(false);
@@ -45,7 +48,6 @@ export const UIProvider: React.FC<{ children: React.ReactNode }> = ({ children }
 
   useEffect(() => {
     setShowDebugAside(localStorage.getItem('showDebugAside') === 'true' || false);
-
     setShowBottomDebugBar(localStorage.getItem('showBottomDebugBar') === 'true' || false);
   }, []);
 
@@ -61,30 +63,25 @@ export const UIProvider: React.FC<{ children: React.ReactNode }> = ({ children }
     <UIStateContext.Provider
       value={{
         primaryColor,
-
         uiFontFamily,
         uiFontSize,
         navbarColored,
         mainColored,
-
         showBottomDebugBar,
         showDebugAside,
         openedUIDrawer,
         isMobile,
-
+        badgeVariant,
         setPrimaryColor,
-
         setUiFontFamily,
         setUiFontSize,
         setNavbarColored,
         setMainColored,
-
         setShowDebugAside,
         setShowBottomDebugBar,
-
         toggleUIDrawer,
-
         setIsMobile,
+        setBadgeVariant,
       }}
     >
       {children}

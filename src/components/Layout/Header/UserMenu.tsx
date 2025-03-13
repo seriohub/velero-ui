@@ -162,27 +162,29 @@ export default function UserMenu() {
               <Switch checked={uiValues.showDebugAside} />
             </Group>
           </Menu.Item>
-          <Menu.Item
-            onClick={(event) => {
-              event.preventDefault(); // Impedisce altri comportamenti
-              event.stopPropagation(); // Impedisce la propagazione
-              uiValues.setShowBottomDebugBar(!uiValues.showBottomDebugBar);
-            }}
-            closeMenuOnClick={false}
-            leftSection={
-              <IconColumns1
-                style={{
-                  width: rem(14),
-                  height: rem(14),
-                }}
-              />
-            }
-          >
-            <Group w="100%" justify="space-between">
-              Debug Bar
-              <Switch checked={uiValues.showBottomDebugBar} />
-            </Group>
-          </Menu.Item>
+          {process.env.NODE_ENV === 'development' && (
+            <Menu.Item
+              onClick={(event) => {
+                event.preventDefault(); // Impedisce altri comportamenti
+                event.stopPropagation(); // Impedisce la propagazione
+                uiValues.setShowBottomDebugBar(!uiValues.showBottomDebugBar);
+              }}
+              closeMenuOnClick={false}
+              leftSection={
+                <IconColumns1
+                  style={{
+                    width: rem(14),
+                    height: rem(14),
+                  }}
+                />
+              }
+            >
+              <Group w="100%" justify="space-between">
+                Debug Bar
+                <Switch checked={uiValues.showBottomDebugBar} />
+              </Group>
+            </Menu.Item>
+          )}
           <Menu.Divider />
 
           <Menu.Item

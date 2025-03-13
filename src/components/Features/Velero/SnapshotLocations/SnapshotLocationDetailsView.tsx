@@ -1,12 +1,11 @@
 import { Box, Card, Group, Space, Text, Title } from '@mantine/core';
 import { IconDatabase } from '@tabler/icons-react';
+import React from 'react';
+import classes from '@/styles/veleroResourceDetails.module.css';
 
-export function SnapshotLocationDetailsView({ data }: any) {
+export function SnapshotLocationDetailsView({ data, ...rest }: any) {
   return (
-    <Card shadow="sm" padding="lg" radius="md" withBorder h={600}>
-      <Card.Section withBorder inheritPadding p="xs">
-        <Text fw={600}>Details</Text>
-      </Card.Section>
+    <Card shadow="sm" radius="md" withBorder {...rest}>
       <Card.Section p="sm">
         <Group gap={5}>
           <IconDatabase size={80} />
@@ -19,12 +18,27 @@ export function SnapshotLocationDetailsView({ data }: any) {
             </Text>
           </Box>
         </Group>
-        <Space mt={20} h={20} />
+      </Card.Section>
+      <Space h={3} />
+      <Card.Section p="sm" className={classes.section}>
+        <Text fz="sm" c="dimmed" className={classes.label}>
+          Config
+        </Text>
 
-        <Group mt={10}>
-          <Text w={170}>Provider</Text>
-          <Text fw={600}>{data?.spec?.provider}</Text>
-        </Group>
+        <Box
+          style={{
+            display: 'flex',
+            width: '100%',
+          }}
+          mt={3}
+        >
+          <Text w={150} size="sm">
+            Provider:
+          </Text>
+          <Text fw={600} size="sm">
+            {data?.spec?.provider}
+          </Text>
+        </Box>
       </Card.Section>
     </Card>
   );

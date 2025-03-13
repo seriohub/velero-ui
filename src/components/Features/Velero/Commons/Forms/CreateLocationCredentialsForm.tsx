@@ -35,10 +35,10 @@ export function CreateLocationCredentialsForm({ reload, setReload, close }: Crea
   function createBsl(values: any) {
     handleCreateCredentials(values);
     close();
-    const interval = setInterval(() => {
+    /*const interval = setInterval(() => {
       setReload(reload + 1);
       clearInterval(interval);
-    }, appValues.refreshDatatableAfter);
+    }, appValues.refreshDatatableAfter);*/
   }
 
   return <CreateCredentialsLocationFormView mode="create" form={form} onDone={createBsl} />;

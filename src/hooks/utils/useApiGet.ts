@@ -1,5 +1,6 @@
 import { useState } from 'react';
 
+import { useRouter } from 'next/navigation';
 import { useServerStatus } from '@/contexts/ServerContext';
 import { useAgentStatus } from '@/contexts/AgentContext';
 import { useApiLogger } from '@/hooks/logger/useApiLogger';
@@ -20,7 +21,7 @@ type GetDataParams = {
 
 export const useApiGet = () => {
   const { logout } = useAuthErrorHandler();
-
+  const router = useRouter();
   const { addApiRequestHistory, addApiResponseHistory } = useApiLogger();
   const { addNotificationHistory } = useUserNotificationHistory();
 
@@ -116,6 +117,9 @@ export const useApiGet = () => {
 
         if (err.message.includes('Unauthorized')) {
           logout();
+        }
+        if (err.message.includes('404')) {
+          router.push('/dashboard');
         }
 
         const title = 'Error';

@@ -67,10 +67,10 @@ export function CreateBslForm({ reload, setReload }: CreateBslProps) {
   function createBsl(values: any) {
     handleCreateBsl(values);
     closeAllModals();
-    const interval = setInterval(() => {
+    /*const interval = setInterval(() => {
       setReload(reload + 1);
       clearInterval(interval);
-    }, appValues.refreshDatatableAfter);
+    }, appValues.refreshDatatableAfter);*/
   }
 
   return <BslFormView mode="create" form={form} onDone={createBsl} />;

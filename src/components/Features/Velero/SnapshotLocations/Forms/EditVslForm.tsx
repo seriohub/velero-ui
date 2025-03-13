@@ -46,10 +46,10 @@ export function EditVslForm({ record, setReload }: EditBslProps) {
   function updateBsl(values: any) {
     handleUpdateVsl(values);
     closeAllModals();
-    const interval = setInterval(() => {
+    /*const interval = setInterval(() => {
       setReload((prev: number) => prev + 1);
       clearInterval(interval);
-    }, appValues.refreshDatatableAfter);
+    }, appValues.refreshDatatableAfter);*/
   }
 
   return <VslFormView mode="edit" form={form} onDone={updateBsl} />;

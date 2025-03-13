@@ -66,10 +66,10 @@ export function EditBslForm({ record, setReload }: EditBslProps) {
   function updateBsl(values: any) {
     handleUpdateBsl(values);
     closeAllModals();
-    const interval = setInterval(() => {
+    /*const interval = setInterval(() => {
       setReload((prev: number) => prev + 1);
       clearInterval(interval);
-    }, appValues.refreshDatatableAfter);
+    }, appValues.refreshDatatableAfter);*/
   }
 
   return <BslFormView mode="edit" form={form} onDone={updateBsl} />;

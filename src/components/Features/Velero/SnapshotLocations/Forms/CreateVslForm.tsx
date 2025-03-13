@@ -47,10 +47,10 @@ export function CreateVslForm({ reload, setReload }: CreateVslProps) {
   function createVsl(values: any) {
     handleCreateVsl(values);
     closeAllModals();
-    const interval = setInterval(() => {
+    /*const interval = setInterval(() => {
       setReload(reload + 1);
       clearInterval(interval);
-    }, appValues.refreshDatatableAfter);
+    }, appValues.refreshDatatableAfter);*/
   }
 
   return <VslFormView mode="create" form={form} onDone={createVsl} />;

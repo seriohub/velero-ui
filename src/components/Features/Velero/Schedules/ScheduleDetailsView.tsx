@@ -1,98 +1,83 @@
 import { Anchor, Box, Card, Group, ScrollArea, Space, Text, Title } from '@mantine/core';
-import { IconCalendar, IconCamera, IconServer } from '@tabler/icons-react';
+import { IconCalendar, IconCamera, IconDeviceFloppy, IconServer } from '@tabler/icons-react';
 import { useRouter } from 'next/navigation';
 import VeleroResourceStatusBadge from '@/components/Features/Velero/Commons/Display/VeleroResourceStatusBadge';
+import React from 'react';
+import { DetailsBackupRestoreStatus } from '@/components/Features/Velero/Commons/DetailsBackupRestoreStatus';
+import { DetailsBackupRestoreContent } from '@/components/Features/Velero/Commons/DetailsBackupRestoreContent';
+import { DetailsBackupRestoreLocation } from '@/components/Features/Velero/Commons/DetailsBackupRestoreLocation';
+import classes from '@/styles/veleroResourceDetails.module.css';
 
-export function ScheduleDetailsView({ data }: any) {
+export function ScheduleDetailsView({ data, ...rest }: any) {
   const router = useRouter();
   return (
-    <Card shadow="sm" padding="lg" radius="md" withBorder h="100%">
-      <Card.Section p="sm">
-        <ScrollArea>
-          <Group gap={5}>
-            <IconCalendar size={80} />
-            <Box>
-              <Title order={2} fw={800}>
-                {data?.metadata?.name}
-              </Title>
-              <Text size="md" fw={600} c="dimmed">
-                {data?.metadata?.uid}
-              </Text>
-            </Box>
-          </Group>
+    <Card shadow="sm" radius="md" withBorder {...rest}>
+      <Card.Section p="md" className={classes.section}>
+        <Group gap={5}>
+          <IconCalendar size={80} />
+          <Box>
+            <Title order={2} fw={800}>
+              {data?.metadata?.name}
+            </Title>
+            <Text size="md" fw={600} c="dimmed">
+              {data?.metadata?.uid}
+            </Text>
+          </Box>
+        </Group>
+      </Card.Section>
 
-          <Space mt={20} h={20} />
+      <Space h={3} />
+      <Card.Section p="sm" className={classes.section}>
+        <Box
+          style={{
+            display: 'flex',
+            width: '100%',
+          }}
+          mt={3}
+        >
+          <Text w={150} size="sm">
+            Cron:
+          </Text>
+          <Text fw={600} size="sm">
+            {data?.spec?.schedule}
+          </Text>
+        </Box>
 
-          <Group mt={10}>
-            <Text w={170}>Cron</Text>
-            <Text fw={600}>{data?.spec.schedule}</Text>
-          </Group>
+        <Box
+          style={{
+            display: 'flex',
+            width: '100%',
+          }}
+          mt={3}
+        >
+          <Text w={150} size="sm">
+            Status:
+          </Text>
+          {data?.status?.phase && <VeleroResourceStatusBadge status={data?.status.phase} />}
+        </Box>
 
-          <Group mt={10}>
-            <Text w={170}>Status:</Text>
-            {data?.status?.phase && <VeleroResourceStatusBadge status={data?.status.phase} />}
-          </Group>
-          <Group mt={10}>
-            <Text w={170}>Last Backup:</Text>
-            <Text fw={600}>{data?.status?.lastBackup || '-'}</Text>
-          </Group>
+        <Box
+          style={{
+            display: 'flex',
+            width: '100%',
+          }}
+          mt={3}
+        >
+          <Text w={150} size="sm">
+            Last Backup:
+          </Text>
+          <Text fw={600} size="sm">
+            {data?.status?.lastBackup || '-'}
+          </Text>
+        </Box>
 
-          <Group mt={10}>
-            <Text w={170}>Included namespaces:</Text>
-            <Box>
-              {data?.spec?.template?.includedNamespaces?.length > 0 ? (
-                data.spec.template.includedNamespaces.map((location: string, index: string) => (
-                  <Text fw={600} key={index}>
-                    {location}
-                  </Text>
-                ))
-              ) : (
-                <Text fw={600}>-</Text>
-              )}
-            </Box>
-          </Group>
-          <Group mt={10}>
-            <Text w={170}>Storage Location:</Text>
-            {data?.spec?.template?.storageLocation && (
-              <Anchor
-                size="sm"
-                onClick={() => {
-                  router.push(`/backup-storage-locations/${data?.spec?.template?.storageLocation}`);
-                }}
-              >
-                <Group gap={5}>
-                  <IconServer size={16} />
-                  <Text size="md">{data?.spec?.template?.storageLocation}</Text>
-                </Group>
-              </Anchor>
-            )}
-          </Group>
-          <Group mt={10}>
-            <Text w={170}>Snapshot Locations:</Text>
-            <Box>
-              {data?.spec.template?.volumeSnapshotLocations?.length > 0 ? (
-                data?.spec.template?.volumeSnapshotLocations.map(
-                  (location: string, index: string) => (
-                    <Anchor
-                      size="sm"
-                      onClick={() => {
-                        router.push(`/volume-snapshot-locations/${location}`);
-                      }}
-                      key={index}
-                    >
-                      <Group gap={5}>
-                        <IconCamera size={16} />
-                        <Text size="md"> {location}</Text>
-                      </Group>
-                    </Anchor>
-                  )
-                )
-              ) : (
-                <></>
-              )}
-            </Box>
-          </Group>
-        </ScrollArea>
+        <Space h={3} />
+
+        <DetailsBackupRestoreContent data={data} />
+
+        <Space h={3} />
+
+        <DetailsBackupRestoreLocation data={data} />
       </Card.Section>
     </Card>
   );

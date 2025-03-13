@@ -4,20 +4,15 @@ import { useForm } from '@mantine/form';
 import { closeAllModals } from '@mantine/modals';
 
 import BackupScheduleFormView from '@/components/Features/Velero/Commons/Forms/BackupScheduleFormView';
-import { useAppStatus } from '@/contexts/AppContext';
+// import { useAppStatus } from '@/contexts/AppContext';
 import { useCreationBackupSettings } from '@/api/Backup/useBackupSettings';
 import { useCreateBackup } from '@/api/Backup/useCreateBackup';
-
-interface CreateBackupProps {
-  reload: number;
-  setReload: React.Dispatch<React.SetStateAction<number>>;
-}
 
 const ttlRegex = /^(\d+h)?(\d+m)?(\d+s)?$/;
 const timeoutRegex = /^\d+[smh]$/;
 
-export function CreateBackupForm({ reload, setReload }: CreateBackupProps) {
-  const appValues = useAppStatus();
+export function CreateBackupForm() {
+  // const appValues = useAppStatus();
   const { data, getCreationBackupSettings } = useCreationBackupSettings();
 
   const { handleCreateBackup } = useCreateBackup();
@@ -89,10 +84,10 @@ export function CreateBackupForm({ reload, setReload }: CreateBackupProps) {
   function createBackup(values: any) {
     handleCreateBackup(values);
     closeAllModals();
-    const interval = setInterval(() => {
+    /*const interval = setInterval(() => {
       setReload(reload + 1);
       clearInterval(interval);
-    }, appValues.refreshDatatableAfter);
+    }, appValues.refreshDatatableAfter);*/
   }
 
   return (

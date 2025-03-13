@@ -28,7 +28,7 @@ export const Version = () => {
 
   return (
     <>
-      <Stack p={10} visibleFrom="sm">
+      <Stack p={10}>
         <Group justify="space-between" gap={0}>
           <Text
             fw={400}

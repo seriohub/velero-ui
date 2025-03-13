@@ -11,6 +11,7 @@ import { IconClick, IconDeviceFloppy, IconRestore } from '@tabler/icons-react';
 
 import { useRouter } from 'next/navigation';
 
+import { debounce } from 'lodash';
 import { useAgentStatus } from '@/contexts/AgentContext';
 
 import { useRestores } from '@/api/Restore/useRestores';
@@ -23,6 +24,8 @@ import { DataFetchedInfo } from '@/components/Display/DataFetchedInfo';
 import DeleteAction from '@/components/Features/Velero/Commons/Actions/DeleteAction';
 
 import VeleroResourceStatusBadge from '../Commons/Display/VeleroResourceStatusBadge';
+import DescribeActionIcon from '@/components/Features/Velero/Commons/Actions/DescribeActionIcon';
+import { eventEmitter } from '@/lib/EventEmitter.js';
 
 const PAGE_SIZES = [10, 15, 20];
 
@@ -46,6 +49,23 @@ export function RestoresDatatable() {
 
   const [records, setRecords] = useState<Record<string, unknown>[]>(items.slice(0, pageSize));
 
+  // useWatchResources('restores');
+  /* watch */
+  const handleWatchResources = debounce((message) => {
+    if (message?.resources === 'restores') {
+      setReload((prev) => prev + 1);
+    }
+  }, 250);
+
+  useEffect(() => {
+    eventEmitter.on('watchResources', handleWatchResources);
+
+    return () => {
+      eventEmitter.off('watchResources', handleWatchResources);
+    };
+  }, []);
+  /* end watch */
+
   useEffect(() => {
     if (agentValues.isAgentAvailable && reload > 1) getRestores(true);
   }, [reload]);
@@ -61,6 +81,7 @@ export function RestoresDatatable() {
       setItems([]);
     }
   }, [data]);
+
   useEffect(() => {
     const from = (page - 1) * pageSize;
     const to = from + pageSize;
@@ -80,12 +101,8 @@ export function RestoresDatatable() {
 
   const renderActions: DataTableColumn<any>['render'] = (record) => (
     <Group gap={4} justify="right" wrap="nowrap">
-      {/*<LogsActionIcon resourceType="restore" record={record} />*/}
-      <DeleteAction
-        resourceType="restore"
-        record={record}
-        setReload={setReload}
-      />
+      <DescribeActionIcon resourceType="restore" record={record} />
+      <DeleteAction resourceType="restore" record={record} setReload={setReload} />
     </Group>
   );
 
@@ -109,7 +126,7 @@ export function RestoresDatatable() {
         onRecordsPerPageChange={setPageSize}
         sortStatus={sortStatus}
         onSortStatusChange={setSortStatus}
-        fetching={fetching}
+        fetching={fetching && records?.length === 0}
         idAccessor="metadata.name"
         columns={[
           {
@@ -177,14 +194,6 @@ export function RestoresDatatable() {
             accessor: 'status.warnings',
             title: 'Warnings',
             sortable: true,
-          },
-          {
-            accessor: 'status.progress.totalItems',
-            title: 'Total items',
-          },
-          {
-            accessor: 'status.progress.itemsRestored',
-            title: 'Items restored',
           },
           {
             accessor: 'actions',

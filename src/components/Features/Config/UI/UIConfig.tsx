@@ -5,6 +5,7 @@ import { UIConfigFontFamily } from './UIConfigFontFamily';
 import { UIConfigFontSize } from './UIConfigFontSize';
 import { UIConfigMainColored } from './UIConfigMainColored';
 import { UIConfigNavbarColor } from './UIConfigNavbarColor';
+import {UIConfigBadgeVariant} from "@/components/Features/Config/UI/UIConfigBadgeVariant";
 
 export default function UIConfig() {
   return (
@@ -14,6 +15,7 @@ export default function UIConfig() {
       <UIConfigMainColored />
       <UIConfigFontFamily />
       <UIConfigFontSize />
+      <UIConfigBadgeVariant />
     </>
   );
 }

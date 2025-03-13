@@ -6,7 +6,7 @@ import { useEffect } from 'react';
 import { notifications } from '@mantine/notifications';
 import { useDownloadBackup } from '@/api/Backup/useBackupDownload';
 
-interface RestoreActionIconProps {
+interface DownloadActionIconProps {
   record: {
     metadata?: { name: string };
     status?: { phase: string };
@@ -14,7 +14,7 @@ interface RestoreActionIconProps {
   buttonType?: 'actionIcon' | 'button';
 }
 
-const DownloadAction: React.FC<RestoreActionIconProps> = ({
+const DownloadAction: React.FC<DownloadActionIconProps> = ({
   record,
   buttonType = 'actionIcon',
 }) => {

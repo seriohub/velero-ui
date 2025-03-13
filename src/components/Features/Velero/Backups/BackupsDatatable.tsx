@@ -6,6 +6,7 @@ import { DataTableSortStatus } from 'mantine-datatable';
 
 import sortBy from 'lodash/sortBy';
 import { useDebouncedValue } from '@mantine/hooks';
+import { debounce } from 'lodash';
 import ReloadData from '@/components/Inputs/ReloadData';
 import Toolbar from '@/components/Display/Toolbar';
 
@@ -16,8 +17,10 @@ import { useAgentStatus } from '@/contexts/AgentContext';
 import { DataFetchedInfo } from '@/components/Display/DataFetchedInfo';
 import { useBackups } from '@/api/Backup/useBackups';
 
-import { BackupDataTableView } from '@/components/Features/Velero/Backups/BackupsDataTableView';
 import { MainStack } from '@/components/Commons/MainStack';
+import { BackupDatatableView } from '@/components/Features/Velero/Backups/BackupsDatatableView';
+// import { useWatchResources } from '@/hooks/useWatchResources';
+import { eventEmitter } from '@/lib/EventEmitter.js';
 
 const PAGE_SIZES = [10, 15, 20];
 
@@ -50,6 +53,23 @@ export function BackupsDatatable({ scheduleName }: BackupDataProps) {
   const [debouncedQuery] = useDebouncedValue(queryName, 200);
 
   const [records, setRecords] = useState(items.slice(0, pageSize));
+
+  // useWatchResources('backups');
+  /* watch */
+  const handleWatchResources = debounce((message) => {
+    if (message?.resources === 'backups' || message?.resources === 'deletebackuprequests') {
+      setReload((prev) => prev + 1);
+    }
+  }, 250);
+
+  useEffect(() => {
+    eventEmitter.on('watchResources', handleWatchResources);
+
+    return () => {
+      eventEmitter.off('watchResources', handleWatchResources);
+    };
+  }, []);
+  /* end watch */
 
   useEffect(() => {
     if (agentValues.isAgentAvailable && reload > 1) {
@@ -126,15 +146,13 @@ export function BackupsDatatable({ scheduleName }: BackupDataProps) {
           },
         ]}
       >
-        <LastBackupsFilter
-          setOnlyLast4Schedule={setOnlyLast4Schedule}
-        />
-        <CreateBackupAction setReload={setReload} reload={reload} />
+        <LastBackupsFilter setOnlyLast4Schedule={setOnlyLast4Schedule} />
+        <CreateBackupAction />
         <ReloadData setReload={setReload} reload={reload} />
       </Toolbar>
       <DataFetchedInfo metadata={data?.metadata} />
 
-      <BackupDataTableView
+      <BackupDatatableView
         records={records}
         dataFiltered={dataFiltered}
         pageSize={pageSize}
@@ -143,7 +161,7 @@ export function BackupsDatatable({ scheduleName }: BackupDataProps) {
         setPageSize={setPageSize}
         sortStatus={sortStatus}
         setSortStatus={setSortStatus}
-        fetching={fetching}
+        fetching={fetching && items?.length === 0}
         setReload={setReload}
         data={data}
         items={items}

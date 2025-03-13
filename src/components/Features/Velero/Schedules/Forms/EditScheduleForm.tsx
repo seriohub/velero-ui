@@ -88,10 +88,10 @@ export function EditScheduleForm({ record, setReload }: EditScheduleProps) {
   function createSchedule(values: any) {
     handleUpdateSchedule(values);
     closeAllModals();
-    const interval = setInterval(() => {
+    /*const interval = setInterval(() => {
       setReload((prev) => prev + 1);
       clearInterval(interval);
-    }, appValues.refreshDatatableAfter);
+    }, appValues.refreshDatatableAfter);*/
   }
 
   return (

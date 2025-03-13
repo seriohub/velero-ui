@@ -92,13 +92,13 @@ export function LatestBackup({ setReload, latest = [] }: BackupLatestProps) {
         </Title>
 
         <ScrollArea
-          w={
+          /*w={
             isMobile
               ? 'calc(100vw - 70px)'
               : isTablet
                 ? 'calc(100vw - 70px - var(--app-shell-navbar-width))'
                 : ''
-          }
+          }*/
         >
           <DataTable
             minHeight={160}

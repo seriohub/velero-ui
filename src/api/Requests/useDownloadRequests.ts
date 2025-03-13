@@ -1,14 +1,13 @@
 import { useApiGet } from '@/hooks/utils/useApiGet';
 
-export const usePodVolumeBackup = () => {
+export const useDownloadRequests = () => {
   const { data, getData, fetching, error } = useApiGet();
 
-  const getPodVolumeBackup = async (backup_name: string) => {
+  const getDownloadRequests = async () => {
     try {
       // Execute the API call with the generic method
       await getData({
-        url: '/v1/pod-volume-backup',
-        params: `backup_name=${backup_name}`,
+        url: '/v1/download-requests',
       });
 
       // This code will be executed only in case of success
@@ -23,9 +22,8 @@ export const usePodVolumeBackup = () => {
   };
 
   // Return the function for the call and the necessary data
-
   return {
-    getPodVolumeBackup,
+    getDownloadRequests,
     data,
     fetching,
     error,

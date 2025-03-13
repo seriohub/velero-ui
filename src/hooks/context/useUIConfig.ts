@@ -32,5 +32,8 @@ export const useUIConfig = () => {
 
     const primaryColor = localStorage.getItem('primaryColor') || 'blue';
     uiValues.setPrimaryColor(primaryColor);
+
+    const badgeVariant = localStorage.getItem('badgeVariant') || 'filled';
+    uiValues.setBadgeVariant(badgeVariant);
   }, []);
 };
