@@ -12,7 +12,7 @@ All notable changes to this project will be documented in this file.
 - Added Delete Backup Requests monitor
 - Added Pod Volume Backup Management
 - Added Pod Volume Restore Management
-- Added a new feature (consider specifying what this feature does for clarity)
+- Added a new feature
 - Implemented event-driven UI management via socket communication
 
 🎨 UI Enhancements
