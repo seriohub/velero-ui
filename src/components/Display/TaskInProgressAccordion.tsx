@@ -122,7 +122,10 @@ export default function TaskInProgressAccordion() {
         )}
 
         {opened && (
-          <Box p="sm" bg="light-dark(var(--mantine-primary-color-light-hover), var(--mantine-color-body))">
+          <Box
+            p="sm"
+            bg="light-dark(var(--mantine-primary-color-light-hover), var(--mantine-color-body))"
+          >
             <Tabs defaultValue="BackupRestoreInProgress" value={activeTab} onChange={setActiveTab}>
               <Group justify="space-between">
                 <Tabs.List>
@@ -163,19 +166,21 @@ export default function TaskInProgressAccordion() {
                 </Tabs.List>
                 <Group gap={5}>
                   <Tooltip label="Click to refresh">
-                    <Button
-                      //variant="transparent"
-                      component="div"
+                    <ActionIcon
                       onClick={(e) => {
                         e.stopPropagation();
                         setReload(reload + 1);
                       }}
                       onMouseOver={(e) => e.stopPropagation()}
+                      size={38}
+                      variant="default"
+                      //variant="outline"
+                      radius={8}
+                      disabled={fetching}
                       color={!fetching ? '' : 'var(--mantine-color-placeholder)'}
-                      leftSection={<IconRefresh stroke={1.5} />}
                     >
-                      Refresh
-                    </Button>
+                      <IconRefresh stroke={1.5} />
+                    </ActionIcon>
                   </Tooltip>
 
                   <Tooltip label="Close">
