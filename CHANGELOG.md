@@ -4,6 +4,24 @@ All notable changes to this project will be documented in this file.
 
 ***
 
+## [v0.2.2] - 2025-03-13
+
+🆕 New Features
+- Added Server Status Requests monitor
+- Added Download Requests monitor
+- Added Delete Backup Requests monitor
+- Added Pod Volume Backup Management
+- Added Pod Volume Restore Management
+- Added a new feature (consider specifying what this feature does for clarity)
+- Implemented event-driven UI management via socket communication
+
+🎨 UI Enhancements
+- Introduced a collapsible navbar
+- Various UI improvements for a smoother and more intuitive experience
+
+🛠️ Fixes
+- Minor bug fixes
+
 ## [v0.2.1] - 2025-03-07
 
 🆕 New Features
@@ -12,20 +30,20 @@ All notable changes to this project will be documented in this file.
 
 Fixed
 - Minor fix
- 
+
 ## [v0.2.0] - 2025-03-04
 
 🚀 Major Improvements
-- Enhanced Forms: Improved the user experience for creating and modifying backups, schedules, restores, backup locations, and volume locations.
-- Refined Resource Views: Enhanced the display of resource properties for better readability and usability.
+- Enhanced Forms: Improved the user experience for creating and modifying backups, schedules, restores, backup locations, and volume locations
+- Refined Resource Views: Enhanced the display of resource properties for better readability and usability
 
 🆕 New Features
-- Clean Manifest View: Added a feature to visualize clean Kubernetes manifests, improving clarity and usability.
-- Backup Download: Users can now download backups directly from the UI.
-- Backup Comparison Prototype: Introduced an experimental feature to compare backups with the current Kubernetes manifests, providing better insight into changes.
+- Clean Manifest View: Added a feature to visualize clean Kubernetes manifests, improving clarity and usability
+- Backup Download: Users can now download backups directly from the UI
+- Backup Comparison Prototype: Introduced an experimental feature to compare backups with the current Kubernetes manifests, providing better insight into changes
 
 🎨 General UI Enhancements
-- Various UI improvements for a smoother and more intuitive experience.
+- Various UI improvements for a smoother and more intuitive experience
 
 ## [v0.1.22] - 2025-02-17
 
@@ -159,6 +177,18 @@ Improvements
 ***
 
 ## Tags
+
+[v0.2.2] : [https://github.com/seriohub/velero-ui/releases/tag/v0.2.2](https://github.com/seriohub/velero-ui/releases/tag/v0.2.2)
+
+[v0.2.1] : [https://github.com/seriohub/velero-ui/releases/tag/v0.2.1](https://github.com/seriohub/velero-ui/releases/tag/v0.2.1)
+
+[v0.2.0] : [https://github.com/seriohub/velero-ui/releases/tag/v0.2.0](https://github.com/seriohub/velero-ui/releases/tag/v0.2.0)
+
+[v0.1.22] : [https://github.com/seriohub/velero-ui/releases/tag/v0.1.22](https://github.com/seriohub/velero-ui/releases/tag/v0.1.22)
+
+[v0.1.21] : [https://github.com/seriohub/velero-ui/releases/tag/v0.1.21](https://github.com/seriohub/velero-ui/releases/tag/v0.1.21)
+
+[v0.1.20] : [https://github.com/seriohub/velero-ui/releases/tag/v0.1.20](https://github.com/seriohub/velero-ui/releases/tag/v0.1.20)
 
 [v0.1.19] : [https://github.com/seriohub/velero-ui/releases/tag/v0.1.19](https://github.com/seriohub/velero-ui/releases/tag/v0.1.19)
 
