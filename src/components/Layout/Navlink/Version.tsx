@@ -45,7 +45,7 @@ export const Version = () => {
           </Text>
           <Code fw={700}>{data?.toString()}</Code>
         </Group>
-        {data.warning && (
+        {data && data.warning && (
           <Group>
             <Alert
               variant="outline"
