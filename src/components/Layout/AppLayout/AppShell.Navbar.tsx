@@ -170,7 +170,7 @@ const inspectLink = [
     link: '/inspect/backups',
     label: 'Backups',
     icon: IconZoomCode,
-    tooltip: 'Inpsect Backups',
+    tooltip: 'Inspect Backups',
   },
 ];
 
