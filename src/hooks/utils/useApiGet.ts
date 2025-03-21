@@ -90,6 +90,7 @@ export const useApiGet = () => {
     setFetching(true);
     fetch(`${backendUrl}${url}?${params}`, {
       method: 'GET',
+      // credentials: 'include', // uncomment for cookie auth
       headers,
     })
       .then(parseApiResponse)
