@@ -1,5 +1,5 @@
-import { SCMappingData } from '@/components/Features/Velero/SCMapping/Data';
+import { SCDatatable } from '@/components/Features/Velero/SCMapping/SCDatatable';
 
 export default function ScMappingPage() {
-  return <SCMappingData />;
+  return <SCDatatable />;
 }

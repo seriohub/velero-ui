@@ -82,7 +82,7 @@ export const handleApiResponse = ({
       addApiResponseHistory({
         method,
         url: `${backendUrl}${url}?${params}`,
-        data,
+        data: data?.data,
         statusCode,
         xProcessTime: res.xProcessTime,
       });

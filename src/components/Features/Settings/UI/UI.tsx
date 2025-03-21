@@ -1,13 +1,13 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 
-import { env } from 'next-runtime-env';
+import {env} from 'next-runtime-env';
 
-import { DataTable } from 'mantine-datatable';
-import { useServerStatus } from '@/contexts/ServerContext';
+import {DataTable} from 'mantine-datatable';
+import {useServerStatus} from '@/contexts/ServerContext';
 
-import { MainStack } from '@/components/Commons/MainStack';
+import {MainStack} from '@/components/Commons/MainStack';
 import Toolbar from '@/components/Display/Toolbar';
 import ReloadData from '@/components/Inputs/ReloadData';
 
@@ -45,17 +45,17 @@ export function UI() {
 
   return (
     <MainStack>
-      <Toolbar title="Backup" breadcrumbItem={[{ name: 'UI' }]}>
-        <ReloadData setReload={setReload} reload={reload} />
+      <Toolbar title="Backup" breadcrumbItem={[{name: 'UI'}]}>
+        <ReloadData setReload={setReload} reload={reload}/>
       </Toolbar>
       <DataTable
         withTableBorder
         striped
+        idAccessor="name"
         columns={[
           {
             accessor: 'name',
             title: 'Environment variable',
-
           },
           {
             accessor: 'key',

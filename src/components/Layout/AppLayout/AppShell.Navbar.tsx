@@ -35,15 +35,15 @@ import {
   IconShield,
 } from '@tabler/icons-react';
 
-import { useRouter, usePathname } from 'next/navigation';
+import {useRouter, usePathname} from 'next/navigation';
 
-import { useMediaQuery } from '@mantine/hooks';
-import { useUIStatus } from '@/contexts/UIContext';
-import { useServerStatus } from '@/contexts/ServerContext';
+import {useMediaQuery} from '@mantine/hooks';
+import {useUIStatus} from '@/contexts/UIContext';
+import {useServerStatus} from '@/contexts/ServerContext';
 
-import { Version } from '@/components/Layout/Navlink/Version';
-import { SwitchAgent } from '@/components/Features/Config/SwitchCluster/SwitchAgent';
-import { Logo } from '@/components/Display/Logo';
+import {Version} from '@/components/Layout/Navlink/Version';
+import {SwitchAgent} from '@/components/Features/Config/SwitchCluster/SwitchAgent';
+import {Logo} from '@/components/Display/Logo';
 
 import classesSimple from './Navbar.module.css';
 import classesColored from './NavbarColored.module.css';
@@ -181,7 +181,12 @@ interface NavItem {
   tooltip?: string;
 }
 
-export function AppShellNavbar({ opened, toggle, collapsed, toggleCollapsed }: any) {
+export function AppShellNavbar({
+                                 opened,
+                                 toggle,
+                                 collapsed,
+                                 toggleCollapsed
+                               }: any) {
   const serverValues = useServerStatus();
   const uiValues = useUIStatus();
   const isNavbarHidden = useMediaQuery('(max-width: 576px)');
@@ -254,13 +259,13 @@ export function AppShellNavbar({ opened, toggle, collapsed, toggleCollapsed }: a
       >
         <Stack
           justify="space-between"
-          style={{ height: '100vh' }}
+          style={{height: '100vh'}}
           p={0}
           w={!collapsed ? '240px' : '60'}
         >
           <Box p={0}>
             <Group justify="space-between" h={60} p={5}>
-              {!collapsed && <Logo />}
+              {!collapsed && <Logo/>}
               {!isNavbarHidden && (
                 <ActionIcon
                   variant="transparent"
@@ -278,8 +283,8 @@ export function AppShellNavbar({ opened, toggle, collapsed, toggleCollapsed }: a
                   }
                   size="xl"
                 >
-                  {!collapsed && <IconArrowBarLeft />}
-                  {collapsed && <IconArrowBarRight />}
+                  {!collapsed && <IconArrowBarLeft/>}
+                  {collapsed && <IconArrowBarRight/>}
                 </ActionIcon>
               )}
               {isNavbarHidden && (
@@ -319,7 +324,7 @@ export function AppShellNavbar({ opened, toggle, collapsed, toggleCollapsed }: a
                   Cluster
                 </Text>
                 <Box p={5}>
-                  <SwitchAgent />
+                  <SwitchAgent/>
                 </Box>
               </Box>
             )}
@@ -417,7 +422,7 @@ export function AppShellNavbar({ opened, toggle, collapsed, toggleCollapsed }: a
 
           {(!collapsed || isNavbarHidden) && (
             <Box>
-              <Version />
+              <Version/>
             </Box>
           )}
         </Stack>

@@ -14,7 +14,6 @@ export const useAuth = ({ middleware, redirectIfAuthenticated }: UseAuthParams =
 
   const serverValues = useServerStatus();
   const appValues = useAppStatus();
-  // const { logout } = useAuthLogout();
 
   const jwtToken = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
 

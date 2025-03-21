@@ -20,8 +20,8 @@ export function JsonViewer({ record = '' }: DetailProps) {
   }
 
   return (
-    <Text size="sm" style={{ whiteSpace: 'pre-line' }}>
+    <div style={{ whiteSpace: 'pre-line' }}>
       <JsonView data={record} shouldExpandNode={allExpanded} style={defaultStyles} />
-    </Text>
+    </div>
   );
 }

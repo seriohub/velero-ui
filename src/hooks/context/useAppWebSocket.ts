@@ -1,41 +1,50 @@
-import { useEffect, useRef } from 'react';
-import useWebSocket, { ReadyState } from 'react-use-websocket';
-import { useAppStatus } from '@/contexts/AppContext';
-import { useServerStatus } from '@/contexts/ServerContext';
-import { useAgentStatus } from '@/contexts/AgentContext';
+import {useEffect, useRef, useState} from 'react';
+import useWebSocket, {ReadyState} from 'react-use-websocket';
 
-import { useAuthErrorHandler } from '../user/useAuthErrorHandler';
-import { eventEmitter } from '@/lib/EventEmitter.js';
+import {useAppStatus} from '@/contexts/AppContext';
+import {useServerStatus} from '@/contexts/ServerContext';
+import {useAgentStatus} from '@/contexts/AgentContext';
+
+import {useAuthErrorHandler} from "@/hooks/user/useAuthErrorHandler";
+import {eventEmitter} from '@/lib/EventEmitter.js';
+
+const MAX_RECONNECT_ATTEMPTS = 20;
+const RECONNECT_DELAY = 3000;
 
 type UseAppWebSocketParams = {
   addSocketHistory: any;
 };
 
-export const useAppWebSocket = ({ addSocketHistory = null }: UseAppWebSocketParams) => {
+export const useAppWebSocket = ({addSocketHistory = null}: UseAppWebSocketParams) => {
   const appValues = useAppStatus();
   const serverValues = useServerStatus();
   const agentValues = useAgentStatus();
 
-  const { logout } = useAuthErrorHandler();
+  const {logout} = useAuthErrorHandler();
 
-  const socketUrl = `${serverValues?.currentServer?.ws}/ws/auth`;
+  const [reconnectAttempts, setReconnectAttempts] = useState(0);
+  const [isConnectionFailed, setIsConnectionFailed] = useState(false);
 
   const didUnmount = useRef(false);
-  // const mounted = useRef(false);
-
-  const jwtToken = typeof localStorage !== 'undefined' ? localStorage.getItem('token') : '';
-
   const heartbeatInterval = useRef<NodeJS.Timeout | null>(null);
   const readyStateRef = useRef(ReadyState.CONNECTING);
 
-  const { sendMessage, lastMessage, readyState } = useWebSocket(
+  const socketUrl = `${serverValues?.currentServer?.ws}/ws/auth`;
+  const jwtToken: string = localStorage.getItem('token') ?? '';
+  const isAuthenticated = Boolean(jwtToken);
+
+  const {
+    sendMessage,
+    readyState
+  } = useWebSocket(
     socketUrl,
     {
-      shouldReconnect: () => !didUnmount.current,
-      reconnectAttempts: 10,
-      reconnectInterval: 3000,
+      shouldReconnect: () => !didUnmount.current && reconnectAttempts < MAX_RECONNECT_ATTEMPTS,
+      reconnectAttempts: MAX_RECONNECT_ATTEMPTS,
+      reconnectInterval: RECONNECT_DELAY,
       onOpen: () => {
-        if (jwtToken) {
+        setReconnectAttempts(0);
+        if (isAuthenticated) {
           sendMessage(jwtToken);
         }
         serverValues.setIsServerAvailable(true);
@@ -44,17 +53,39 @@ export const useAppWebSocket = ({ addSocketHistory = null }: UseAppWebSocketPara
         }
         heartbeatInterval.current = setInterval(() => {
           if (readyStateRef.current === ReadyState.OPEN) {
-            sendMessage(JSON.stringify({ action: 'ping' }));
+            sendMessage(JSON.stringify({action: 'ping'}));
           }
         }, 10000);
       },
+      onMessage: (event) => {
+        if (!isAuthenticated) return;
+
+        try {
+          const response = JSON.parse(event.data);
+          if (response.type !== 'agent_alive' && response.type !== 'pong') {
+            addSocketHistory?.((prev: string[]) => prev.concat(event.data));
+          }
+          if (response.type === 'user_watch' || response.type === 'global_watch') {
+            eventEmitter.emit('watchResources', response);
+          }
+        } catch (error) {
+          console.error('Error parsing WebSocket message:', error);
+        }
+      },
       onError: () => {
+        setReconnectAttempts((prev) => prev + 1);
         serverValues.setIsServerAvailable(false);
         agentValues.setIsAgentAvailable(false);
       },
       onClose: (event) => {
+        setReconnectAttempts((prev) => prev + 1);
         serverValues.setIsServerAvailable(false);
         agentValues.setIsAgentAvailable(false);
+
+        if (reconnectAttempts >= MAX_RECONNECT_ATTEMPTS) {
+          setIsConnectionFailed(true);
+          handleMaxReconnectFailure();
+        }
 
         if (event?.code === 1001) {
           logout();
@@ -62,36 +93,18 @@ export const useAppWebSocket = ({ addSocketHistory = null }: UseAppWebSocketPara
       },
     },
     serverValues.currentServer !== undefined
-  ); // Pass isServerAvailable as a dependency to only connect when true
+  );
+
+  const handleMaxReconnectFailure = () => {
+    console.warn('Connection lost permanently. Logout.');
+    logout();
+  };
 
   useEffect(() => {
-    if (lastMessage !== null) {
-      if (
-        typeof lastMessage === 'object' &&
-        lastMessage.data !== undefined &&
-        typeof lastMessage.data === 'string'
-      ) {
-        const response = JSON.parse(lastMessage.data);
-
-        if (response.type !== 'agent_alive' && response.type !== 'pong') {
-          addSocketHistory((prev: string[]) => prev.concat(lastMessage.data));
-        }
-
-        /*if (response.type === 'agent_alive') {
-          if (agentValues?.currentAgent?.name === response.agent_name && response.is_alive) {
-            agentValues.setIsAgentAvailable(true);
-          }
-          if (agentValues.currentAgent?.name === response.agent_name && !response.is_alive) {
-            agentValues.setIsAgentAvailable(false);
-          }
-        }*/
-
-        if (response.type === 'user_watch' || response.type === 'global_watch') {
-          eventEmitter.emit('watchResources', response);
-        }
-      }
+    if (reconnectAttempts >= MAX_RECONNECT_ATTEMPTS) {
+      handleMaxReconnectFailure();
     }
-  }, [lastMessage]);
+  }, [reconnectAttempts]);
 
   const connectionStatus = {
     [ReadyState.CONNECTING]: 'Connecting',
@@ -105,7 +118,6 @@ export const useAppWebSocket = ({ addSocketHistory = null }: UseAppWebSocketPara
     appValues.setSocketStatus(connectionStatus);
   }, [connectionStatus]);
 
-  // Aggiorna il valore di readyStateRef ogni volta che cambia
   useEffect(() => {
     readyStateRef.current = readyState;
   }, [readyState]);
@@ -117,5 +129,8 @@ export const useAppWebSocket = ({ addSocketHistory = null }: UseAppWebSocketPara
     []
   );
 
-  return { sendMessage };
+  return {
+    sendMessage,
+    isConnectionFailed
+  };
 };
