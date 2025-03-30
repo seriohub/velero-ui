@@ -317,11 +317,13 @@ export function AppShellNavbar({
               )}
             </Group>
 
-            <Box p={5}>
-              {generateNavLinks(homeLink, serverValues.isCurrentServerControlPlane !== true)}
-            </Box>
+            {serverValues.isCurrentServerControlPlane && (
+              <Box p={5}>
+                {generateNavLinks(homeLink, serverValues.isCurrentServerControlPlane !== true)}
+              </Box>
+            )}
 
-            {!collapsed && (
+            {serverValues.isCurrentServerControlPlane && !collapsed && (
               <Box mt={5}>
                 <Text
                   ml="12"
@@ -405,7 +407,7 @@ export function AppShellNavbar({
                 </Text>
               )}
               <Box p={5} mt={0}>
-                {generateNavLinks(natsLink, serverValues.isCurrentServerControlPlane !== true)}
+                {serverValues.isCurrentServerControlPlane && generateNavLinks(natsLink, serverValues.isCurrentServerControlPlane !== true)}
                 {generateNavLinks(settingsLink)}
               </Box>
 

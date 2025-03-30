@@ -4,7 +4,8 @@
     text-decoration: none;
     font-size: var(--mantine-font-size-sm);
     color: var(--mantine-color-white);
-    padding: var(--mantine-spacing-xs) var(--mantine-spacing-sm);
+    /*padding: var(--mantine-spacing-xs) var(--mantine-spacing-sm);*/
+    padding: 8px var(--mantine-spacing-sm);
     border-radius: var(--mantine-radius-sm);
     font-weight: 500;
 
