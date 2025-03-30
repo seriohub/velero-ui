@@ -1,13 +1,11 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Card, Grid, Tabs } from '@mantine/core';
+import { Box, Tabs } from '@mantine/core';
 import { debounce } from 'lodash';
 import { IconDatabaseExport, IconFileText } from '@tabler/icons-react';
 import { useVeleroManifest } from '@/api/Velero/useVeleroManifest';
 import { useAgentStatus } from '@/contexts/AgentContext';
-
-import { PageScrollArea } from '@/components/Commons/PageScrollArea';
 
 import Toolbar from '@/components/Display/Toolbar';
 import ReloadData from '@/components/Inputs/ReloadData';
@@ -25,13 +23,18 @@ import { isRecordStringAny } from '@/utils/isRecordStringIsType';
 import DownloadAction from '@/components/Features/Velero/Backups/Actions/DownloadAction';
 import InspectAction from '@/components/Features/Velero/Backups/Actions/InspectAction';
 import { eventEmitter } from '@/lib/EventEmitter.js';
+import { VeleroDetailsLayout } from "@/components/Commons/VeleroDetailsLayout";
 
 interface BackupProps {
   params: any;
 }
 
 export function BackupDetails({ params }: BackupProps) {
-  const { data, getManifest } = useVeleroManifest();
+  const {
+    data,
+    getManifest
+  } = useVeleroManifest();
+
   const [reload, setReload] = useState(1);
   const agentValues = useAgentStatus();
 
@@ -69,80 +72,58 @@ export function BackupDetails({ params }: BackupProps) {
   }, [data]);
 
   return (
-    <PageScrollArea>
-      <Toolbar
-        title="Backup"
-        breadcrumbItem={[
-          {
-            name: 'Backups',
-            href: '/backups/',
-          },
-          {
-            name: `${params.backup}`,
-          },
-        ]}
-      >
-        <ReloadData setReload={setReload} reload={reload} />
-
-        <RestoreAction record={manifest} setReload={setReload} buttonType="button" />
-        <InspectAction record={manifest} buttonType="button" />
-        <DownloadAction record={manifest} buttonType="button" />
-        <UpdateExpirationAction record={manifest} setReload={setReload} buttonType="button" />
-        <DeleteAction
-          resourceType="backup"
-          record={manifest}
-          setReload={setReload}
-          buttonType="button"
-          redirectAfterDelete="/backups"
-        />
-      </Toolbar>
-
-      <Grid gutter="sm">
-        <Grid.Col
-          span={{
-            base: 12,
-            md: 12,
-            lg: 4,
-          }}
+    <VeleroDetailsLayout
+      toolbar={
+        <Toolbar
+          title="Backup"
+          breadcrumbItem={[
+            {
+              name: 'Backups',
+              href: '/backups/'
+            },
+            { name: `${params.backup}` },
+          ]}
         >
-          <BackupDetailsView data={manifest} h={550} />
-        </Grid.Col>
-
-        <Grid.Col
-          span={{
-            base: 12,
-            md: 12,
-            lg: 8,
-          }}
-        >
-          <Card shadow="sm" padding="lg" radius="md" withBorder h={550}>
-            <Card.Section withBorder inheritPadding p="sm">
-              <Manifest resourceType="Backup" resourceName={params.backup} h={530} />
-            </Card.Section>
-          </Card>
-        </Grid.Col>
-      </Grid>
-
-      <Card shadow="sm" mt="md" radius="md" withBorder p={0}>
-        <Tabs defaultValue="PodVolumes" h={290}>
+          <ReloadData setReload={setReload} reload={reload}/>
+          <RestoreAction record={manifest} setReload={setReload} buttonType="button"/>
+          <InspectAction record={manifest} buttonType="button"/>
+          <DownloadAction record={manifest} buttonType="button"/>
+          <UpdateExpirationAction record={manifest} setReload={setReload} buttonType="button"/>
+          <DeleteAction
+            resourceType="backup"
+            record={manifest}
+            setReload={setReload}
+            buttonType="button"
+            redirectAfterDelete="/backups"
+          />
+        </Toolbar>
+      }
+      details={<BackupDetailsView data={manifest}/>}
+      manifest={<Manifest resourceType="Backup" resourceName={params.backup}/>}
+      tabs={(height) => (
+        <Tabs defaultValue="PodVolumes" h="100%">
           <Tabs.List>
-            <Tabs.Tab value="PodVolumes" leftSection={<IconDatabaseExport size={12} />}>
+            <Tabs.Tab value="PodVolumes" leftSection={<IconDatabaseExport size={12}/>}>
               Pod volumes
             </Tabs.Tab>
-            <Tabs.Tab value="Logs" leftSection={<IconFileText size={12} />}>
+            <Tabs.Tab value="Logs" leftSection={<IconFileText size={12}/>}>
               Logs
             </Tabs.Tab>
           </Tabs.List>
 
           <Tabs.Panel value="PodVolumes">
-            <PodVolumeList podVolumeName={params.backup} type="podvolumebackups" />
+            <Box p={5}>
+              <PodVolumeList podVolumeName={params.backup} type="podvolumebackups" height={height - 6}/>
+            </Box>
           </Tabs.Panel>
 
           <Tabs.Panel value="Logs">
-            <ResourceLogs resourceType="backup" resourceName={data?.metadata?.name} />
+            <Box p={5}>
+              <ResourceLogs resourceType="backup" resourceName={data?.metadata?.name} h={height - 50}/>
+            </Box>
           </Tabs.Panel>
         </Tabs>
-      </Card>
-    </PageScrollArea>
+      )}
+    />
   );
 }

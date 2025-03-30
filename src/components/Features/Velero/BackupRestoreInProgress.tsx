@@ -25,16 +25,20 @@ import VeleroResourceStatusBadge from '@/components//Features/Velero/Commons/Dis
 import { eventEmitter } from '@/lib/EventEmitter.js';
 
 export default function BackupRestoreInProgress({
-  reload,
-  setReload,
-  active,
-  setFetchingData,
-}: any) {
+                                                  reload,
+                                                  setReload,
+                                                  active,
+                                                  setFetchingData,
+                                                }: any) {
   const router = useRouter();
   // const appValues = useAppStatus();
   const agentValues = useAgentStatus();
 
-  const { data, getStatsInProgress, fetching } = useStatsInProgress();
+  const {
+    data,
+    getStatsInProgress,
+    fetching
+  } = useStatsInProgress();
 
   const [records, setRecords] = useState<Array<any>>([]);
 
@@ -99,16 +103,16 @@ export default function BackupRestoreInProgress({
 
   const renderActions: DataTableColumn<any>['render'] = (record) => (
     <Group gap={4} justify="left" wrap="nowrap">
-      <DescribeActionIcon resourceType={record.kind.toLowerCase()} record={record} />
+      <DescribeActionIcon resourceType={record.kind.toLowerCase()} record={record}/>
       {record.kind.toLowerCase() === 'backup' && (
-        <DeleteAction resourceType="backup" record={record} setReload={setReload} />
+        <DeleteAction resourceType="backup" record={record} setReload={setReload}/>
       )}
     </Group>
   );
 
   return (
     <DataTable
-      height={240}
+      height={194}
       withTableBorder
       borderRadius="sm"
       // withColumnBorders
@@ -140,8 +144,8 @@ export default function BackupRestoreInProgress({
               }}
             >
               <Group gap={5}>
-                {record?.kind === 'Backup' && <IconDeviceFloppy size={16} />}
-                {record?.kind === 'Restore' && <IconRestore size={16} />}
+                {record?.kind === 'Backup' && <IconDeviceFloppy size={16}/>}
+                {record?.kind === 'Restore' && <IconRestore size={16}/>}
                 <Text>{record?.metadata?.name}</Text>
               </Group>
             </Anchor>
@@ -167,7 +171,7 @@ export default function BackupRestoreInProgress({
           width: 120,
           ellipsis: true,
           render: ({ status }: any) => (
-            <VeleroResourceStatusBadge status={status?.phase || undefined} />
+            <VeleroResourceStatusBadge status={status?.phase || undefined}/>
           ),
         },
         {
@@ -240,7 +244,7 @@ export default function BackupRestoreInProgress({
           accessor: 'actions',
           title: (
             <Center>
-              <IconClick size={16} />
+              <IconClick size={16}/>
             </Center>
           ),
           width: '0%',

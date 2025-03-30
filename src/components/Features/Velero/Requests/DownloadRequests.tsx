@@ -123,7 +123,7 @@ export default function DownloadRequests({ reload, setReload, active, setFetchin
 
   return (
     <DataTable
-      height={240}
+      height={194}
       withTableBorder
       borderRadius="sm"
       // withColumnBorders

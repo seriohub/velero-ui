@@ -8,7 +8,7 @@ import { DetailsBackupRestoreStatus } from '@/components/Features/Velero/Commons
 
 export function RestoreDetailsView({ data, ...rest }: any) {
   return (
-    <Card shadow="sm" radius="md" withBorder {...rest}>
+    <Card shadow="sm" radius="md" withBorder h="100%">
       <Card.Section p="md">
         <Group gap={5}>
           <IconRestore size={80} />

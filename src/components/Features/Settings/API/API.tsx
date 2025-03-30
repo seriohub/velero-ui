@@ -1,11 +1,11 @@
 'use client';
 
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 
-import {DataTable} from 'mantine-datatable';
-import {useAgentStatus} from '@/contexts/AgentContext';
+import { DataTable } from 'mantine-datatable';
+import { useAgentStatus } from '@/contexts/AgentContext';
 
-import {MainStack} from '@/components/Commons/MainStack';
+import { MainStack } from '@/components/Commons/MainStack';
 
 import Toolbar from '@/components/Display/Toolbar';
 import ReloadData from '@/components/Inputs/ReloadData';
@@ -28,7 +28,7 @@ export function API() {
 
   return (
     <MainStack>
-      <Toolbar title="Backup" breadcrumbItem={[{name: 'API'}]}>
+      <Toolbar title="Backup" breadcrumbItem={[{ name: 'API' }]}>
         <ReloadData setReload={setReload} reload={reload}/>
       </Toolbar>
 
@@ -45,7 +45,7 @@ export function API() {
           {
             accessor: 'value',
             title: 'value',
-            render: ({key}: any) => <>{agentValues.agentConfig[key]}</>,
+            render: ({ key }: any) => <>{agentValues.agentConfig[key]}</>,
             sortable: true,
             width: 600,
             ellipsis: true,

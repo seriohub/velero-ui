@@ -17,7 +17,10 @@ import { useEffect, useState } from 'react';
 
 import { useWatchdogUpdateConfigs } from '@/api/Watchdog/useWatchdogUpdateConfigs';
 
-export function WatchdogUserConfigs({ userConfiguration, setReload }: any) {
+export function WatchdogUserConfigs({
+                                      userConfiguration,
+                                      setReload
+                                    }: any) {
   const { handleUpdateSchedule } = useWatchdogUpdateConfigs();
   const [isModified, setIsModified] = useState(false);
   const computedColorScheme = useComputedColorScheme();
@@ -99,7 +102,7 @@ export function WatchdogUserConfigs({ userConfiguration, setReload }: any) {
   }
 
   if (!userConfiguration) {
-    return <Loader />;
+    return <Loader/>;
   }
   return (
     <form
@@ -112,7 +115,7 @@ export function WatchdogUserConfigs({ userConfiguration, setReload }: any) {
         maw={1000}
         withBorder
         mt={10}
-        p="xl"
+        p="sm"
         bg={computedColorScheme === 'light' ? '' : 'var(--mantine-color-body)'}
       >
         <Text fz="lg" fw={500}>
@@ -194,7 +197,7 @@ export function WatchdogUserConfigs({ userConfiguration, setReload }: any) {
               mt={10}
               error={form.errors.processCycleSeconds}
             >
-              <NumberInput {...form.getInputProps('processCycleSeconds')} min={5} max={3600} />
+              <NumberInput {...form.getInputProps('processCycleSeconds')} min={5} max={3600}/>
             </Input.Wrapper>
 
             <Input.Wrapper
@@ -203,7 +206,7 @@ export function WatchdogUserConfigs({ userConfiguration, setReload }: any) {
               mt={10}
               error={form.errors.expireDaysWarning}
             >
-              <NumberInput {...form.getInputProps('expireDaysWarning')} min={1} max={100} />
+              <NumberInput {...form.getInputProps('expireDaysWarning')} min={1} max={100}/>
             </Input.Wrapper>
           </div>
         </SimpleGrid>

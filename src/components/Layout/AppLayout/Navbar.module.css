@@ -13,7 +13,7 @@
         color: light-dark(var(--mantine-color-black), var(--mantine-color-white));
 
         .linkIcon {
-            color: light-dark(var(--mantine-color-black), var(--mantine-color-white));
+            /*color: light-dark(var(--mantine-color-black), var(--mantine-color-white));*/
         }
     }
 
@@ -31,9 +31,9 @@
 }
 
 .linkIcon {
-    color: light-dark(var(--mantine-color-gray-6), var(--mantine-color-dark-2));
+    /*color: light-dark(var(--mantine-color-gray-6), var(--mantine-color-dark-1));*/
     margin-right: 5px;
     width: 25px;
     height: 25px;
-    stroke-width: 1.5;
+    /*stroke-width: 2;*/
 }

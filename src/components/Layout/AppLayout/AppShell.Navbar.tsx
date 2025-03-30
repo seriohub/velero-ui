@@ -18,14 +18,12 @@ import {
   IconCalendarEvent,
   IconDatabase,
   IconLink,
-  IconSettings,
   IconServer,
   IconHome,
   IconAffiliate,
   IconFolders,
   IconDog,
   IconSpy,
-  IconInfoCircle,
   IconAppWindow,
   IconZoomCode,
   IconArrowBarLeft,
@@ -33,17 +31,19 @@ import {
   IconDatabaseExport,
   IconDatabaseImport,
   IconShield,
+  IconApi,
+  IconAutomation, IconPlayerPlay,
 } from '@tabler/icons-react';
 
-import {useRouter, usePathname} from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 
-import {useMediaQuery} from '@mantine/hooks';
-import {useUIStatus} from '@/contexts/UIContext';
-import {useServerStatus} from '@/contexts/ServerContext';
+import { useMediaQuery } from '@mantine/hooks';
+import { useUIStatus } from '@/contexts/UIContext';
+import { useServerStatus } from '@/contexts/ServerContext';
 
-import {Version} from '@/components/Layout/Navlink/Version';
-import {SwitchAgent} from '@/components/Features/Config/SwitchCluster/SwitchAgent';
-import {Logo} from '@/components/Display/Logo';
+import { Version } from '@/components/Layout/Navlink/Version';
+import { SwitchAgent } from '@/components/Features/Config/SwitchCluster/SwitchAgent';
+import { Logo } from '@/components/Display/Logo';
 
 import classesSimple from './Navbar.module.css';
 import classesColored from './NavbarColored.module.css';
@@ -123,13 +123,13 @@ const settingsLink = [
   },
   {
     link: '/settings/api',
-    label: 'Api',
-    icon: IconSettings,
+    label: 'API',
+    icon: IconApi,
     tooltip: 'API Settings',
   },
   {
     link: '/settings/watchdog',
-    label: 'Watchodg',
+    label: 'Watchdog',
     icon: IconDog,
     tooltip: 'Watchdog Settings',
   },
@@ -142,6 +142,18 @@ const settingsLink = [
 ];
 
 const systemLink = [
+  {
+    link: '/vui',
+    label: 'Vui',
+    icon: IconPlayerPlay,
+    tooltip: 'Vui',
+  },
+  {
+    link: '/velero',
+    label: 'Velero',
+    icon: IconAutomation,
+    tooltip: 'Velero',
+  },
   {
     link: '/system/security',
     label: 'Security',
@@ -199,7 +211,7 @@ export function AppShellNavbar({
     data.map((item: NavItem) => (
       <NavLink
         w={collapsed ? '50px' : '230px'}
-        mt={2}
+        //mt={0}
         className={
           computedColorScheme === 'light'
             ? uiValues.navbarColored
@@ -259,7 +271,7 @@ export function AppShellNavbar({
       >
         <Stack
           justify="space-between"
-          style={{height: '100vh'}}
+          style={{ height: '100vh' }}
           p={0}
           w={!collapsed ? '240px' : '60'}
         >
@@ -267,25 +279,27 @@ export function AppShellNavbar({
             <Group justify="space-between" h={60} p={5}>
               {!collapsed && <Logo/>}
               {!isNavbarHidden && (
-                <ActionIcon
-                  variant="transparent"
-                  p={4}
-                  w={50}
-                  h={50}
-                  tabIndex={-1}
-                  onClick={() => toggleCollapsed()}
-                  className={
-                    computedColorScheme === 'light'
-                      ? uiValues.navbarColored
-                        ? classesColored.link
+                <Tooltip label={collapsed ? 'Expand' : 'Collapse'}>
+                  <ActionIcon
+                    variant="transparent"
+                    p={4}
+                    w={50}
+                    h={50}
+                    tabIndex={-1}
+                    onClick={() => toggleCollapsed()}
+                    className={
+                      computedColorScheme === 'light'
+                        ? uiValues.navbarColored
+                          ? classesColored.link
+                          : classesSimple.link
                         : classesSimple.link
-                      : classesSimple.link
-                  }
-                  size="xl"
-                >
-                  {!collapsed && <IconArrowBarLeft/>}
-                  {collapsed && <IconArrowBarRight/>}
-                </ActionIcon>
+                    }
+                    size="xl"
+                  >
+                    {!collapsed && <IconArrowBarLeft/>}
+                    {collapsed && <IconArrowBarRight/>}
+                  </ActionIcon>
+                </Tooltip>
               )}
               {isNavbarHidden && (
                 <Burger

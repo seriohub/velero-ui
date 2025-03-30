@@ -1,8 +1,8 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
-import { Tabs, Stack } from '@mantine/core';
+import { Tabs, Stack, ScrollArea } from '@mantine/core';
 
 import { IconSettings, IconVariable } from '@tabler/icons-react';
 
@@ -20,11 +20,11 @@ import ReloadData from '@/components/Inputs/ReloadData';
 import SendReport from '@/components/Features/Settings/Watchdog/Actions/SendReport';
 import ReloadConfig from '@/components/Features/Settings/Watchdog/Actions/ReloadConfig';
 
-import { WatchdogUserConfigs } from '@/components/Features/Settings/Watchdog/WatchdogUserConfigs';
-import WatchdogService from '@/components/Features/Settings/Watchdog/WatchdogService';
 import { WatchdogEnvironment } from '@/components/Features/Settings/Watchdog/Display/WatchdogEnvironment';
 import { MainStack } from '@/components/Commons/MainStack';
-import {PageScrollArea} from "@/components/Commons/PageScrollArea";
+import { useUIStatus } from "@/contexts/UIContext";
+import { WatchdogUserConfigs } from "@/components/Features/Settings/Watchdog/WatchdogUserConfigs";
+import WatchdogService from "@/components/Features/Settings/Watchdog/WatchdogService";
 
 type Differences<T> = {
   hasDifferences: boolean;
@@ -56,15 +56,43 @@ function hasDifferentValues<T extends Record<string, any>>(obj1: T, obj2: T): Di
 }
 
 export function Watchdog() {
-  const { data: deployConfiguration, getWatchdogConfig, fetching } = useWatchdogEnvironment();
-  const { data: userConfiguration, getWatchdogAppConfigs } = useWatchdogAppConfigs();
+  const uiValues = useUIStatus();
+  const stackRef = useRef<HTMLDivElement>(null);
+  const [scrollHeight, setScrollHeight] = useState<number>(800);
+
+  const [activeTab, setActiveTab] = useState<string | null>('Environment');
+
+  useEffect(() => {
+    if (activeTab === 'Settings' && stackRef.current) {
+      setTimeout(() => {
+        const height = stackRef.current!.offsetHeight;
+        setScrollHeight(height);
+      }, 50); // ritardo per sicurezza
+    }
+  }, [activeTab]);
+
+  const {
+    data: deployConfiguration,
+    getWatchdogConfig,
+    fetching
+  } = useWatchdogEnvironment();
+  const {
+    data: userConfiguration,
+    getWatchdogAppConfigs
+  } = useWatchdogAppConfigs();
 
   const [hasDiff, setHasDiff] = useState(false);
 
-  const { watchdogSendReport, fetching: reportFetching } = useWatchdogSendReport();
+  const {
+    watchdogSendReport,
+    fetching: reportFetching
+  } = useWatchdogSendReport();
   const { watchdogRestart } = useWatchdogRestart();
 
-  const { data: cron, getWatchdogCron } = useWatchdogCron();
+  const {
+    data: cron,
+    getWatchdogCron
+  } = useWatchdogCron();
   const [reload, setReload] = useState(1);
 
   const agentValues = useAgentStatus();
@@ -77,7 +105,10 @@ export function Watchdog() {
 
   useEffect(() => {
     if (deployConfiguration && userConfiguration) {
-      const { hasDifferences: hDiff, differences: diffs } = hasDifferentValues(
+      const {
+        hasDifferences: hDiff,
+        differences: diffs
+      } = hasDifferentValues(
         deployConfiguration,
         userConfiguration
       );
@@ -85,31 +116,59 @@ export function Watchdog() {
     }
   }, [deployConfiguration, userConfiguration]);
 
-  useEffect(() => {}, [hasDiff]);
+  useEffect(() => {
+  }, [hasDiff]);
+
+  useEffect(() => {
+    const updateHeight = () => {
+      if (stackRef.current) {
+        const height = stackRef.current.offsetHeight;
+        setScrollHeight(height);
+      }
+    };
+
+    // Initial Call
+    updateHeight();
+
+    // Resize Listener
+    window.addEventListener('resize', updateHeight);
+
+    // Clean listener
+    return () => {
+      window.removeEventListener('resize', updateHeight);
+    };
+  }, [uiValues.showTaskInProgress]);
+
+  useEffect(() => {
+    if (stackRef.current) {
+      const height = stackRef.current.offsetHeight;
+      setScrollHeight(height);
+    }
+  }, []);
 
   return (
-    <PageScrollArea>
+    <MainStack>
       <Toolbar title="Watchdog" breadcrumbItem={[{ name: 'Watchdog' }]}>
-        <ReloadData setReload={setReload} reload={reload} />
-        <SendReport fetching={reportFetching} requestSendReport={watchdogSendReport} />
+        <ReloadData setReload={setReload} reload={reload}/>
+        <SendReport fetching={reportFetching} requestSendReport={watchdogSendReport}/>
         <ReloadConfig
           watchdogReloadConfig={watchdogRestart}
           hasDiff={hasDiff}
           setReload={setReload}
         />
       </Toolbar>
-      <Tabs defaultValue="Environment">
+      <Tabs defaultValue="Environment" h="calc(100% - 70px)" value={activeTab} onChange={setActiveTab}>
         <Tabs.List>
-          <Tabs.Tab value="Environment" leftSection={<IconVariable size={20} />}>
+          <Tabs.Tab value="Environment" leftSection={<IconVariable size={20}/>}>
             Current Environment
           </Tabs.Tab>
-          <Tabs.Tab value="Settings" leftSection={<IconSettings size={20} />}>
+          <Tabs.Tab value="Settings" leftSection={<IconSettings size={20}/>}>
             Configuration
           </Tabs.Tab>
         </Tabs.List>
 
-        <Tabs.Panel value="Environment" h="100%">
-          <Stack h="calc(100vh - var(--app-shell-header-height, 0px) - var(--app-shell-footer-height, 0px) - 210px)">
+        <Tabs.Panel value="Environment" h="calc(100% - 40px)">
+          <Stack h="100%">
             <WatchdogEnvironment
               fetching={fetching}
               cron={cron}
@@ -119,11 +178,15 @@ export function Watchdog() {
           </Stack>
         </Tabs.Panel>
 
-        <Tabs.Panel value="Settings">
-          <WatchdogUserConfigs userConfiguration={userConfiguration} setReload={setReload} />
-          <WatchdogService />
+        <Tabs.Panel value="Settings" h="calc(100% - 40px)" p={0}>
+          <Stack ref={stackRef} h="100%" p={0}>
+            <ScrollArea h={scrollHeight} p={0}>
+              <WatchdogUserConfigs userConfiguration={userConfiguration} setReload={setReload}/>
+              <WatchdogService/>
+            </ScrollArea>
+          </Stack>
         </Tabs.Panel>
       </Tabs>
-    </PageScrollArea>
+    </MainStack>
   );
 }

@@ -1,4 +1,4 @@
-import { Anchor, Box, Card, Group, ScrollArea, Space, Text, Title } from '@mantine/core';
+import { Anchor, Box, Card, Group, Space, Text, Title } from '@mantine/core';
 import { useRouter } from 'next/navigation';
 import {
   IconDatabaseExport,
@@ -14,7 +14,7 @@ import classes from '@/styles/veleroResourceDetails.module.css';
 export function PVBDetailsView({ manifest, ...rest }: any) {
   const router = useRouter();
   return (
-    <Card shadow="sm" radius="md" withBorder {...rest}>
+    <Card shadow="sm" radius="md" withBorder h="100%" {...rest}>
       <Card.Section p="md">
         <Group gap={5}>
           {manifest?.kind === 'PodVolumeBackup' && <IconDatabaseExport size={80} />}

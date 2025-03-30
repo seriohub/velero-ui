@@ -11,7 +11,10 @@ import { useWatchdogAppSecrets } from '@/api/Watchdog/useWatchdogAppSecrets';
 import WatchdogServiceConfigTable from '@/components/Features/Settings/Watchdog/WatchdogServiceConfigTable';
 
 export default function WatchdogService() {
-  const { data: dataServices, getWatchdogAppSecrets } = useWatchdogAppSecrets();
+  const {
+    data: dataServices,
+    getWatchdogAppSecrets
+  } = useWatchdogAppSecrets();
   const computedColorScheme = useComputedColorScheme();
   const [services, setServices] = useState<Record<string, any>[]>([]);
 
@@ -29,7 +32,7 @@ export default function WatchdogService() {
       maw={1000}
       withBorder
       mt={10}
-      p="xl"
+      p="sm"
       bg={computedColorScheme === 'light' ? '' : 'var(--mantine-color-body)'}
     >
       <Group gap={3} justify="space-between">
@@ -44,14 +47,14 @@ export default function WatchdogService() {
           size="xl"
           aria-label="Open in a new tab"
         >
-          <IconHelp />
+          <IconHelp/>
         </ActionIcon>
       </Group>
       <Text fz="xs" c="dimmed" mt={3}>
         Config apprise service
       </Text>
 
-      <WatchdogServiceConfigTable services={services} setServices={setServices} />
+      <WatchdogServiceConfigTable services={services} setServices={setServices}/>
     </Card>
   );
 }

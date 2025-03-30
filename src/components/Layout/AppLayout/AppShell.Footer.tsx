@@ -17,14 +17,14 @@ export function AppShellFooter() {
     <>
       <Group justify="space-between" gap={5}>
         <Group gap={20}>
-          {serverValues.isCurrentServerControlPlane && <DiagnosticCoreInfo />}
+          {serverValues.isCurrentServerControlPlane && <DiagnosticCoreInfo/>}
           {(appValues.isAuthenticated || serverValues.isCurrentServerControlPlane === false) && (
-            <DiagnosticAgentInfo />
+            <DiagnosticAgentInfo/>
           )}
         </Group>
 
         <Group visibleFrom="lg" gap={5}>
-          <ProcessTime />
+          <ProcessTime/>
         </Group>
 
         <Group gap={10}>

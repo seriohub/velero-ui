@@ -27,12 +27,19 @@ interface ManifestProps {
   resourceType: string;
   resourceName: string;
   reload?: number;
-
-  [key: string]: any;
+  // [key: string]: any;
 }
 
-export function Manifest({ resourceType, resourceName, reload, ...rest }: ManifestProps) {
-  const { fetching, data, getManifest } = useVeleroManifest();
+export function Manifest({
+                           resourceType,
+                           resourceName,
+                           reload
+                         }: ManifestProps) {
+  const {
+    fetching,
+    data,
+    getManifest
+  } = useVeleroManifest();
   const agentValues = useAgentStatus();
   const [neat, setNeat] = useState(false);
   const [manifest, setManifest] = useState<Record<string, any>>([]);
@@ -70,14 +77,17 @@ export function Manifest({ resourceType, resourceName, reload, ...rest }: Manife
   }, [data]);
 
   return (
-    <Flex direction="column" gap={10} {...rest}>
+    <Flex direction="column" gap={10} h="calc(100% - 10px)">
       <Group justify="space-between">
         <Group gap={5}>
           <CopyButton value={convertJsonToYaml(manifest)} timeout={2000}>
-            {({ copied, copy }) => (
+            {({
+                copied,
+                copy
+              }) => (
               <Tooltip label={copied ? 'Copied' : 'Copy'} withArrow position="right">
                 <ActionIcon color={copied ? 'teal' : 'gray'} variant="transparent" onClick={copy}>
-                  {copied ? <IconCheck size={16} /> : <IconCopy size={16} />}
+                  {copied ? <IconCheck size={16}/> : <IconCopy size={16}/>}
                 </ActionIcon>
               </Tooltip>
             )}
@@ -92,11 +102,11 @@ export function Manifest({ resourceType, resourceName, reload, ...rest }: Manife
         />
       </Group>
 
-      <ScrollArea>
-        <Code block style={{ borderRadius: '0px' }}>
+      <Code block style={{ borderRadius: '5px' }}>
+        <ScrollArea>
           {fetching && manifest.length === 0 && (
             <Center>
-              <Loader />
+              <Loader/>
             </Center>
           )}
           {manifest.length !== 0 && (
@@ -104,8 +114,8 @@ export function Manifest({ resourceType, resourceName, reload, ...rest }: Manife
               <Text size="xs">{convertJsonToYaml(manifest)}</Text>
             </pre>
           )}
-        </Code>
-      </ScrollArea>
+        </ScrollArea>
+      </Code>
     </Flex>
   );
 }

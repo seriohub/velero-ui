@@ -11,7 +11,7 @@ import classes from '@/styles/veleroResourceDetails.module.css';
 export function ScheduleDetailsView({ data, ...rest }: any) {
   const router = useRouter();
   return (
-    <Card shadow="sm" radius="md" withBorder {...rest}>
+    <Card shadow="sm" radius="md" withBorder h="100%">
       <Card.Section p="md" className={classes.section}>
         <Group gap={5}>
           <IconCalendar size={80} />

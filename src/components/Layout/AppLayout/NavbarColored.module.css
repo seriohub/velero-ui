@@ -13,7 +13,7 @@
         color: var(--mantine-color-white);
 
         .linkIcon {
-            color: var(--mantine-color-white);
+            /*color: var(--mantine-color-white);*/
         }
     }
 
@@ -25,16 +25,16 @@
             color: var(--mantine-primary-color-filled);
 
             .linkIcon {
-                color: var(--mantine-primary-color-filled);
+                /*color: var(--mantine-primary-color-filled);*/
             }
         }
     }
 }
 
 .linkIcon {
-    color: var(--mantine-primary-color-1);
+    /*color: var(--mantine-primary-color-1);*/
     margin-right: 5px;
     width: 25px;
     height: 25px;
-    stroke-width: 1.5;
+    /*stroke-width: 1.5;*/
 }

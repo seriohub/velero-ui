@@ -1,13 +1,13 @@
-import { Box, Card, Group, ScrollArea, Space, Text, Title } from '@mantine/core';
+import { Box, Card, Group, Space, Text, Title } from '@mantine/core';
 
-import { IconDeviceFloppy, IconServer } from '@tabler/icons-react';
+import { IconServer } from '@tabler/icons-react';
 import VeleroResourceStatusBadge from '@/components/Features/Velero/Commons/Display/VeleroResourceStatusBadge';
 import React from 'react';
 import classes from '@/styles/veleroResourceDetails.module.css';
 
-export function BslDetailsView({ data, ...rest }: any) {
+export function BslDetailsView({ data }: any) {
   return (
-    <Card shadow="sm" padding="lg" radius="md" withBorder {...rest}>
+    <Card shadow="sm" padding="lg" radius="md" withBorder h="100%">
       <Card.Section p="md">
         <Group gap={5}>
           <IconServer size={80} />

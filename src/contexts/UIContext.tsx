@@ -14,6 +14,7 @@ interface UIStatus {
   openedUIDrawer: boolean;
   isMobile: boolean | undefined;
   badgeVariant: string;
+  showTaskInProgress: boolean;
 }
 
 interface UIStatusContextProps extends UIStatus {
@@ -27,6 +28,7 @@ interface UIStatusContextProps extends UIStatus {
   toggleUIDrawer: React.Dispatch<React.SetStateAction<boolean>>;
   setIsMobile: React.Dispatch<React.SetStateAction<boolean | undefined>>;
   setBadgeVariant: React.Dispatch<React.SetStateAction<any>>;
+  setShowTaskInProgress: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const UIStateContext = createContext<UIStatusContextProps | undefined>(undefined);
@@ -47,6 +49,7 @@ export const UIProvider: React.FC<{ children: React.ReactNode }> = ({ children }
   const [showBottomDebugBar, setShowBottomDebugBar] = useState(false);
   const [openedUIDrawer, { toggle: toggleUIDrawer }] = useDisclosure();
   const [isMobile, setIsMobile] = useState(useMediaQuery('(max-width: 1024px)'));
+  const [showTaskInProgress, setShowTaskInProgress] = useState(false);
 
   useEffect(() => {
     setShowDebugAside(localStorage.getItem('showDebugAside') === 'true' || false);
@@ -74,6 +77,7 @@ export const UIProvider: React.FC<{ children: React.ReactNode }> = ({ children }
         openedUIDrawer,
         isMobile,
         badgeVariant,
+        showTaskInProgress,
         setPrimaryColor,
         setUiFontFamily,
         setUiFontSize,
@@ -84,6 +88,7 @@ export const UIProvider: React.FC<{ children: React.ReactNode }> = ({ children }
         toggleUIDrawer,
         setIsMobile,
         setBadgeVariant,
+        setShowTaskInProgress
       }}
     >
       {children}
