@@ -4,8 +4,8 @@ import { useAgentConfig } from '@/hooks/context/useAgentConfig';
 
 import AppShellUserBoot from './AppShell.UserBoot';
 import { useServerStatus } from '@/contexts/ServerContext';
-import AppShellLoader from '../../AppShell.Loader';
 import { useAppStatus } from '@/contexts/AppContext';
+import AppShellLoader from "@/components/Layout/AppShell.Loader";
 
 interface AppShellBootProps {
   children: any;

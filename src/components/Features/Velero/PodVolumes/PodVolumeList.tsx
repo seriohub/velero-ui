@@ -29,8 +29,15 @@ interface PVBSummaryProps {
   type: string;
 }
 
-export function PodVolumeList({ podVolumeName, type }: PVBSummaryProps) {
-  const { data, getPodVolumeDetails } = usePodVolumeDetails();
+export function PodVolumeList({
+                                podVolumeName,
+                                type,
+                                ...rest
+                              }: any) {
+  const {
+    data,
+    getPodVolumeDetails
+  } = usePodVolumeDetails();
   const [records, setRecords] = useState<Array<any>>([]);
   const agentValues = useAgentStatus();
   const [reload, setReload] = useState(1);
@@ -70,7 +77,8 @@ export function PodVolumeList({ podVolumeName, type }: PVBSummaryProps) {
   return (
     <>
       <DataTable
-        height="394px"
+        // height="394px"
+        {...rest}
         withTableBorder
         striped
         idAccessor="metadata.name"
@@ -106,7 +114,7 @@ export function PodVolumeList({ podVolumeName, type }: PVBSummaryProps) {
             sortable: true,
             ellipsis: true,
             render: ({ status }) => (
-              <VeleroResourceStatusBadge status={status?.phase || undefined} />
+              <VeleroResourceStatusBadge status={status?.phase || undefined}/>
             ),
           },
           {

@@ -1,13 +1,11 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Card, Grid } from '@mantine/core';
 
 import { useAgentStatus } from '@/contexts/AgentContext';
 
 import { useVeleroManifest } from '@/api/Velero/useVeleroManifest';
 
-import { PageScrollArea } from '@/components/Commons/PageScrollArea';
 
 import Toolbar from '@/components/Display/Toolbar';
 import ReloadData from '@/components/Inputs/ReloadData';
@@ -20,6 +18,7 @@ import EditBslAction from '@/components/Features/Velero/BackupLocations/Actions/
 import { debounce } from 'lodash';
 import { eventEmitter } from '@/lib/EventEmitter.js';
 import { useWatchResources } from '@/hooks/useWatchResources';
+import { VeleroDetailsLayout } from "@/components/Commons/VeleroDetailsLayout";
 
 interface BackupProps {
   params: any;
@@ -66,48 +65,37 @@ export function BslDetails({ params }: BackupProps) {
     }
   }, [data]);
   return (
-    <PageScrollArea>
-      <Toolbar
-        title="Backup Storage Locations"
-        breadcrumbItem={[
-          {
-            name: 'Backup Storage Locations',
-            href: '/backup-storage-locations/',
-          },
-          {
-            name: `${params.bsl}`,
-          },
-        ]}
-      >
-        <ReloadData setReload={setReload} reload={reload} />
-        <EditBslAction record={manifest} setReload={setReload} buttonType="button" />
-        <DeleteAction
-          resourceType="bsl"
-          record={manifest}
-          setReload={setReload}
-          redirectAfterDelete="/backup-storage-locations"
-          buttonType="button"
-        />
-      </Toolbar>
-
-      <Grid gutter="sm">
-        <Grid.Col span={4}>
-          <BslDetailsView data={manifest} h={600} />
-        </Grid.Col>
-
-        <Grid.Col span={8}>
-          <Card shadow="sm" padding="lg" radius="md" withBorder h={600}>
-            <Card.Section withBorder inheritPadding p="sm">
-              <Manifest
-                resourceType="BackupStorageLocation"
-                resourceName={params.bsl}
-                reload={reload}
-                h={570}
-              />
-            </Card.Section>
-          </Card>
-        </Grid.Col>
-      </Grid>
-    </PageScrollArea>
+    <VeleroDetailsLayout
+      toolbar={
+        <Toolbar
+          title="Backup Storage Locations"
+          breadcrumbItem={[
+            {
+              name: 'Backup Storage Locations',
+              href: '/backup-storage-locations/',
+            },
+            {
+              name: `${params.bsl}`,
+            },
+          ]}
+        >
+          <ReloadData setReload={setReload} reload={reload} />
+          <EditBslAction record={manifest} setReload={setReload} buttonType="button" />
+          <DeleteAction
+            resourceType="bsl"
+            record={manifest}
+            setReload={setReload}
+            redirectAfterDelete="/backup-storage-locations"
+            buttonType="button"
+          />
+        </Toolbar>
+      }
+      details={<BslDetailsView data={manifest}  />}
+      manifest={ <Manifest
+        resourceType="BackupStorageLocation"
+        resourceName={params.bsl}
+        reload={reload}
+      />}
+    />
   );
 }

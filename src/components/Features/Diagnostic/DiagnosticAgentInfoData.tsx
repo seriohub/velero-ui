@@ -1,16 +1,16 @@
 'use client';
 
-import { DataTable } from 'mantine-datatable';
+import {DataTable} from 'mantine-datatable';
 import React from 'react';
 
 export const DiagnosticAgentInfoData = ({
-  uiURL,
-  apiURL,
-  apiArch,
-  origins,
-  k8sHealth,
-  stateManager,
-}: any) => {
+                                          uiURL,
+                                          apiURL,
+                                          apiArch,
+                                          origins,
+                                          k8sHealth,
+                                          stateManager,
+                                        }: any) => {
   const elements = [
     {
       label: 'Get UI URL',
@@ -79,6 +79,7 @@ export const DiagnosticAgentInfoData = ({
   return (
     <>
       <DataTable
+        idAccessor='label'
         withTableBorder
         striped
         columns={[
@@ -94,20 +95,20 @@ export const DiagnosticAgentInfoData = ({
           },
           {
             accessor: 'status',
-            render: ({ status }: any) => <>{status?.toString()}</>,
+            render: ({status}: any) => <>{status?.toString()}</>,
             title: 'Status',
             width: 500,
           },
           {
             accessor: 'warning',
             title: 'Warning',
-            render: ({ warning }: any) => <>{warning?.join(', ')}</>,
+            render: ({warning}: any) => <>{warning?.join(', ')}</>,
             width: 500,
           },
           {
             accessor: 'error',
             title: 'Error',
-            render: ({ error }: any) => <>{error?.join(', ')}</>,
+            render: ({error}: any) => <>{error?.join(', ')}</>,
             width: 500,
           },
         ]}

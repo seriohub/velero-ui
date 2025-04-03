@@ -18,14 +18,27 @@ import { isRecordStringAny } from '@/utils/isRecordStringIsType';
 import { PVBDetailsView } from '@/components/Features/Velero/PodVolumes/PVBDetailsView';
 import { useWatchResources } from '@/hooks/useWatchResources';
 import { eventEmitter } from '@/lib/EventEmitter.js';
+import { VeleroDetailsLayout } from "@/components/Commons/VeleroDetailsLayout";
+import EditVslAction from "@/components/Features/Velero/SnapshotLocations/Actions/EditVSLAction";
+import DeleteAction from "@/components/Features/Velero/Commons/Actions/DeleteAction";
+import {
+  SnapshotLocationDetailsView
+} from "@/components/Features/Velero/SnapshotLocations/SnapshotLocationDetailsView";
 
 interface BackupProps {
   params: any;
   type: string;
 }
 
-export function PVBDetails({ params, type }: BackupProps) {
-  const { data, getManifest, fetching } = useVeleroManifest();
+export function PVBDetails({
+                             params,
+                             type
+                           }: BackupProps) {
+  const {
+    data,
+    getManifest,
+    fetching
+  } = useVeleroManifest();
   const [reload, setReload] = useState(1);
   const agentValues = useAgentStatus();
 
@@ -65,47 +78,25 @@ export function PVBDetails({ params, type }: BackupProps) {
   }, [data]);
 
   return (
-    <PageScrollArea>
-      <Toolbar
-        title={type === 'PodVolumeBackup' ? 'Pod Volume Backup' : 'Pod Volume Restore'}
-        breadcrumbItem={[
-          {
-            name: type === 'PodVolumeBackup' ? 'Pod Volume Backup' : 'Pod Volume Restore',
-            href: type === 'PodVolumeBackup' ? '/pod-volume-backups' : '/pod-volume-restores',
-          },
-          {
-            name: `${params.pv}`,
-          },
-        ]}
-      >
-        <ReloadData setReload={setReload} reload={reload} />
-      </Toolbar>
-
-      <Grid gutter="sm">
-        <Grid.Col
-          span={{
-            base: 12,
-            md: 12,
-            lg: 4,
-          }}
+    <VeleroDetailsLayout
+      toolbar={
+        <Toolbar
+          title={type === 'PodVolumeBackup' ? 'Pod Volume Backup' : 'Pod Volume Restore'}
+          breadcrumbItem={[
+            {
+              name: type === 'PodVolumeBackup' ? 'Pod Volume Backup' : 'Pod Volume Restore',
+              href: type === 'PodVolumeBackup' ? '/pod-volume-backups' : '/pod-volume-restores',
+            },
+            {
+              name: `${params.pv}`,
+            },
+          ]}
         >
-          <PVBDetailsView manifest={manifest} fetching={fetching} h={600} />
-        </Grid.Col>
-
-        <Grid.Col
-          span={{
-            base: 12,
-            md: 12,
-            lg: 8,
-          }}
-        >
-          <Card shadow="sm" padding="lg" radius="md" withBorder h={600}>
-            <Card.Section withBorder inheritPadding p="sm">
-              <Manifest resourceType={type} resourceName={params.pv} h={570} />
-            </Card.Section>
-          </Card>
-        </Grid.Col>
-      </Grid>
-    </PageScrollArea>
+          <ReloadData setReload={setReload} reload={reload}/>
+        </Toolbar>
+      }
+      details={<PVBDetailsView manifest={manifest} fetching={fetching}/>}
+      manifest={<Manifest resourceType={type} resourceName={params.pv}/>}
+    />
   );
 }

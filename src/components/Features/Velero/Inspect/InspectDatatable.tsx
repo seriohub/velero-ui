@@ -47,11 +47,10 @@ export function InspectDatatable() {
         maw={600}
         withTableBorder
         borderRadius="sm"
-        // withColumnBorders
         striped
         highlightOnHover
         records={items}
-        idAccessor="id"
+        idAccessor="name"
         totalRecords={items.length}
         fetching={fetching}
         columns={[

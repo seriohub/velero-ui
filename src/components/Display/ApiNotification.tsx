@@ -1,6 +1,8 @@
 import { notifications } from '@mantine/notifications';
 import { IconCheck, IconExclamationMark, IconInfoCircle } from '@tabler/icons-react';
 
+import type { JSX } from "react";
+
 export const showNotification = (
   icon: JSX.Element,
   color: string,

@@ -7,15 +7,16 @@ import Link from 'next/link';
 import SwitchColorScheme from '@/components/Layout/Header/SwitchColorScheme/SwitchColorScheme';
 import CheckAppVersion from '@/components/Layout/Header/CheckAppVersion/CheckAppVersion';
 import UserMenu from '@/components/Layout/Header/UserMenu';
+import { Logo } from "@/components/Display/Logo";
 
-export function AppShellHeader({ opened, toggle }: any) {
+export function AppShellHeader({ opened, toggle, collapsed }: any) {
   const computedColorScheme = useComputedColorScheme('light', { getInitialValueInEffect: true });
-
   return (
     <Stack justify="center" h="100%">
       <Group justify="space-between" p={5}>
         <div>
           <Burger opened={opened} onClick={toggle} hiddenFrom="xs" size="sm" />
+          {collapsed && (<><Logo collapsed={collapsed} /></>)}
         </div>
         <Group justify="flex-end" gap={10} visibleFrom="sm">
           <ActionIcon

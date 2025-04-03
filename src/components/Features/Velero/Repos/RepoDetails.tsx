@@ -84,7 +84,7 @@ export function RepoDetails({ params }: BackupProps) {
         <Grid.Col span={8}>
           <Card shadow="sm" padding="lg" radius="md" withBorder h={600}>
             <Card.Section withBorder inheritPadding p="sm">
-              <Manifest resourceType="BackupRepository" resourceName={params.repo} h={575} />
+              <Manifest resourceType="BackupRepository" resourceName={params.repo} />
             </Card.Section>
           </Card>
         </Grid.Col>

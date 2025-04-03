@@ -20,7 +20,7 @@ import CreateSCMappingIcon from '@/components/Features/Velero/SCMapping/CreateSC
 import EditSCMapping from '@/components/Features/Velero/SCMapping/EditSCMapping';
 import DeleteSCMappingActionIcon from '@/components/Features/Velero/SCMapping/DeleteSCMappingActionIcon';
 
-export function SCMappingData() {
+export function SCDatatable() {
   const { data: configMap, getStorageClassesMap, fetching } = useStorageClassesMap();
   const [items, setItems] = useState<any>([]);
   const [reload, setReload] = useState(1);
@@ -62,11 +62,10 @@ export function SCMappingData() {
         minHeight={160}
         withTableBorder
         borderRadius="sm"
-        // withColumnBorders
         striped
         highlightOnHover
         records={items}
-        idAccessor="id"
+        idAccessor="oldStorageClass"
         totalRecords={items.length}
         fetching={fetching}
         columns={[

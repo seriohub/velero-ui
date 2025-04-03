@@ -5,7 +5,7 @@ import classes from '@/styles/veleroResourceDetails.module.css';
 
 export function SnapshotLocationDetailsView({ data, ...rest }: any) {
   return (
-    <Card shadow="sm" radius="md" withBorder {...rest}>
+    <Card shadow="sm" radius="md" withBorder h="100%" {...rest}>
       <Card.Section p="sm">
         <Group gap={5}>
           <IconDatabase size={80} />

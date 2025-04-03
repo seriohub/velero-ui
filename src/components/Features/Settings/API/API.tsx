@@ -29,10 +29,11 @@ export function API() {
   return (
     <MainStack>
       <Toolbar title="Backup" breadcrumbItem={[{ name: 'API' }]}>
-        <ReloadData setReload={setReload} reload={reload} />
+        <ReloadData setReload={setReload} reload={reload}/>
       </Toolbar>
 
       <DataTable
+        idAccessor="key"
         withTableBorder
         striped
         columns={[
@@ -42,7 +43,7 @@ export function API() {
             width: 150,
           },
           {
-            accessor: 'key',
+            accessor: 'value',
             title: 'value',
             render: ({ key }: any) => <>{agentValues.agentConfig[key]}</>,
             sortable: true,

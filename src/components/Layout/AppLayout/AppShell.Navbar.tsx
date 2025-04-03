@@ -18,14 +18,12 @@ import {
   IconCalendarEvent,
   IconDatabase,
   IconLink,
-  IconSettings,
   IconServer,
   IconHome,
   IconAffiliate,
   IconFolders,
   IconDog,
   IconSpy,
-  IconInfoCircle,
   IconAppWindow,
   IconZoomCode,
   IconArrowBarLeft,
@@ -33,6 +31,8 @@ import {
   IconDatabaseExport,
   IconDatabaseImport,
   IconShield,
+  IconApi,
+  IconAutomation, IconPlayerPlay,
 } from '@tabler/icons-react';
 
 import { useRouter, usePathname } from 'next/navigation';
@@ -123,13 +123,13 @@ const settingsLink = [
   },
   {
     link: '/settings/api',
-    label: 'Api',
-    icon: IconSettings,
+    label: 'API',
+    icon: IconApi,
     tooltip: 'API Settings',
   },
   {
     link: '/settings/watchdog',
-    label: 'Watchodg',
+    label: 'Watchdog',
     icon: IconDog,
     tooltip: 'Watchdog Settings',
   },
@@ -142,6 +142,18 @@ const settingsLink = [
 ];
 
 const systemLink = [
+  {
+    link: '/vui',
+    label: 'Vui',
+    icon: IconPlayerPlay,
+    tooltip: 'Vui',
+  },
+  {
+    link: '/velero',
+    label: 'Velero',
+    icon: IconAutomation,
+    tooltip: 'Velero',
+  },
   {
     link: '/system/security',
     label: 'Security',
@@ -181,7 +193,12 @@ interface NavItem {
   tooltip?: string;
 }
 
-export function AppShellNavbar({ opened, toggle, collapsed, toggleCollapsed }: any) {
+export function AppShellNavbar({
+                                 opened,
+                                 toggle,
+                                 collapsed,
+                                 toggleCollapsed
+                               }: any) {
   const serverValues = useServerStatus();
   const uiValues = useUIStatus();
   const isNavbarHidden = useMediaQuery('(max-width: 576px)');
@@ -194,7 +211,7 @@ export function AppShellNavbar({ opened, toggle, collapsed, toggleCollapsed }: a
     data.map((item: NavItem) => (
       <NavLink
         w={collapsed ? '50px' : '230px'}
-        mt={2}
+        //mt={0}
         className={
           computedColorScheme === 'light'
             ? uiValues.navbarColored
@@ -260,27 +277,29 @@ export function AppShellNavbar({ opened, toggle, collapsed, toggleCollapsed }: a
         >
           <Box p={0}>
             <Group justify="space-between" h={60} p={5}>
-              {!collapsed && <Logo />}
+              {!collapsed && <Logo/>}
               {!isNavbarHidden && (
-                <ActionIcon
-                  variant="transparent"
-                  p={4}
-                  w={50}
-                  h={50}
-                  tabIndex={-1}
-                  onClick={() => toggleCollapsed()}
-                  className={
-                    computedColorScheme === 'light'
-                      ? uiValues.navbarColored
-                        ? classesColored.link
+                <Tooltip label={collapsed ? 'Expand' : 'Collapse'}>
+                  <ActionIcon
+                    variant="transparent"
+                    p={4}
+                    w={50}
+                    h={50}
+                    tabIndex={-1}
+                    onClick={() => toggleCollapsed()}
+                    className={
+                      computedColorScheme === 'light'
+                        ? uiValues.navbarColored
+                          ? classesColored.link
+                          : classesSimple.link
                         : classesSimple.link
-                      : classesSimple.link
-                  }
-                  size="xl"
-                >
-                  {!collapsed && <IconArrowBarLeft />}
-                  {collapsed && <IconArrowBarRight />}
-                </ActionIcon>
+                    }
+                    size="xl"
+                  >
+                    {!collapsed && <IconArrowBarLeft/>}
+                    {collapsed && <IconArrowBarRight/>}
+                  </ActionIcon>
+                </Tooltip>
               )}
               {isNavbarHidden && (
                 <Burger
@@ -298,11 +317,13 @@ export function AppShellNavbar({ opened, toggle, collapsed, toggleCollapsed }: a
               )}
             </Group>
 
-            <Box p={5}>
-              {generateNavLinks(homeLink, serverValues.isCurrentServerControlPlane !== true)}
-            </Box>
+            {serverValues.isCurrentServerControlPlane && (
+              <Box p={5}>
+                {generateNavLinks(homeLink, serverValues.isCurrentServerControlPlane !== true)}
+              </Box>
+            )}
 
-            {!collapsed && (
+            {serverValues.isCurrentServerControlPlane && !collapsed && (
               <Box mt={5}>
                 <Text
                   ml="12"
@@ -319,7 +340,7 @@ export function AppShellNavbar({ opened, toggle, collapsed, toggleCollapsed }: a
                   Cluster
                 </Text>
                 <Box p={5}>
-                  <SwitchAgent />
+                  <SwitchAgent/>
                 </Box>
               </Box>
             )}
@@ -386,7 +407,7 @@ export function AppShellNavbar({ opened, toggle, collapsed, toggleCollapsed }: a
                 </Text>
               )}
               <Box p={5} mt={0}>
-                {generateNavLinks(natsLink, serverValues.isCurrentServerControlPlane !== true)}
+                {serverValues.isCurrentServerControlPlane && generateNavLinks(natsLink, serverValues.isCurrentServerControlPlane !== true)}
                 {generateNavLinks(settingsLink)}
               </Box>
 
@@ -417,7 +438,7 @@ export function AppShellNavbar({ opened, toggle, collapsed, toggleCollapsed }: a
 
           {(!collapsed || isNavbarHidden) && (
             <Box>
-              <Version />
+              <Version/>
             </Box>
           )}
         </Stack>

@@ -7,12 +7,14 @@ import { DetailsBackupRestoreContent } from '@/components/Features/Velero/Common
 import { DetailsBackupRestoreLocation } from '@/components/Features/Velero/Commons/DetailsBackupRestoreLocation';
 import { DetailsBackupRestoreStatus } from '@/components/Features/Velero/Commons/DetailsBackupRestoreStatus';
 
-export function BackupDetailsView({ data, ...rest }: any) {
+export function BackupDetailsView({
+                                    data,
+                                  }: any) {
   return (
-    <Card shadow="sm" radius="md" withBorder {...rest}>
+    <Card shadow="sm" radius="md" withBorder h="100%">
       <Card.Section p="md">
         <Group gap={5}>
-          <IconDeviceFloppy size={80} />
+          <IconDeviceFloppy size={80}/>
           <Box>
             <Title order={2} fw={800}>
               {data?.metadata?.name}
@@ -24,17 +26,17 @@ export function BackupDetailsView({ data, ...rest }: any) {
         </Group>
       </Card.Section>
 
-      <Space h={3} />
+      <Space h={3}/>
 
-      <DetailsBackupRestoreStatus data={data} />
+      <DetailsBackupRestoreStatus data={data}/>
 
-      <Space h={3} />
+      <Space h={3}/>
 
-      <DetailsBackupRestoreContent data={data} />
+      <DetailsBackupRestoreContent data={data}/>
 
-      <Space h={3} />
+      <Space h={3}/>
 
-      <DetailsBackupRestoreLocation data={data} />
+      <DetailsBackupRestoreLocation data={data}/>
     </Card>
   );
 }

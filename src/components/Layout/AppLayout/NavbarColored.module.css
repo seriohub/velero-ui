@@ -4,7 +4,8 @@
     text-decoration: none;
     font-size: var(--mantine-font-size-sm);
     color: var(--mantine-color-white);
-    padding: var(--mantine-spacing-xs) var(--mantine-spacing-sm);
+    /*padding: var(--mantine-spacing-xs) var(--mantine-spacing-sm);*/
+    padding: 8px var(--mantine-spacing-sm);
     border-radius: var(--mantine-radius-sm);
     font-weight: 500;
 
@@ -13,12 +14,11 @@
         color: var(--mantine-color-white);
 
         .linkIcon {
-            color: var(--mantine-color-white);
+            /*color: var(--mantine-color-white);*/
         }
     }
 
     &[data-active] {
-
         &,
         &:hover {
             box-shadow: var(--mantine-shadow-sm);
@@ -26,16 +26,16 @@
             color: var(--mantine-primary-color-filled);
 
             .linkIcon {
-                color: var(--mantine-primary-color-filled);
+                /*color: var(--mantine-primary-color-filled);*/
             }
         }
     }
 }
 
 .linkIcon {
-    color: var(--mantine-primary-color-1);
-    /*margin-right: var(--mantine-spacing-sm);*/
+    /*color: var(--mantine-primary-color-1);*/
     margin-right: 5px;
     width: 25px;
     height: 25px;
+    /*stroke-width: 1.5;*/
 }

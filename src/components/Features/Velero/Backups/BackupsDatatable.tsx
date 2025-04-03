@@ -29,7 +29,11 @@ interface BackupDataProps {
 }
 
 export function BackupsDatatable({ scheduleName }: BackupDataProps) {
-  const { data, getBackups, fetching } = useBackups();
+  const {
+    data,
+    getBackups,
+    fetching
+  } = useBackups();
   const [items, setItems] = useState<Record<string, any>>([]);
   const [reload, setReload] = useState(1);
   const agentValues = useAgentStatus();
@@ -105,7 +109,10 @@ export function BackupsDatatable({ scheduleName }: BackupDataProps) {
     const data_sorted = sortBy(items, sortStatus.columnAccessor);
 
     // filter
-    const data_filter = data_sorted.filter(({ metadata, status }: any) => {
+    const data_filter = data_sorted.filter(({
+                                              metadata,
+                                              status
+                                            }: any) => {
       if (
         debouncedQuery !== '' &&
         !metadata?.name.toLowerCase().includes(debouncedQuery.trim().toLowerCase())
@@ -140,17 +147,13 @@ export function BackupsDatatable({ scheduleName }: BackupDataProps) {
     <MainStack>
       <Toolbar
         title="Backup"
-        breadcrumbItem={[
-          {
-            name: 'Backups',
-          },
-        ]}
+        breadcrumbItem={scheduleName ? [{ 'name': scheduleName }, { 'name': 'Backups' }] : [{ name: 'Backups' }]}
       >
-        <LastBackupsFilter setOnlyLast4Schedule={setOnlyLast4Schedule} />
-        <CreateBackupAction />
-        <ReloadData setReload={setReload} reload={reload} />
+        <LastBackupsFilter setOnlyLast4Schedule={setOnlyLast4Schedule}/>
+        <CreateBackupAction/>
+        <ReloadData setReload={setReload} reload={reload}/>
       </Toolbar>
-      <DataFetchedInfo metadata={data?.metadata} />
+      <DataFetchedInfo metadata={data?.metadata}/>
 
       <BackupDatatableView
         records={records}

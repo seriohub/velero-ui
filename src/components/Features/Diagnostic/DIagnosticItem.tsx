@@ -9,7 +9,7 @@ interface DiagnosticItemProps {
   value: string;
   ok: boolean;
   warning?: boolean;
-  actionIcon?: ReactElement;
+  actionIcon?: ReactElement<any>;
   message?: string;
   message2?: string;
   message3?: string;

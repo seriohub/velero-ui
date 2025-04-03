@@ -72,7 +72,7 @@ export default function AppShellLayout({ children }: AppShellLayoutProps) {
         layout="alt"
       >
         <AppShell.Header>
-          <AppShellHeader opened={opened} toggle={toggle} />
+          <AppShellHeader opened={opened} toggle={toggle} collapsed={collapsed}/>
         </AppShell.Header>
         <AppShell.Navbar
           style={{ transition: 'width 0.2s ease' }}

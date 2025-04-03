@@ -55,6 +55,7 @@ export function AuthenticationForm() {
     const res = await fetch(`${serverValues.currentServer?.url}/v1/token`, {
       method: 'POST',
       body: formData,
+      // credentials: 'include', // uncomment for cookie auth
     });
     if (res.status === 200) {
       const json = await res.json();

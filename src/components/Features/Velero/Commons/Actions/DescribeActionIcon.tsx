@@ -1,6 +1,6 @@
 'use client';
 
-import { ActionIcon, Button, Group, Tooltip } from '@mantine/core';
+import { ActionIcon, Box, Button, Group, Tooltip } from '@mantine/core';
 import { openModal, closeAllModals } from '@mantine/modals';
 
 import { IconClipboard } from '@tabler/icons-react';
@@ -12,7 +12,10 @@ interface DescribeActionIconProps {
   record: any;
 }
 
-export default function DescribeActionIcon({ resourceType, record }: DescribeActionIconProps) {
+export default function DescribeActionIcon({
+                                             resourceType,
+                                             record
+                                           }: DescribeActionIconProps) {
   /*<ResourceDescribe resourceType={resourceType} resourceName={record.metadata.name} />*/
 
   return (
@@ -31,11 +34,12 @@ export default function DescribeActionIcon({ resourceType, record }: DescribeAct
             size: '100rem',
             children: (
               <>
-                <Manifest
-                  resourceType={resourceType}
-                  resourceName={record.metadata.name}
-                  h={800}
-                />
+                <Box h="70vh">
+                  <Manifest
+                    resourceType={resourceType}
+                    resourceName={record.metadata.name}
+                  />
+                </Box>
                 <Group justify="flex-end" mt="md">
                   <Button onClick={() => closeAllModals()}>Close</Button>
                 </Group>
@@ -44,7 +48,7 @@ export default function DescribeActionIcon({ resourceType, record }: DescribeAct
           });
         }}
       >
-        <IconClipboard />
+        <IconClipboard/>
       </ActionIcon>
     </Tooltip>
   );

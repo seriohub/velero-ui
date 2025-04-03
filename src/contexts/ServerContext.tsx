@@ -1,3 +1,5 @@
+'use client';
+
 import React, { createContext, useState, useContext } from 'react';
 import { ServerApiConfig, ApiManager } from '@/lib/ApiManager';
 

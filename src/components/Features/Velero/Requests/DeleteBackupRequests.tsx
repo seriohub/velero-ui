@@ -95,7 +95,7 @@ export default function DeleteBackupRequests({ reload, setReload, active, setFet
 
   return (
     <DataTable
-      height={240}
+      height={194}
       withTableBorder
       borderRadius="sm"
       // withColumnBorders
