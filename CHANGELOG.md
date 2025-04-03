@@ -4,6 +4,17 @@ All notable changes to this project will be documented in this file.
 
 ***
 
+## [v0.2.4] - 2025-04-03
+
+🆕 New Features
+- Added pod logs feature
+
+🎨 UI Enhancements
+- Various UI improvements for a smoother and more intuitive experience 
+
+🔧 Improvements
+- 📦 Updated dependencies to their latest stable versions for improved security and performance
+
 ## [v0.2.3] - 2025-03-19
 
 🛠️ ️Fixes
