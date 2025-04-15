@@ -1,18 +1,26 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { usePathname } from 'next/navigation';
 import { useSocketStatus } from '@/contexts/SocketContext';
+import { useAgentStatus } from "@/contexts/AgentContext";
 
 const RouteChangeHandler = () => {
   const pathname = usePathname();
   const socketValues = useSocketStatus();
+  const agentValues = useAgentStatus();
+  const prevPathnameRef = useRef<string | null>(null);
 
   useEffect(() => {
-    const message = {
-      action: 'watch:clear',
-    };
-    socketValues.sendMessageToSocket(JSON.stringify(message));
+    if (prevPathnameRef.current !== pathname) {
+      prevPathnameRef.current = pathname;
+
+      const message = {
+        action: 'watch:clear',
+        agent_name: agentValues.currentAgent?.name,
+      };
+      socketValues.sendMessageToSocket(JSON.stringify(message));
+    }
   }, [pathname]);
 
   return null;

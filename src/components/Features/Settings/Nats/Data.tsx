@@ -67,6 +67,7 @@ export function Nats() {
         minHeight={160}
         withTableBorder
         borderRadius="sm"
+        idAccessor="cid"
         // withColumnBorders
         striped
         highlightOnHover

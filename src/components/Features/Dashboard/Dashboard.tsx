@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 
-import { Stack, Loader, Center, ScrollArea, SimpleGrid, Grid } from '@mantine/core';
+import { Stack, Loader, Center, ScrollArea, SimpleGrid, Grid, Box } from '@mantine/core';
 
 import { IconClock, IconDeviceFloppy, IconRestore, IconCalendarEvent } from '@tabler/icons-react';
 
@@ -20,7 +20,12 @@ import { UnscheduledNamespaces } from './items/UnscheduledNamspaces';
 import { StatsSegmentsDonuts } from './items/StatsSegmentsDonuts';
 
 export function Dashboard() {
-  const { data, getStats, fetching } = useStats();
+  const {
+    data,
+    getStats,
+    fetching,
+    fetchedTime
+  } = useStats();
   const [reload, setReload] = useState(1);
 
   const agentValues = useAgentStatus();
@@ -41,7 +46,7 @@ export function Dashboard() {
     return (
       <Stack h="100%" justify="center">
         <Center>
-          <Loader color="blue" />
+          <Loader color="blue"/>
         </Center>
       </Stack>
     );
@@ -51,10 +56,13 @@ export function Dashboard() {
     <>
       <ScrollArea p={0} style={{ height: '100%' }} scrollbars="y">
         <Stack p={10} gap="md">
-          <Toolbar title="Dashboard" fetching={fetching}>
-            <ReloadData setReload={setReload} reload={reload} fetching={fetching} />
-          </Toolbar>
-          <DataFetchedInfo metadata={data?.metadata} />
+          <Box>
+            <Toolbar title="Dashboard" fetching={fetching}>
+              <ReloadData setReload={setReload} reload={reload} fetching={fetching}/>
+            </Toolbar>
+            <DataFetchedInfo fetchedTime={fetchedTime}/>
+          </Box>
+
           <SimpleGrid
             cols={{
               base: 1,
@@ -67,19 +75,19 @@ export function Dashboard() {
             <StatsSegments
               data={data.backups.stats.all}
               title="Backups"
-              icon={<IconDeviceFloppy />}
+              icon={<IconDeviceFloppy/>}
               path="/backups"
             />
             <StatsSegments
               data={data.restores.all}
               title="Restores"
-              icon={<IconRestore />}
+              icon={<IconRestore/>}
               path="/restores"
             />
             <StatsSegments
               data={data.schedules.all}
               title="Schedules"
-              icon={<IconCalendarEvent />}
+              icon={<IconCalendarEvent/>}
               path="/schedules"
             />
           </SimpleGrid>
@@ -95,26 +103,26 @@ export function Dashboard() {
             <StatsSegmentsDonuts
               data={data.backups.stats.all}
               title="Backups"
-              icon={<IconDeviceFloppy />}
+              icon={<IconDeviceFloppy/>}
               path="/backups"
             />
 
             <StatsSegmentsDonuts
               data={data.backups.stats.latest}
               title="Last Backups"
-              icon={<IconClock />}
+              icon={<IconClock/>}
               path="/backups"
             />
             <StatsSegmentsDonuts
               data={data.restores.all}
               title="Restores"
-              icon={<IconRestore />}
+              icon={<IconRestore/>}
               path="/restores"
             />
             <StatsSegmentsDonuts
               data={data.schedules.all}
               title="Schedules"
-              icon={<IconCalendarEvent />}
+              icon={<IconCalendarEvent/>}
               path="/schedules"
             />
           </SimpleGrid>
@@ -128,7 +136,7 @@ export function Dashboard() {
                 lg: 9,
               }}
             >
-              <LatestBackup latest={data.backups.latest} setReload={setReload} />
+              <LatestBackup latest={data.backups.latest} setReload={setReload}/>
             </Grid.Col>
             <Grid.Col
               span={{

@@ -32,6 +32,7 @@ export function BackupsDatatable({ scheduleName }: BackupDataProps) {
   const {
     data,
     getBackups,
+    fetchedTime,
     fetching
   } = useBackups();
   const [items, setItems] = useState<Record<string, any>>([]);
@@ -153,7 +154,7 @@ export function BackupsDatatable({ scheduleName }: BackupDataProps) {
         <CreateBackupAction/>
         <ReloadData setReload={setReload} reload={reload}/>
       </Toolbar>
-      <DataFetchedInfo metadata={data?.metadata}/>
+      <DataFetchedInfo fetchedTime={fetchedTime}/>
 
       <BackupDatatableView
         records={records}

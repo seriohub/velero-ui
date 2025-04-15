@@ -44,7 +44,7 @@ export function SwitchAgent() {
             <Button
               data-expanded={opened || undefined}
               fullWidth
-              justify="space-between"
+              //justify="space-between"
               h={50}
               disabled={serverValues.isCurrentServerControlPlane !== true}
               variant="default"
@@ -70,7 +70,7 @@ export function SwitchAgent() {
                 agentValues.reloadAgents(agentValues.reload + 1);
               }}
             >
-              Reload agents
+              Reload clusters
             </Menu.Item>
           </Menu.Dropdown>
         </Menu>

@@ -1,7 +1,7 @@
 import { useApiGet } from '@/hooks/utils/useApiGet';
 
 export const usePodVolumes = () => {
-  const { data, getData, fetching, error } = useApiGet();
+  const { data, getData, fetching, error, fetchedTime } = useApiGet();
 
   const getPodVolumes = async (type: string) => {
     try {
@@ -25,6 +25,7 @@ export const usePodVolumes = () => {
 
   return {
     getPodVolumes,
+    fetchedTime,
     data,
     fetching,
     error,

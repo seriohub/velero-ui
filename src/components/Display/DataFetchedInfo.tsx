@@ -1,17 +1,15 @@
-import { Group, Text } from '@mantine/core';
+import { Box, Group, Text } from '@mantine/core';
 
 import { getExpirationString } from '@/utils/getExpirationString';
 
-export const DataFetchedInfo = ({ metadata }: any) => (
-  <>
-    {metadata?.timestamp && (
-      <>
-        <Group justify="flex-end">
-          <Text fw={500} size="xs">
-            Data fetched <>{getExpirationString(metadata?.timestamp)}</>{' '}
-          </Text>
-        </Group>
-      </>
+export const DataFetchedInfo = ({ fetchedTime }: any) => (
+  <Box mb={10}>
+    {fetchedTime && (
+      <Group justify="flex-end">
+        <Text fw={500} size="xs">
+          Data fetched <>{getExpirationString(fetchedTime)}</>
+        </Text>
+      </Group>
     )}
-  </>
+  </Box>
 );

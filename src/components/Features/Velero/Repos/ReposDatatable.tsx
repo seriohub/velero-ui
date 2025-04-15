@@ -50,9 +50,20 @@ export function ReposDatatable() {
   const { showContextMenu } = useContextMenu();
   const agentValues = useAgentStatus();
 
-  const { data, getRepositories, fetching } = useRepositories();
-  const { data: locks, getRepositoryLocks } = useRepositoryLocks();
-  const { data: unlock, getRepositoryUnlock } = useRepositoryUnlock();
+  const {
+    data,
+    getRepositories,
+    fetching,
+    fetchedTime
+  } = useRepositories();
+  const {
+    data: locks,
+    getRepositoryLocks
+  } = useRepositoryLocks();
+  const {
+    data: unlock,
+    getRepositoryUnlock
+  } = useRepositoryUnlock();
   const { getRepositoryCheck } = useRepositoryCheck();
 
   const [items, setItems] = useState<Array<any>>([]);
@@ -115,7 +126,7 @@ export function ReposDatatable() {
 
   const renderActions: DataTableColumn<any>['render'] = (record) => (
     <Group gap={4} justify="right" wrap="nowrap">
-      <DescribeActionIcon resourceType={record.kind} record={record} />
+      <DescribeActionIcon resourceType={record.kind} record={record}/>
       <InfoRepositoryActionIcon
         repositoryURL={record.spec.resticIdentifier}
         backupStorageLocation={record.spec.backupStorageLocation}
@@ -159,9 +170,10 @@ export function ReposDatatable() {
           },
         ]}
       >
-        <ReloadData setReload={setReload} reload={reload} />
+        <ReloadData setReload={setReload} reload={reload}/>
       </Toolbar>
-      <DataFetchedInfo metadata={data?.metadata} />
+      <DataFetchedInfo fetchedTime={fetchedTime}/>
+
       <DataTable
         minHeight={160}
         withTableBorder
@@ -179,25 +191,28 @@ export function ReposDatatable() {
         sortStatus={sortStatus}
         onSortStatusChange={setSortStatus}
         fetching={fetching && records?.length === 0}
-        onRowContextMenu={({ record, event }: any) =>
+        onRowContextMenu={({
+                             record,
+                             event
+                           }: any) =>
           showContextMenu([
             {
               key: 'Check',
-              icon: <IconAnalyze />,
+              icon: <IconAnalyze/>,
               disabled: record.spec.repositoryType !== 'restic',
               onClick: () =>
                 getRepositoryCheck(record.spec.backupStorageLocation, record.spec.resticIdentifier),
             },
             {
               key: 'Check if locked',
-              icon: <IconAnalyze />,
+              icon: <IconAnalyze/>,
               disabled: record.spec.repositoryType !== 'restic',
               onClick: () =>
                 getRepositoryLocks(record.spec.backupStorageLocation, record.spec.resticIdentifier),
             },
             {
               key: 'Unlock',
-              icon: <IconLockOpen />,
+              icon: <IconLockOpen/>,
               disabled: record.spec.repositoryType !== 'restic',
               onClick: () =>
                 getRepositoryUnlock(
@@ -208,7 +223,7 @@ export function ReposDatatable() {
             {
               key: 'Unlock --remove-all',
               title: 'Unlock --remove-all',
-              icon: <IconLockOpen />,
+              icon: <IconLockOpen/>,
               disabled: record.spec.repositoryType !== 'restic',
               onClick: () =>
                 getRepositoryUnlock(
@@ -233,7 +248,7 @@ export function ReposDatatable() {
                 }}
               >
                 <Group gap={5}>
-                  <IconDatabase size={16} />
+                  <IconDatabase size={16}/>
                   {record?.metadata?.name}
                 </Group>
               </Anchor>
@@ -244,7 +259,7 @@ export function ReposDatatable() {
             title: 'Status',
             sortable: true,
             render: ({ status }: any) => (
-              <VeleroResourceStatusBadge status={status?.phase || undefined} />
+              <VeleroResourceStatusBadge status={status?.phase || undefined}/>
             ),
           },
           {
@@ -264,7 +279,7 @@ export function ReposDatatable() {
                 }}
               >
                 <Group gap={5}>
-                  <IconServer size={16} />
+                  <IconServer size={16}/>
                   <Text>{record?.spec.backupStorageLocation}</Text>
                 </Group>
               </Anchor>
@@ -274,7 +289,7 @@ export function ReposDatatable() {
             accessor: 'spec.repositoryType',
             title: 'Repository Type',
             sortable: true,
-            render: ({ spec }: any) => <VeleroResourceStatusBadge status={spec.repositoryType} />,
+            render: ({ spec }: any) => <VeleroResourceStatusBadge status={spec.repositoryType}/>,
           },
           {
             accessor: 'locks',
@@ -290,7 +305,10 @@ export function ReposDatatable() {
                 {spec.resticIdentifier && (
                   <Group gap={5}>
                     <CopyButton value={spec.resticIdentifier} timeout={2000}>
-                      {({ copied, copy }) => (
+                      {({
+                          copied,
+                          copy
+                        }) => (
                         <Tooltip label={copied ? 'Copied' : 'Copy'} withArrow position="right">
                           <ActionIcon
                             color={copied ? 'teal' : 'gray'}
@@ -298,9 +316,9 @@ export function ReposDatatable() {
                             onClick={copy}
                           >
                             {copied ? (
-                              <IconCheck style={{ width: rem(16) }} />
+                              <IconCheck style={{ width: rem(16) }}/>
                             ) : (
-                              <IconCopy style={{ width: rem(16) }} />
+                              <IconCopy style={{ width: rem(16) }}/>
                             )}
                           </ActionIcon>
                         </Tooltip>
@@ -316,7 +334,7 @@ export function ReposDatatable() {
             accessor: 'actions',
             title: (
               <Center>
-                <IconClick size={16} />
+                <IconClick size={16}/>
               </Center>
             ),
             width: '0%',

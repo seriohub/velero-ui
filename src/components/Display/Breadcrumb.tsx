@@ -26,7 +26,7 @@ export default function Breadcrumb(breadcrumbItem = []) {
   return (
     <>
       <Breadcrumbs separator="/" separatorMargin="md">
-        {serverValues.isCurrentServerControlPlane ? `[${serverValues.currentServer?.name}] ` : null}
+        {serverValues.isCurrentServerControlPlane ? `${serverValues.currentServer?.name}` : null}
         <Anchor
           onClick={() => {
             router.push('/dashboard');

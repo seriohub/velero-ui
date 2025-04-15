@@ -28,5 +28,6 @@ export const parseApiResponse = async (res: Response): Promise<any> => {
     data: response,
     status: res.status,
     xProcessTime: res.headers.get('X-Process-Time'),
+    xFetchedTime: res.headers.get('X-Fetched-Time'),
   }));
 };

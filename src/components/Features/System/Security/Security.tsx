@@ -18,21 +18,25 @@ export function Security() {
 
   const elements = [
     {
+      id: '1',
       component: 'CORE',
       description: 'Running mode',
       value: 'N.A.',
     },
     {
+      id: '2',
       component: 'API',
       description: 'Running mode',
       value: 'N.A.',
     },
     {
+      id: '3',
       component: 'WATCHDOG',
       description: 'Running mode',
       value: 'N.A.',
     },
     {
+      id: '4',
       component: 'UI',
       description: 'Running mode',
       value: process.env.NODE_ENV,
@@ -45,6 +49,7 @@ export function Security() {
       ),
     },
     {
+      id: '5',
       component: 'UI',
       description: 'Logger enabled',
       value: env('NEXT_PUBLIC_LOGGER_ENABLED')?.toLocaleLowerCase() === 'true' ? 'true' : 'false',
@@ -57,6 +62,7 @@ export function Security() {
       ),
     },
     {
+      id: '6',
       component: 'UI/CORE - UI/API',
       description: 'HTTPS',
       value: location.protocol,
@@ -77,9 +83,15 @@ export function Security() {
       </Toolbar>
 
       <DataTable
+        idAccessor="id"
         withTableBorder
         striped
         columns={[
+          {
+            accessor: 'id',
+            title: '#',
+            width: 100,
+          },
           {
             accessor: 'component',
             title: 'Component',

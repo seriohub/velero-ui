@@ -1,7 +1,7 @@
 import { useApiGet } from '@/hooks/utils/useApiGet';
 
 export const useStats = () => {
-  const { data, getData, fetching, error } = useApiGet();
+  const { data, getData, fetching, fetchedTime, error } = useApiGet();
 
   const getStats = async (forced: boolean = false) => {
     try {
@@ -9,6 +9,7 @@ export const useStats = () => {
       await getData({
         url: '/v1/stats',
         params: `forced=${forced}`,
+        target: 'agent',
       });
 
       // This code will be executed only in case of success
@@ -27,6 +28,7 @@ export const useStats = () => {
     getStats,
     data,
     fetching,
+    fetchedTime,
     error,
   };
 };

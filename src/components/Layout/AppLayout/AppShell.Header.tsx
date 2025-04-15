@@ -1,4 +1,4 @@
-import { Group, ActionIcon, Burger, Stack, useComputedColorScheme } from '@mantine/core';
+import { Group, ActionIcon, Burger, Stack, useComputedColorScheme, Box } from '@mantine/core';
 
 import { IconBrandGithub, IconHelp, IconHeartFilled } from '@tabler/icons-react';
 
@@ -8,16 +8,28 @@ import SwitchColorScheme from '@/components/Layout/Header/SwitchColorScheme/Swit
 import CheckAppVersion from '@/components/Layout/Header/CheckAppVersion/CheckAppVersion';
 import UserMenu from '@/components/Layout/Header/UserMenu';
 import { Logo } from "@/components/Display/Logo";
+import { SwitchAgent } from "@/components/Features/Config/SwitchCluster/SwitchAgent";
+import { useServerStatus } from "@/contexts/ServerContext";
 
-export function AppShellHeader({ opened, toggle, collapsed }: any) {
+export function AppShellHeader({
+                                 opened,
+                                 toggle,
+                                 collapsed
+                               }: any) {
   const computedColorScheme = useComputedColorScheme('light', { getInitialValueInEffect: true });
+  const serverValues = useServerStatus();
   return (
     <Stack justify="center" h="100%">
       <Group justify="space-between" p={5}>
         <div>
-          <Burger opened={opened} onClick={toggle} hiddenFrom="xs" size="sm" />
-          {collapsed && (<><Logo collapsed={collapsed} /></>)}
+          <Burger opened={opened} onClick={toggle} hiddenFrom="xs" size="sm"/>
+          {collapsed && (<><Logo collapsed={collapsed}/></>)}
         </div>
+        {serverValues.isCurrentServerControlPlane && collapsed && (
+          <Box w={300}>
+            <SwitchAgent/>
+          </Box>
+        )}
         <Group justify="flex-end" gap={10} visibleFrom="sm">
           <ActionIcon
             component={Link}
@@ -41,7 +53,7 @@ export function AppShellHeader({ opened, toggle, collapsed }: any) {
             radius={8}
             href="https://github.com/seriohub/velero-ui"
           >
-            <IconBrandGithub stroke={1.5} />
+            <IconBrandGithub stroke={1.5}/>
           </ActionIcon>
 
           <ActionIcon
@@ -52,13 +64,13 @@ export function AppShellHeader({ opened, toggle, collapsed }: any) {
             radius={8}
             href="https://vui.seriohub.com"
           >
-            <IconHelp stroke={1.5} />
+            <IconHelp stroke={1.5}/>
           </ActionIcon>
 
-          <CheckAppVersion />
+          <CheckAppVersion/>
           {/*<PrimaryColorSwitch />*/}
-          <SwitchColorScheme />
-          <UserMenu />
+          <SwitchColorScheme/>
+          <UserMenu/>
         </Group>
       </Group>
     </Stack>

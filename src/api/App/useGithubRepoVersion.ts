@@ -11,7 +11,7 @@ export const useGithubRepoVersion = () => {
       await getData({
         url: '/info/vui-repo-tags',
         params: `force_scrapy=${force}`,
-        target,
+        target: 'static',
       });
 
       // This code will be executed only in case of success

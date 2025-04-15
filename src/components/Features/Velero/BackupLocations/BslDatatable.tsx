@@ -40,7 +40,7 @@ const PAGE_SIZES = [10, 15, 20];
 export function BslDatatable() {
   const router = useRouter();
   const { showContextMenu } = useContextMenu();
-  const { data, getBackupLocation, fetching } = useBackupLocation();
+  const { data, getBackupLocation, fetching, fetchedTime } = useBackupLocation();
   const [items, setItems] = useState<Array<any>>([]);
   const [reload, setReload] = useState(1);
   const agentValues = useAgentStatus();
@@ -122,7 +122,7 @@ export function BslDatatable() {
         <CreateBslToolbar setReload={setReload} reload={reload} />
         <ReloadData setReload={setReload} reload={reload} />
       </Toolbar>
-      <DataFetchedInfo metadata={data?.metadata} />
+      <DataFetchedInfo fetchedTime={fetchedTime}/>
       <DataTable
         minHeight={160}
         withTableBorder

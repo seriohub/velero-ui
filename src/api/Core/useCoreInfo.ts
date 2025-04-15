@@ -8,7 +8,7 @@ export const useCoreInfo = () => {
       // Execute the API call with the generic method
       await getData({
         url: '/info/app',
-        target: 'core',
+        target: 'static',
       });
 
       // This code will be executed only in case of success

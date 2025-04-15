@@ -19,6 +19,7 @@ export const useApiPatch = ({ target = 'agent' }: UseApiPatchProps = {}) => {
 
   const { addApiRequestHistory, addApiResponseHistory } = useApiLogger();
   const { addNotificationHistory } = useUserNotificationHistory();
+  const [fetchedTime, setFetchedTime] = useState<string | undefined>(undefined);
 
   const backendUrl = useBackend({ target });
 
@@ -63,6 +64,7 @@ export const useApiPatch = ({ target = 'agent' }: UseApiPatchProps = {}) => {
         handleApiResponse({
           res,
           setData,
+          setFetchedTime,
           setError,
           addNotificationHistory,
           addApiResponseHistory,

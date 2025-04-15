@@ -84,7 +84,6 @@ export const useAgentConfig = () => {
             request_type: 'agent_alive',
             agent_name: agentValues.currentAgent?.name,
           };
-          // sendMessage(JSOsendMessageToSocket.stringify(message));
           socketValues.sendMessageToSocket(JSON.stringify(message));
         }
       };
@@ -93,7 +92,6 @@ export const useAgentConfig = () => {
       return () => clearInterval(interval);
     }
     if (!serverValues.isCurrentServerControlPlane) {
-      // agentValues.setCurrentAgent(serverValues.currentServer);
       agentValues.setIsAgentAvailable(serverValues.isServerAvailable);
     }
 

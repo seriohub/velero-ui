@@ -1,7 +1,7 @@
 import { useApiGet } from '@/hooks/utils/useApiGet';
 
 export const useRestores = () => {
-  const { data, getData, fetching, error } = useApiGet();
+  const { data, getData, fetching, error, fetchedTime } = useApiGet();
 
   const getRestores = async (forced: boolean = false) => {
     try {
@@ -25,6 +25,7 @@ export const useRestores = () => {
   // Return the function for the call and the necessary data
   return {
     getRestores,
+    fetchedTime,
     data,
     fetching,
     error,

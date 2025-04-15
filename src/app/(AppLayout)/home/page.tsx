@@ -1,5 +1,5 @@
-import { Environments } from '@/components/Features/Core/Environments/Environments';
+import { Agents } from '@/components/Features/Core/Agents/Agents';
 
 export default function HomePage() {
-  return <Environments />;
+  return <Agents />;
 }

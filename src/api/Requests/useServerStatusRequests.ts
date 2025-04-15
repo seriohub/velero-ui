@@ -8,6 +8,7 @@ export const useServerStatusRequests = () => {
       // Execute the API call with the generic method
       await getData({
         url: '/v1/server-status-requests',
+        target: 'agent'
       });
 
       // This code will be executed only in case of success

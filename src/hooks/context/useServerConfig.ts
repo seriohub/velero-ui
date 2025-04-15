@@ -26,8 +26,9 @@ export const useServerConfig = () => {
   }, [serverValues.isServerAvailable]);
 
   useEffect(() => {
+    console.log(data)
     if (data?.type !== undefined) {
-      if (data?.type === 'core') {
+      if (data?.type === 'control-plane' || data?.type === 'vui-common') {
         serverValues.setCurrentServerAsControlPlane(true);
       } else {
         serverValues.setCurrentServerAsControlPlane(false);

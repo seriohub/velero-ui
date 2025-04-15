@@ -34,20 +34,20 @@ export const useDiagnosticAgent = () => {
       getDataK8sHealth({ url: '/health/k8s' });
       getApiOrigins({
         url: '/info/origins',
-        target: 'agent',
+        //target: 'agent',
       });
       getApiArch({
         url: '/info/arch',
-        target: 'agent',
+        //target: 'agent',
       });
-      getWatchdog({
+      /*getWatchdog({
         url: '/health/watchdog',
         target: 'agent',
-      });
+      });*/
       getCompatibility({
         url: '/info/compatibility-table',
         params: `version=${NEXT_PUBLIC_FRONT_END_BUILD_VERSION}`,
-        target: 'agent',
+       // target: 'agent',
       });
     }
 

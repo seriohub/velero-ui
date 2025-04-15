@@ -32,7 +32,7 @@ const PAGE_SIZES = [10, 15, 20];
 export function RestoresDatatable() {
   const router = useRouter();
 
-  const { data, getRestores, fetching } = useRestores();
+  const { data, getRestores, fetching, fetchedTime } = useRestores();
   const agentValues = useAgentStatus();
   const [items, setItems] = useState<Record<string, unknown>[]>([]);
   const [reload, setReload] = useState(1);
@@ -111,7 +111,7 @@ export function RestoresDatatable() {
       <Toolbar title="Restore" breadcrumbItem={[{ name: 'Restores' }]}>
         <ReloadData setReload={setReload} reload={reload} />
       </Toolbar>
-      <DataFetchedInfo metadata={data?.metadata} />
+      <DataFetchedInfo fetchedTime={fetchedTime}/>
       <DataTable
         minHeight={160}
         withTableBorder

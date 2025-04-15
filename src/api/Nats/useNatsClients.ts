@@ -7,7 +7,7 @@ export const useNatsClients = () => {
     try {
       // Execute the API call with the generic method
       await getData({
-        url: '/v1/nats/clients/get',
+        url: '/v1/nats/clients',
         target: 'core',
       });
 
