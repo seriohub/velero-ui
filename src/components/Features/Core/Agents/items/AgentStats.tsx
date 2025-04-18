@@ -56,7 +56,7 @@ export function AgentStats({
       }}
     >
       <Group gap={10}>
-        <Image radius="md" h={160} w="auto" fit="contain" src="./kubernetes_logo.svg"/>
+        <Image radius="md" h={160} w="auto" fit="contain" src="/kubernetes_logo.svg"/>
 
         <Flex gap={5} direction="column">
           <Group justify="space-between">

@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Menu, Group, rem, Button } from '@mantine/core';
+import React, { useState } from 'react';
+import { Menu, Group, rem, Button, Image } from '@mantine/core';
 
 import { IconRefresh, IconSpy } from '@tabler/icons-react';
 
@@ -15,7 +15,7 @@ export function SwitchAgent() {
   const items =
     agentValues?.agents?.map((item: any, index: number) => (
       <Menu.Item
-        leftSection={<IconSpy width={18} height={18} />}
+        leftSection={<Image radius="md" h={20} w="auto" fit="contain" src="/kubernetes_logo.svg"/>}
         onClick={() => {
           if (agentValues.agents != null) {
             agentValues.setCurrentAgent(agentValues.agents[index]);
@@ -24,6 +24,7 @@ export function SwitchAgent() {
           }
         }}
         key={index}
+        disabled={agentValues.currentAgent?.name == item.name}
       >
         {item.name}
       </Menu.Item>
@@ -42,6 +43,7 @@ export function SwitchAgent() {
         >
           <Menu.Target>
             <Button
+              leftSection={<Image radius="md" h={30} w="auto" fit="contain" src="/kubernetes_logo.svg"/>}
               data-expanded={opened || undefined}
               fullWidth
               //justify="space-between"

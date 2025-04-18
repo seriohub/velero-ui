@@ -3,7 +3,7 @@
 import {DataTable} from 'mantine-datatable';
 import React from 'react';
 
-export const DiagnosticAgentInfoData = ({
+export const DiagnosticInfoData = ({
                                           uiURL,
                                           apiURL,
                                           apiArch,

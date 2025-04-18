@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 
-import { Stack, Loader, Center, ScrollArea, Space } from '@mantine/core';
+import { Stack, Loader, Center, ScrollArea, Space, Box } from '@mantine/core';
 
 import { useViewportSize } from '@mantine/hooks';
 import { AgentStats } from './items/AgentStats';
@@ -43,34 +43,31 @@ export function Agents() {
   }, [data]);
 
   const agents = Object.entries(agentStats).map(([key, value]) => (
-    <div key={key}>
+    <Box key={key} mb={20}>
       <AgentStats name={key} data={value}/>
-    </div>
+
+    </Box>
   ));
 
   return (
     <MainStack>
-
-      <Stack>
-        <Toolbar title="Clusters" breadcrumbItem={[{ name: 'Clusters' }]}>
-          {fetching && (
-            <Center>
-              <Loader/>
-            </Center>
-          )}
-          <ReloadData setReload={setReload} reload={reload}/>
-        </Toolbar>
-        {!data && (
-          <Stack h="100%" justify="center">
-            <Center>
-              <Loader color="blue"/>
-            </Center>
-          </Stack>
+      <Toolbar title="Clusters" breadcrumbItem={[{ name: 'Clusters' }]}>
+        {fetching && (
+          <Center>
+            <Loader/>
+          </Center>
         )}
-        {!data && fetching && <>No agents</>}
-        {agents}
-      </Stack>
-
+        <ReloadData setReload={setReload} reload={reload}/>
+      </Toolbar>
+      {!data && (
+        <Stack h="100%" justify="center">
+          <Center>
+            <Loader color="blue"/>
+          </Center>
+        </Stack>
+      )}
+      {!data && fetching && <>No agents</>}
+      {agents}
     </MainStack>
   );
 }

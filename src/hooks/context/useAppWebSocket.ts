@@ -62,9 +62,11 @@ export const useAppWebSocket = ({addSocketHistory = null}: UseAppWebSocketParams
 
         try {
           const response = JSON.parse(event.data);
-          if (response.response_type === 'agent_alive'){
-            if (agentValues.currentAgent?.name === response.agent_name)
+          if (response.response_type === 'agent_alive' && agentValues.currentAgent?.name === response.agent_name && response.is_alive){
               agentValues.setIsAgentAvailable(true);
+          }
+          if (response.response_type === 'agent_alive' && agentValues.currentAgent?.name === response.agent_name && !response.is_alive){
+            agentValues.setIsAgentAvailable(false);
           }
           if (response.type !== 'agent_alive' && response.type !== 'pong') {
             addSocketHistory?.((prev: string[]) => prev.concat(event.data));

@@ -154,18 +154,18 @@ const systemLink = [
     icon: IconAutomation,
     tooltip: 'Velero',
   },
-  {
+  /*{
     link: '/system/security',
     label: 'Security',
     icon: IconShield,
     tooltip: 'Security',
   },
-  {
+  /*{
     link: '/system/agent',
     label: 'Agent',
     icon: IconSpy,
     tooltip: 'Agent',
-  },
+  },*/
 ];
 
 const homeLink = [

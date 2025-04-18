@@ -26,6 +26,7 @@ import DebugAside from '@/components/Features/Debug/DebugAside';
 import TaskInProgressAccordion from '@/components/Display/TaskInProgressAccordion';
 import UIConfig from '@/components/Features/Config/UI/UIConfig';
 import RouteChangeHandler from '@/components/RouteChageHandler';
+import { useAgentStatus } from "@/contexts/AgentContext";
 
 interface AppShellLayoutProps {
   children: any;
@@ -33,7 +34,7 @@ interface AppShellLayoutProps {
 
 export default function AppShellLayout({ children }: AppShellLayoutProps) {
   const uiValues = useUIStatus();
-
+  const agentValues = useAgentStatus();
   const [opened, { toggle }] = useDisclosure();
   const [collapsed, { toggle: toggleCollapsed, open }] = useDisclosure();
 
@@ -52,6 +53,8 @@ export default function AppShellLayout({ children }: AppShellLayoutProps) {
   useEffect(() => {
     localStorage.setItem('navbarCollapsed', collapsed ? 'true' : 'false');
   }, [collapsed]);
+
+  const agentKey = agentValues?.currentAgent?.name || "no-agent-selected";
 
   return (
     <>
@@ -91,6 +94,7 @@ export default function AppShellLayout({ children }: AppShellLayoutProps) {
         </AppShell.Navbar>
         <AppShell.Main>
           <Flex
+            key={agentKey}
             direction="column"
             justify="space-between"
             h={

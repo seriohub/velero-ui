@@ -40,10 +40,10 @@ export const useDiagnosticAgent = () => {
         url: '/info/arch',
         //target: 'agent',
       });
-      /*getWatchdog({
+      getWatchdog({
         url: '/health/watchdog',
         target: 'agent',
-      });*/
+      });
       getCompatibility({
         url: '/info/compatibility-table',
         params: `version=${NEXT_PUBLIC_FRONT_END_BUILD_VERSION}`,
