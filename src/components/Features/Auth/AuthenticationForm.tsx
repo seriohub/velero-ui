@@ -61,7 +61,11 @@ export function AuthenticationForm() {
       const json = await res.json();
       localStorage.setItem('token', json.access_token);
       appValues.setAuthenticated(true);
-      router.push('/dashboard');
+      if (serverValues.isCurrentServerControlPlane) {
+        router.push('/home');
+      } else {
+        router.push('/dashboard');
+      }
     } else {
       form.setErrors({
         username: true,
@@ -97,9 +101,9 @@ export function AuthenticationForm() {
         Backup Simplified
       </Text>
 
-      <Space h="xl" />
+      <Space h="xl"/>
 
-      {LoginClustersSwitch && <SwitchCluster />}
+      {LoginClustersSwitch && <SwitchCluster/>}
 
       <form onSubmit={handleSubmit}>
         <Stack>
@@ -108,7 +112,7 @@ export function AuthenticationForm() {
               //variant="filled"
               leftSection={
                 <ActionIcon variant="outline" p={4} tabIndex={-1}>
-                  <IconUser />
+                  <IconUser/>
                 </ActionIcon>
               }
               rightSection={
@@ -134,7 +138,7 @@ export function AuthenticationForm() {
             //variant="filled"
             leftSection={
               <ActionIcon variant="outline" p={4} tabIndex={-1}>
-                <IconLock />
+                <IconLock/>
               </ActionIcon>
             }
             size="md"

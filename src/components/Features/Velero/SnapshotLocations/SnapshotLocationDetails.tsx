@@ -39,10 +39,10 @@ export function SnapshotLocationDetails({ params }: BackupProps) {
   useWatchResources('volumesnapshotlocations');
   const handleWatchResources = debounce((message) => {
     if (
-      message?.resources === 'volumesnapshotlocations' &&
-      message?.resource?.metadata?.name === params.vsl
+      message?.payload?.resources === 'volumesnapshotlocations' &&
+      message?.payload?.resource?.metadata?.name === params.vsl
     ) {
-      setManifest(message?.resource);
+      setManifest(message?.payload?.resource);
     }
   }, 250);
 

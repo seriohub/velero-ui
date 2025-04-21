@@ -55,8 +55,10 @@ export function SchedulesDatatable() {
 
   /* watch */
   useWatchResources('schedules');
+
   const handleWatchResources = debounce((message) => {
-    if (message?.resources === 'schedules') {
+    console.log("message", message)
+    if (message?.payload?.resources === 'schedules') {
       setReload((prev) => prev + 1);
     }
   }, 250);

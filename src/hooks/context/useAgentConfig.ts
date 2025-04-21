@@ -21,9 +21,18 @@ export const useAgentConfig = () => {
   const agentValues = useAgentStatus();
   const socketValues = useSocketStatus();
   const NEXT_PUBLIC_AUTH_ENABLED = env('NEXT_PUBLIC_AUTH_ENABLED')?.toLowerCase() !== 'false';
-  const { data: agentInfo, getAppInfo } = useAppInfo();
-  const { data: agentConfiguration, getAgentConfiguration } = useAgentConfiguration();
-  const { data: agentsAvailable, getData: getDataAgent } = useApiGet();
+  const {
+    data: agentInfo,
+    getAppInfo
+  } = useAppInfo();
+  const {
+    data: agentConfiguration,
+    getAgentConfiguration
+  } = useAgentConfiguration();
+  const {
+    data: agentsAvailable,
+    getData: getDataAgent
+  } = useApiGet();
 
   // agent list if core connected
   useEffect(() => {
@@ -80,10 +89,16 @@ export const useAgentConfig = () => {
           console.log(
             `Server is core type. Send a request to confirm ${agentValues.currentAgent?.name}'s availability.`
           );
-          const message = {
-            request_type: 'agent_alive',
-            agent_name: agentValues.currentAgent?.name,
-          };
+          const message =
+            {
+              type: "agent_alive",
+              kind: "request",
+              payload: {
+                agent_name: agentValues.currentAgent?.name,
+              },
+              request_id: `req-${Date.now()}`,
+              timestamp: new Date().toISOString(),
+            };
           socketValues.sendMessageToSocket(JSON.stringify(message));
         }
       };

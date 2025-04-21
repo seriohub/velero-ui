@@ -35,7 +35,7 @@ export default function DeleteBackupRequests({ reload, setReload, active, setFet
   /* watch */
   //useWatchResources(type ? 'podvolumebackups' : 'podvolumerestores');
   const handleWatchResources = debounce((message) => {
-    if (message?.resources === 'deletebackuprequests') {
+    if (message?.payload?.resources === 'deletebackuprequests') {
       setReload((prev: number) => prev + 1);
     }
   }, 250);

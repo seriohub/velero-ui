@@ -31,17 +31,23 @@ export function useWatchResources(plural: string) {
 
   useEffect(() => {
     const agentName = agentValues.currentAgent?.name;
+
     if (!agentName) return;
 
-    if (hasWatched(agentName, plural)) return;
+    //if (hasWatched(agentName, plural)) return;
 
-    const message = {
-      action: 'watch',
-      plural,
-      agent_name: agentName,
-    };
+    const message =
+      {
+        type: "watch",
+        kind: "command",
+        payload: {
+          plural,
+          agent_name: agentName
+        }
+      }
 
     socketValues.sendMessageToSocket(JSON.stringify(message));
+
     setWatched(agentName, plural);
   }, [plural, agentValues.currentAgent?.name]);
 }

@@ -47,10 +47,10 @@ export function PVBDetails({
   useWatchResources(type ? 'podvolumebackups' : 'podvolumerestores');
   const handleWatchResources = debounce((message) => {
     if (
-      message?.resources === (type ? 'podvolumebackups' : 'podvolumerestores') &&
-      message?.resource?.metadata?.name === params.pv
+      message?.payload?.resources === (type ? 'podvolumebackups' : 'podvolumerestores') &&
+      message?.payload?.resource?.metadata?.name === params.pv
     ) {
-      setManifest(message?.resource);
+      setManifest(message?.payload?.resource);
     }
   }, 250);
 
@@ -96,7 +96,7 @@ export function PVBDetails({
         </Toolbar>
       }
       details={<PVBDetailsView manifest={manifest} fetching={fetching}/>}
-      manifest={<Manifest resourceType={type} resourceName={params.pv}/>}
+      manifest={<Manifest resourceType={type} resourceName={params.pv} reload={reload}/>}
     />
   );
 }

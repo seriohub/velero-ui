@@ -82,7 +82,7 @@ export function ReposDatatable() {
   /* watch */
   useWatchResources('backuprepositories');
   const handleWatchResources = debounce((message) => {
-    if (message?.resources === 'backuprepositories') {
+    if (message?.payload?.resources === 'backuprepositories') {
       setReload((prev) => prev + 1);
     }
   }, 250);

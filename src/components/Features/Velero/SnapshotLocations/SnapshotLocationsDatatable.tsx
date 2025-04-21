@@ -52,7 +52,7 @@ export function SnapshotLocationsDatatable() {
   /* watch */
   useWatchResources('volumesnapshotlocations');
   const handleWatchResources = debounce((message) => {
-    if (message?.resources === 'volumesnapshotlocations') {
+    if (message?.payload?.resources === 'volumesnapshotlocations') {
       setReload((prev) => prev + 1);
     }
   }, 250);

@@ -58,7 +58,7 @@ export function BslDatatable() {
   /* watch */
   useWatchResources('backupstoragelocations');
   const handleWatchResources = debounce((message) => {
-    if (message?.resources === 'backupstoragelocations') {
+    if (message?.payload?.resources === 'backupstoragelocations') {
       setReload((prev) => prev + 1);
     }
   }, 250);

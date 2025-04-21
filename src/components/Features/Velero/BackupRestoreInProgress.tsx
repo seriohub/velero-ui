@@ -50,7 +50,7 @@ export default function BackupRestoreInProgress({
   /* watch */
   //useWatchResources(type ? 'podvolumebackups' : 'podvolumerestores');
   const handleWatchResources = debounce((message) => {
-    if (message?.resources === 'backups' || message?.resources === 'restores') {
+    if (message?.payload?.resources === 'backups' || message?.payload?.resources === 'restores') {
       setReload((prev: number) => prev + 1);
     }
   }, 250);

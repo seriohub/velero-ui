@@ -34,7 +34,7 @@ export default function ServerStatusRequests({ reload, setReload, active, setFet
   /* watch */
   //useWatchResources(type ? 'podvolumebackups' : 'podvolumerestores');
   const handleWatchResources = debounce((message) => {
-    if (message?.resources === 'serverstatusrequests') {
+    if (message?.payload?.resources === 'serverstatusrequests') {
       setReload((prev: number) => prev + 1);
     }
   }, 250);

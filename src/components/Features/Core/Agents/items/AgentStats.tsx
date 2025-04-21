@@ -26,7 +26,7 @@ export function AgentStats({
                              name,
                              data
                            }: AgentStatsProps) {
-  console.log("name", name, "data", data)
+
   const agentValues = useAgentStatus();
 
   const router = useRouter();
@@ -38,10 +38,10 @@ export function AgentStats({
   function setAgent(agentName: string) {
     const index = findIndexByKeyValue(agentValues.agents, 'name', agentName);
     if (agentValues.agents && agentValues.agents[index] !== agentValues.currentAgent) {
-      router.push('/dashboard');
       agentValues.setCurrentAgent(agentValues.agents[index]);
       agentValues.setIsAgentAvailable(undefined);
     }
+    router.push('/dashboard');
   }
 
   return (
@@ -55,7 +55,7 @@ export function AgentStats({
         setAgent(name);
       }}
     >
-      <Group gap={10}>
+      <Group gap={20}>
         <Image radius="md" h={160} w="auto" fit="contain" src="/kubernetes_logo.svg"/>
 
         <Flex gap={5} direction="column">
@@ -65,13 +65,14 @@ export function AgentStats({
             </Text>
           </Group>
 
-          <Group justify="space-between" gap={20}>
+          <Group justify="space-between" gap={60}>
 
             {/* backups */}
             <Box>
               <Group gap={5}>
                 <IconDeviceFloppy size={20}/>
-                <Text size="sm" mb={0}>
+                <Text size="lg" fw={800}>{data?.stats?.backups?.stats?.all?.count}</Text>
+                <Text size="sm">
                   Backups
                 </Text>
               </Group>
@@ -107,7 +108,8 @@ export function AgentStats({
             <Box>
               <Group gap={5}>
                 <IconClock size={20}/>
-                <Text size="sm" mb={3}>
+                <Text size="lg" fw={800}>{data?.stats?.backups?.stats?.latest?.count}</Text>
+                <Text size="sm">
                   Latest
                 </Text>
               </Group>
@@ -143,7 +145,8 @@ export function AgentStats({
             <Box>
               <Group gap={5}>
                 <IconRestore size={20}/>
-                <Text size="sm" mb={3}>
+                <Text size="lg" fw={800}>{data?.stats?.restores?.all?.count}</Text>
+                <Text size="sm">
                   Restore
                 </Text>
               </Group>
@@ -178,8 +181,9 @@ export function AgentStats({
             {/* Schedules */}
             <Box>
               <Group gap={5}>
-                <IconCalendar size={20}/>
-                <Text size="sm" mb={3}>
+                <IconCalendar size={30}/>
+                <Text size="lg" fw={800}>{data?.stats?.schedules?.all?.count}</Text>
+                <Text size="sm">
                   Schedule
                 </Text>
               </Group>

@@ -34,18 +34,23 @@ export function Agents() {
     if (agentValues.isAgentAvailable) {
       getAgentStats();
     }
-  }, [reload, agentValues.isAgentAvailable]);
+  }, [agentValues.isAgentAvailable]);
+
+  useEffect(() => {
+    if (agentValues.isAgentAvailable) {
+      getAgentStats(true);
+    }
+  }, [reload]);
 
   useEffect(() => {
     if (data !== undefined) {
-      setAgentStats(data?.data);
+      setAgentStats(data);
     }
   }, [data]);
 
   const agents = Object.entries(agentStats).map(([key, value]) => (
     <Box key={key} mb={20}>
       <AgentStats name={key} data={value}/>
-
     </Box>
   ));
 

@@ -37,10 +37,10 @@ export function ScheduleDetails({ params }: ScheduleProps) {
   useWatchResources('schedules');
   const handleWatchResources = debounce((message) => {
     if (
-      message?.resources === 'schedules' &&
-      message?.resource?.metadata?.name === params.schedule
+      message?.payload?.resources === 'schedules' &&
+      message?.payload?.resource?.metadata?.name === params.schedule
     ) {
-      // setManifest(message?.resource);
+      console.log("reload")
       setReload((prev) => prev + 1);
     }
   }, 250);
@@ -103,7 +103,7 @@ export function ScheduleDetails({ params }: ScheduleProps) {
         </Toolbar>
       }
       details={<ScheduleDetailsView data={manifest} fetching={fetching}/>}
-      manifest={<Manifest resourceType="Schedule" resourceName={params.schedule}/>}
+      manifest={<Manifest resourceType="Schedule" resourceName={params.schedule} reload={reload}/>}
       tabs={(height) => (
         <BackupsDatatable scheduleName={params.schedule}/>
       )}

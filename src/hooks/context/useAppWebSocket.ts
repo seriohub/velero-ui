@@ -45,7 +45,7 @@ export const useAppWebSocket = ({addSocketHistory = null}: UseAppWebSocketParams
       onOpen: () => {
         setReconnectAttempts(0);
         if (isAuthenticated) {
-          sendMessage(jwtToken);
+          sendMessage(JSON.stringify({type: 'authentication', kind:'request', payload: {token:jwtToken}}));
         }
         serverValues.setIsServerAvailable(true);
         if (heartbeatInterval.current) {
@@ -53,19 +53,19 @@ export const useAppWebSocket = ({addSocketHistory = null}: UseAppWebSocketParams
         }
         heartbeatInterval.current = setInterval(() => {
           if (readyStateRef.current === ReadyState.OPEN) {
-            sendMessage(JSON.stringify({action: 'ping'}));
+            sendMessage(JSON.stringify({type: 'ping', kind: 'request', request_id: "req-" + Date.now(), timestamp: new Date().toISOString()}));
           }
-        }, 10000);
+        }, 30000);
       },
       onMessage: (event) => {
         if (!isAuthenticated) return;
 
         try {
           const response = JSON.parse(event.data);
-          if (response.response_type === 'agent_alive' && agentValues.currentAgent?.name === response.agent_name && response.is_alive){
+          if (response.type === 'agent_alive' && agentValues.currentAgent?.name === response?.payload?.agent_name && response?.payload?.is_alive){
               agentValues.setIsAgentAvailable(true);
           }
-          if (response.response_type === 'agent_alive' && agentValues.currentAgent?.name === response.agent_name && !response.is_alive){
+          if (response.type === 'agent_alive' && agentValues.currentAgent?.name === response?.payload?.agent_name && !response?.payload?.is_alive){
             agentValues.setIsAgentAvailable(false);
           }
           if (response.type !== 'agent_alive' && response.type !== 'pong') {

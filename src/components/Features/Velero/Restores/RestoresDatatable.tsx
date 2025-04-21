@@ -52,7 +52,7 @@ export function RestoresDatatable() {
   // useWatchResources('restores');
   /* watch */
   const handleWatchResources = debounce((message) => {
-    if (message?.resources === 'restores') {
+    if (message?.payload?.resources === 'restores') {
       setReload((prev) => prev + 1);
     }
   }, 250);
