@@ -39,7 +39,7 @@ export const DiagnosticCoreInfo = () => {
   return (
     <>
       <Group gap={2}>
-        <Tooltip label="Vui Control Plane">
+        <Tooltip label="Vui Core">
           <Group gap={0}>
             {!serverValues.isServerAvailable && <IconServer size={20} color="red"/>}
             {serverValues.isServerAvailable && <IconServer size={20} color="green"/>}
@@ -50,7 +50,7 @@ export const DiagnosticCoreInfo = () => {
         </Tooltip>
 
         {stateManager.allTrue && !stateManager.hasWarnings && (
-          <Tooltip label="Control Plane Check Passed!">
+          <Tooltip label="Core Check Passed!">
             <IconCheck color="green"/>
           </Tooltip>
         )}
@@ -73,7 +73,7 @@ export const DiagnosticCoreInfo = () => {
           </Group>
         )}
 
-        <Tooltip label="Refresh control plane connection data">
+        <Tooltip label="Refresh core connection data">
           <ActionIcon
             size={20}
             variant="transparent"
@@ -86,7 +86,7 @@ export const DiagnosticCoreInfo = () => {
           </ActionIcon>
         </Tooltip>
 
-        <Tooltip label="Control plane info">
+        <Tooltip label="Core info">
           <ActionIcon
             size={20}
             variant="transparent"
