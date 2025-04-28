@@ -6,8 +6,13 @@ export const parseApiResponse = async (res: Response): Promise<any> => {
     throw new Error('Unauthorized');
   }
 
+  if (res.status === 503) {
+    const errorData = await res.json();
+    throw new Error(`HTTP 503 Service Unavailable: Unprocessable Entity ${errorData?.detail?.description || 'Bad request'}`);
+  }
+
   if (res.status === 400) {
-    const errorData = await res.json(); // Il backend restituisce JSON
+    const errorData = await res.json();
     throw new Error(`HTTP 400 Bad Request: ${errorData?.detail?.description || 'Bad request'}`);
   }
 

@@ -211,7 +211,7 @@ export const DiagnosticCoreInfo = () => {
       <Modal
         opened={opened}
         onClose={close}
-        title="Agent diagnostic"
+        title="Core diagnostic"
         centered
         size="auto"
         overlayProps={{

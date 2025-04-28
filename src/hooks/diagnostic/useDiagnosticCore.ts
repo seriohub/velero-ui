@@ -63,7 +63,7 @@ export const useDiagnosticCore = () => {
 
   stateManager.setVariable('getUiURL', uiURL !== '');
   stateManager.setVariable('getApiURL', apiURL !== '');
-  stateManager.setVariable('checkApiReacheable', serverValues.isServerAvailable === true);
+  stateManager.setVariable('checkApiReachable', serverValues.isServerAvailable === true);
   stateManager.setVariable(
     'getArchitecture',
     serverValues.isServerAvailable === true && apiArch?.platform === undefined

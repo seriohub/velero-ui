@@ -2,6 +2,7 @@
 
 import { DataTable } from 'mantine-datatable';
 import React from 'react';
+import { List, Text } from "@mantine/core";
 
 export const DiagnosticInfoData = ({
                                      uiURL,
@@ -94,6 +95,22 @@ export const DiagnosticInfoData = ({
         {
           accessor: 'value',
           title: 'Value',
+          render: ({ value }: any) => <>
+            {Array.isArray(value) && value.length > 0 && (
+              <List>
+                {value.map((item: any) => (
+                  <List.Item key={item}>
+                    <Text size="sm">{item}</Text>
+                  </List.Item>
+                ))}
+              </List>
+            )}
+            {!Array.isArray(value) && (
+              <Text size="sm">
+                {value}
+              </Text>
+            )}
+          </>,
           width: 500,
         },
         {

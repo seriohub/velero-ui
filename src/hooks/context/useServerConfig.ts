@@ -2,10 +2,16 @@ import { useEffect } from 'react';
 
 import { useApiGet } from '@/hooks/utils/useApiGet';
 import { useServerStatus } from '@/contexts/ServerContext';
+import { isRecordStringAny } from "@/utils/isRecordStringIsType";
+import { useCoreInfo } from "@/api/Core/useCoreInfo";
 
 export const useServerConfig = () => {
   const serverValues = useServerStatus();
   const { data, getData } = useApiGet();
+  const {
+    data: serverInfo,
+    getCoreInfo
+  } = useCoreInfo();
 
   useEffect(() => {
     const clusterIndex =
@@ -23,7 +29,10 @@ export const useServerConfig = () => {
         target: 'static',
       });
     }
-  }, [serverValues.isServerAvailable]);
+    if (serverValues.isCurrentServerControlPlane) {
+      getCoreInfo();
+    }
+  }, [serverValues.isServerAvailable, serverValues.isCurrentServerControlPlane]);
 
   useEffect(() => {
     if (data?.type !== undefined) {
@@ -34,4 +43,13 @@ export const useServerConfig = () => {
       }
     }
   }, [data]);
+
+  // agent info
+  useEffect(() => {
+    console.log("@@@", serverInfo)
+    if (serverInfo && isRecordStringAny(serverInfo)) {
+      console.log("###")
+      serverValues.setServerInfo(serverInfo);
+    }
+  }, [serverInfo]);
 };
