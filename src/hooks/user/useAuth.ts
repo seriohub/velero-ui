@@ -4,6 +4,7 @@ import { env } from 'next-runtime-env';
 import { useAppStatus } from '@/contexts/AppContext';
 import { useServerStatus } from '@/contexts/ServerContext';
 import { useAuthErrorHandler } from "@/hooks/user/useAuthErrorHandler";
+import { useEffect, useState } from "react";
 
 interface UseAuthParams {
   middleware?: string;
@@ -20,6 +21,15 @@ export const useAuth = ({ middleware, redirectIfAuthenticated }: UseAuthParams =
   const { logout } = useAuthErrorHandler();
 
   const headers: Record<string, string> = jwtToken ? { Authorization: `Bearer ${jwtToken}` } : {};
+
+  const [fetchKey, setFetchKey] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (NEXT_PUBLIC_AUTH_ENABLED && serverValues?.isServerAvailable) {
+      setFetchKey(`${serverValues?.currentServer?.url}/v1/users/me/info`);
+    }
+  }, [NEXT_PUBLIC_AUTH_ENABLED, serverValues.isServerAvailable, serverValues?.currentServer?.url]);
+
   const {
     data: user,
     error,
@@ -28,7 +38,7 @@ export const useAuth = ({ middleware, redirectIfAuthenticated }: UseAuthParams =
     NEXT_PUBLIC_AUTH_ENABLED ? `${serverValues?.currentServer?.url}/v1/users/me/info` : null,
     () =>
       axios
-        .get(`${serverValues?.currentServer?.url}/v1/users/me/info`, { headers /*, withCredentials: true // uncomment for cookie auth */ })
+        .get(fetchKey!, { headers /*, withCredentials: true // uncomment for cookie auth */ })
         .then((res) => {
           //userValues.setUser(res.data.data);
           appValues.setIsUserLoaded(true);

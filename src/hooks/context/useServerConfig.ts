@@ -46,9 +46,7 @@ export const useServerConfig = () => {
 
   // agent info
   useEffect(() => {
-    console.log("@@@", serverInfo)
     if (serverInfo && isRecordStringAny(serverInfo)) {
-      console.log("###")
       serverValues.setServerInfo(serverInfo);
     }
   }, [serverInfo]);
