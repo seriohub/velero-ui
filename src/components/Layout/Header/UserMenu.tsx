@@ -188,7 +188,7 @@ export default function UserMenu() {
           <Menu.Divider />
 
           <Menu.Item
-            disabled={agentValues?.agentInfo?.auth_enabled === 'False'}
+            disabled={!NEXT_PUBLIC_AUTH_ENABLED}
             key="profile"
             leftSection={
               <IconLogout

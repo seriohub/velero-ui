@@ -49,7 +49,7 @@ export const useAgentConfig = () => {
     if (agentValues.isAgentAvailable) {
       getAppInfo(serverValues.isCurrentServerControlPlane ? 'core' : 'agent');
     }
-    if (agentValues.isAgentAvailable && (appValues.isAuthenticated || !NEXT_PUBLIC_AUTH_ENABLED)) {
+    if (agentValues.isAgentAvailable && appValues.isAuthenticated) {
       getAgentConfiguration();
     }
   }, [agentValues.isAgentAvailable, appValues.isAuthenticated]);
