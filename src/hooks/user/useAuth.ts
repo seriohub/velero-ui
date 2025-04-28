@@ -35,7 +35,7 @@ export const useAuth = ({ middleware, redirectIfAuthenticated }: UseAuthParams =
     error,
     mutate,
   } = useSWR(
-    NEXT_PUBLIC_AUTH_ENABLED ? `${serverValues?.currentServer?.url}/v1/users/me/info` : null,
+    fetchKey,
     () =>
       axios
         .get(fetchKey!, { headers /*, withCredentials: true // uncomment for cookie auth */ })
