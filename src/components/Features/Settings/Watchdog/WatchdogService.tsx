@@ -10,7 +10,7 @@ import { useWatchdogAppSecrets } from '@/api/Watchdog/useWatchdogAppSecrets';
 
 import WatchdogServiceConfigTable from '@/components/Features/Settings/Watchdog/WatchdogServiceConfigTable';
 
-export default function WatchdogService() {
+export default function WatchdogService({reload}: any) {
   const {
     data: dataServices,
     getWatchdogAppSecrets
@@ -20,7 +20,7 @@ export default function WatchdogService() {
 
   useEffect(() => {
     getWatchdogAppSecrets();
-  }, []);
+  }, [reload]);
 
   useEffect(() => {
     setServices(Array.isArray(dataServices) ? dataServices : []);
