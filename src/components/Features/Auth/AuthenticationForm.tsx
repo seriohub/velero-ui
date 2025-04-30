@@ -116,14 +116,13 @@ export function AuthenticationForm() {
                 </ActionIcon>
               }
               rightSection={
-                ((serverValues.isCurrentServerControlPlane && serverValues.serverInfo?.auth_type === 'LDAP') ||
-                (!serverValues.isCurrentServerControlPlane && agentValues.agentInfo?.auth_type === 'LDAP')) && (
+                (serverValues.serverInfo?.auth_type === 'LDAP' && (
                   <Group justify="flex-end">
                     <Badge p={2} color="var(--mantine-primary-color-filled)" radius="xs">
                       LDAP
                     </Badge>
                   </Group>
-                )
+                ))
               }
               size="md"
               //style={{ marginTop: '8%' }}
