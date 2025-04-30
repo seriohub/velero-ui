@@ -68,6 +68,8 @@ export const useAgentConfig = () => {
             : 0;
 
         agentValues.setCurrentAgent(agentsAvailable[agentIndex]);
+      }else{
+        agentValues.setCurrentAgent(undefined);
       }
     }
 
@@ -127,7 +129,7 @@ export const useAgentConfig = () => {
   // agent info
   useEffect(() => {
     if (agentInfo && isRecordStringAny(agentInfo)) {
-      agentValues.setAgentInfo(agentInfo);
+      //agentValues.setAgentInfo(agentInfo);
     }
   }, [agentInfo]);
 };
