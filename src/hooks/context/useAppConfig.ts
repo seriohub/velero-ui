@@ -55,7 +55,6 @@ export const useAppConfig = () => {
   }, [serverValues.isServerAvailable]);
 
   useEffect(() => {
-    console.log("---", appInfo)
     if (appInfo && isRecordStringAny(appInfo)) {
       appValues.setAppInfo(appInfo);
     }
