@@ -58,6 +58,11 @@ export const useApiGet = () => {
 
     const backendUrl = `${serverValues?.currentServer?.url}${coreUrl}`;
 
+    if (!window) {
+      console.log(`Window unavailable: skip request ${backendUrl}${url}?${params}`);
+      return;
+    }
+
     if (!serverValues.isServerAvailable) {
       console.log(`Server unavailable: skip request ${backendUrl}${url}?${params}`);
       return;
