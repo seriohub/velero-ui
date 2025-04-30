@@ -116,7 +116,7 @@ export function AuthenticationForm() {
                 </ActionIcon>
               }
               rightSection={
-                (serverValues.serverInfo?.auth_type === 'LDAP' && (
+                (appValues.appInfo?.auth_type === 'LDAP' && (
                   <Group justify="flex-end">
                     <Badge p={2} color="var(--mantine-primary-color-filled)" radius="xs">
                       LDAP

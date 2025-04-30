@@ -29,7 +29,7 @@ export function AppShellFooter() {
 
         <Group gap={10} justify="right">
           <Text size="sm">App</Text>
-          <Code fw={700}>v{agentValues.agentInfo?.helm_app_version}</Code>
+          <Code fw={700}>v{appValues.appInfo?.helm_app_version}</Code>
         </Group>
       </Group>
     </>

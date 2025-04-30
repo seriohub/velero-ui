@@ -1,13 +1,13 @@
 import { useEffect } from 'react';
-import { env } from 'next-runtime-env';
+// import { env } from 'next-runtime-env';
 import { useAppStatus } from '@/contexts/AppContext';
 import { useApiGet } from '@/hooks/utils/useApiGet';
 import { useServerStatus } from '@/contexts/ServerContext';
 import { useAgentStatus } from '@/contexts/AgentContext';
 import { useSocketStatus } from '@/contexts/SocketContext';
 import { useAgentConfiguration } from '@/api/Agent/useAgentConfiguration';
-import { useAppInfo } from '@/api/App/useAppInfo';
-import { isRecordStringAny } from '@/utils/isRecordStringIsType';
+// import { useAppInfo } from '@/api/App/useAppInfo';
+// import { isRecordStringAny } from '@/utils/isRecordStringIsType';
 
 export interface AgentApiConfig {
   name: string;
@@ -20,11 +20,11 @@ export const useAgentConfig = () => {
   const serverValues = useServerStatus();
   const agentValues = useAgentStatus();
   const socketValues = useSocketStatus();
-  const NEXT_PUBLIC_AUTH_ENABLED = env('NEXT_PUBLIC_AUTH_ENABLED')?.toLowerCase() !== 'false';
-  const {
+
+  /*const {
     data: agentInfo,
     getAppInfo
-  } = useAppInfo();
+  } = useAppInfo();*/
   const {
     data: agentConfiguration,
     getAgentConfiguration
@@ -46,9 +46,9 @@ export const useAgentConfig = () => {
 
   // agent info and agent configuration
   useEffect(() => {
-    if (agentValues.isAgentAvailable) {
+    /*if (agentValues.isAgentAvailable) {
       getAppInfo(serverValues.isCurrentServerControlPlane ? 'core' : 'agent');
-    }
+    }*/
     if (agentValues.isAgentAvailable && appValues.isAuthenticated) {
       getAgentConfiguration();
     }
@@ -127,9 +127,9 @@ export const useAgentConfig = () => {
   }, [agentConfiguration]);
 
   // agent info
-  useEffect(() => {
+  /*useEffect(() => {
     if (agentInfo && isRecordStringAny(agentInfo)) {
       //agentValues.setAgentInfo(agentInfo);
     }
-  }, [agentInfo]);
+  }, [agentInfo]);*/
 };

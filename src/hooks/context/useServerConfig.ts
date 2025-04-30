@@ -2,16 +2,17 @@ import { useEffect } from 'react';
 
 import { useApiGet } from '@/hooks/utils/useApiGet';
 import { useServerStatus } from '@/contexts/ServerContext';
-import { isRecordStringAny } from "@/utils/isRecordStringIsType";
-import { useCoreInfo } from "@/api/Core/useCoreInfo";
+// import { isRecordStringAny } from "@/utils/isRecordStringIsType";
+// import { useCoreInfo } from "@/api/Core/useCoreInfo";
 
 export const useServerConfig = () => {
   const serverValues = useServerStatus();
   const { data, getData } = useApiGet();
-  const {
+
+  /*const {
     data: serverInfo,
     getCoreInfo
-  } = useCoreInfo();
+  } = useCoreInfo();*/
 
   useEffect(() => {
     const clusterIndex =
@@ -29,9 +30,9 @@ export const useServerConfig = () => {
         target: 'static',
       });
     }
-    if (serverValues.isCurrentServerControlPlane) {
+    /*if (serverValues.isCurrentServerControlPlane) {
       getCoreInfo();
-    }
+    }*/
   }, [serverValues.isServerAvailable, serverValues.isCurrentServerControlPlane]);
 
   useEffect(() => {
@@ -44,10 +45,10 @@ export const useServerConfig = () => {
     }
   }, [data]);
 
-  // agent info
-  useEffect(() => {
+  // server info
+  /*useEffect(() => {
     if (serverInfo && isRecordStringAny(serverInfo)) {
       serverValues.setServerInfo(serverInfo);
     }
-  }, [serverInfo]);
+  }, [serverInfo]);*/
 };
