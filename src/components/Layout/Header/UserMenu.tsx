@@ -20,6 +20,7 @@ import { useUIStatus } from '@/contexts/UIContext';
 import { useAgentStatus } from '@/contexts/AgentContext';
 
 import { useAuthLogout } from '@/hooks/user/useAuthLogout';
+import { useServerStatus } from '@/contexts/ServerContext';
 
 export default function UserMenu() {
   const NEXT_PUBLIC_AUTH_ENABLED = env('NEXT_PUBLIC_AUTH_ENABLED')?.toLowerCase() !== 'false';
@@ -27,6 +28,7 @@ export default function UserMenu() {
 
   const userValues = useUserStatus();
   const agentValues = useAgentStatus();
+  const serverValues = useServerStatus();
 
   const { logout } = useAuthLogout();
 
@@ -80,7 +82,14 @@ export default function UserMenu() {
               <Text fw={500} c="primary">
                 {`${userValues.user?.username}`}
               </Text>
-              {NEXT_PUBLIC_AUTH_ENABLED && agentValues.agentInfo?.auth_type === 'LDAP' && (
+              {NEXT_PUBLIC_AUTH_ENABLED && serverValues.isCurrentServerControlPlane && serverValues.serverInfo?.auth_type === 'LDAP' && (
+                <Group justify="flex-end">
+                  <Badge p={2} color="var(--mantine-primary-color-filled)" radius="xs">
+                    LDAP
+                  </Badge>
+                </Group>
+              )}
+              {NEXT_PUBLIC_AUTH_ENABLED && !serverValues.isCurrentServerControlPlane && agentValues.agentInfo?.auth_type === 'LDAP' && (
                 <Group justify="flex-end">
                   <Badge p={2} color="var(--mantine-primary-color-filled)" radius="xs">
                     LDAP
