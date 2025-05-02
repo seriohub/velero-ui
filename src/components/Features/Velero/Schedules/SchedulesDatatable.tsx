@@ -57,7 +57,6 @@ export function SchedulesDatatable() {
   useWatchResources('schedules');
 
   const handleWatchResources = debounce((message) => {
-    console.log("message", message)
     if (message?.payload?.resources === 'schedules') {
       setReload((prev) => prev + 1);
     }

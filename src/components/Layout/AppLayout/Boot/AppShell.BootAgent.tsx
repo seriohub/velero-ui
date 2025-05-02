@@ -24,7 +24,6 @@ export default function AppShellBootAgent({ children }: AppShellBootProps) {
 
   useEffect(() => {
     if (agentValues.isAgentAvailable) {
-      console.log('Agent available');
       setReload(prev => prev + 1);
     }
   }, [agentValues.isAgentAvailable]);
