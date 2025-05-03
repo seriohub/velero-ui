@@ -31,7 +31,7 @@ export const useAuth = ({ middleware, redirectIfAuthenticated }: UseAuthParams =
     else {
       console.warn("Server is not available", jwtToken!==null);
     }
-  }, []);
+  }, [serverValues?.isServerAvailable, jwtToken]);
 
   const {
     data: user,
