@@ -1,7 +1,8 @@
 'use client';
 
+import { useState } from 'react';
 import { useEffect } from 'react';
-
+import { useRouter } from 'next/navigation';
 import { useServerStatus } from '@/contexts/ServerContext';
 import { useAppStatus } from '@/contexts/AppContext';
 import { useUIConfig } from '@/hooks/context/useUIConfig';
@@ -19,6 +20,7 @@ interface AppShellBootProps {
 }
 
 export default function AppShellBoot({ children }: AppShellBootProps) {
+  const router = useRouter();
   const appValues = useAppStatus();
   const serverValues = useServerStatus();
 
@@ -31,6 +33,26 @@ export default function AppShellBoot({ children }: AppShellBootProps) {
       appValues.setAppInitialized(true); // currentServer is available and widow is available
     }
   }, [serverValues.currentServer, serverValues.isCurrentServerControlPlane]);
+
+  /* TODO: move in middleware */
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+
+    const isTokenValid =
+      token && token.trim() !== '' && token !== 'undefined' && token !== 'null';
+
+    if (!isTokenValid) {
+      router.push('/login');
+      return;
+    }
+
+    setLoading(false);
+  }, [router]);
+
+  if (loading) return <AppShellLoader description="Loading server configuration..."/>;
+  /**/
 
   return (
     <>

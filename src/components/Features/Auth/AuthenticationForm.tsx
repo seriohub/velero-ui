@@ -61,7 +61,7 @@ export function AuthenticationForm() {
       const json = await res.json();
       localStorage.setItem('token', json.access_token);
       await new Promise((resolve) => setTimeout(resolve, 100));
-      appValues.setAuthenticated(true);
+      //appValues.setAuthenticated(true);
       if (serverValues.isCurrentServerControlPlane) {
         router.push('/home');
       } else {

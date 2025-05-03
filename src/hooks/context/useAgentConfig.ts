@@ -36,13 +36,13 @@ export const useAgentConfig = () => {
 
   // agent list if core connected
   useEffect(() => {
-    if (serverValues.isCurrentServerControlPlane && appValues.isAuthenticated) {
+    if (serverValues.isCurrentServerControlPlane &&  appValues.isAuthenticated && appValues.isAuthenticated) {
       getDataAgent({
         url: '/v1/agents',
         target: 'core',
       });
     }
-  }, [serverValues.isCurrentServerControlPlane, agentValues.reload]);
+  }, [serverValues.isCurrentServerControlPlane, appValues.isAuthenticated, agentValues.reload]);
 
   // agent info and agent configuration
   useEffect(() => {
