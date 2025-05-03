@@ -9,41 +9,40 @@ import { useAppConfig } from '@/hooks/context/useAppConfig';
 
 import { useServerConfig } from '@/hooks/context/useServerConfig';
 
-import AppShellBootConnection from './Boot/AppShell.BootConnection';
 import AppShellLoader from '../AppShell.Loader';
 import { SocketProvider } from '@/contexts/SocketContext';
+import { ServerError } from "@/components/Features/Errors/ServerError";
+import AppShellBootAgent from "@/components/Layout/AppLayout/Boot/AppShell.BootAgent";
 
 interface AppShellBootProps {
   children: any;
 }
 
 export default function AppShellBoot({ children }: AppShellBootProps) {
-  const serverValues = useServerStatus();
   const appValues = useAppStatus();
+  const serverValues = useServerStatus();
 
-  useAppConfig();
   useUIConfig();
-
+  useAppConfig();
   useServerConfig();
 
   useEffect(() => {
-    if (serverValues.currentServer && typeof window !== 'undefined') {
+    if (serverValues.currentServer && serverValues.isCurrentServerControlPlane !== undefined) {
       appValues.setAppInitialized(true); // currentServer is available and widow is available
     }
-  }, [serverValues.currentServer]);
+  }, [serverValues.currentServer, serverValues.isCurrentServerControlPlane]);
 
   return (
     <>
-      {!serverValues.currentServer && (
-        <AppShellLoader description="Loading server configuration..."/>
-      )}
-      {serverValues.currentServer && (
-        <SocketProvider>
-          {serverValues.isCurrentServerControlPlane !== undefined && (
-            <AppShellBootConnection>{children}</AppShellBootConnection>
-          )}
-        </SocketProvider>
-      )}
+      {!appValues.isAppInitialized &&
+          <AppShellLoader description="Loading server configuration..."/>
+      }
+      <SocketProvider>
+        <>
+          <ServerError/>
+          <AppShellBootAgent>{children}</AppShellBootAgent>
+        </>
+      </SocketProvider>
     </>
   );
 }

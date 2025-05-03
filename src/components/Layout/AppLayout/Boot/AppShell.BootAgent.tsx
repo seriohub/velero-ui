@@ -27,18 +27,15 @@ export default function AppShellBootAgent({ children }: AppShellBootProps) {
       setReload(prev => prev + 1);
     }
   }, [agentValues.isAgentAvailable]);
+
   return (
     <>
-      {!serverValues.isServerAvailable && !appValues.isAuthenticated && (
-        <>
-          <AppShellLoader description="Waiting server is available..."/>
-        </>
+      {!serverValues.isServerAvailable && (
+        <AppShellLoader description="Waiting server is available..."/>
       )}
-      {(serverValues.isServerAvailable || appValues.isAuthenticated) && (
+      {serverValues.isServerAvailable && (
         <AppShellUserBoot key={reload}>
-          <>
             {React.cloneElement(children, { key: reload })}
-          </>
         </AppShellUserBoot>
       )}
     </>
