@@ -28,6 +28,9 @@ export const useAuth = ({ middleware, redirectIfAuthenticated }: UseAuthParams =
     if (serverValues?.isServerAvailable && jwtToken) {
       setFetchKey(`${serverValues?.currentServer?.url}/v1/users/me/info`);
     }
+    else {
+      console.warning("Server is not available", jwtToken!==null);
+    }
   }, []);
 
   const {

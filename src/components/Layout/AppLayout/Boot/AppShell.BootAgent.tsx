@@ -17,7 +17,7 @@ export default function AppShellBootAgent({ children }: AppShellBootProps) {
   useAgentConfig();
 
   const serverValues = useServerStatus();
-  const appValues = useAppStatus();
+  // const appValues = useAppStatus();
 
   const agentValues = useAgentStatus()
   const [reload, setReload] = useState(1);
