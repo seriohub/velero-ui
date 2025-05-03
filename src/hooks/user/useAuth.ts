@@ -43,14 +43,14 @@ export const useAuth = ({ middleware, redirectIfAuthenticated }: UseAuthParams =
       axios
         .get(fetchKey!, { headers /*, withCredentials: true // uncomment for cookie auth */ })
         .then((res) => {
-          //userValues.setUser(res.data.data);
+          // userValues.setUser(res.data.data);
           appValues.setIsUserLoaded(true);
           appValues.setAuthenticated(true);
           return res.data.data;
         })
         .catch((e) => {
           console.error('error', e);
-          if (e.response.status === 401) logout()
+          // if (e.response.status === 401) logout()
           return undefined;
         })
   );
