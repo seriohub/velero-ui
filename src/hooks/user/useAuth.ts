@@ -25,10 +25,10 @@ export const useAuth = ({ middleware, redirectIfAuthenticated }: UseAuthParams =
   const [fetchKey, setFetchKey] = useState<string | null>(null);
 
   useEffect(() => {
-    if (NEXT_PUBLIC_AUTH_ENABLED && serverValues?.isServerAvailable) {
+    if (serverValues?.isServerAvailable && jwtToken) {
       setFetchKey(`${serverValues?.currentServer?.url}/v1/users/me/info`);
     }
-  }, [NEXT_PUBLIC_AUTH_ENABLED, serverValues.isServerAvailable, serverValues?.currentServer?.url]);
+  }, []);
 
   const {
     data: user,
