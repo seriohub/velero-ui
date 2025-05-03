@@ -181,7 +181,7 @@ export function AgentStats({
             {/* Schedules */}
             <Box>
               <Group gap={5}>
-                <IconCalendar size={30}/>
+                <IconCalendar size={20}/>
                 <Text size="lg" fw={800}>{data?.stats?.schedules?.all?.count}</Text>
                 <Text size="sm">
                   Schedule

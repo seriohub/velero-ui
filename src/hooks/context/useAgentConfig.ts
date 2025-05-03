@@ -42,7 +42,7 @@ export const useAgentConfig = () => {
         target: 'core',
       });
     }
-  }, [serverValues.isCurrentServerControlPlane, appValues.isAuthenticated, agentValues.reload]);
+  }, [serverValues.isCurrentServerControlPlane, agentValues.reload]);
 
   // agent info and agent configuration
   useEffect(() => {
