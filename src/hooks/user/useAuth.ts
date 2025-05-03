@@ -25,13 +25,13 @@ export const useAuth = ({ middleware, redirectIfAuthenticated }: UseAuthParams =
   const [fetchKey, setFetchKey] = useState<string | null>(null);
 
   useEffect(() => {
-    if (serverValues?.isServerAvailable && jwtToken) {
+    if (serverValues?.isServerAvailable && appValues.isAuthenticated && jwtToken) {
       setFetchKey(`${serverValues?.currentServer?.url}/v1/users/me/info`);
     }
     else {
       console.warn("Server is not available", jwtToken!==null);
     }
-  }, [serverValues?.isServerAvailable, jwtToken]);
+  }, [serverValues?.isServerAvailable, appValues?.isAuthenticated, jwtToken]);
 
   const {
     data: user,
@@ -50,7 +50,7 @@ export const useAuth = ({ middleware, redirectIfAuthenticated }: UseAuthParams =
         })
         .catch((e) => {
           console.error('error', e);
-          // if (e.response.status === 401) logout()
+          if (e.response.status === 401) logout()
           return undefined;
         })
   );
