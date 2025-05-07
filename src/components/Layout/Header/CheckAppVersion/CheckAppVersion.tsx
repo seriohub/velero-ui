@@ -55,7 +55,7 @@ export default function CheckAppVersion() {
       <Modal
         opened={opened}
         onClose={close}
-        title={`App version v${agentValues.agentInfo?.helm_app_version}`}
+        title={`App version v${appValues.appInfo?.helm_app_version}`}
         size="lg"
       >
         <TableVersion app={agentData || coreData} githubRelease={appValues.repoVersion} />

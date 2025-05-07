@@ -4,7 +4,7 @@ import useWebSocket, {ReadyState} from 'react-use-websocket';
 import {useAppStatus} from '@/contexts/AppContext';
 import {useServerStatus} from '@/contexts/ServerContext';
 import {useAgentStatus} from '@/contexts/AgentContext';
-
+import { env } from 'next-runtime-env';
 import {useAuthErrorHandler} from "@/hooks/user/useAuthErrorHandler";
 import {eventEmitter} from '@/lib/EventEmitter.js';
 
@@ -21,6 +21,7 @@ export const useAppWebSocket = ({addSocketHistory = null}: UseAppWebSocketParams
   const agentValues = useAgentStatus();
 
   const {logout} = useAuthErrorHandler();
+  const NEXT_PUBLIC_AUTH_ENABLED = env('NEXT_PUBLIC_AUTH_ENABLED')?.toLowerCase() !== 'false';
 
   const [reconnectAttempts, setReconnectAttempts] = useState(0);
   const [isConnectionFailed, setIsConnectionFailed] = useState(false);
@@ -45,7 +46,7 @@ export const useAppWebSocket = ({addSocketHistory = null}: UseAppWebSocketParams
       onOpen: () => {
         setReconnectAttempts(0);
         if (isAuthenticated) {
-          sendMessage(jwtToken);
+          sendMessage(JSON.stringify({type: 'authentication', kind:'request', payload: {token:jwtToken}}));
         }
         serverValues.setIsServerAvailable(true);
         if (heartbeatInterval.current) {
@@ -53,15 +54,20 @@ export const useAppWebSocket = ({addSocketHistory = null}: UseAppWebSocketParams
         }
         heartbeatInterval.current = setInterval(() => {
           if (readyStateRef.current === ReadyState.OPEN) {
-            sendMessage(JSON.stringify({action: 'ping'}));
+            sendMessage(JSON.stringify({type: 'ping', kind: 'request', request_id: "req-" + Date.now(), timestamp: new Date().toISOString()}));
           }
-        }, 10000);
+        }, 30000);
       },
       onMessage: (event) => {
-        if (!isAuthenticated) return;
-
+        if (NEXT_PUBLIC_AUTH_ENABLED && !isAuthenticated) return;
         try {
           const response = JSON.parse(event.data);
+          if (response.type === 'agent_alive' && agentValues.currentAgent?.name === response?.payload?.agent_name && response?.payload?.is_alive){
+              agentValues.setIsAgentAvailable(true);
+          }
+          if (response.type === 'agent_alive' && agentValues.currentAgent?.name === response?.payload?.agent_name && !response?.payload?.is_alive){
+            agentValues.setIsAgentAvailable(false);
+          }
           if (response.type !== 'agent_alive' && response.type !== 'pong') {
             addSocketHistory?.((prev: string[]) => prev.concat(event.data));
           }

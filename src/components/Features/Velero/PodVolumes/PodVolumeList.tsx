@@ -46,7 +46,7 @@ export function PodVolumeList({
   /* watch */
   useWatchResources(type ? 'podvolumebackups' : 'podvolumerestores');
   const handleWatchResources = debounce((message) => {
-    if (message?.resources === 'podvolumebackups') {
+    if (message?.payload?.resources === 'podvolumebackups') {
       setReload((prev) => prev + 1);
     }
   }, 250);

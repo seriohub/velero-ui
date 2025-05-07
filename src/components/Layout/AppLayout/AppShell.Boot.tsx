@@ -1,7 +1,8 @@
 'use client';
 
+import { useState } from 'react';
 import { useEffect } from 'react';
-
+import { useRouter } from 'next/navigation';
 import { useServerStatus } from '@/contexts/ServerContext';
 import { useAppStatus } from '@/contexts/AppContext';
 import { useUIConfig } from '@/hooks/context/useUIConfig';
@@ -9,39 +10,63 @@ import { useAppConfig } from '@/hooks/context/useAppConfig';
 
 import { useServerConfig } from '@/hooks/context/useServerConfig';
 
-import AppShellBootConnection from './Boot/AppShell.BootConnection';
 import AppShellLoader from '../AppShell.Loader';
 import { SocketProvider } from '@/contexts/SocketContext';
+import { ServerError } from "@/components/Features/Errors/ServerError";
+import AppShellBootAgent from "@/components/Layout/AppLayout/Boot/AppShell.BootAgent";
+import { env } from "next-runtime-env";
 
 interface AppShellBootProps {
   children: any;
 }
 
 export default function AppShellBoot({ children }: AppShellBootProps) {
-  const serverValues = useServerStatus();
+  const NEXT_PUBLIC_AUTH_ENABLED = env('NEXT_PUBLIC_AUTH_ENABLED')?.toLowerCase() !== 'false';
+  const router = useRouter();
   const appValues = useAppStatus();
+  const serverValues = useServerStatus();
 
-  useAppConfig();
   useUIConfig();
-
+  useAppConfig();
   useServerConfig();
 
   useEffect(() => {
-    if (serverValues.currentServer && typeof window !== 'undefined') {
+    if (serverValues.currentServer && serverValues.isCurrentServerControlPlane !== undefined) {
       appValues.setAppInitialized(true); // currentServer is available and widow is available
     }
-  }, [serverValues.currentServer]);
+  }, [serverValues.currentServer, serverValues.isCurrentServerControlPlane]);
+
+  /* TODO: move in middleware */
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+
+    const isTokenValid =
+      token && token.trim() !== '' && token !== 'undefined' && token !== 'null';
+
+    if (NEXT_PUBLIC_AUTH_ENABLED && !isTokenValid) {
+      router.push('/login');
+      return;
+    }
+
+    setLoading(false);
+  }, [router]);
+
+  if (loading) return <AppShellLoader description="Loading server configuration..."/>;
+  /**/
 
   return (
     <>
-      {!serverValues.currentServer && (
-        <AppShellLoader description="Loading server configuration..." />
-      )}
-      {serverValues.currentServer && (
-        <SocketProvider>
-          <AppShellBootConnection>{children}</AppShellBootConnection>
-        </SocketProvider>
-      )}
+      {!appValues.isAppInitialized &&
+          <AppShellLoader description="Loading server configuration..."/>
+      }
+      <SocketProvider>
+        <>
+          <ServerError/>
+          <AppShellBootAgent>{children}</AppShellBootAgent>
+        </>
+      </SocketProvider>
     </>
   );
 }

@@ -11,7 +11,7 @@ import { MainStack } from '@/components/Commons/MainStack';
 import Toolbar from '@/components/Display/Toolbar';
 import ReloadData from '@/components/Inputs/ReloadData';
 
-import { DiagnosticAgentInfoData } from '@/components/Features/Diagnostic/DiagnosticAgentInfoData';
+import { DiagnosticInfoData } from '@/components/Features/Diagnostic/DiagnosticInfoData';
 
 export function Agent() {
   const { uiURL, apiURL, apiArch, origins, k8sHealth, stateManager, reload, setReload } =
@@ -34,7 +34,7 @@ export function Agent() {
         </CopyButton>
       </Toolbar>
 
-      <DiagnosticAgentInfoData
+      <DiagnosticInfoData
         uiURL={uiURL}
         apiURL={apiURL}
         apiArch={apiArch}

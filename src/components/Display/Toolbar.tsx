@@ -14,28 +14,29 @@ interface ToolbarProps {
   fetching?: boolean;
 }
 
-export default function Toolbar({ title, children, breadcrumbItem }: ToolbarProps) {
+export default function Toolbar({
+                                  title,
+                                  children,
+                                  breadcrumbItem
+                                }: ToolbarProps) {
   const serverValues = useServerStatus();
   const agentValues = useAgentStatus();
   const userValues = useUserStatus();
+
   return (
-    <Box mt={10} mb={20}>
+    <Box mt={10} mb={10}>
       <Group justify="space-between">
-        {title === 'Dashboard' && (
-          <Title order={2} fw={800}>
-            {serverValues.isCurrentServerControlPlane
-              ? `[${serverValues.currentServer?.name}] `
-              : ''}
-            {agentValues.currentAgent?.name} dashboard
-          </Title>
-        )}
+        {(title !== 'Dashboard' && title !== 'Clusters') && breadcrumbItem && <Breadcrumb {...breadcrumbItem} />}
+        {title === 'Dashboard' &&
+            <Text>Welcome back, {userValues.user?.username}!</Text>
+        }
+        {title === 'Clusters' &&
+            <Title order={2} fw={800}>
+              {serverValues.currentServer?.name}
+            </Title>
+        }
+        <Group gap="xs" h="100%">{children}</Group>
       </Group>
-      <Group justify="space-between" align="center">
-        {title !== 'Dashboard' && breadcrumbItem && <Breadcrumb {...breadcrumbItem} />}
-        {title === 'Dashboard' && <Text mt={20}>Welcome back, {userValues.user?.username}!</Text>}
-        <Group gap="xs">{children}</Group>
-      </Group>
-      {/*<Divider />*/}
     </Box>
   );
 }

@@ -92,13 +92,13 @@ export class AgentStateManager {
     markdown += '# Agent State Manager Report**\n\n';
 
     markdown += '- Backend info\n';
-    markdown += `  - app_name: **${this.agentValues?.agentInfo?.app_name}**;\n`;
-    markdown += `  - helm_app_version: **${this.agentValues?.agentInfo?.helm_app_version}**;\n`;
-    markdown += `  - helm_version: **${this.agentValues?.agentInfo?.helm_version}**;\n`;
-    markdown += `  - helm_api: **${this.agentValues?.agentInfo?.helm_api}**;\n`;
-    markdown += `  - helm_ui: **${this.agentValues?.agentInfo?.helm_ui}**;\n`;
-    markdown += `  - api_release_version: **${this.agentValues?.agentInfo?.api_release_version}**;\n`;
-    markdown += `  - helm_watchdog: **${this.agentValues?.agentInfo?.helm_watchdog}**;\n`;
+    markdown += `  - app_name: **${this.appValues?.appInfo?.app_name}**;\n`;
+    markdown += `  - helm_app_version: **${this.appValues?.appInfo?.helm_app_version}**;\n`;
+    markdown += `  - helm_version: **${this.appValues?.appInfo?.helm_version}**;\n`;
+    markdown += `  - helm_api: **${this.appValues?.appInfo?.helm_api}**;\n`;
+    markdown += `  - helm_ui: **${this.appValues?.appInfo?.helm_ui}**;\n`;
+    markdown += `  - api_release_version: **${this.appValues?.appInfo?.api_release_version}**;\n`;
+    markdown += `  - helm_watchdog: **${this.appValues?.appInfo?.helm_watchdog}**;\n`;
 
     markdown += `- UI URL: **${this.maskDomain(this.uiURL)}**\n`;
     markdown += `- API URL: **${this.maskDomain(this.apiURL)}**\n`;
@@ -110,7 +110,7 @@ export class AgentStateManager {
     markdown += `    - in error: **${this.k8sHealth?.nodes?.in_error}**;\n`;
 
     markdown += '- API Origins\n';
-    markdown += `${this.apiOrigins.map((origin: any) => `  - ${origin};`).join('\n')}\n`;
+    markdown += `${this.apiOrigins?.map((origin: any) => `  - ${origin};`).join('\n')}\n`;
 
     markdown += `- Architecture: **${this.arch}**\n`;
     markdown += `- Watchdog: **${this.watchdog}**\n`;

@@ -38,8 +38,8 @@ export function RestoreDetails({ params }: RestoreProps) {
   /* watch */
   // useWatchResources('backups');
   const handleWatchResources = debounce((message) => {
-    if (message?.resources === 'restores' && message?.resource?.metadata?.name === params.restore) {
-      setManifest(message?.resource);
+    if (message?.payload?.resources === 'restores' && message?.payload?.resource?.metadata?.name === params.restore) {
+      setManifest(message?.payload?.resource);
     }
   }, 250);
 
@@ -90,7 +90,7 @@ export function RestoreDetails({ params }: RestoreProps) {
         </Toolbar>
       }
       details={<RestoreDetailsView data={manifest}/>}
-      manifest={<Manifest resourceType="Restore" resourceName={params.restore}/>}
+      manifest={<Manifest resourceType="Restore" resourceName={params.restore} reload={reload}/>}
       tabs={(height) => (
         <Tabs defaultValue="PodVolumes" h="100%">
           <Tabs.List>

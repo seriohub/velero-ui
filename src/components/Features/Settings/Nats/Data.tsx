@@ -14,7 +14,7 @@ import { MainStack } from '@/components/Commons/MainStack';
 import Toolbar from '@/components/Display/Toolbar';
 import ReloadData from '@/components/Inputs/ReloadData';
 
-const PAGE_SIZES = [5];
+const PAGE_SIZES = [5, 10, 15];
 
 export function Nats() {
   const { data, getNatsClients, fetching } = useNatsClients();
@@ -26,7 +26,7 @@ export function Nats() {
     direction: 'asc',
   });
 
-  const [pageSize, setPageSize] = useState(PAGE_SIZES[0]);
+  const [pageSize, setPageSize] = useState(PAGE_SIZES[1]);
   const [page, setPage] = useState(1);
 
   const [records, setRecords] = useState(items.slice(0, pageSize));
@@ -67,6 +67,7 @@ export function Nats() {
         minHeight={160}
         withTableBorder
         borderRadius="sm"
+        idAccessor="cid"
         // withColumnBorders
         striped
         highlightOnHover

@@ -1,15 +1,12 @@
 import { useApiGet } from '@/hooks/utils/useApiGet';
 
-export const useNatsClients = () => {
+export const useCoreConfiguration = () => {
   const { data, getData, fetching, error } = useApiGet();
 
-  const getNatsClients = async () => {
+  const getCoreConfiguration = async () => {
     try {
       // Execute the API call with the generic method
-      await getData({
-        url: '/v1/nats/clients',
-        target: 'core',
-      });
+      await getData({ url: '/v1/settings/environment', target: 'core' });
 
       // This code will be executed only in case of success
       // console.log('Request successful, execute final action...');
@@ -24,7 +21,7 @@ export const useNatsClients = () => {
 
   // Return the function for the call and the necessary data
   return {
-    getNatsClients,
+    getCoreConfiguration,
     data,
     fetching,
     error,

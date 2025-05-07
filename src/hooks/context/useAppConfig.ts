@@ -4,13 +4,23 @@ import { useAppStatus } from '@/contexts/AppContext';
 import { useGithubRepoVersion } from '@/api/App/useGithubRepoVersion';
 import { useAgentStatus } from '@/contexts/AgentContext';
 import { useServerStatus } from '@/contexts/ServerContext';
+import { useAppInfo } from '@/api/App/useAppInfo';
+import { isRecordStringAny } from "@/utils/isRecordStringIsType";
 
 export const useAppConfig = () => {
   const appValues = useAppStatus();
   const agentValues = useAgentStatus();
   const serverValues = useServerStatus();
 
-  const { data: repoVersion, getRepoVersion } = useGithubRepoVersion();
+  const {
+    data: appInfo,
+    getAppInfo
+  } = useAppInfo();
+
+  const {
+    data: repoVersion,
+    getRepoVersion
+  } = useGithubRepoVersion();
 
   useEffect(() => {
     if (serverValues.isServerAvailable && serverValues.isCurrentServerControlPlane) {
@@ -37,4 +47,16 @@ export const useAppConfig = () => {
   useEffect(() => {
     appValues.setRepoVersion(repoVersion);
   }, [repoVersion]);
+
+  useEffect(() => {
+    if (serverValues.isServerAvailable) {
+      getAppInfo();
+    }
+  }, [serverValues.isServerAvailable]);
+
+  useEffect(() => {
+    if (appInfo && isRecordStringAny(appInfo)) {
+      appValues.setAppInfo(appInfo);
+    }
+  }, [appInfo]);
 };

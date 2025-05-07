@@ -9,8 +9,10 @@ type HandleApiResponseParams = {
     data: any;
     status: number;
     xProcessTime: string | null;
+    xFetchedTime: string | null,
   };
   setData: (data: any) => void;
+  setFetchedTime: (data: any) => void;
   setError: (value: boolean) => void;
   addNotificationHistory: any;
   addApiResponseHistory: any;
@@ -24,6 +26,7 @@ type HandleApiResponseParams = {
 export const handleApiResponse = ({
   res,
   setData,
+  setFetchedTime,
   setError,
   addNotificationHistory,
   addApiResponseHistory,
@@ -36,7 +39,7 @@ export const handleApiResponse = ({
   const { data } = res;
   const statusCode = res.status;
 
-  if ('error' in data) {
+  if (data && typeof data === 'object' && 'error' in data) {
     setData(undefined);
     setError(true);
 
@@ -49,11 +52,12 @@ export const handleApiResponse = ({
       title: data.error.title,
       description: data.error.description,
     });
-  } else if ('data' in data) {
+  } else if (data && typeof data === 'object' && 'data' in data) {
     setData(data.data);
+    setFetchedTime(res.xFetchedTime)
   }
 
-  if ('notifications' in data) {
+  if (data && typeof data === 'object' && 'notifications' in data) {
     data.notifications.forEach((message: any) => {
       ApiResponseShowNotification({
         title: message.title,
@@ -68,7 +72,7 @@ export const handleApiResponse = ({
     });
   }
 
-  if ('messages' in data) {
+  if (data && typeof data === 'object' && 'messages' in data) {
     data.messages.forEach((message: any) => {
       ApiMessage({
         title: message.title,
@@ -85,6 +89,7 @@ export const handleApiResponse = ({
         data: data?.data,
         statusCode,
         xProcessTime: res.xProcessTime,
+        xFetchedTime: res.xFetchedTime,
       });
     } else {
       // console.log("data", data)
@@ -95,6 +100,7 @@ export const handleApiResponse = ({
         data,
         statusCode,
         xProcessTime: res.xProcessTime,
+        xFetchedTime: res.xFetchedTime,
       });
     }
   }

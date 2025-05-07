@@ -1,16 +1,17 @@
 'use client';
 
-import {DataTable} from 'mantine-datatable';
+import { DataTable } from 'mantine-datatable';
 import React from 'react';
+import { List, Text } from "@mantine/core";
 
-export const DiagnosticAgentInfoData = ({
-                                          uiURL,
-                                          apiURL,
-                                          apiArch,
-                                          origins,
-                                          k8sHealth,
-                                          stateManager,
-                                        }: any) => {
+export const DiagnosticInfoData = ({
+                                     uiURL,
+                                     apiURL,
+                                     apiArch,
+                                     origins,
+                                     k8sHealth,
+                                     stateManager,
+                                   }: any) => {
   const elements = [
     {
       label: 'Get UI URL',
@@ -52,10 +53,7 @@ export const DiagnosticAgentInfoData = ({
           : '',
       ].filter((msg) => msg !== ''),
     },
-    {
-      label: 'Check Watchdog',
-      status: stateManager.getVariable('getWatchdogInfo') ? 'ok' : 'error',
-    },
+
     {
       label: 'Get cluster data',
       status: stateManager.getVariable('getClusterHealth') ? 'ok' : 'error',
@@ -75,45 +73,66 @@ export const DiagnosticAgentInfoData = ({
       ].filter((msg) => msg !== ''),
     },
   ];
+  if (stateManager.getVariable('getWatchdogInfo')) {
+    elements.push({
+      label: 'Check Watchdog',
+      status: stateManager.getVariable('getWatchdogInfo') ? 'ok' : 'error',
+      value: '',
+    })
+  }
 
   return (
-    <>
-      <DataTable
-        idAccessor='label'
-        withTableBorder
-        striped
-        columns={[
-          {
-            accessor: 'label',
-            title: 'Component',
-            width: 250,
-          },
-          {
-            accessor: 'value',
-            title: 'Value',
-            width: 500,
-          },
-          {
-            accessor: 'status',
-            render: ({status}: any) => <>{status?.toString()}</>,
-            title: 'Status',
-            width: 500,
-          },
-          {
-            accessor: 'warning',
-            title: 'Warning',
-            render: ({warning}: any) => <>{warning?.join(', ')}</>,
-            width: 500,
-          },
-          {
-            accessor: 'error',
-            title: 'Error',
-            render: ({error}: any) => <>{error?.join(', ')}</>,
-            width: 500,
-          },
-        ]}
-        records={elements}
-      />
-    </>
+    <DataTable
+      idAccessor='label'
+      withTableBorder
+      striped
+      columns={[
+        {
+          accessor: 'label',
+          title: 'Component',
+          width: 250,
+        },
+        {
+          accessor: 'value',
+          title: 'Value',
+          render: ({ value }: any) => <>
+            {Array.isArray(value) && value.length > 0 && (
+              <List>
+                {value.map((item: any) => (
+                  <List.Item key={item}>
+                    <Text size="sm">{item}</Text>
+                  </List.Item>
+                ))}
+              </List>
+            )}
+            {!Array.isArray(value) && (
+              <Text size="sm">
+                {value}
+              </Text>
+            )}
+          </>,
+          width: 500,
+        },
+        {
+          accessor: 'status',
+          render: ({ status }: any) => <>{status?.toString()}</>,
+          title: 'Status',
+          width: 500,
+        },
+        {
+          accessor: 'warning',
+          title: 'Warning',
+          render: ({ warning }: any) => <>{warning?.join(', ')}</>,
+          width: 500,
+        },
+        {
+          accessor: 'error',
+          title: 'Error',
+          render: ({ error }: any) => <>{error?.join(', ')}</>,
+          width: 500,
+        },
+      ]}
+      records={elements}
+    />
   );
 };

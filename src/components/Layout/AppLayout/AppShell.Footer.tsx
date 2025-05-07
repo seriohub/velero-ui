@@ -15,21 +15,21 @@ export function AppShellFooter() {
 
   return (
     <>
-      <Group justify="space-between" gap={5}>
-        <Group gap={20}>
+      <Group justify="space-between" gap={5} grow>
+        <Group gap={30}>
           {serverValues.isCurrentServerControlPlane && <DiagnosticCoreInfo/>}
           {(appValues.isAuthenticated || serverValues.isCurrentServerControlPlane === false) && (
             <DiagnosticAgentInfo/>
           )}
         </Group>
 
-        <Group visibleFrom="lg" gap={5}>
+        <Group visibleFrom="lg" gap={5} justify="center">
           <ProcessTime/>
         </Group>
 
-        <Group gap={10}>
+        <Group gap={10} justify="right">
           <Text size="sm">App</Text>
-          <Code fw={700}>v{agentValues.agentInfo?.helm_app_version}</Code>
+          <Code fw={700}>v{appValues.appInfo?.helm_app_version}</Code>
         </Group>
       </Group>
     </>

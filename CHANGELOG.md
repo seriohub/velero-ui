@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 
 ***
 
+## [v0.2.5] - 2025-05-07
+
+🧱 Maintenance
+- Renamed repository from velero-ui to vui-ui to improve project organization
+
+🔧 Improvements
+- Improved integration with vui-core
+
 ## [v0.2.4] - 2025-04-03
 
 🆕 New Features
@@ -193,6 +201,12 @@ Improvements
 ***
 
 ## Tags
+
+[v0.2.5] : [https://github.com/seriohub/vui-ui/releases/tag/v0.2.5](https://github.com/seriohub/vui-ui/releases/tag/v0.2.5)
+
+[v0.2.4] : [https://github.com/seriohub/velero-ui/releases/tag/v0.2.4](https://github.com/seriohub/velero-ui/releases/tag/v0.2.4)
+
+[v0.2.3] : [https://github.com/seriohub/velero-ui/releases/tag/v0.2.3](https://github.com/seriohub/velero-ui/releases/tag/v0.2.3)
 
 [v0.2.2] : [https://github.com/seriohub/velero-ui/releases/tag/v0.2.2](https://github.com/seriohub/velero-ui/releases/tag/v0.2.2)
 

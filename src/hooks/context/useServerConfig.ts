@@ -2,10 +2,17 @@ import { useEffect } from 'react';
 
 import { useApiGet } from '@/hooks/utils/useApiGet';
 import { useServerStatus } from '@/contexts/ServerContext';
+// import { isRecordStringAny } from "@/utils/isRecordStringIsType";
+// import { useCoreInfo } from "@/api/Core/useCoreInfo";
 
 export const useServerConfig = () => {
   const serverValues = useServerStatus();
   const { data, getData } = useApiGet();
+
+  /*const {
+    data: serverInfo,
+    getCoreInfo
+  } = useCoreInfo();*/
 
   useEffect(() => {
     const clusterIndex =
@@ -23,15 +30,25 @@ export const useServerConfig = () => {
         target: 'static',
       });
     }
-  }, [serverValues.isServerAvailable]);
+    /*if (serverValues.isCurrentServerControlPlane) {
+      getCoreInfo();
+    }*/
+  }, [serverValues.isServerAvailable, serverValues.isCurrentServerControlPlane]);
 
   useEffect(() => {
     if (data?.type !== undefined) {
-      if (data?.type === 'core') {
+      if (data?.type === 'core' || data?.type === 'vui-common') {
         serverValues.setCurrentServerAsControlPlane(true);
       } else {
         serverValues.setCurrentServerAsControlPlane(false);
       }
     }
   }, [data]);
+
+  // server info
+  /*useEffect(() => {
+    if (serverInfo && isRecordStringAny(serverInfo)) {
+      serverValues.setServerInfo(serverInfo);
+    }
+  }, [serverInfo]);*/
 };

@@ -35,10 +35,10 @@ export function BslDetails({ params }: BackupProps) {
   useWatchResources('backupstoragelocations');
   const handleWatchResources = debounce((message) => {
     if (
-      message?.resources === 'backupstoragelocations' &&
-      message?.resource?.metadata?.name === params.bsl
+      message?.payload?.resources === 'backupstoragelocations' &&
+      message?.payload?.resource?.metadata?.name === params.bsl
     ) {
-      setManifest(message?.resource);
+      setManifest(message?.payload?.resource);
     }
   }, 250);
 

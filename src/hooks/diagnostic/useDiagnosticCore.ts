@@ -27,20 +27,20 @@ export const useDiagnosticCore = () => {
     if (serverValues.isServerAvailable) {
       getDataK8sHealth({
         url: '/health/k8s',
-        target: 'core',
+        target: 'static',
       });
       getApiOrigins({
         url: '/info/origins',
-        target: 'core',
+        target: 'static',
       });
       getApiArch({
         url: '/info/arch',
-        target: 'core',
+        target: 'static',
       });
       getCompatibility({
         url: '/info/compatibility-table',
         params: `version=${NEXT_PUBLIC_FRONT_END_BUILD_VERSION}`,
-        target: 'core',
+        target: 'static',
       });
     }
 
@@ -63,7 +63,7 @@ export const useDiagnosticCore = () => {
 
   stateManager.setVariable('getUiURL', uiURL !== '');
   stateManager.setVariable('getApiURL', apiURL !== '');
-  stateManager.setVariable('checkApiReacheable', serverValues.isServerAvailable === true);
+  stateManager.setVariable('checkApiReachable', serverValues.isServerAvailable === true);
   stateManager.setVariable(
     'getArchitecture',
     serverValues.isServerAvailable === true && apiArch?.platform === undefined

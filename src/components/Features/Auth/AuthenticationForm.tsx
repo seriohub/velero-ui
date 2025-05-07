@@ -60,8 +60,13 @@ export function AuthenticationForm() {
     if (res.status === 200) {
       const json = await res.json();
       localStorage.setItem('token', json.access_token);
-      appValues.setAuthenticated(true);
-      router.push('/dashboard');
+      await new Promise((resolve) => setTimeout(resolve, 100));
+      //appValues.setAuthenticated(true);
+      if (serverValues.isCurrentServerControlPlane) {
+        router.push('/home');
+      } else {
+        router.push('/dashboard');
+      }
     } else {
       form.setErrors({
         username: true,
@@ -97,9 +102,9 @@ export function AuthenticationForm() {
         Backup Simplified
       </Text>
 
-      <Space h="xl" />
+      <Space h="xl"/>
 
-      {LoginClustersSwitch && <SwitchCluster />}
+      {LoginClustersSwitch && <SwitchCluster/>}
 
       <form onSubmit={handleSubmit}>
         <Stack>
@@ -108,17 +113,17 @@ export function AuthenticationForm() {
               //variant="filled"
               leftSection={
                 <ActionIcon variant="outline" p={4} tabIndex={-1}>
-                  <IconUser />
+                  <IconUser/>
                 </ActionIcon>
               }
               rightSection={
-                agentValues.agentInfo?.auth_type === 'LDAP' && (
+                (appValues.appInfo?.auth_type === 'LDAP' && (
                   <Group justify="flex-end">
                     <Badge p={2} color="var(--mantine-primary-color-filled)" radius="xs">
                       LDAP
                     </Badge>
                   </Group>
-                )
+                ))
               }
               size="md"
               //style={{ marginTop: '8%' }}
@@ -134,7 +139,7 @@ export function AuthenticationForm() {
             //variant="filled"
             leftSection={
               <ActionIcon variant="outline" p={4} tabIndex={-1}>
-                <IconLock />
+                <IconLock/>
               </ActionIcon>
             }
             size="md"

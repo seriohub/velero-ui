@@ -7,6 +7,7 @@ interface ServerStatus {
   servers: Array<ServerApiConfig>;
   currentServer: ServerApiConfig | undefined;
   isServerAvailable: Boolean | undefined;
+  serverInfo: any;
   isCurrentServerControlPlane: Boolean | undefined;
 }
 
@@ -15,6 +16,7 @@ interface ServerStatusContextProps extends ServerStatus {
   setCurrentBackend: React.Dispatch<React.SetStateAction<ServerApiConfig | undefined>>;
   setIsServerAvailable: React.Dispatch<React.SetStateAction<any | undefined>>;
   setCurrentServerAsControlPlane: React.Dispatch<React.SetStateAction<Boolean | undefined>>;
+  setServerInfo: React.Dispatch<React.SetStateAction<Record<string, any>>>;
 }
 
 const ServerStatusContext = createContext<ServerStatusContextProps | undefined>(undefined);
@@ -29,6 +31,7 @@ export const ServerProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   >(undefined);
 
   const [isServerAvailable, setIsServerAvailable] = useState<Boolean | undefined>(undefined);
+  const [serverInfo, setServerInfo] = useState<any>([]);
 
   return (
     <ServerStatusContext.Provider
@@ -37,11 +40,13 @@ export const ServerProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         currentServer,
         isServerAvailable,
         isCurrentServerControlPlane,
+        serverInfo,
         //init,
         setServers,
         setCurrentBackend,
         setIsServerAvailable,
         setCurrentServerAsControlPlane,
+        setServerInfo,
         //setInit,
       }}
     >

@@ -13,6 +13,7 @@ interface AppStatus {
   xProcessTimer: Array<number>;
   repoVersion: any;
   refreshGithubRepoVersion: any | undefined;
+  appInfo: any;
 }
 
 interface AppStatusContextProps extends AppStatus {
@@ -25,6 +26,7 @@ interface AppStatusContextProps extends AppStatus {
   addXProcessTimer: React.Dispatch<React.SetStateAction<Array<number>>>;
   setRepoVersion: React.Dispatch<React.SetStateAction<any>>;
   setRefreshRepoVersion: React.Dispatch<React.SetStateAction<any>>;
+  setAppInfo: React.Dispatch<React.SetStateAction<Record<string, any>>>;
 }
 
 const AppStatusContext = createContext<AppStatusContextProps | undefined>(undefined);
@@ -52,6 +54,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const [repoVersion, setRepoVersion] = useState<any | undefined>(undefined);
 
+  const [appInfo, setAppInfo] = useState<any>([]);
+
   return (
     <AppStatusContext.Provider
       value={{
@@ -64,6 +68,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         xProcessTimer,
         repoVersion,
         refreshGithubRepoVersion,
+        appInfo,
         setSocketStatus,
         setAppInitialized,
         setAuthenticated,
@@ -73,6 +78,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         addXProcessTimer,
         setRepoVersion,
         setRefreshRepoVersion,
+        setAppInfo,
       }}
     >
       {children}

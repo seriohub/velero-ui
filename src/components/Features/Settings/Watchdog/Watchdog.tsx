@@ -67,7 +67,7 @@ export function Watchdog() {
       setTimeout(() => {
         const height = stackRef.current!.offsetHeight;
         setScrollHeight(height);
-      }, 50); // ritardo per sicurezza
+      }, 50);
     }
   }, [activeTab]);
 

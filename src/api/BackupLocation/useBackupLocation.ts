@@ -1,7 +1,7 @@
 import { useApiGet } from '@/hooks/utils/useApiGet';
 
 export const useBackupLocation = () => {
-  const { data, getData, fetching, error } = useApiGet();
+  const { data, getData, fetching, error, fetchedTime  } = useApiGet();
 
   const getBackupLocation = async (forced: boolean = false) => {
     try {
@@ -25,6 +25,7 @@ export const useBackupLocation = () => {
   // Return the function for the call and the necessary data
   return {
     getBackupLocation,
+    fetchedTime,
     data,
     fetching,
     error,

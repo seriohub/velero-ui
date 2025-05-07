@@ -17,7 +17,7 @@ export default function TableVersion({ app, githubRelease }: TableVersionProps) 
   const elements = [
     {
       position: 0,
-      name: 'helm',
+      name: 'Helm',
       href: 'https://github.com/seriohub/velero-helm',
       appVersion: app?.helm_version,
       githubRelease: githubRelease?.helm,
@@ -25,7 +25,15 @@ export default function TableVersion({ app, githubRelease }: TableVersionProps) 
     },
     {
       position: 1,
-      name: 'api',
+      name: 'Core',
+      href: 'https://github.com/seriohub/vui-core',
+      appVersion: app?.helm_core !== '-' ? app?.helm_core : app?.core_release_version,
+      githubRelease: 'n.a.', //githubRelease?.core,
+      updateAvailable: compareVersions(app?.helm_core, githubRelease?.core) === 'githubRelease',
+    },
+    {
+      position: 1,
+      name: 'API',
       href: 'https://github.com/seriohub/velero-api',
       appVersion: app?.helm_api !== '-' ? app?.helm_api : app?.api_release_version,
       githubRelease: githubRelease?.api,
@@ -33,7 +41,7 @@ export default function TableVersion({ app, githubRelease }: TableVersionProps) 
     },
     {
       position: 2,
-      name: 'ui',
+      name: 'UI',
       href: 'https://github.com/seriohub/velero-ui',
       appVersion: app?.helm_ui !== '-' ? app?.helm_ui : NEXT_PUBLIC_FRONT_END_BUILD_VERSION,
       githubRelease: githubRelease?.ui,
@@ -41,7 +49,7 @@ export default function TableVersion({ app, githubRelease }: TableVersionProps) 
     },
     {
       position: 3,
-      name: 'watchdog',
+      name: 'Watchdog',
       href: 'https://github.com/seriohub/velero-watchdog',
       appVersion: app?.helm_watchdog !== '-' ? app?.helm_watchdog : app.watchdog_release_version,
       githubRelease: githubRelease?.watchdog,

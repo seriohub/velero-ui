@@ -47,10 +47,9 @@ export function Manifest({
   /* watch */
   const handleWatchResources = debounce((message) => {
     if (
-      message?.resource?.kind === resourceType &&
-      message?.resource?.metadata?.name === resourceName
+      message?.payload?.resource?.kind === resourceType &&
+      message?.payload?.resource?.metadata?.name === resourceName
     ) {
-      // setManifest(message?.resource);
       getManifest(resourceType, resourceName, neat);
     }
   }, 250);

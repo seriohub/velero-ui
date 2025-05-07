@@ -1,12 +1,12 @@
-import { ActionIcon, Box, Button, Group, List, Modal, Text, ThemeIcon, rem } from '@mantine/core';
+import { ActionIcon, Box, Button, Group, List, Modal, Text, ThemeIcon, rem, Tooltip } from '@mantine/core';
 
 import {
   IconCheck,
   IconCircleCheck,
-  IconExternalLink,
+  IconExternalLink, IconInfoSmall, IconInfoSquare,
   IconPlugConnected,
   IconPlugConnectedX,
-  IconRefresh,
+  IconRefresh, IconServer,
 } from '@tabler/icons-react';
 
 import { useDisclosure } from '@mantine/hooks';
@@ -16,68 +16,88 @@ import { useDiagnosticCore } from '@/hooks/diagnostic/useDiagnosticCore';
 
 import { DiagnosticLink } from './DiagnosticLink';
 import { DiagnosticItem } from './DIagnosticItem';
+import { DiagnosticInfoData } from "@/components/Features/Diagnostic/DiagnosticInfoData";
 
 export const DiagnosticCoreInfo = () => {
-  const { uiURL, apiURL, apiArch, origins, k8sHealth, stateManager, reload, setReload } =
+  const {
+    uiURL,
+    apiURL,
+    apiArch,
+    origins,
+    k8sHealth,
+    stateManager,
+    reload,
+    setReload
+  } =
     useDiagnosticCore();
 
-  const [opened, { open, close }] = useDisclosure(false);
+  const [opened, {
+    open,
+    close
+  }] = useDisclosure(false);
   const serverValues = useServerStatus();
   return (
     <>
       <Group gap={2}>
-        {!serverValues.isServerAvailable && <IconPlugConnectedX size={20} color="red" />}
-        {serverValues.isServerAvailable && <IconPlugConnected size={20} color="green" />}
-        <Text size="sm" mr={5}>
-          Core:
-        </Text>
-        <Text size="sm" mr={5} c="blue">
-          {serverValues?.currentServer?.name}
-        </Text>
-        <Button onClick={open} variant="default" size="compact-xs">
-          {stateManager.allTrue && !stateManager.hasWarnings && (
-            <>
-              <Group gap={0}>
-                <IconCheck color="green" />{' '}
-                <Text size="sm" c="green">
-                  All Check Passed
-                </Text>
-              </Group>
-            </>
-          )}
-          {stateManager.allTrue && stateManager.hasWarnings && (
-            <>
-              <Group gap={0}>
-                <IconCheck color="orange" />{' '}
-                <Text c="orange" size="sm">
-                  Check warning
-                </Text>
-              </Group>
-            </>
-          )}
-          {!stateManager.allTrue && (
-            <>
-              <Group gap={0}>
-                <IconCheck color="red" size={20} />
-                <Text c="red" size="sm">
-                  Error
-                </Text>
-              </Group>
-            </>
-          )}
-        </Button>{' '}
-        <ActionIcon
-          variant="outline"
-          size="compact-xs"
-          aria-label="Settings"
-          onClick={() => {
-            setReload(reload + 1);
-          }}
-        >
-          <IconRefresh size={16} stroke={1.5} />
-        </ActionIcon>
+        <Tooltip label="Vui Core">
+          <Group gap={0}>
+            {!serverValues.isServerAvailable && <IconServer size={20} color="red"/>}
+            {serverValues.isServerAvailable && <IconServer size={20} color="green"/>}
+            <Text size="sm" fw={600}>
+              {serverValues?.currentServer?.name}
+            </Text>
+          </Group>
+        </Tooltip>
+
+        {stateManager.allTrue && !stateManager.hasWarnings && (
+          <Tooltip label="Core Check Passed!">
+            <IconCheck color="green"/>
+          </Tooltip>
+        )}
+
+        {stateManager.allTrue && stateManager.hasWarnings && (
+          <Group gap={0}>
+            <IconCheck color="orange"/>
+            <Text c="orange" size="sm">
+              Check warning
+            </Text>
+          </Group>
+        )}
+
+        {!stateManager.allTrue && (
+          <Group gap={0}>
+            <IconCheck color="red" size={20}/>
+            <Text c="red" size="sm">
+              Error
+            </Text>
+          </Group>
+        )}
+
+        <Tooltip label="Refresh core connection data">
+          <ActionIcon
+            size={20}
+            variant="transparent"
+            aria-label="Settings"
+            onClick={() => {
+              setReload(reload + 1);
+            }}
+          >
+            <IconRefresh size={20} stroke={1.5}/>
+          </ActionIcon>
+        </Tooltip>
+
+        <Tooltip label="Core info">
+          <ActionIcon
+            size={20}
+            variant="transparent"
+            onClick={open}
+          >
+            <IconInfoSquare size={20} stroke={1.5}/>
+          </ActionIcon>
+        </Tooltip>
       </Group>
-      <Modal
+
+      {/*<Modal
         opened={opened}
         onClose={close}
         title="Core diagnostic"
@@ -88,7 +108,7 @@ export const DiagnosticCoreInfo = () => {
           blur: 3,
         }}
       >
-        {/* Modal content */}
+
 
         <Box>
           <List
@@ -107,14 +127,14 @@ export const DiagnosticCoreInfo = () => {
               </ThemeIcon>
             }
           >
-            {/* UI URL*/}
+
             <DiagnosticItem
               label="Get UI URL"
               value={uiURL !== undefined ? uiURL : ''}
               ok={stateManager.getVariable('getUiURL')}
             />
 
-            {/* API URL */}
+
             <DiagnosticItem
               label="Get API URL"
               value={apiURL !== undefined ? `${apiURL}/` : ''}
@@ -128,34 +148,34 @@ export const DiagnosticCoreInfo = () => {
                   aria-label="Open in a new tab"
                   target="_blank"
                 >
-                  <IconExternalLink size={20} />
+                  <IconExternalLink size={20}/>
                 </ActionIcon>
               }
             />
 
-            {/* API reachable */}
+
             <DiagnosticItem
               label="Check API reachable"
               value=""
               ok={stateManager.getVariable('checkApiReacheable')}
-              actionIcon={<DiagnosticLink ApiURL={apiURL} />}
+              actionIcon={<DiagnosticLink ApiURL={apiURL}/>}
             />
 
-            {/* API arch */}
+
             <DiagnosticItem
               label="Get API architecture"
               value={`${apiArch?.arch} ${apiArch?.platform || ''}`}
               ok={stateManager.getVariable('getArchitecture')}
             />
 
-            {/* Origins */}
+
             <DiagnosticItem
               label="Get Origins"
               value={origins ? origins?.join(', ') : ''}
               ok={stateManager.getVariable('getOrigins')}
             />
 
-            {/* Validate Origins */}
+
             <DiagnosticItem
               label="Validate Origins"
               value=""
@@ -176,7 +196,7 @@ export const DiagnosticCoreInfo = () => {
               }
             />
 
-            {/* Cluster Online */}
+
             <DiagnosticItem
               label="Get cluster data"
               value=""
@@ -187,6 +207,28 @@ export const DiagnosticCoreInfo = () => {
             />
           </List>
         </Box>
+      </Modal>*/}
+      <Modal
+        opened={opened}
+        onClose={close}
+        title="Core diagnostic"
+        centered
+        size="auto"
+        overlayProps={{
+          backgroundOpacity: 0.55,
+          blur: 3,
+        }}
+      >
+        {/* Modal content */}
+
+        <DiagnosticInfoData
+          uiURL={uiURL}
+          apiURL={apiURL}
+          apiArch={apiArch}
+          origins={origins}
+          k8sHealth={k8sHealth}
+          stateManager={stateManager}
+        />
       </Modal>
     </>
   );

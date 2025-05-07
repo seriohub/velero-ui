@@ -6,7 +6,7 @@ export const useAppVersion = () => {
   const getAppVersion = async () => {
     try {
       // Execute the API call with the generic method
-      await getData({ url: '/v1/velero/version' });
+      await getData({ url: '/v1/velero/version', target: 'agent' });
 
       // This code will be executed only in case of success
       // console.log('Request successful, execute final action...');

@@ -32,6 +32,7 @@ export function BackupsDatatable({ scheduleName }: BackupDataProps) {
   const {
     data,
     getBackups,
+    fetchedTime,
     fetching
   } = useBackups();
   const [items, setItems] = useState<Record<string, any>>([]);
@@ -61,7 +62,7 @@ export function BackupsDatatable({ scheduleName }: BackupDataProps) {
   // useWatchResources('backups');
   /* watch */
   const handleWatchResources = debounce((message) => {
-    if (message?.resources === 'backups' || message?.resources === 'deletebackuprequests') {
+    if (message?.payload?.resources === 'backups' || message?.payload?.resources === 'deletebackuprequests') {
       setReload((prev) => prev + 1);
     }
   }, 250);
@@ -90,7 +91,7 @@ export function BackupsDatatable({ scheduleName }: BackupDataProps) {
       getBackups({
         scheduleName,
         onlyLast4Schedule,
-        forced: false,
+        forced: true,
       });
     }
   }, [onlyLast4Schedule, agentValues.isAgentAvailable]);
@@ -153,7 +154,7 @@ export function BackupsDatatable({ scheduleName }: BackupDataProps) {
         <CreateBackupAction/>
         <ReloadData setReload={setReload} reload={reload}/>
       </Toolbar>
-      <DataFetchedInfo metadata={data?.metadata}/>
+      <DataFetchedInfo fetchedTime={fetchedTime}/>
 
       <BackupDatatableView
         records={records}

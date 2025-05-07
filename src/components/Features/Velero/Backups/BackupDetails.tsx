@@ -43,8 +43,8 @@ export function BackupDetails({ params }: BackupProps) {
   /* watch */
   // useWatchResources('backups');
   const handleWatchResources = debounce((message) => {
-    if (message?.resources === 'backups' && message?.resource?.metadata?.name === params.backup) {
-      setManifest(message?.resource);
+    if (message?.payload?.resources === 'backups' && message?.payload?.resource?.metadata?.name === params.backup) {
+      setManifest(message?.payload?.resource);
     }
   }, 250);
 
@@ -99,7 +99,7 @@ export function BackupDetails({ params }: BackupProps) {
         </Toolbar>
       }
       details={<BackupDetailsView data={manifest}/>}
-      manifest={<Manifest resourceType="Backup" resourceName={params.backup}/>}
+      manifest={<Manifest resourceType="Backup" resourceName={params.backup} reload={reload}/>}
       tabs={(height) => (
         <Tabs defaultValue="PodVolumes" h="100%">
           <Tabs.List>

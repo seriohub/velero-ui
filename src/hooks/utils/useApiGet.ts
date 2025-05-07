@@ -30,6 +30,7 @@ export const useApiGet = () => {
 
   const [fetching, setFetching] = useState(false);
   const [data, setData] = useState<Record<string, any> | undefined>(undefined);
+  const [fetchedTime, setFetchedTime] = useState<string | undefined>(undefined);
   const [error, setError] = useState(false);
 
   const getData = async ({
@@ -42,15 +43,25 @@ export const useApiGet = () => {
       setError(false);
     }
 
-    const coreUrl = serverValues.isCurrentServerControlPlane
-      ? target === 'core'
-        ? '/core'
-        : target === 'static'
-          ? ''
-          : `/agent/${agentValues?.currentAgent?.name}`
-      : '';
+
+    let coreUrl = '';
+    if (serverValues.isCurrentServerControlPlane) {
+      if (target === 'core') {
+        coreUrl = '/core';
+      } else if (target === 'static') {
+        coreUrl = '';
+      } else {
+        const agentName = agentValues?.currentAgent?.name;
+        coreUrl = `/agent/${agentName}`;
+      }
+    }
 
     const backendUrl = `${serverValues?.currentServer?.url}${coreUrl}`;
+
+    if (!window) {
+      console.log(`Window unavailable: skip request ${backendUrl}${url}?${params}`);
+      return;
+    }
 
     if (!serverValues.isServerAvailable) {
       console.log(`Server unavailable: skip request ${backendUrl}${url}?${params}`);
@@ -99,6 +110,7 @@ export const useApiGet = () => {
         handleApiResponse({
           res,
           setData,
+          setFetchedTime,
           setError,
           addNotificationHistory,
           addApiResponseHistory,
@@ -134,6 +146,7 @@ export const useApiGet = () => {
 
   return {
     fetching,
+    fetchedTime,
     data,
     getData,
     setData,

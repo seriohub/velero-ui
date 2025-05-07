@@ -39,7 +39,7 @@ export default function DownloadRequests({ reload, setReload, active, setFetchin
   /* watch */
   //useWatchResources(type ? 'podvolumebackups' : 'podvolumerestores');
   const handleWatchResources = debounce((message) => {
-    if (message?.resources === 'downloadrequests') {
+    if (message?.payload?.resources === 'downloadrequests') {
       setReload((prev: number) => prev + 1);
     }
   }, 250);

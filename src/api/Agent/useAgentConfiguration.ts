@@ -6,7 +6,7 @@ export const useAgentConfiguration = () => {
   const getAgentConfiguration = async () => {
     try {
       // Execute the API call with the generic method
-      await getData({ url: '/v1/settings/environment' });
+      await getData({ url: '/v1/settings/environment', target: 'agent' });
 
       // This code will be executed only in case of success
       // console.log('Request successful, execute final action...');

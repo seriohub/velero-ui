@@ -44,7 +44,7 @@ export default function TaskInProgressAccordion() {
   const [deleteBackupRequestsNotify, setDeleteBackupRequestsNotify] = useState(false);
 
   const handleWatchResources = debounce((message) => {
-    if (message?.resources === 'backups' || message?.resources === 'restores') {
+    if (message?.payload?.resources === 'backups' || message?.payload?.resources === 'restores') {
       setBackupRestoreNotify(true);
       const timer = setTimeout(() => {
         setBackupRestoreNotify(false);
@@ -53,7 +53,7 @@ export default function TaskInProgressAccordion() {
         clearTimeout(timer);
       };
     }
-    if (message?.resources === 'serverstatusrequests') {
+    if (message?.payload?.resources === 'serverstatusrequests') {
       setServerStatusRequestNotify(true);
       const timer = setTimeout(() => {
         setServerStatusRequestNotify(false);
@@ -62,7 +62,7 @@ export default function TaskInProgressAccordion() {
         clearTimeout(timer);
       };
     }
-    if (message?.resources === 'downloadrequests') {
+    if (message?.payload?.resources === 'downloadrequests') {
       setDownloadRequests(true);
       const timer = setTimeout(() => {
         setDownloadRequests(false);
@@ -71,7 +71,7 @@ export default function TaskInProgressAccordion() {
         clearTimeout(timer);
       };
     }
-    if (message?.resources === 'deletebackuprequests') {
+    if (message?.payload?.resources === 'deletebackuprequests') {
       setDeleteBackupRequestsNotify(true);
       const timer = setTimeout(() => {
         setDeleteBackupRequestsNotify(false);

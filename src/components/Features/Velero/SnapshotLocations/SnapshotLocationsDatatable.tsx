@@ -34,7 +34,7 @@ const PAGE_SIZES = [10, 15, 20];
 
 export function SnapshotLocationsDatatable() {
   const router = useRouter();
-  const { data, getSnapshotLocation, fetching } = useSnapshotLocation();
+  const { data, getSnapshotLocation, fetching, fetchedTime } = useSnapshotLocation();
   const [items, setItems] = useState<Array<any>>([]);
   const [reload, setReload] = useState(1);
   const agentValues = useAgentStatus();
@@ -52,7 +52,7 @@ export function SnapshotLocationsDatatable() {
   /* watch */
   useWatchResources('volumesnapshotlocations');
   const handleWatchResources = debounce((message) => {
-    if (message?.resources === 'volumesnapshotlocations') {
+    if (message?.payload?.resources === 'volumesnapshotlocations') {
       setReload((prev) => prev + 1);
     }
   }, 250);
@@ -116,7 +116,7 @@ export function SnapshotLocationsDatatable() {
         <CreateVslToolbar setReload={setReload} reload={reload} />
         <ReloadData setReload={setReload} reload={reload} />
       </Toolbar>
-      <DataFetchedInfo metadata={data?.metadata} />
+      <DataFetchedInfo fetchedTime={fetchedTime}/>
       <DataTable
         minHeight={160}
         withTableBorder

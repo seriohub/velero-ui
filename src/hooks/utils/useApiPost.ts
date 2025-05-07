@@ -9,27 +9,45 @@ import { useAuthErrorHandler } from '../user/useAuthErrorHandler';
 import { handleApiResponse } from './handleApiResponse';
 import { ApiResponseShowErrorNotification } from '@/components/Display/ApiNotification';
 import { parseApiResponse } from '@/hooks/utils/parseApiResponse';
+import { useServerStatus } from "@/contexts/ServerContext";
+import { useAgentStatus } from "@/contexts/AgentContext";
 
 interface UseApiPostProps {
   target?: 'core' | 'agent' | 'static';
 }
 
-export const useApiPost = ({ target = 'agent' }: UseApiPostProps = {}) => {
+export const useApiPost = () => {
   const { logout } = useAuthErrorHandler();
 
   const { addNotificationHistory } = useUserNotificationHistory();
   const { addApiRequestHistory, addApiResponseHistory } = useApiLogger();
+  const [fetchedTime, setFetchedTime] = useState<string | undefined>(undefined);
 
-  const backendUrl = useBackend({ target });
+  const serverValues = useServerStatus();
+  const agentValues = useAgentStatus();
 
   const [fetching, setFetching] = useState(false);
   const [data, setData] = useState<Record<string, any> | undefined>(undefined);
   const [error, setError] = useState(false);
 
-  const postData = async (url: string, values: any) => {
+  const postData = async (url: string, values: any,  target = 'agent') => {
     if (error) {
       setError(false);
     }
+
+    let coreUrl = '';
+    if (serverValues.isCurrentServerControlPlane) {
+      if (target === 'core') {
+        coreUrl = '/core';
+      } else if (target === 'static') {
+        coreUrl = '';
+      } else {
+        const agentName = agentValues?.currentAgent?.name;
+        coreUrl = `/agent/${agentName}`;
+      }
+    }
+
+    const backendUrl = `${serverValues?.currentServer?.url}${coreUrl}`;
 
     // Recupera il token JWT dal localStorage
     const jwtToken = localStorage.getItem('token');
@@ -65,6 +83,7 @@ export const useApiPost = ({ target = 'agent' }: UseApiPostProps = {}) => {
           setData,
           setError,
           addNotificationHistory,
+          setFetchedTime,
           addApiResponseHistory,
           addInHistory: true,
           backendUrl,

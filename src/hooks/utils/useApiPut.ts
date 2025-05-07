@@ -18,6 +18,7 @@ export const useApiPut = ({ target = 'agent' }: UseApiPutProps = {}) => {
 
   const { addNotificationHistory } = useUserNotificationHistory();
   const { addApiRequestHistory, addApiResponseHistory } = useApiLogger();
+  const [fetchedTime, setFetchedTime] = useState<string | undefined>(undefined);
 
   const backendUrl = useBackend({ target });
 
@@ -63,6 +64,7 @@ export const useApiPut = ({ target = 'agent' }: UseApiPutProps = {}) => {
         handleApiResponse({
           res,
           setData: () => {},
+          setFetchedTime,
           setError,
           addNotificationHistory,
           addApiResponseHistory,
@@ -76,6 +78,7 @@ export const useApiPut = ({ target = 'agent' }: UseApiPutProps = {}) => {
       .catch((err) => {
         setFetching(false);
         setError(true);
+        console.log(err)
         console.error('Fetch error:', err.message);
 
         if (err.message.includes('Unauthorized')) {

@@ -23,6 +23,7 @@ export const useApiDelete = ({ target = 'agent' }: UseApiGetProps = {}) => {
 
   const { addNotificationHistory } = useUserNotificationHistory();
   const { addApiRequestHistory, addApiResponseHistory } = useApiLogger();
+  const [fetchedTime, setFetchedTime] = useState<string | undefined>(undefined);
 
   const backendUrl = useBackend({ target });
 
@@ -67,6 +68,7 @@ export const useApiDelete = ({ target = 'agent' }: UseApiGetProps = {}) => {
         handleApiResponse({
           res,
           setData,
+          setFetchedTime,
           setError,
           addNotificationHistory,
           addApiResponseHistory,
@@ -98,6 +100,7 @@ export const useApiDelete = ({ target = 'agent' }: UseApiGetProps = {}) => {
 
   return {
     fetching,
+    fetchedTime,
     data,
     deleteData,
     error,

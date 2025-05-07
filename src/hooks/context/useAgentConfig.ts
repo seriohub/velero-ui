@@ -1,13 +1,13 @@
 import { useEffect } from 'react';
-import { env } from 'next-runtime-env';
+// import { env } from 'next-runtime-env';
 import { useAppStatus } from '@/contexts/AppContext';
 import { useApiGet } from '@/hooks/utils/useApiGet';
 import { useServerStatus } from '@/contexts/ServerContext';
 import { useAgentStatus } from '@/contexts/AgentContext';
 import { useSocketStatus } from '@/contexts/SocketContext';
 import { useAgentConfiguration } from '@/api/Agent/useAgentConfiguration';
-import { useAppInfo } from '@/api/App/useAppInfo';
-import { isRecordStringAny } from '@/utils/isRecordStringIsType';
+// import { useAppInfo } from '@/api/App/useAppInfo';
+// import { isRecordStringAny } from '@/utils/isRecordStringIsType';
 
 export interface AgentApiConfig {
   name: string;
@@ -20,14 +20,23 @@ export const useAgentConfig = () => {
   const serverValues = useServerStatus();
   const agentValues = useAgentStatus();
   const socketValues = useSocketStatus();
-  const NEXT_PUBLIC_AUTH_ENABLED = env('NEXT_PUBLIC_AUTH_ENABLED')?.toLowerCase() !== 'false';
-  const { data: agentInfo, getAppInfo } = useAppInfo();
-  const { data: agentConfiguration, getAgentConfiguration } = useAgentConfiguration();
-  const { data: agentsAvailable, getData: getDataAgent } = useApiGet();
+
+  /*const {
+    data: agentInfo,
+    getAppInfo
+  } = useAppInfo();*/
+  const {
+    data: agentConfiguration,
+    getAgentConfiguration
+  } = useAgentConfiguration();
+  const {
+    data: agentsAvailable,
+    getData: getDataAgent
+  } = useApiGet();
 
   // agent list if core connected
   useEffect(() => {
-    if (serverValues.isCurrentServerControlPlane && appValues.isAuthenticated) {
+    if (serverValues.isCurrentServerControlPlane &&  appValues.isAuthenticated && appValues.isAuthenticated) {
       getDataAgent({
         url: '/v1/agents',
         target: 'core',
@@ -37,10 +46,10 @@ export const useAgentConfig = () => {
 
   // agent info and agent configuration
   useEffect(() => {
-    if (agentValues.isAgentAvailable) {
+    /*if (agentValues.isAgentAvailable) {
       getAppInfo(serverValues.isCurrentServerControlPlane ? 'core' : 'agent');
-    }
-    if (agentValues.isAgentAvailable && (appValues.isAuthenticated || !NEXT_PUBLIC_AUTH_ENABLED)) {
+    }*/
+    if (agentValues.isAgentAvailable && appValues.isAuthenticated) {
       getAgentConfiguration();
     }
   }, [agentValues.isAgentAvailable, appValues.isAuthenticated]);
@@ -59,6 +68,8 @@ export const useAgentConfig = () => {
             : 0;
 
         agentValues.setCurrentAgent(agentsAvailable[agentIndex]);
+      }else{
+        agentValues.setCurrentAgent(undefined);
       }
     }
 
@@ -80,11 +91,16 @@ export const useAgentConfig = () => {
           console.log(
             `Server is core type. Send a request to confirm ${agentValues.currentAgent?.name}'s availability.`
           );
-          const message = {
-            request_type: 'agent_alive',
-            agent_name: agentValues.currentAgent?.name,
-          };
-          // sendMessage(JSOsendMessageToSocket.stringify(message));
+          const message =
+            {
+              type: "agent_alive",
+              kind: "request",
+              payload: {
+                agent_name: agentValues.currentAgent?.name,
+              },
+              request_id: `req-${Date.now()}`,
+              timestamp: new Date().toISOString(),
+            };
           socketValues.sendMessageToSocket(JSON.stringify(message));
         }
       };
@@ -93,7 +109,6 @@ export const useAgentConfig = () => {
       return () => clearInterval(interval);
     }
     if (!serverValues.isCurrentServerControlPlane) {
-      // agentValues.setCurrentAgent(serverValues.currentServer);
       agentValues.setIsAgentAvailable(serverValues.isServerAvailable);
     }
 
@@ -112,9 +127,9 @@ export const useAgentConfig = () => {
   }, [agentConfiguration]);
 
   // agent info
-  useEffect(() => {
+  /*useEffect(() => {
     if (agentInfo && isRecordStringAny(agentInfo)) {
-      agentValues.setAgentInfo(agentInfo);
+      //agentValues.setAgentInfo(agentInfo);
     }
-  }, [agentInfo]);
+  }, [agentInfo]);*/
 };

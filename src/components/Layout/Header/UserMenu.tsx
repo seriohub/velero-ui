@@ -20,13 +20,16 @@ import { useUIStatus } from '@/contexts/UIContext';
 import { useAgentStatus } from '@/contexts/AgentContext';
 
 import { useAuthLogout } from '@/hooks/user/useAuthLogout';
+import { useServerStatus } from '@/contexts/ServerContext';
+import { useAppStatus } from "@/contexts/AppContext";
 
 export default function UserMenu() {
   const NEXT_PUBLIC_AUTH_ENABLED = env('NEXT_PUBLIC_AUTH_ENABLED')?.toLowerCase() !== 'false';
   const uiValues = useUIStatus();
-
+  const appValues = useAppStatus();
   const userValues = useUserStatus();
   const agentValues = useAgentStatus();
+  const serverValues = useServerStatus();
 
   const { logout } = useAuthLogout();
 
@@ -80,7 +83,14 @@ export default function UserMenu() {
               <Text fw={500} c="primary">
                 {`${userValues.user?.username}`}
               </Text>
-              {NEXT_PUBLIC_AUTH_ENABLED && agentValues.agentInfo?.auth_type === 'LDAP' && (
+              {NEXT_PUBLIC_AUTH_ENABLED && serverValues.isCurrentServerControlPlane && appValues.appInfo?.auth_type === 'LDAP' && (
+                <Group justify="flex-end">
+                  <Badge p={2} color="var(--mantine-primary-color-filled)" radius="xs">
+                    LDAP
+                  </Badge>
+                </Group>
+              )}
+              {NEXT_PUBLIC_AUTH_ENABLED && !serverValues.isCurrentServerControlPlane && appValues.appInfo?.auth_type === 'LDAP' && (
                 <Group justify="flex-end">
                   <Badge p={2} color="var(--mantine-primary-color-filled)" radius="xs">
                     LDAP
@@ -98,8 +108,8 @@ export default function UserMenu() {
           <Menu.Item
             key="updatePassword"
             disabled={
-              agentValues?.agentInfo?.auth_enabled === 'False' ||
-              agentValues?.agentInfo?.auth_type !== 'BUILT-IN'
+              appValues?.appInfo?.auth_enabled === 'False' ||
+              appValues?.appInfo?.auth_type !== 'BUILT-IN'
             }
             leftSection={
               <IconPasswordUser
@@ -188,7 +198,7 @@ export default function UserMenu() {
           <Menu.Divider />
 
           <Menu.Item
-            disabled={agentValues?.agentInfo?.auth_enabled === 'False'}
+            disabled={!NEXT_PUBLIC_AUTH_ENABLED}
             key="profile"
             leftSection={
               <IconLogout

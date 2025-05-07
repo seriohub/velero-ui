@@ -38,7 +38,7 @@ const PAGE_SIZES = [10, 15, 20];
 
 export function SchedulesDatatable() {
   const router = useRouter();
-  const { data, getSchedules, fetching } = useSchedules();
+  const { data, getSchedules, fetching, fetchedTime } = useSchedules();
   const agentValues = useAgentStatus();
   const [items = [], setItems] = useState<Array<any>>([]);
   const [reload, setReload] = useState(1);
@@ -55,8 +55,9 @@ export function SchedulesDatatable() {
 
   /* watch */
   useWatchResources('schedules');
+
   const handleWatchResources = debounce((message) => {
-    if (message?.resources === 'schedules') {
+    if (message?.payload?.resources === 'schedules') {
       setReload((prev) => prev + 1);
     }
   }, 250);
@@ -120,7 +121,7 @@ export function SchedulesDatatable() {
         <CreateSecheduleAction setReload={setReload} reload={reload} />
         <ReloadData setReload={setReload} reload={reload} />
       </Toolbar>
-      <DataFetchedInfo metadata={data?.metadata} />
+      <DataFetchedInfo fetchedTime={fetchedTime}/>
       <DataTable
         minHeight={160}
         withTableBorder

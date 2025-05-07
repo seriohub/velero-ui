@@ -1,15 +1,12 @@
-import { useApiGet } from '@/hooks/utils/useApiGet';
+import { useApiPost } from '@/hooks/utils/useApiPost';
 
-export const useNatsClients = () => {
-  const { data, getData, fetching, error } = useApiGet();
+export const useReconnectAgent = () => {
+  const { data, postData, fetching, error } = useApiPost();
 
-  const getNatsClients = async () => {
+  const reconnectAgent = async () => {
     try {
       // Execute the API call with the generic method
-      await getData({
-        url: '/v1/nats/clients',
-        target: 'core',
-      });
+      await postData('/v1/nats/send-core-restarted', {}, 'core');
 
       // This code will be executed only in case of success
       // console.log('Request successful, execute final action...');
@@ -24,7 +21,7 @@ export const useNatsClients = () => {
 
   // Return the function for the call and the necessary data
   return {
-    getNatsClients,
+    reconnectAgent,
     data,
     fetching,
     error,

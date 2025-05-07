@@ -20,7 +20,7 @@ function jsonToQueryParams(json: any) {
 }
 
 export const useBackups = () => {
-  const { data, getData, fetching, error } = useApiGet();
+  const { data, getData, fetching, fetchedTime, error } = useApiGet();
 
   const getBackups = async ({
     scheduleName,
@@ -50,6 +50,7 @@ export const useBackups = () => {
     getBackups,
     data,
     fetching,
+    fetchedTime,
     error,
   };
 };

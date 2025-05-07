@@ -5,8 +5,8 @@ import { useMemo } from 'react';
 import { DataTable, DataTableColumn } from 'mantine-datatable';
 import {
   ActionIcon,
-  Anchor,
-  Center,
+  Anchor, Button,
+  Center, CopyButton,
   Group,
   MultiSelect,
   Text,
@@ -15,8 +15,9 @@ import {
 } from '@mantine/core';
 
 import {
+  IconCheck,
   IconClick,
-  IconClock,
+  IconClock, IconCopy,
   IconDeviceFloppy,
   IconSearch,
   IconServer,
@@ -38,6 +39,7 @@ import VeleroResourceStatusBadge from '../Commons/Display/VeleroResourceStatusBa
 import { formatDateTime } from '@/utils/formatDateTime';
 import DownloadAction from '@/components/Features/Velero/Backups/Actions/DownloadAction';
 import InspectAction from '@/components/Features/Velero/Backups/Actions/InspectAction';
+import { convertJsonToYaml } from "@/utils/jsonToYaml";
 
 const PAGE_SIZES = [10, 15, 20];
 
@@ -45,7 +47,10 @@ function get_duration(status: any) {
   if (status?.startTimestamp && status?.completionTimestamp) {
     const { startTimestamp } = status;
     const { completionTimestamp } = status;
-    const { formattedDuration, duration } = getDurationDetails(startTimestamp, completionTimestamp);
+    const {
+      formattedDuration,
+      duration
+    } = getDurationDetails(startTimestamp, completionTimestamp);
     return (
       <Tooltip label={duration} offset={5}>
         <Text size="sm">{formattedDuration}</Text>
@@ -56,25 +61,25 @@ function get_duration(status: any) {
 }
 
 export function BackupDatatableView({
-  records,
-  dataFiltered,
-  pageSize,
-  page,
-  setPage,
-  setPageSize,
-  sortStatus,
-  setSortStatus,
-  fetching,
-  setReload,
-  data,
-  items,
-  selectedSchedule,
-  setSelectedSchedule,
-  setSelectedPhase,
-  selectedPhase,
-  queryName,
-  setQueryName,
-}: any) {
+                                      records,
+                                      dataFiltered,
+                                      pageSize,
+                                      page,
+                                      setPage,
+                                      setPageSize,
+                                      sortStatus,
+                                      setSortStatus,
+                                      fetching,
+                                      setReload,
+                                      data,
+                                      items,
+                                      selectedSchedule,
+                                      setSelectedSchedule,
+                                      setSelectedPhase,
+                                      selectedPhase,
+                                      queryName,
+                                      setQueryName,
+                                    }: any) {
   const router = useRouter();
   const pathname = usePathname();
 
@@ -102,12 +107,12 @@ export function BackupDatatableView({
 
   const renderActions: DataTableColumn<any>['render'] = (record) => (
     <Group gap={4} justify="center" wrap="nowrap">
-      <DescribeActionIcon resourceType="backup" record={record} />
-      <UpdateExpirationAction record={record} setReload={setReload} />
-      <DownloadAction record={record} />
-      <InspectAction record={record} />
-      <RestoreAction record={record} setReload={setReload} />
-      <DeleteAction resourceType="backup" record={record} setReload={setReload} />
+      <DescribeActionIcon resourceType="backup" record={record}/>
+      <UpdateExpirationAction record={record} setReload={setReload}/>
+      <DownloadAction record={record}/>
+      <InspectAction record={record}/>
+      <RestoreAction record={record} setReload={setReload}/>
+      <DeleteAction resourceType="backup" record={record} setReload={setReload}/>
     </Group>
   );
 
@@ -142,7 +147,7 @@ export function BackupDatatableView({
               label="backups"
               description="Show backups whose names include the specified text"
               placeholder="Search backups..."
-              leftSection={<IconSearch size={16} />}
+              leftSection={<IconSearch size={16}/>}
               rightSection={
                 <ActionIcon
                   size="sm"
@@ -150,7 +155,7 @@ export function BackupDatatableView({
                   c="dimmed"
                   onClick={() => setQueryName('')}
                 >
-                  <IconX size={14} />
+                  <IconX size={14}/>
                 </ActionIcon>
               }
               value={queryName}
@@ -159,17 +164,34 @@ export function BackupDatatableView({
           ),
           filtering: queryName !== '',
           render: (record) => (
-            <Anchor
-              size="sm"
-              onClick={() => {
-                router.push(`/backups/${record?.metadata?.name}`);
-              }}
-            >
-              <Group gap={5}>
-                <IconDeviceFloppy size={16} />
-                <Text>{record?.metadata?.name}</Text>
+            <>
+              <Group gap={10}>
+                <CopyButton value={record?.metadata?.name} timeout={2000}>
+                  {({
+                      copied,
+                      copy
+                    }) => (
+                    <Tooltip label={copied ? 'Copied' : 'Copy backup name'} withArrow position="right">
+                      <ActionIcon color={copied ? 'teal' : 'var(--mantine-primary-color-filled)'} variant="light"
+                                  onClick={copy}>
+                        {copied ? <IconCheck size={16}/> : <IconCopy size={16}/>}
+                      </ActionIcon>
+                    </Tooltip>
+                  )}
+                </CopyButton>
+                <Anchor
+                  size="sm"
+                  onClick={() => {
+                    router.push(`/backups/${record?.metadata?.name}`);
+                  }}
+                >
+                  <Group gap={0}>
+                    <IconDeviceFloppy size={16}/>
+                    <Text>{record?.metadata?.name}</Text>
+                  </Group>
+                </Anchor>
               </Group>
-            </Anchor>
+            </>
           ),
         },
         {
@@ -185,7 +207,7 @@ export function BackupDatatableView({
               value={selectedSchedule}
               placeholder="Search schedule…"
               onChange={setSelectedSchedule}
-              leftSection={<IconSearch size={16} />}
+              leftSection={<IconSearch size={16}/>}
               clearable
               searchable
             />
@@ -203,7 +225,7 @@ export function BackupDatatableView({
                     }}
                   >
                     <Group gap={5}>
-                      <IconClock size={16} />
+                      <IconClock size={16}/>
                       <Text>{metadata.labels['velero.io/schedule-name']}</Text>
                     </Group>
                   </Anchor>
@@ -228,7 +250,7 @@ export function BackupDatatableView({
               value={selectedPhase}
               placeholder="Search schedule…"
               onChange={setSelectedPhase}
-              leftSection={<IconSearch size={16} />}
+              leftSection={<IconSearch size={16}/>}
               clearable
               searchable
             />
@@ -236,7 +258,7 @@ export function BackupDatatableView({
           filtering: selectedPhase.length > 0,
           ellipsis: true,
           render: ({ status }: any) => (
-            <VeleroResourceStatusBadge status={status?.phase || undefined} />
+            <VeleroResourceStatusBadge status={status?.phase || undefined}/>
           ),
         },
         {
@@ -294,7 +316,7 @@ export function BackupDatatableView({
                 }}
               >
                 <Group gap={5}>
-                  <IconServer size={16} />
+                  <IconServer size={16}/>
                   <Text>{metadata.labels && metadata.labels['velero.io/storage-location']}</Text>
                 </Group>
               </Anchor>
@@ -305,7 +327,7 @@ export function BackupDatatableView({
           accessor: 'actions',
           title: (
             <Center>
-              <IconClick size={16} />
+              <IconClick size={16}/>
             </Center>
           ),
           //width: '0%',

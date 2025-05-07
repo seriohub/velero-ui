@@ -23,7 +23,7 @@ import { eventEmitter } from '@/lib/EventEmitter.js';
 const PAGE_SIZES = [10, 15, 20];
 
 export function PVBDatatable({ type }: any) {
-  const { data, getPodVolumes, fetching } = usePodVolumes();
+  const { data, getPodVolumes, fetching, fetchedTime } = usePodVolumes();
 
   const [items, setItems] = useState<Record<string, any>>([]);
   const [reload, setReload] = useState(1);
@@ -49,7 +49,7 @@ export function PVBDatatable({ type }: any) {
   /* watch */
   useWatchResources(type ? 'podvolumebackups' : 'podvolumerestores');
   const handleWatchResources = debounce((message) => {
-    if (message?.resources === 'podvolumebackups') {
+    if (message?.payload?.resources === 'podvolumebackups') {
       setReload((prev) => prev + 1);
     }
   }, 250);
@@ -124,7 +124,7 @@ export function PVBDatatable({ type }: any) {
       >
         <ReloadData setReload={setReload} reload={reload} />
       </Toolbar>
-      <DataFetchedInfo metadata={data?.metadata} />
+      <DataFetchedInfo fetchedTime={fetchedTime}/>
 
       <PVBDatatableView
         records={records}

@@ -30,10 +30,10 @@ export function RepoDetails({ params }: BackupProps) {
   useWatchResources('backuprepositories');
   const handleWatchResources = debounce((message) => {
     if (
-      message?.resources === 'backuprepositories' &&
-      message?.resource?.metadata?.name === params.repo
+      message?.payload?.resources === 'backuprepositories' &&
+      message?.payload?.resource?.metadata?.name === params.repo
     ) {
-      setManifest(message?.resource);
+      setManifest(message?.payload?.resource);
     }
   }, 250);
 
@@ -84,7 +84,7 @@ export function RepoDetails({ params }: BackupProps) {
         <Grid.Col span={8}>
           <Card shadow="sm" padding="lg" radius="md" withBorder h={600}>
             <Card.Section withBorder inheritPadding p="sm">
-              <Manifest resourceType="BackupRepository" resourceName={params.repo} />
+              <Manifest resourceType="BackupRepository" resourceName={params.repo} reload={reload}/>
             </Card.Section>
           </Card>
         </Grid.Col>

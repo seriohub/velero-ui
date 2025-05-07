@@ -11,6 +11,7 @@ import { useUIConfig } from '@/hooks/context/useUIConfig';
 
 import AppShellBootConnection from './Boot/AppShell.BootConnection';
 import AppShellLoader from '../AppShell.Loader';
+import { useAppConfig } from "@/hooks/context/useAppConfig";
 
 interface AppShellBootProps {
   children: any;
@@ -20,6 +21,7 @@ export default function AppShellBoot({ children }: AppShellBootProps) {
   const serverValues = useServerStatus();
   const appValues = useAppStatus();
 
+  useAppConfig();
   useUIConfig();
 
   useServerConfig();
