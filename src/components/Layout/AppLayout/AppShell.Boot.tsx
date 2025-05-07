@@ -14,12 +14,14 @@ import AppShellLoader from '../AppShell.Loader';
 import { SocketProvider } from '@/contexts/SocketContext';
 import { ServerError } from "@/components/Features/Errors/ServerError";
 import AppShellBootAgent from "@/components/Layout/AppLayout/Boot/AppShell.BootAgent";
+import { env } from "next-runtime-env";
 
 interface AppShellBootProps {
   children: any;
 }
 
 export default function AppShellBoot({ children }: AppShellBootProps) {
+  const NEXT_PUBLIC_AUTH_ENABLED = env('NEXT_PUBLIC_AUTH_ENABLED')?.toLowerCase() !== 'false';
   const router = useRouter();
   const appValues = useAppStatus();
   const serverValues = useServerStatus();
@@ -43,7 +45,7 @@ export default function AppShellBoot({ children }: AppShellBootProps) {
     const isTokenValid =
       token && token.trim() !== '' && token !== 'undefined' && token !== 'null';
 
-    if (!isTokenValid) {
+    if (NEXT_PUBLIC_AUTH_ENABLED && !isTokenValid) {
       router.push('/login');
       return;
     }
