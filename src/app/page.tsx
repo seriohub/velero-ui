@@ -5,17 +5,17 @@ import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { env } from 'next-runtime-env';
 
-export default function LoginPage() {
+export default function RootPage() {
   const router = useRouter();
   const NEXT_PUBLIC_AUTH_ENABLED = env('NEXT_PUBLIC_AUTH_ENABLED')?.toLowerCase() !== 'false';
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const jwtToken = localStorage.getItem('token');
-      if (jwtToken !== null || !NEXT_PUBLIC_AUTH_ENABLED) {
-        router.push('/dashboard');
-      } else {
+      if (NEXT_PUBLIC_AUTH_ENABLED && !jwtToken) {
         router.push('/login');
+      } else {
+        router.push('/dashboard');
       }
     }
   }, []);
