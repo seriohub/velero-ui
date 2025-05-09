@@ -40,12 +40,16 @@ export default function CheckAppVersion() {
   ]);
 
   useEffect(() => {
-    const currentAppVersion = agentData || coreData;
+    const currentAppVersion = serverValues.isCurrentServerControlPlane ? coreData : agentData;
+
     if (currentAppVersion?.helm_version && appValues.repoVersion?.helm) {
-      const cmp = compareVersions(currentAppVersion?.helm_version, appValues.repoVersion?.helm);
+      //const cmp = compareVersions(currentAppVersion?.helm_version, appValues.repoVersion?.helm?.replace(/^[a-zA-Z]/, ''));
+      const cmp = compareVersions(currentAppVersion?.helm_version, appValues.repoVersion?.helm?.replace(/^[a-zA-Z]/, ''));
 
       if (cmp === 'githubRelease') {
         setUpdateAvailable(true);
+      }else{
+        setUpdateAvailable(false);
       }
     }
   }, [agentData, coreData, appValues.repoVersion]);
