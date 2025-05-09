@@ -21,15 +21,15 @@ export default function TableVersion({ app, githubRelease }: TableVersionProps) 
       href: 'https://github.com/seriohub/velero-helm',
       appVersion: app?.helm_version,
       githubRelease: githubRelease?.helm,
-      updateAvailable: compareVersions(app?.helm_version, githubRelease?.helm) === 'githubRelease',
+      updateAvailable: compareVersions(app?.helm_version, githubRelease?.helm?.replace(/^[a-zA-Z]/, '')) === 'githubRelease',
     },
     {
       position: 1,
       name: 'Core',
       href: 'https://github.com/seriohub/vui-core',
       appVersion: app?.helm_core !== '-' ? app?.helm_core : app?.core_release_version,
-      githubRelease: 'n.a.', //githubRelease?.core,
-      updateAvailable: compareVersions(app?.helm_core, githubRelease?.core) === 'githubRelease',
+      githubRelease: '.n.a.', //githubRelease?.core,
+      updateAvailable: compareVersions(app?.helm_core, githubRelease?.core?.replace(/^[a-zA-Z]/, '')) === 'githubRelease',
     },
     {
       position: 1,
@@ -37,7 +37,7 @@ export default function TableVersion({ app, githubRelease }: TableVersionProps) 
       href: 'https://github.com/seriohub/velero-api',
       appVersion: app?.helm_api !== '-' ? app?.helm_api : app?.api_release_version,
       githubRelease: githubRelease?.api,
-      updateAvailable: compareVersions(app?.helm_api, githubRelease?.api) === 'githubRelease',
+      updateAvailable: compareVersions(app?.helm_api, githubRelease?.api?.replace(/^[a-zA-Z]/, '')) === 'githubRelease',
     },
     {
       position: 2,
@@ -45,7 +45,7 @@ export default function TableVersion({ app, githubRelease }: TableVersionProps) 
       href: 'https://github.com/seriohub/velero-ui',
       appVersion: app?.helm_ui !== '-' ? app?.helm_ui : NEXT_PUBLIC_FRONT_END_BUILD_VERSION,
       githubRelease: githubRelease?.ui,
-      updateAvailable: compareVersions(app?.helm_ui, githubRelease?.ui) === 'githubRelease',
+      updateAvailable: compareVersions(app?.helm_ui, githubRelease?.ui?.replace(/^[a-zA-Z]/, '')) === 'githubRelease',
     },
     {
       position: 3,
@@ -54,7 +54,7 @@ export default function TableVersion({ app, githubRelease }: TableVersionProps) 
       appVersion: app?.helm_watchdog !== '-' ? app?.helm_watchdog : app.watchdog_release_version,
       githubRelease: githubRelease?.watchdog,
       updateAvailable:
-        compareVersions(app?.helm_watchdog, githubRelease?.watchdog) === 'githubRelease',
+        compareVersions(app?.helm_watchdog, githubRelease?.watchdog?.replace(/^[a-zA-Z]/, '')) === 'githubRelease',
     },
   ];
 
@@ -66,10 +66,9 @@ export default function TableVersion({ app, githubRelease }: TableVersionProps) 
           {element.name}
         </Anchor>
       </Table.Td>
-      <Table.Td>{element.appVersion}</Table.Td>
+      <Table.Td>{element.appVersion && `v${element.appVersion.replace(/^[a-zA-Z]/, '')}`}</Table.Td>
       <Table.Td>{element.githubRelease}</Table.Td>
       <Table.Td>
-        {' '}
         <Anchor href={`${element.href}/blob/main/CHANGELOG.md`} target=" _blank">
           changelog
         </Anchor>

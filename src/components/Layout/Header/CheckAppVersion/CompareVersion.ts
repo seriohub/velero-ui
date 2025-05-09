@@ -4,8 +4,8 @@ export function compareVersions(app: string, lastRelease: string): string {
     return '';
   }
 
-  const [major1, minor1, patch1] = app.substring(1).split('.').map(Number);
-  const [major2, minor2, patch2] = lastRelease.substring(1).split('.').map(Number) || '';
+  const [major1, minor1, patch1] = app.substring(0).split('.').map(Number);
+  const [major2, minor2, patch2] = lastRelease.substring(0).split('.').map(Number);
 
   if (major1 > major2) {
     return 'app';
