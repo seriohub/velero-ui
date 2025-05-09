@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 ***
 
+## [v0.2.6] - 2025-05-08
+
+🛠️ **Fixes**
+
+- Resolved an issue with version control availability in the new release.
+
 ## [v0.2.5] - 2025-05-07
 
 🧱 Maintenance
