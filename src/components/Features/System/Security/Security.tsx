@@ -14,7 +14,10 @@ import ReloadData from '@/components/Inputs/ReloadData';
 import { TableStatusItem } from './TableStatusItem';
 
 export function Security() {
-  const { reload, setReload } = useDiagnosticAgent();
+  const {
+    reload,
+    setReload
+  } = useDiagnosticAgent();
 
   const elements = [
     {
@@ -79,7 +82,7 @@ export function Security() {
   return (
     <MainStack>
       <Toolbar title="Info" breadcrumbItem={[{ name: 'Security' }]}>
-        <ReloadData setReload={setReload} reload={reload} />
+        <ReloadData setReload={setReload} reload={reload}/>
       </Toolbar>
 
       <DataTable

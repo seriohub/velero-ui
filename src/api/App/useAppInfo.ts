@@ -3,9 +3,14 @@ import { useApiGet } from '@/hooks/utils/useApiGet';
 type TargetType = 'core' | 'agent' | 'static';
 
 export const useAppInfo = () => {
-  const { data, getData, fetching, error } = useApiGet();
+  const {
+    data,
+    getData,
+    fetching,
+    error
+  } = useApiGet();
 
-  const getAppInfo = async (target: TargetType='static') => {
+  const getAppInfo = async (target: TargetType = 'static') => {
     try {
       // Execute the API call with the generic method
       await getData({

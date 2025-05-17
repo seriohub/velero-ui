@@ -1,7 +1,12 @@
 import { useApiGet } from '@/hooks/utils/useApiGet';
 
 export const useBackupExpiration = () => {
-  const { data, getData, fetching, error } = useApiGet();
+  const {
+    data,
+    getData,
+    fetching,
+    error
+  } = useApiGet();
 
   const getBackupExpiration = async (resourceName: String) => {
     try {

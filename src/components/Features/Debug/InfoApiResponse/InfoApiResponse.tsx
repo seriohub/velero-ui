@@ -49,7 +49,10 @@ export default function InfoApiResponse() {
   const commands = loggerValues.apiResponse.map((item: any, index: number) => (
     <Group gap={5} key={index}>
       <CopyButton value={item.url} timeout={2000}>
-        {({ copied, copy }) => (
+        {({
+            copied,
+            copy
+          }) => (
           <Tooltip label={copied ? 'Copied' : 'Copy'} withArrow position="right">
             <ActionIcon color={copied ? 'teal' : 'gray'} variant="transparent" onClick={copy}>
               {copied ? (
@@ -93,8 +96,8 @@ export default function InfoApiResponse() {
       <Text c="white" size="sm">
         {item.url}
       </Text>
-      {item.params && <InfoParamActionIcon params={item.params} />}
-      <InfoDataResponseIcon data={item.data} />
+      {item.params && <InfoParamActionIcon params={item.params}/>}
+      <InfoDataResponseIcon data={item.data}/>
     </Group>
   ));
 

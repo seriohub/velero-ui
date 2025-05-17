@@ -1,7 +1,12 @@
 import { useApiGet } from '@/hooks/utils/useApiGet';
 
 export const useRepositoryCheck = () => {
-  const { data, getData, fetching, error } = useApiGet();
+  const {
+    data,
+    getData,
+    fetching,
+    error
+  } = useApiGet();
 
   const getRepositoryCheck = async (bsl: string, repositoryUrl: string) => {
     try {

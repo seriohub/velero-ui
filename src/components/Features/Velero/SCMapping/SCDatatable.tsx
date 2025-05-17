@@ -21,7 +21,11 @@ import EditSCMapping from '@/components/Features/Velero/SCMapping/EditSCMapping'
 import DeleteSCMappingActionIcon from '@/components/Features/Velero/SCMapping/DeleteSCMappingActionIcon';
 
 export function SCDatatable() {
-  const { data: configMap, getStorageClassesMap, fetching } = useStorageClassesMap();
+  const {
+    data: configMap,
+    getStorageClassesMap,
+    fetching
+  } = useStorageClassesMap();
   const [items, setItems] = useState<any>([]);
   const [reload, setReload] = useState(1);
   const agentValues = useAgentStatus();
@@ -46,18 +50,18 @@ export function SCDatatable() {
 
   const renderActions: DataTableColumn<any>['render'] = (record) => (
     <Group gap={4} justify="right" wrap="nowrap">
-      <EditSCMapping record={record} reload={reload} setReload={setReload} />
-      <DeleteSCMappingActionIcon record={record} reload={reload} setReload={setReload} />
+      <EditSCMapping record={record} reload={reload} setReload={setReload}/>
+      <DeleteSCMappingActionIcon record={record} reload={reload} setReload={setReload}/>
     </Group>
   );
 
   return (
     <MainStack>
       <Toolbar title="Storage Class Mapping" breadcrumbItem={[{ name: 'Storage Class Mapping' }]}>
-        <CreateSCMappingIcon setReload={setReload} reload={reload} />
-        <ReloadData setReload={setReload} reload={reload} />
+        <CreateSCMappingIcon setReload={setReload} reload={reload}/>
+        <ReloadData setReload={setReload} reload={reload}/>
       </Toolbar>
-      <DataFetchedInfo metadata={configMap?.metadata} />
+      <DataFetchedInfo metadata={configMap?.metadata}/>
       <DataTable
         minHeight={160}
         withTableBorder
@@ -81,7 +85,7 @@ export function SCDatatable() {
             accessor: 'actions',
             title: (
               <Center>
-                <IconClick size={16} />
+                <IconClick size={16}/>
               </Center>
             ),
             width: '0%',

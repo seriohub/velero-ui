@@ -1,19 +1,19 @@
 'use client';
 
-import {useAgentConfig} from '@/hooks/context/useAgentConfig';
+import { useAgentConfig } from '@/hooks/context/useAgentConfig';
 
-import {useServerStatus} from '@/contexts/ServerContext';
-import {useAppStatus} from '@/contexts/AppContext';
+import { useServerStatus } from '@/contexts/ServerContext';
+import { useAppStatus } from '@/contexts/AppContext';
 
 import AppShellLoader from '../../AppShell.Loader';
 import AuthShellLayout from '../AuthShell.Layout';
-import {Alert} from "@mantine/core";
+import { Alert } from "@mantine/core";
 
 interface AppShellBootProps {
   children: any;
 }
 
-export default function AppShellBootAgent({children}: AppShellBootProps) {
+export default function AppShellBootAgent({ children }: AppShellBootProps) {
   useAgentConfig();
 
   const serverValues = useServerStatus();

@@ -40,7 +40,12 @@ const PAGE_SIZES = [10, 15, 20];
 export function BslDatatable() {
   const router = useRouter();
   const { showContextMenu } = useContextMenu();
-  const { data, getBackupLocation, fetching, fetchedTime } = useBackupLocation();
+  const {
+    data,
+    getBackupLocation,
+    fetching,
+    fetchedTime
+  } = useBackupLocation();
   const [items, setItems] = useState<Array<any>>([]);
   const [reload, setReload] = useState(1);
   const agentValues = useAgentStatus();
@@ -102,10 +107,10 @@ export function BslDatatable() {
 
   const renderActions: DataTableColumn<any>['render'] = (record) => (
     <Group gap={4} justify="right" wrap="nowrap">
-      <CredentialActionIcon name={record.metadata.name} record={record} />
-      <DescribeActionIcon resourceType={record.kind} record={record} />
-      <EditBslAction record={record} setReload={setReload} />
-      <DeleteAction resourceType="bsl" record={record} setReload={setReload} />
+      <CredentialActionIcon name={record.metadata.name} record={record}/>
+      <DescribeActionIcon resourceType={record.kind} record={record}/>
+      <EditBslAction record={record} setReload={setReload}/>
+      <DeleteAction resourceType="bsl" record={record} setReload={setReload}/>
     </Group>
   );
 
@@ -119,8 +124,8 @@ export function BslDatatable() {
           },
         ]}
       >
-        <CreateBslToolbar setReload={setReload} reload={reload} />
-        <ReloadData setReload={setReload} reload={reload} />
+        <CreateBslToolbar setReload={setReload} reload={reload}/>
+        <ReloadData setReload={setReload} reload={reload}/>
       </Toolbar>
       <DataFetchedInfo fetchedTime={fetchedTime}/>
       <DataTable
@@ -141,11 +146,14 @@ export function BslDatatable() {
         onSortStatusChange={setSortStatus}
         fetching={fetching && records?.length === 0}
         idAccessor="metadata.uid"
-        onRowContextMenu={({ record, event }: any) => {
+        onRowContextMenu={({
+                             record,
+                             event
+                           }: any) => {
           showContextMenu([
             {
               key: 'Set as default',
-              icon: <IconCheck />,
+              icon: <IconCheck/>,
               disabled: record.spec.default,
               onClick: (e) => {
                 e.stopPropagation();
@@ -165,7 +173,7 @@ export function BslDatatable() {
             },
             {
               key: 'Remove as default',
-              icon: <IconX />,
+              icon: <IconX/>,
               disabled: !record.spec.default,
               onClick: (e) => {
                 e.stopPropagation();
@@ -199,7 +207,7 @@ export function BslDatatable() {
                 }}
               >
                 <Group gap={5}>
-                  <IconServer size={16} />
+                  <IconServer size={16}/>
                   {record?.metadata?.name}
                 </Group>
               </Anchor>
@@ -211,9 +219,9 @@ export function BslDatatable() {
             render: ({ spec }: any) => (
               <>
                 {spec.default ? (
-                  <VeleroResourceStatusBadge status="true" />
+                  <VeleroResourceStatusBadge status="true"/>
                 ) : (
-                  <VeleroResourceStatusBadge status="false" />
+                  <VeleroResourceStatusBadge status="false"/>
                 )}
               </>
             ),
@@ -233,7 +241,7 @@ export function BslDatatable() {
             sortable: true,
             render: ({ spec }: any) => (
               <Group gap={5}>
-                <IconBucket size={16} />
+                <IconBucket size={16}/>
                 <Text size="sm">{spec.objectStorage.bucket}</Text>
               </Group>
             ),
@@ -270,14 +278,14 @@ export function BslDatatable() {
             title: 'Phase',
             sortable: true,
             render: ({ status }: any) => (
-              <VeleroResourceStatusBadge status={status?.phase || undefined} />
+              <VeleroResourceStatusBadge status={status?.phase || undefined}/>
             ),
           },
           {
             accessor: 'actions',
             title: (
               <Center>
-                <IconClick size={16} />
+                <IconClick size={16}/>
               </Center>
             ),
             width: '0%',

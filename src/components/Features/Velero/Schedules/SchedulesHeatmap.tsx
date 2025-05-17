@@ -22,14 +22,14 @@ export default function SchedulesHeatmapToolbarIcon() {
             title: 'Cron Schedules Heatmap',
             size: '80rem',
             fullScreen: isMobile,
-            children: <HeatMapBox />,
+            children: <HeatMapBox/>,
             padding: 'md',
             radius: 'md',
             centered: true,
           });
         }}
       >
-        <IconCalendarWeek stroke="1.5" />
+        <IconCalendarWeek stroke="1.5"/>
       </ActionIcon>
     </Tooltip>
   );

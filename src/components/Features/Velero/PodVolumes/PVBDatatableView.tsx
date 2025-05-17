@@ -16,22 +16,22 @@ import VeleroResourceStatusBadge from '../Commons/Display/VeleroResourceStatusBa
 const PAGE_SIZES = [10, 15, 20];
 
 export function PVBDatatableView({
-  records,
-  dataFiltered,
-  pageSize,
-  page,
-  setPage,
-  setPageSize,
-  sortStatus,
-  setSortStatus,
-  fetching,
+                                   records,
+                                   dataFiltered,
+                                   pageSize,
+                                   page,
+                                   setPage,
+                                   setPageSize,
+                                   sortStatus,
+                                   setSortStatus,
+                                   fetching,
 
-  items,
-  setSelectedPhase,
-  selectedPhase,
-  queryName,
-  setQueryName,
-}: any) {
+                                   items,
+                                   setSelectedPhase,
+                                   selectedPhase,
+                                   queryName,
+                                   setQueryName,
+                                 }: any) {
   const router = useRouter();
 
   // get schedule status list
@@ -42,7 +42,7 @@ export function PVBDatatableView({
 
   const renderActions: DataTableColumn<any>['render'] = (record) => (
     <Group gap={4} justify="center" wrap="nowrap">
-      <DescribeActionIcon resourceType="PodVolumeBackup" record={record} />
+      <DescribeActionIcon resourceType="PodVolumeBackup" record={record}/>
     </Group>
   );
 
@@ -77,7 +77,7 @@ export function PVBDatatableView({
               label="Name"
               description="Show pod volumes backup whose names include the specified text"
               placeholder="Search name..."
-              leftSection={<IconSearch size={16} />}
+              leftSection={<IconSearch size={16}/>}
               rightSection={
                 <ActionIcon
                   size="sm"
@@ -85,7 +85,7 @@ export function PVBDatatableView({
                   c="dimmed"
                   onClick={() => setQueryName('')}
                 >
-                  <IconX size={14} />
+                  <IconX size={14}/>
                 </ActionIcon>
               }
               value={queryName}
@@ -101,7 +101,7 @@ export function PVBDatatableView({
               }}
             >
               <Group gap={5}>
-                <IconDeviceFloppy size={16} />
+                <IconDeviceFloppy size={16}/>
                 <Text>{record?.metadata?.name}</Text>
               </Group>
             </Anchor>
@@ -121,7 +121,7 @@ export function PVBDatatableView({
                 }}
               >
                 <Group gap={5}>
-                  <IconDeviceFloppy size={16} />
+                  <IconDeviceFloppy size={16}/>
                   <Text>{spec.tags.backup}</Text>
                 </Group>
               </Anchor>
@@ -140,7 +140,7 @@ export function PVBDatatableView({
               value={selectedPhase}
               placeholder="Search schedule…"
               onChange={setSelectedPhase}
-              leftSection={<IconSearch size={16} />}
+              leftSection={<IconSearch size={16}/>}
               clearable
               searchable
             />
@@ -148,7 +148,7 @@ export function PVBDatatableView({
           filtering: selectedPhase.length > 0,
           ellipsis: true,
           render: ({ status }: any) => (
-            <VeleroResourceStatusBadge status={status?.phase || undefined} />
+            <VeleroResourceStatusBadge status={status?.phase || undefined}/>
           ),
         },
         {
@@ -179,7 +179,7 @@ export function PVBDatatableView({
                 }}
               >
                 <Group gap={5}>
-                  <IconServer size={16} />
+                  <IconServer size={16}/>
                   <Text>{spec?.backupStorageLocation && spec.backupStorageLocation}</Text>
                 </Group>
               </Anchor>
@@ -190,7 +190,7 @@ export function PVBDatatableView({
           accessor: 'actions',
           title: (
             <Center>
-              <IconClick size={16} />
+              <IconClick size={16}/>
             </Center>
           ),
           //width: '0%',

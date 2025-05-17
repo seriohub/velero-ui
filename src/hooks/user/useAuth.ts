@@ -11,7 +11,10 @@ interface UseAuthParams {
   redirectIfAuthenticated?: string;
 }
 
-export const useAuth = ({ middleware, redirectIfAuthenticated }: UseAuthParams = {}) => {
+export const useAuth = ({
+                          middleware,
+                          redirectIfAuthenticated
+                        }: UseAuthParams = {}) => {
   const NEXT_PUBLIC_AUTH_ENABLED = env('NEXT_PUBLIC_AUTH_ENABLED')?.toLowerCase() !== 'false';
 
   const serverValues = useServerStatus();
@@ -27,9 +30,8 @@ export const useAuth = ({ middleware, redirectIfAuthenticated }: UseAuthParams =
   useEffect(() => {
     if (serverValues?.isServerAvailable && jwtToken) {
       setFetchKey(`${serverValues?.currentServer?.url}/v1/users/me/info`);
-    }
-    else {
-      console.warn("Server is not available", serverValues?.isServerAvailable, appValues?.isAuthenticated, jwtToken===null);
+    } else {
+      console.warn("Server is not available", serverValues?.isServerAvailable, appValues?.isAuthenticated, jwtToken === null);
     }
   }, [serverValues?.isServerAvailable, jwtToken]);
 
@@ -79,10 +81,10 @@ export const useAuth = ({ middleware, redirectIfAuthenticated }: UseAuthParams =
     user: NEXT_PUBLIC_AUTH_ENABLED
       ? user
       : {
-          id: 0,
-          username: 'Guest',
-          email: '- no guest email -',
-        },
+        id: 0,
+        username: 'Guest',
+        email: '- no guest email -',
+      },
     error,
     mutate,
   };

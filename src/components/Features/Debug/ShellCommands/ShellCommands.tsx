@@ -34,7 +34,10 @@ export default function ShellCommands() {
   const commands = socketValues.socketHistory.map((item: any, index: number) => (
     <Group gap={0} key={index}>
       <CopyButton value={item} timeout={2000}>
-        {({ copied, copy }) => (
+        {({
+            copied,
+            copy
+          }) => (
           <Tooltip label={copied ? 'Copied' : 'Copy'} withArrow position="right">
             <ActionIcon color={copied ? 'teal' : 'gray'} variant="transparent" onClick={copy}>
               {copied ? (

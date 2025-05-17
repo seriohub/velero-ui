@@ -19,7 +19,10 @@ const UserContext = createContext<UserStatusContextProps | undefined>(undefined)
 export const UserProvider: React.FC<{
   children: React.ReactNode;
   initialUser: any;
-}> = ({ children, initialUser }) => {
+}> = ({
+        children,
+        initialUser
+      }) => {
   const [user, setUser] = useState<any>(initialUser);
   const [refreshUser, setRefreshUser] = useState(0);
   const [notificationHistory, addNotificationHistory] = useState<Array<any>>([]);

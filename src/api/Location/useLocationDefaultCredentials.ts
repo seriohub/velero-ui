@@ -1,7 +1,12 @@
 import { useApiGet } from '@/hooks/utils/useApiGet';
 
 export const useLocationDefaultCredentials = () => {
-  const { data, getData, fetching, error } = useApiGet();
+  const {
+    data,
+    getData,
+    fetching,
+    error
+  } = useApiGet();
 
   const getK8sDefaultCredential = async () => {
     try {

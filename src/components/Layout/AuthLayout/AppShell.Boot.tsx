@@ -35,7 +35,7 @@ export default function AppShellBoot({ children }: AppShellBootProps) {
   return (
     <>
       {!serverValues.currentServer && (
-        <AppShellLoader description="Loading server configuration..." />
+        <AppShellLoader description="Loading server configuration..."/>
       )}
       {serverValues.currentServer && (
         <SocketProvider>

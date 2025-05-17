@@ -32,7 +32,12 @@ const PAGE_SIZES = [10, 15, 20];
 export function RestoresDatatable() {
   const router = useRouter();
 
-  const { data, getRestores, fetching, fetchedTime } = useRestores();
+  const {
+    data,
+    getRestores,
+    fetching,
+    fetchedTime
+  } = useRestores();
   const agentValues = useAgentStatus();
   const [items, setItems] = useState<Record<string, unknown>[]>([]);
   const [reload, setReload] = useState(1);
@@ -101,15 +106,15 @@ export function RestoresDatatable() {
 
   const renderActions: DataTableColumn<any>['render'] = (record) => (
     <Group gap={4} justify="right" wrap="nowrap">
-      <DescribeActionIcon resourceType="restore" record={record} />
-      <DeleteAction resourceType="restore" record={record} setReload={setReload} />
+      <DescribeActionIcon resourceType="restore" record={record}/>
+      <DeleteAction resourceType="restore" record={record} setReload={setReload}/>
     </Group>
   );
 
   return (
     <MainStack>
       <Toolbar title="Restore" breadcrumbItem={[{ name: 'Restores' }]}>
-        <ReloadData setReload={setReload} reload={reload} />
+        <ReloadData setReload={setReload} reload={reload}/>
       </Toolbar>
       <DataFetchedInfo fetchedTime={fetchedTime}/>
       <DataTable
@@ -142,7 +147,7 @@ export function RestoresDatatable() {
                 }}
               >
                 <Group gap={5}>
-                  <IconRestore size={16} />
+                  <IconRestore size={16}/>
                   <Text>{record?.metadata?.name}</Text>
                 </Group>
               </Anchor>
@@ -160,7 +165,7 @@ export function RestoresDatatable() {
                 }}
               >
                 <Group gap={5}>
-                  <IconDeviceFloppy size={16} />
+                  <IconDeviceFloppy size={16}/>
                   <Text>{record?.spec.backupName}</Text>
                 </Group>
               </Anchor>
@@ -172,7 +177,7 @@ export function RestoresDatatable() {
             title: 'Status',
             sortable: true,
             render: ({ status }: any) => (
-              <VeleroResourceStatusBadge status={status?.phase || undefined} />
+              <VeleroResourceStatusBadge status={status?.phase || undefined}/>
             ),
           },
           {
@@ -199,7 +204,7 @@ export function RestoresDatatable() {
             accessor: 'actions',
             title: (
               <Center>
-                <IconClick size={16} />
+                <IconClick size={16}/>
               </Center>
             ),
             width: '0%',

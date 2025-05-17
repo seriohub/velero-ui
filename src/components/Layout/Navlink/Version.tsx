@@ -11,11 +11,17 @@ import { useAppVersion } from '@/api/App/useAppVersion';
 import { useVeleroTanzuVersion } from '@/api/App/useVeleroTanzuVersion';
 
 export const Version = () => {
-  const { data, getAppVersion } = useAppVersion();
+  const {
+    data,
+    getAppVersion
+  } = useAppVersion();
   const agentValues = useAgentStatus();
   const computedColorScheme = useComputedColorScheme();
   const uiValues = useUIStatus();
-  const { data: veleroTanzuVersion, getVeleroTanzuVersion } = useVeleroTanzuVersion();
+  const {
+    data: veleroTanzuVersion,
+    getVeleroTanzuVersion
+  } = useVeleroTanzuVersion();
 
   useEffect(() => {
     if (agentValues.isAgentAvailable) {
@@ -51,7 +57,7 @@ export const Version = () => {
               variant="outline"
               color="yellow"
               title="Warning"
-              icon={<IconAlertTriangle />}
+              icon={<IconAlertTriangle/>}
               p={5}
             >
               <Text fw={500} size="xs">

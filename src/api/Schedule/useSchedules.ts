@@ -1,7 +1,13 @@
 import { useApiGet } from '@/hooks/utils/useApiGet';
 
 export const useSchedules = () => {
-  const { data, getData, fetching, error, fetchedTime } = useApiGet();
+  const {
+    data,
+    getData,
+    fetching,
+    error,
+    fetchedTime
+  } = useApiGet();
 
   const getSchedules = async (forced: boolean = false) => {
     try {

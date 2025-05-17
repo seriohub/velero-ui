@@ -3,7 +3,12 @@ import { useApiGet } from '@/hooks/utils/useApiGet';
 type TargetType = 'core' | 'agent' | 'static';
 
 export const useGithubRepoVersion = () => {
-  const { data, getData, fetching, error } = useApiGet();
+  const {
+    data,
+    getData,
+    fetching,
+    error
+  } = useApiGet();
 
   const getRepoVersion = async (target: TargetType, force: boolean = false) => {
     try {

@@ -11,14 +11,17 @@ import React from 'react';
 import VeleroResourceStatusBadge from '@/components/Features/Velero/Commons/Display/VeleroResourceStatusBadge';
 import classes from '@/styles/veleroResourceDetails.module.css';
 
-export function PVBDetailsView({ manifest, ...rest }: any) {
+export function PVBDetailsView({
+                                 manifest,
+                                 ...rest
+                               }: any) {
   const router = useRouter();
   return (
     <Card shadow="sm" radius="md" withBorder h="100%" {...rest}>
       <Card.Section p="md">
         <Group gap={5}>
-          {manifest?.kind === 'PodVolumeBackup' && <IconDatabaseExport size={80} />}
-          {manifest?.kind === 'PodVolumeRestore' && <IconDatabaseImport size={80} />}
+          {manifest?.kind === 'PodVolumeBackup' && <IconDatabaseExport size={80}/>}
+          {manifest?.kind === 'PodVolumeRestore' && <IconDatabaseImport size={80}/>}
           <Box>
             <Title order={2} fw={800}>
               {manifest?.metadata?.name}
@@ -30,7 +33,7 @@ export function PVBDetailsView({ manifest, ...rest }: any) {
         </Group>
       </Card.Section>
 
-      <Space h={3} />
+      <Space h={3}/>
       <Card.Section p="sm" className={classes.section}>
         <Text fz="sm" c="dimmed" className={classes.label}>
           Status
@@ -46,11 +49,11 @@ export function PVBDetailsView({ manifest, ...rest }: any) {
           <Text w={150} size="sm">
             Status:
           </Text>
-          {manifest?.status?.phase && <VeleroResourceStatusBadge status={manifest?.status.phase} />}
+          {manifest?.status?.phase && <VeleroResourceStatusBadge status={manifest?.status.phase}/>}
         </Box>
       </Card.Section>
 
-      <Space h={3} />
+      <Space h={3}/>
       <Card.Section p="sm" className={classes.section}>
         <Text fz="sm" c="dimmed" className={classes.label}>
           Config
@@ -74,7 +77,7 @@ export function PVBDetailsView({ manifest, ...rest }: any) {
               }}
             >
               <Group gap={5}>
-                <IconDeviceFloppy size={16} />
+                <IconDeviceFloppy size={16}/>
                 <Text size="sm">{manifest?.spec?.tags?.backup}</Text>
               </Group>
             </Anchor>
@@ -98,7 +101,7 @@ export function PVBDetailsView({ manifest, ...rest }: any) {
               }}
             >
               <Group gap={5}>
-                <IconDeviceFloppy size={16} />
+                <IconDeviceFloppy size={16}/>
                 <Text size="sm">{manifest?.spec?.tags?.restore}</Text>
               </Group>
             </Anchor>
@@ -152,7 +155,7 @@ export function PVBDetailsView({ manifest, ...rest }: any) {
               }}
             >
               <Group gap={5}>
-                <IconServer size={16} />
+                <IconServer size={16}/>
                 <Text size="sm">{manifest?.spec?.backupStorageLocation}</Text>
               </Group>
             </Anchor>

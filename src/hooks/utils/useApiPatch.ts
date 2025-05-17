@@ -17,7 +17,10 @@ interface UseApiPatchProps {
 export const useApiPatch = ({ target = 'agent' }: UseApiPatchProps = {}) => {
   const { logout } = useAuthErrorHandler();
 
-  const { addApiRequestHistory, addApiResponseHistory } = useApiLogger();
+  const {
+    addApiRequestHistory,
+    addApiResponseHistory
+  } = useApiLogger();
   const { addNotificationHistory } = useUserNotificationHistory();
   const [fetchedTime, setFetchedTime] = useState<string | undefined>(undefined);
 

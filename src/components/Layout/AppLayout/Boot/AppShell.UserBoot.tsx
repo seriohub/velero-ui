@@ -24,14 +24,14 @@ export default function AppShellUserBoot({ children }: AppShellUserBootProps) {
   if (!isMounted || !user) {
     return (
       <Center>
-        <Loader color="red" size="lg" />
+        <Loader color="red" size="lg"/>
       </Center>
     );
   }
 
   return (
     <UserProvider initialUser={user}>
-      <Notifications autoClose={5000} />
+      <Notifications autoClose={5000}/>
       <ModalsProvider>
         <AppShellLayout>{children}</AppShellLayout>
       </ModalsProvider>

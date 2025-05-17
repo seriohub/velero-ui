@@ -31,7 +31,7 @@ export const DiagnosticLink = ({ ApiURL }: DiagnosticLinkProps) => {
             aria-label="Open in a new tab"
             target="_blank"
           >
-            <IconPlugConnected size={20} />
+            <IconPlugConnected size={20}/>
           </ActionIcon>
         </Group>
         {/* info */}
@@ -45,7 +45,7 @@ export const DiagnosticLink = ({ ApiURL }: DiagnosticLinkProps) => {
             aria-label="Docs"
             target="_blank"
           >
-            <IconApi size={20} />
+            <IconApi size={20}/>
           </ActionIcon>
           <ActionIcon
             variant="outline"
@@ -55,7 +55,7 @@ export const DiagnosticLink = ({ ApiURL }: DiagnosticLinkProps) => {
             aria-label="Docs"
             target="_blank"
           >
-            <IconSettings size={20} />
+            <IconSettings size={20}/>
           </ActionIcon>
         </Group>
       </Group>

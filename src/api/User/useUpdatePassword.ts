@@ -1,7 +1,11 @@
 import { useApiPut } from '@/hooks/utils/useApiPut';
 
 export const useUpdatePassword = () => {
-  const { putData, responseStatus, fetching } = useApiPut({ target: 'static' });
+  const {
+    putData,
+    responseStatus,
+    fetching
+  } = useApiPut({ target: 'static' });
 
   const handleUpdatePassword = async (password: string) => {
     try {
@@ -19,7 +23,7 @@ export const useUpdatePassword = () => {
     }
   };
 
-  // Restituisci la funzione per la chiamata e i dati necessari
+  // Return the function for the call and the necessary data
   return {
     handleUpdatePassword,
     responseStatus,

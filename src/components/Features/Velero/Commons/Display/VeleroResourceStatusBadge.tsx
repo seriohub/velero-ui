@@ -37,7 +37,7 @@ export default function VeleroResourceStatusBadge({ status }: VeleroResourceStat
       <Badge color={segmentColors[status]} radius="xs" variant={uiValues.badgeVariant || 'filled'}>
         <Group gap={0}>
           {['InProgress', 'Deleting'].includes(status) && (
-            <Loader size={20} color="var(--mantine-color-text)" />
+            <Loader size={20} color="var(--mantine-color-text)"/>
           )}
           {status}
         </Group>

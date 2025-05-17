@@ -17,7 +17,10 @@ export const useApiPut = ({ target = 'agent' }: UseApiPutProps = {}) => {
   const { logout } = useAuthErrorHandler();
 
   const { addNotificationHistory } = useUserNotificationHistory();
-  const { addApiRequestHistory, addApiResponseHistory } = useApiLogger();
+  const {
+    addApiRequestHistory,
+    addApiResponseHistory
+  } = useApiLogger();
   const [fetchedTime, setFetchedTime] = useState<string | undefined>(undefined);
 
   const backendUrl = useBackend({ target });
@@ -63,7 +66,8 @@ export const useApiPut = ({ target = 'agent' }: UseApiPutProps = {}) => {
         setFetching(false);
         handleApiResponse({
           res,
-          setData: () => {},
+          setData: () => {
+          },
           setFetchedTime,
           setError,
           addNotificationHistory,

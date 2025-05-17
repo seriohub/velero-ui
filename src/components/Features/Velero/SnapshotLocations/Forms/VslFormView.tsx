@@ -19,7 +19,9 @@ import { useDisclosure } from '@mantine/hooks';
 import { useVeleroSecrets } from '@/api/Velero/useVeleroSecrets';
 import { useVeleroSecretKey } from '@/api/Velero/useVeleroSecretKey';
 
-import { CreateLocationCredentialsForm } from '@/components/Features/Velero/Commons/Forms/CreateLocationCredentialsForm';
+import {
+  CreateLocationCredentialsForm
+} from '@/components/Features/Velero/Commons/Forms/CreateLocationCredentialsForm';
 import ConfigurationOptions from '@/components/Features/Velero/Commons/Inputs/ConfigurationOptions';
 import { JsonViewer } from '@/components/Features/Velero/Commons/Display/JsonViewer';
 import AlertLocationEdit from '@/components/Features/Velero/Commons/Display/AlertLocationEdit';
@@ -30,10 +32,23 @@ interface CreateVslFormProps {
   mode: string;
 }
 
-export default function VslFormView({ form, onDone, mode }: CreateVslFormProps) {
-  const { data: secrets, getVeleroSecrets } = useVeleroSecrets();
-  const { data: secretKeys, getVeleroSecretKey } = useVeleroSecretKey();
-  const [opened, { open, close }] = useDisclosure(false);
+export default function VslFormView({
+                                      form,
+                                      onDone,
+                                      mode
+                                    }: CreateVslFormProps) {
+  const {
+    data: secrets,
+    getVeleroSecrets
+  } = useVeleroSecrets();
+  const {
+    data: secretKeys,
+    getVeleroSecretKey
+  } = useVeleroSecretKey();
+  const [opened, {
+    open,
+    close
+  }] = useDisclosure(false);
 
   const [sKeys, setSeks] = useState<Record<string, any>[]>([]);
   const [reload, setReload] = useState(1);
@@ -90,7 +105,7 @@ export default function VslFormView({ form, onDone, mode }: CreateVslFormProps) 
             onDone(values);
           })}
         >
-          {mode === 'edit' && showAlert && <AlertLocationEdit setShowAlert={setShowAlert} />}
+          {mode === 'edit' && showAlert && <AlertLocationEdit setShowAlert={setShowAlert}/>}
           <Stepper active={active} onStepClick={setActive}>
             <Stepper.Step label="Basic Configuration" description="Name, provider">
               <SimpleGrid cols={2} spacing="lg" verticalSpacing="xl">
@@ -111,7 +126,7 @@ export default function VslFormView({ form, onDone, mode }: CreateVslFormProps) 
                   description="Name for whichever storage provider will be used to create/store the snapshots"
                   required
                 >
-                  <TextInput placeholder="" {...form.getInputProps('provider')} required />
+                  <TextInput placeholder="" {...form.getInputProps('provider')} required/>
                 </Input.Wrapper>
               </SimpleGrid>
             </Stepper.Step>
@@ -133,7 +148,7 @@ export default function VslFormView({ form, onDone, mode }: CreateVslFormProps) 
                   </Input.Wrapper>
                 </SimpleGrid>
               </Card>
-              <Space h={20} />
+              <Space h={20}/>
 
               <ConfigurationOptions
                 config={form.values.config}
@@ -144,8 +159,8 @@ export default function VslFormView({ form, onDone, mode }: CreateVslFormProps) 
             </Stepper.Step>
 
             <Stepper.Completed>
-              <Space h={20} />
-              <JsonViewer record={form?.values} />
+              <Space h={20}/>
+              <JsonViewer record={form?.values}/>
               <Text>Completed! click create button to create a backup storage location</Text>
             </Stepper.Completed>
           </Stepper>
@@ -156,7 +171,7 @@ export default function VslFormView({ form, onDone, mode }: CreateVslFormProps) 
             zIndex={1000}
             centered
           >
-            <CreateLocationCredentialsForm reload={reload} setReload={setReload} close={close} />
+            <CreateLocationCredentialsForm reload={reload} setReload={setReload} close={close}/>
           </Modal>
           <Group justify="space-between" mt="md">
             <Group>

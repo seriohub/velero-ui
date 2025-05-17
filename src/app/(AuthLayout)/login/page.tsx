@@ -17,5 +17,5 @@ export default function LoginPage() {
     }
   }, []);
 
-  return <AuthenticationForm />;
+  return <AuthenticationForm/>;
 }

@@ -1,7 +1,12 @@
 import { useApiPost } from '@/hooks/utils/useApiPost';
 
 export const useCreateSchedule = () => {
-  const { data, postData, fetching, error } = useApiPost();
+  const {
+    data,
+    postData,
+    fetching,
+    error
+  } = useApiPost();
 
   const handleCreateSchedule = async (values: any) => {
     try {

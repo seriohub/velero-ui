@@ -1,7 +1,12 @@
 import { useApiGet } from '@/hooks/utils/useApiGet';
 
 export const useK8sManifest = () => {
-  const { data, getData, fetching, error } = useApiGet();
+  const {
+    data,
+    getData,
+    fetching,
+    error
+  } = useApiGet();
 
   const getManifest = async (
     kind: string,

@@ -11,5 +11,5 @@ interface DescribeProps {
 }
 
 export function Describe({ items = {} }: DescribeProps) {
-  return <JsonView data={items} shouldExpandNode={allExpanded} style={defaultStyles} />;
+  return <JsonView data={items} shouldExpandNode={allExpanded} style={defaultStyles}/>;
 }

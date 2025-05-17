@@ -1,7 +1,11 @@
 import { useApiPut } from '@/hooks/utils/useApiPut';
 
 export const useWatchdogUpdateConfigs = () => {
-  const { responseStatus, putData, fetching } = useApiPut();
+  const {
+    responseStatus,
+    putData,
+    fetching
+  } = useApiPut();
 
   const handleUpdateSchedule = async (values: any) => {
     try {

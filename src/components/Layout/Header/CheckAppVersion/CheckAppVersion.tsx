@@ -17,13 +17,22 @@ import { compareVersions } from './CompareVersion';
 
 export default function CheckAppVersion() {
   const [updateAvailable, setUpdateAvailable] = useState(false);
-  const [opened, { open, close }] = useDisclosure(false);
+  const [opened, {
+    open,
+    close
+  }] = useDisclosure(false);
   const agentValues = useAgentStatus();
   const serverValues = useServerStatus();
   const appValues = useAppStatus();
 
-  const { data: agentData, getAgentInfo } = useAgentInfo();
-  const { data: coreData, getCoreInfo } = useCoreInfo();
+  const {
+    data: agentData,
+    getAgentInfo
+  } = useAgentInfo();
+  const {
+    data: coreData,
+    getCoreInfo
+  } = useCoreInfo();
 
   useEffect(() => {
     if (serverValues.isServerAvailable && serverValues.isCurrentServerControlPlane) {
@@ -48,7 +57,7 @@ export default function CheckAppVersion() {
 
       if (cmp === 'githubRelease') {
         setUpdateAvailable(true);
-      }else{
+      } else {
         setUpdateAvailable(false);
       }
     }
@@ -62,7 +71,7 @@ export default function CheckAppVersion() {
         title={`App version v${appValues.appInfo?.helm_app_version}`}
         size="lg"
       >
-        <TableVersion app={agentData || coreData} githubRelease={appValues.repoVersion} />
+        <TableVersion app={agentData || coreData} githubRelease={appValues.repoVersion}/>
         <Group justify="flex-end">
           <Text size="sm">Last check {appValues.repoVersion?.datetime || 'N.A'}</Text>
           <ActionIcon
@@ -73,7 +82,7 @@ export default function CheckAppVersion() {
               appValues.setRefreshRepoVersion((prev: number) => prev + 1);
             }}
           >
-            <IconRefresh size={18} stroke={1.5} />
+            <IconRefresh size={18} stroke={1.5}/>
           </ActionIcon>
         </Group>
       </Modal>
@@ -85,8 +94,8 @@ export default function CheckAppVersion() {
           aria-label="Toggle color scheme"
           onClick={open}
         >
-          {updateAvailable && <IconRotateClockwise stroke={1.5} />}
-          {!updateAvailable && <IconRotateClockwise stroke={1.5} />}
+          {updateAvailable && <IconRotateClockwise stroke={1.5}/>}
+          {!updateAvailable && <IconRotateClockwise stroke={1.5}/>}
         </ActionIcon>
       </Indicator>
     </>

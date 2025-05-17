@@ -1,7 +1,12 @@
 import { useApiPatch } from '@/hooks/utils/useApiPatch';
 
 export const useSchedulesPause = () => {
-  const { data, patchData, fetching, error } = useApiPatch();
+  const {
+    data,
+    patchData,
+    fetching,
+    error
+  } = useApiPatch();
 
   const schedulePause = async (resourceName: string) => {
     try {

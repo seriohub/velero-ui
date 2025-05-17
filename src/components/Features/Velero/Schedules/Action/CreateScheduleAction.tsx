@@ -11,9 +11,9 @@ interface CreateSecheduleToolbarIconProps {
 }
 
 export default function CreateSecheduleAction({
-  reload,
-  setReload,
-}: CreateSecheduleToolbarIconProps) {
+                                                reload,
+                                                setReload,
+                                              }: CreateSecheduleToolbarIconProps) {
   return (
     <Tooltip label="Create schedule">
       <ActionIcon
@@ -25,14 +25,14 @@ export default function CreateSecheduleAction({
           openModal({
             title: 'Create New Schedules',
             size: '60rem',
-            children: <CreateScheduleForm reload={reload} setReload={setReload} />,
+            children: <CreateScheduleForm reload={reload} setReload={setReload}/>,
             padding: 'md',
             radius: 'md',
             centered: true,
           });
         }}
       >
-        <IconPlus stroke="1.5" />
+        <IconPlus stroke="1.5"/>
       </ActionIcon>
     </Tooltip>
   );

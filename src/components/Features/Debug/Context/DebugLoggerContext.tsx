@@ -52,7 +52,7 @@ export default function DebugLoggerContext(props: DebUIContextProps) {
   return (
     <ScrollArea px={10} type="always" viewportRef={viewport} scrollbarSize={8} {...props}>
       <Code block>
-        <DebInfoContextJson data={filteredAppValues} />
+        <DebInfoContextJson data={filteredAppValues}/>
       </Code>
     </ScrollArea>
   );

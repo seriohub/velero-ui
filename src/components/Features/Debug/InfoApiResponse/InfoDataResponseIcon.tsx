@@ -23,7 +23,7 @@ export default function InfoDataResponseIcon({ data }: InfoDataResponseIconProps
           openModal({
             title: 'Data',
             size: '80%',
-            children: <InfoDataResponse data={data} />,
+            children: <InfoDataResponse data={data}/>,
           });
         }}
       >

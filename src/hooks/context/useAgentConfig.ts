@@ -36,7 +36,7 @@ export const useAgentConfig = () => {
 
   // agent list if core connected
   useEffect(() => {
-    if (serverValues.isCurrentServerControlPlane &&  appValues.isAuthenticated && appValues.isAuthenticated) {
+    if (serverValues.isCurrentServerControlPlane && appValues.isAuthenticated && appValues.isAuthenticated) {
       getDataAgent({
         url: '/v1/agents',
         target: 'core',
@@ -68,7 +68,7 @@ export const useAgentConfig = () => {
             : 0;
 
         agentValues.setCurrentAgent(agentsAvailable[agentIndex]);
-      }else{
+      } else {
         agentValues.setCurrentAgent(undefined);
       }
     }

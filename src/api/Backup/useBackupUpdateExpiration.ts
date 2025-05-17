@@ -1,7 +1,12 @@
 import { useApiPatch } from '@/hooks/utils/useApiPatch';
 
 export const useBackupUpdateExpiration = () => {
-  const { data, patchData, fetching, error } = useApiPatch();
+  const {
+    data,
+    patchData,
+    fetching,
+    error
+  } = useApiPatch();
 
   const backupUpdateExpiration = async (backupName: string, expiration: string) => {
     try {

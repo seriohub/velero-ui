@@ -12,10 +12,10 @@ interface UpdateExpirationActionIconProps {
 }
 
 const UpdateExpirationAction: React.FC<UpdateExpirationActionIconProps> = ({
-  record,
-  setReload,
-  buttonType = 'actionIcon',
-}) => {
+                                                                             record,
+                                                                             setReload,
+                                                                             buttonType = 'actionIcon',
+                                                                           }) => {
   const backupName = record?.metadata?.name || 'Unknown';
   const isDisabled = ['inprogress', 'new'].includes(record?.status?.phase.toLowerCase() ?? '');
   const handleOpenModal = (e: React.MouseEvent) => {
@@ -23,18 +23,18 @@ const UpdateExpirationAction: React.FC<UpdateExpirationActionIconProps> = ({
     openModal({
       title: `Update Expiration backup ${backupName}`,
       size: 'lg',
-      children: <UpdateExpirationForm record={record} setReload={setReload} />,
+      children: <UpdateExpirationForm record={record} setReload={setReload}/>,
     });
   };
 
   return buttonType === 'actionIcon' ? (
     <Tooltip label="Update Expiration">
       <ActionIcon size="sm" variant="subtle" onClick={handleOpenModal} disabled={isDisabled}>
-        <IconHourglass />
+        <IconHourglass/>
       </ActionIcon>
     </Tooltip>
   ) : (
-    <Button h={38} leftSection={<IconHourglass />} onClick={handleOpenModal} disabled={isDisabled}>
+    <Button h={38} leftSection={<IconHourglass/>} onClick={handleOpenModal} disabled={isDisabled}>
       Update Expiration
     </Button>
   );

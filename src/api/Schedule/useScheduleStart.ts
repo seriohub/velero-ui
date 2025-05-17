@@ -1,7 +1,12 @@
 import { useApiPatch } from '@/hooks/utils/useApiPatch';
 
 export const useSchedulesStart = () => {
-  const { data, patchData, fetching, error } = useApiPatch();
+  const {
+    data,
+    patchData,
+    fetching,
+    error
+  } = useApiPatch();
 
   const scheduleStart = async (resourceName: string) => {
     try {

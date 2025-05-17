@@ -7,10 +7,10 @@ interface CreateCredentialsLocationFormProps {
 }
 
 export default function CreateCredentialsLocationFormView({
-  form,
-  onDone,
-  mode,
-}: CreateCredentialsLocationFormProps) {
+                                                            form,
+                                                            onDone,
+                                                            mode,
+                                                          }: CreateCredentialsLocationFormProps) {
   return (
     <Box mx="auto">
       <form

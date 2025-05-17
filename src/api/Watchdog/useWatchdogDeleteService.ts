@@ -5,7 +5,11 @@ interface Service {
 }
 
 export const useWatchdogDeleteService = () => {
-  const { data, deleteData, error } = useApiDelete();
+  const {
+    data,
+    deleteData,
+    error
+  } = useApiDelete();
 
   const watchdogDeleteService = async ({ name }: Service) => {
     try {

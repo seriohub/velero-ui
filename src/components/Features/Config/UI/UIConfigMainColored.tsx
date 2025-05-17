@@ -19,7 +19,7 @@ export function UIConfigMainColored() {
       <Text size="sm" mt={50} fw={500}>
         Main background colored
       </Text>
-      <Switch checked={checked} onChange={(event) => setChecked(event.currentTarget.checked)} />
+      <Switch checked={checked} onChange={(event) => setChecked(event.currentTarget.checked)}/>
     </Box>
   );
 }

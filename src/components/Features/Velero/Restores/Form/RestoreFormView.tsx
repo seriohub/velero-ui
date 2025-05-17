@@ -30,11 +30,11 @@ interface CreateRestoreFormProps {
 }
 
 export default function RestoreFormView({
-  form,
-  namespaces,
-  resources = [],
-  onDone,
-}: CreateRestoreFormProps) {
+                                          form,
+                                          namespaces,
+                                          resources = [],
+                                          onDone,
+                                        }: CreateRestoreFormProps) {
   const [checked, setChecked] = useState(false);
   const [active, setActive] = useState(0);
   const nextStep = () => {
@@ -52,7 +52,7 @@ export default function RestoreFormView({
             onDone(values);
           })}
         >
-          <RestoreAlert backupName={form.values.backupName} visible={checked} />
+          <RestoreAlert backupName={form.values.backupName} visible={checked}/>
 
           <Stepper active={active} onStepClick={setActive}>
             <Stepper.Step label="Basic Configuration" description="Name, TTL, properties">
@@ -68,7 +68,7 @@ export default function RestoreFormView({
                   label="Backup Name"
                   description="The unique name of the Velero backup to restore from"
                 >
-                  <TextInput {...form.getInputProps('backupName')} disabled />
+                  <TextInput {...form.getInputProps('backupName')} disabled/>
                 </Input.Wrapper>
               </SimpleGrid>
               <SimpleGrid cols={1} mt={20}>
@@ -211,7 +211,7 @@ export default function RestoreFormView({
                   </Group>
                 </Card>
               </SimpleGrid>
-              <Space h={20} />
+              <Space h={20}/>
               <ConfigurationOptions
                 label="Mapping Namespaces"
                 config={form.values.namespaceMapping}
@@ -222,7 +222,7 @@ export default function RestoreFormView({
                 labelValue="New Namespace"
                 description="Is a map of source namespace names to target namespace names to restore into"
               />
-              <Space h={20} />
+              <Space h={20}/>
               <ConfigurationOptions
                 label="Label Selector"
                 config={form.values.labelSelector}
@@ -253,8 +253,8 @@ export default function RestoreFormView({
             </Stepper.Step>
 
             <Stepper.Completed>
-              <Space h={20} />
-              <JsonViewer record={form?.values} />
+              <Space h={20}/>
+              <JsonViewer record={form?.values}/>
               <Text>Completed! click create button to create a restore</Text>
             </Stepper.Completed>
           </Stepper>

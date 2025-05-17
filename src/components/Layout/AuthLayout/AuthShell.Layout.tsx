@@ -52,10 +52,10 @@ export default function AuthShellLayout({ children }: AuthShellLayoutProps) {
               justify="space-between"
               h="calc(100vh - 24px)"
             >
-              <AuthShellHeader />
+              <AuthShellHeader/>
 
               <Box p={20}>
-                <LoginSponsorMessage />
+                <LoginSponsorMessage/>
               </Box>
             </Stack>
 
@@ -96,11 +96,11 @@ export default function AuthShellLayout({ children }: AuthShellLayoutProps) {
             position="right"
             closeOnEscape={false}
           >
-            <DebugAside />
+            <DebugAside/>
           </Drawer>
         </AppShell.Main>
         <AppShell.Footer>
-          <AppShellFooter />
+          <AppShellFooter/>
         </AppShell.Footer>
       </AppShell>
     </>

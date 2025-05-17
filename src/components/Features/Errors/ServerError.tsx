@@ -8,7 +8,10 @@ import { useServerStatus } from '@/contexts/ServerContext';
 
 export const ServerError = () => {
   const serverValues = useServerStatus();
-  const [opened, { open, close }] = useDisclosure(false);
+  const [opened, {
+    open,
+    close
+  }] = useDisclosure(false);
 
   useEffect(() => {
     if (serverValues.currentServer !== undefined && serverValues.isServerAvailable === false) {

@@ -17,16 +17,16 @@ interface TableStatusItemProps {
 }
 
 export function TableStatusItem({
-  label,
-  value,
-  ok,
-  warning = false,
-  actionIcon,
-  message = '',
-  message2 = '',
-  message3 = '',
-  message4 = '',
-}: TableStatusItemProps) {
+                                  label,
+                                  value,
+                                  ok,
+                                  warning = false,
+                                  actionIcon,
+                                  message = '',
+                                  message2 = '',
+                                  message3 = '',
+                                  message4 = '',
+                                }: TableStatusItemProps) {
   const IconOk = (
     <IconCheck
       color="green"

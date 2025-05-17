@@ -19,11 +19,20 @@ import { useDownloadBackupRequests } from '@/api/Requests/useDownloadBackupReque
 import { debounce } from 'lodash';
 import { eventEmitter } from '@/lib/EventEmitter.js';
 
-export default function DeleteBackupRequests({ reload, setReload, active, setFetchingData }: any) {
+export default function DeleteBackupRequests({
+                                               reload,
+                                               setReload,
+                                               active,
+                                               setFetchingData
+                                             }: any) {
   const appValues = useAppStatus();
   const agentValues = useAgentStatus();
 
-  const { data, getDownloadBackupRequests, fetching } = useDownloadBackupRequests();
+  const {
+    data,
+    getDownloadBackupRequests,
+    fetching
+  } = useDownloadBackupRequests();
 
   const [records, setRecords] = useState<Array<any>>([]);
 
@@ -87,7 +96,7 @@ export default function DeleteBackupRequests({ reload, setReload, active, setFet
 
   const renderActions: DataTableColumn<any>['render'] = (record) => (
     <Group gap={4} justify="left" wrap="nowrap">
-      <DescribeActionIcon resourceType={record.kind} record={record} />
+      <DescribeActionIcon resourceType={record.kind} record={record}/>
 
       {/*<DeleteAction resourceType="downloadrequest" record={record} setReload={setReload} />*/}
     </Group>
@@ -128,7 +137,7 @@ export default function DeleteBackupRequests({ reload, setReload, active, setFet
           width: 100,
           ellipsis: true,
           render: ({ status }: any) => (
-            <VeleroResourceStatusBadge status={status?.phase || undefined} />
+            <VeleroResourceStatusBadge status={status?.phase || undefined}/>
           ),
         },
         {
@@ -142,7 +151,7 @@ export default function DeleteBackupRequests({ reload, setReload, active, setFet
           accessor: 'actions',
           title: (
             <Center>
-              <IconClick size={16} />
+              <IconClick size={16}/>
             </Center>
           ),
           width: '0%',

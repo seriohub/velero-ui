@@ -1,7 +1,12 @@
 import { useApiPatch } from '@/hooks/utils/useApiPatch';
 
 export const useSCUpdateMap = () => {
-  const { data, patchData, fetching, error } = useApiPatch();
+  const {
+    data,
+    patchData,
+    fetching,
+    error
+  } = useApiPatch();
 
   const handleScUpdateMap = async (values: any) => {
     try {

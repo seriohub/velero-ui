@@ -24,18 +24,18 @@ type HandleApiResponseParams = {
 };
 
 export const handleApiResponse = ({
-  res,
-  setData,
-  setFetchedTime,
-  setError,
-  addNotificationHistory,
-  addApiResponseHistory,
-  addInHistory,
-  backendUrl,
-  url,
-  params,
-  method,
-}: HandleApiResponseParams) => {
+                                    res,
+                                    setData,
+                                    setFetchedTime,
+                                    setError,
+                                    addNotificationHistory,
+                                    addApiResponseHistory,
+                                    addInHistory,
+                                    backendUrl,
+                                    url,
+                                    params,
+                                    method,
+                                  }: HandleApiResponseParams) => {
   const { data } = res;
   const statusCode = res.status;
 

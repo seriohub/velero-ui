@@ -1,7 +1,11 @@
 import { useApiDelete } from '@/hooks/utils/useApiDelete';
 
 export const useSCDelete = () => {
-  const { deleteData, fetching, error } = useApiDelete();
+  const {
+    deleteData,
+    fetching,
+    error
+  } = useApiDelete();
 
   const handleDeleteSCMap = async (params: any) => {
     try {

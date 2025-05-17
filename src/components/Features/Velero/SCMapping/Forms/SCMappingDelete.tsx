@@ -9,7 +9,11 @@ interface SCMappingDeleteProps {
   setReload: React.Dispatch<React.SetStateAction<number>>;
 }
 
-export function SCMappingDelete({ record, reload, setReload }: SCMappingDeleteProps) {
+export function SCMappingDelete({
+                                  record,
+                                  reload,
+                                  setReload
+                                }: SCMappingDeleteProps) {
   const appValues = useAppStatus();
   const { handleDeleteSCMap } = useSCDelete();
 

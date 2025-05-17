@@ -8,13 +8,16 @@ import { DetailsBackupRestoreContent } from '@/components/Features/Velero/Common
 import { DetailsBackupRestoreLocation } from '@/components/Features/Velero/Commons/DetailsBackupRestoreLocation';
 import classes from '@/styles/veleroResourceDetails.module.css';
 
-export function ScheduleDetailsView({ data, ...rest }: any) {
+export function ScheduleDetailsView({
+                                      data,
+                                      ...rest
+                                    }: any) {
   const router = useRouter();
   return (
     <Card shadow="sm" radius="md" withBorder h="100%">
       <Card.Section p="md" className={classes.section}>
         <Group gap={5}>
-          <IconCalendar size={80} />
+          <IconCalendar size={80}/>
           <Box>
             <Title order={2} fw={800}>
               {data?.metadata?.name}
@@ -26,7 +29,7 @@ export function ScheduleDetailsView({ data, ...rest }: any) {
         </Group>
       </Card.Section>
 
-      <Space h={3} />
+      <Space h={3}/>
       <Card.Section p="sm" className={classes.section}>
         <Box
           style={{
@@ -53,7 +56,7 @@ export function ScheduleDetailsView({ data, ...rest }: any) {
           <Text w={150} size="sm">
             Status:
           </Text>
-          {data?.status?.phase && <VeleroResourceStatusBadge status={data?.status.phase} />}
+          {data?.status?.phase && <VeleroResourceStatusBadge status={data?.status.phase}/>}
         </Box>
 
         <Box
@@ -71,13 +74,13 @@ export function ScheduleDetailsView({ data, ...rest }: any) {
           </Text>
         </Box>
 
-        <Space h={3} />
+        <Space h={3}/>
 
-        <DetailsBackupRestoreContent data={data} />
+        <DetailsBackupRestoreContent data={data}/>
 
-        <Space h={3} />
+        <Space h={3}/>
 
-        <DetailsBackupRestoreLocation data={data} />
+        <DetailsBackupRestoreLocation data={data}/>
       </Card.Section>
     </Card>
   );

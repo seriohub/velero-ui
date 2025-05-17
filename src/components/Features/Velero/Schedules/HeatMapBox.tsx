@@ -16,7 +16,10 @@ function isAllZeros(arrayOfArrays: any) {
 }
 
 export function HeatMapBox() {
-  const { data: weekday, getStatsSchedules } = useStatsSchedules();
+  const {
+    data: weekday,
+    getStatsSchedules
+  } = useStatsSchedules();
 
   const [day, setDay] = useState(-1);
   const [heatmap, setHeatmap] = useState([]);
@@ -60,7 +63,7 @@ export function HeatMapBox() {
           schedule
         </List.Item>
       </List>
-      <Space h={10} />
+      <Space h={10}/>
       <Tabs defaultValue="0">
         <Tabs.List>
           <Tabs.Tab value="0" onClick={() => setDay(0)}>
@@ -110,7 +113,7 @@ export function HeatMapBox() {
           )}
 
           {heatmap !== undefined && !isAllZeros(heatmap) && heatmap && heatmap.length > 0 && (
-            <HeatMapContent data={heatmap} heatmapScheduleName={heatmapScheduleName} />
+            <HeatMapContent data={heatmap} heatmapScheduleName={heatmapScheduleName}/>
           )}
         </Box>
       </Tabs>

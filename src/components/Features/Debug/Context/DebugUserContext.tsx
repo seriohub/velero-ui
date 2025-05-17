@@ -41,7 +41,7 @@ export default function DebugUserContext(props: DebUserContextProps) {
   return (
     <ScrollArea px={10} type="always" viewportRef={viewport} scrollbarSize={8} {...props}>
       <Code block>
-        <DebInfoContextJson data={filteredAppValues} />
+        <DebInfoContextJson data={filteredAppValues}/>
       </Code>
     </ScrollArea>
   );

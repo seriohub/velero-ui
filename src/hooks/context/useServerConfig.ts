@@ -7,7 +7,10 @@ import { useServerStatus } from '@/contexts/ServerContext';
 
 export const useServerConfig = () => {
   const serverValues = useServerStatus();
-  const { data, getData } = useApiGet();
+  const {
+    data,
+    getData
+  } = useApiGet();
 
   /*const {
     data: serverInfo,

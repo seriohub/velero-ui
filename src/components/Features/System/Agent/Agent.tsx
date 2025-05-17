@@ -14,19 +14,32 @@ import ReloadData from '@/components/Inputs/ReloadData';
 import { DiagnosticInfoData } from '@/components/Features/Diagnostic/DiagnosticInfoData';
 
 export function Agent() {
-  const { uiURL, apiURL, apiArch, origins, k8sHealth, stateManager, reload, setReload } =
+  const {
+    uiURL,
+    apiURL,
+    apiArch,
+    origins,
+    k8sHealth,
+    stateManager,
+    reload,
+    setReload
+  } =
     useDiagnosticAgent();
 
   const agentValues = useAgentStatus();
 
-  useEffect(() => {}, [reload, agentValues.isAgentAvailable]);
+  useEffect(() => {
+  }, [reload, agentValues.isAgentAvailable]);
 
   return (
     <MainStack>
       <Toolbar title="Agent" breadcrumbItem={[{ name: 'Agent Info' }]}>
-        <ReloadData setReload={setReload} reload={reload} />
+        <ReloadData setReload={setReload} reload={reload}/>
         <CopyButton value={stateManager.generateMarkdownReport()}>
-          {({ copied, copy }) => (
+          {({
+              copied,
+              copy
+            }) => (
             <Button color={copied ? 'teal' : 'var(--mantine-primary-color-filled)'} onClick={copy}>
               {copied ? 'Copied!' : 'Copy Diagnostic Report to Clipboard'}
             </Button>

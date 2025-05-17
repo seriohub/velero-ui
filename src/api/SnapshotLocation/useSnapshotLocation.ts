@@ -1,7 +1,13 @@
 import { useApiGet } from '@/hooks/utils/useApiGet';
 
 export const useSnapshotLocation = () => {
-  const { data, getData, fetching, error, fetchedTime } = useApiGet();
+  const {
+    data,
+    getData,
+    fetching,
+    error,
+    fetchedTime
+  } = useApiGet();
 
   const getSnapshotLocation = async (forced: boolean = false) => {
     try {

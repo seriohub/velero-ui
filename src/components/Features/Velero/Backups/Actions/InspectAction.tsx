@@ -13,11 +13,17 @@ interface RestoreActionIconProps {
   buttonType?: 'actionIcon' | 'button';
 }
 
-const InspectAction: React.FC<RestoreActionIconProps> = ({ record, buttonType = 'actionIcon' }) => {
+const InspectAction: React.FC<RestoreActionIconProps> = ({
+                                                           record,
+                                                           buttonType = 'actionIcon'
+                                                         }) => {
   const isDisabled = ['inprogress', 'new'].includes(record?.status?.phase.toLowerCase() ?? '');
 
   const backupName = record?.metadata?.name || 'Unknown';
-  const { data, inspectBackup } = useInspectBackup();
+  const {
+    data,
+    inspectBackup
+  } = useInspectBackup();
 
   const handleOpenModal = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -30,11 +36,11 @@ const InspectAction: React.FC<RestoreActionIconProps> = ({ record, buttonType = 
   return buttonType === 'actionIcon' ? (
     <Tooltip label="Download for inspect">
       <ActionIcon size="sm" variant="subtle" disabled={isDisabled} onClick={handleOpenModal}>
-        <IconZoomCode />
+        <IconZoomCode/>
       </ActionIcon>
     </Tooltip>
   ) : (
-    <Button h={38} leftSection={<IconZoomCode />} disabled={isDisabled} onClick={handleOpenModal}>
+    <Button h={38} leftSection={<IconZoomCode/>} disabled={isDisabled} onClick={handleOpenModal}>
       Download for inspect
     </Button>
   );

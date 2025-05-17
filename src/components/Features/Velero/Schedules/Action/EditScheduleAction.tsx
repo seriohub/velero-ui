@@ -13,16 +13,16 @@ interface EditScheduleActionProps {
 }
 
 export default function EditScheduleAction({
-  record,
-  setReload,
-  buttonType = 'actionIcon',
-}: EditScheduleActionProps) {
+                                             record,
+                                             setReload,
+                                             buttonType = 'actionIcon',
+                                           }: EditScheduleActionProps) {
   const handleOpenModal = (e: React.MouseEvent) => {
     e.stopPropagation();
     openModal({
       title: 'Edit Schedules',
       size: '60rem',
-      children: <EditScheduleForm record={record} setReload={setReload} />,
+      children: <EditScheduleForm record={record} setReload={setReload}/>,
       padding: 'md',
       radius: 'md',
       centered: true,
@@ -32,11 +32,11 @@ export default function EditScheduleAction({
   return buttonType === 'actionIcon' ? (
     <Tooltip label="Edit">
       <ActionIcon size="sm" variant="subtle" onClick={handleOpenModal}>
-        <IconEdit color="green" />
+        <IconEdit color="green"/>
       </ActionIcon>
     </Tooltip>
   ) : (
-    <Button h={38} leftSection={<IconEdit />} onClick={handleOpenModal}>
+    <Button h={38} leftSection={<IconEdit/>} onClick={handleOpenModal}>
       Edit
     </Button>
   );

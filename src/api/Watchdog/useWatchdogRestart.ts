@@ -1,7 +1,12 @@
 import { useApiPost } from '@/hooks/utils/useApiPost';
 
 export const useWatchdogRestart = () => {
-  const { data, postData, fetching, error } = useApiPost();
+  const {
+    data,
+    postData,
+    fetching,
+    error
+  } = useApiPost();
 
   const watchdogRestart = async () => {
     try {

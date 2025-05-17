@@ -1,7 +1,11 @@
 import { useApiDelete } from '@/hooks/utils/useApiDelete';
 
 export const useResourceDelete = () => {
-  const { deleteData, fetching, error } = useApiDelete();
+  const {
+    deleteData,
+    fetching,
+    error
+  } = useApiDelete();
 
   const handleDeleteResource = async (resourceType: string, params: any) => {
     try {
@@ -22,7 +26,7 @@ export const useResourceDelete = () => {
     }
   };
 
-  // Restituisci la funzione per la chiamata e i dati necessari
+  // Return the function for the call and the necessary data
   return {
     handleDeleteResource,
     fetching,

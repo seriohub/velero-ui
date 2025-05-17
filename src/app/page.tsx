@@ -23,7 +23,7 @@ export default function RootPage() {
   return (
     <>
       <Stack h="100vh" align="center" justify="center">
-        <Loader />
+        <Loader/>
       </Stack>
     </>
   );

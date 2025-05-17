@@ -17,7 +17,11 @@ import ReloadData from '@/components/Inputs/ReloadData';
 const PAGE_SIZES = [5, 10, 15];
 
 export function Nats() {
-  const { data, getNatsClients, fetching } = useNatsClients();
+  const {
+    data,
+    getNatsClients,
+    fetching
+  } = useNatsClients();
   const [items, setItems] = useState<Array<any>>([]);
   const [reload, setReload] = useState(1);
   const serverValues = useServerStatus();
@@ -60,7 +64,7 @@ export function Nats() {
   return (
     <MainStack>
       <Toolbar title="Nats connections" breadcrumbItem={[{ name: 'Nats Connections' }]}>
-        <ReloadData setReload={setReload} reload={reload} />
+        <ReloadData setReload={setReload} reload={reload}/>
       </Toolbar>
 
       <DataTable

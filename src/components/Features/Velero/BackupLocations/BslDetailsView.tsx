@@ -10,7 +10,7 @@ export function BslDetailsView({ data }: any) {
     <Card shadow="sm" padding="lg" radius="md" withBorder h="100%">
       <Card.Section p="md">
         <Group gap={5}>
-          <IconServer size={80} />
+          <IconServer size={80}/>
           <Box>
             <Title order={2} fw={800}>
               {data?.metadata?.name}
@@ -21,7 +21,7 @@ export function BslDetailsView({ data }: any) {
           </Box>
         </Group>
       </Card.Section>
-      <Space h={3} />
+      <Space h={3}/>
 
       <Card.Section p="sm" className={classes.section}>
         <Text fz="sm" c="dimmed" className={classes.label}>
@@ -38,7 +38,7 @@ export function BslDetailsView({ data }: any) {
           <Text w={150} size="sm">
             Status:
           </Text>
-          {data?.status?.phase && <VeleroResourceStatusBadge status={data?.status.phase} />}
+          {data?.status?.phase && <VeleroResourceStatusBadge status={data?.status.phase}/>}
         </Box>
 
         <Box
@@ -71,7 +71,7 @@ export function BslDetailsView({ data }: any) {
           </Text>
         </Box>
       </Card.Section>
-      <Space h={3} />
+      <Space h={3}/>
       <Card.Section p="sm" className={classes.section}>
         <Text fz="sm" c="dimmed" className={classes.label}>
           Config

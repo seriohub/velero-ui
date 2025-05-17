@@ -1,7 +1,11 @@
 import { useApiPut } from '@/hooks/utils/useApiPut';
 
 export const useUpdateBsl = () => {
-  const { responseStatus, putData, fetching } = useApiPut();
+  const {
+    responseStatus,
+    putData,
+    fetching
+  } = useApiPut();
 
   const handleUpdateBsl = async (values: any) => {
     try {

@@ -12,10 +12,10 @@ interface DeleteSCMappingActionIconProps {
 }
 
 export default function DeleteSCMappingActionIcon({
-  record,
-  reload,
-  setReload,
-}: DeleteSCMappingActionIconProps) {
+                                                    record,
+                                                    reload,
+                                                    setReload,
+                                                  }: DeleteSCMappingActionIconProps) {
   return (
     <Tooltip label="Delete">
       <ActionIcon
@@ -26,11 +26,11 @@ export default function DeleteSCMappingActionIcon({
           openModal({
             title: 'Delete Storage Class Mapping',
             size: 'lg',
-            children: <SCMappingDelete record={record} reload={reload} setReload={setReload} />,
+            children: <SCMappingDelete record={record} reload={reload} setReload={setReload}/>,
           });
         }}
       >
-        <IconTrashX color="red" />
+        <IconTrashX color="red"/>
       </ActionIcon>
     </Tooltip>
   );

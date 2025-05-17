@@ -13,7 +13,10 @@ interface EditBslProps {
 
 const ttlRegex = /^(\d+h)?(\d+m)?(\d+s)?$/;
 
-export function EditBslForm({ record, setReload }: EditBslProps) {
+export function EditBslForm({
+                              record,
+                              setReload
+                            }: EditBslProps) {
   const appValues = useAppStatus();
 
   const { handleUpdateBsl } = useUpdateBsl();
@@ -72,5 +75,5 @@ export function EditBslForm({ record, setReload }: EditBslProps) {
     }, appValues.refreshDatatableAfter);*/
   }
 
-  return <BslFormView mode="edit" form={form} onDone={updateBsl} />;
+  return <BslFormView mode="edit" form={form} onDone={updateBsl}/>;
 }

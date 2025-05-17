@@ -35,7 +35,7 @@ export default function AppShellBootAgent({ children }: AppShellBootProps) {
       )}
       {serverValues.isServerAvailable && (
         <AppShellUserBoot key={reload}>
-            {React.cloneElement(children, { key: reload })}
+          {React.cloneElement(children, { key: reload })}
         </AppShellUserBoot>
       )}
     </>

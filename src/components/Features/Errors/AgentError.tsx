@@ -6,7 +6,7 @@ import { useAgentStatus } from '@/contexts/AgentContext';
 
 export default function AgentError() {
   const agentValues = useAgentStatus();
-  const icon = <IconInfoCircle />;
+  const icon = <IconInfoCircle/>;
   const [showAlert, setShowAlert] = useState<boolean>(false);
   const [alertType, setAlertType] = useState<'error' | 'check' | null>(null);
 

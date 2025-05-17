@@ -1,7 +1,13 @@
 import { useApiGet } from '@/hooks/utils/useApiGet';
 
 export const useRestores = () => {
-  const { data, getData, fetching, error, fetchedTime } = useApiGet();
+  const {
+    data,
+    getData,
+    fetching,
+    error,
+    fetchedTime
+  } = useApiGet();
 
   const getRestores = async (forced: boolean = false) => {
     try {

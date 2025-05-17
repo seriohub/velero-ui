@@ -5,7 +5,12 @@ interface ChannelTest {
 }
 
 export const useWatchdogAddService = () => {
-  const { data, postData, fetching, error } = useApiPost();
+  const {
+    data,
+    postData,
+    fetching,
+    error
+  } = useApiPost();
 
   const watchdogAddService = async ({ config }: ChannelTest) => {
     try {

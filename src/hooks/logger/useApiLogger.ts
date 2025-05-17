@@ -9,7 +9,8 @@ export function useApiLogger() {
 
   if (!loggerEnabled) {
     return {
-      addApiRequestHistory: () => {},
+      addApiRequestHistory: () => {
+      },
       addApiResponseHistory: (data: any) => {
         appValues.addXProcessTimer((prev) => prev.concat(data?.xProcessTime));
       },

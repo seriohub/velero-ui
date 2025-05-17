@@ -17,16 +17,16 @@ interface DiagnosticItemProps {
 }
 
 export function DiagnosticItem({
-  label,
-  value,
-  ok,
-  warning = false,
-  actionIcon,
-  message = '',
-  message2 = '',
-  message3 = '',
-  message4 = '',
-}: DiagnosticItemProps) {
+                                 label,
+                                 value,
+                                 ok,
+                                 warning = false,
+                                 actionIcon,
+                                 message = '',
+                                 message2 = '',
+                                 message3 = '',
+                                 message4 = '',
+                               }: DiagnosticItemProps) {
   const IconOk = (
     <IconCheck
       color="green"

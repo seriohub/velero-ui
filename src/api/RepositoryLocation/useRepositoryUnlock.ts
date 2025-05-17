@@ -1,7 +1,12 @@
 import { useApiPost } from '@/hooks/utils/useApiPost';
 
 export const useRepositoryUnlock = () => {
-  const { data, postData, fetching, error } = useApiPost();
+  const {
+    data,
+    postData,
+    fetching,
+    error
+  } = useApiPost();
 
   const getRepositoryUnlock = async (
     bsl: string,

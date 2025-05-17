@@ -22,7 +22,10 @@ type GetDataParams = {
 export const useApiGet = () => {
   const { logout } = useAuthErrorHandler();
   const router = useRouter();
-  const { addApiRequestHistory, addApiResponseHistory } = useApiLogger();
+  const {
+    addApiRequestHistory,
+    addApiResponseHistory
+  } = useApiLogger();
   const { addNotificationHistory } = useUserNotificationHistory();
 
   const serverValues = useServerStatus();
@@ -34,15 +37,14 @@ export const useApiGet = () => {
   const [error, setError] = useState(false);
 
   const getData = async ({
-    url,
-    params = '',
-    addInHistory = true,
-    target = 'agent',
-  }: GetDataParams) => {
+                           url,
+                           params = '',
+                           addInHistory = true,
+                           target = 'agent',
+                         }: GetDataParams) => {
     if (error) {
       setError(false);
     }
-
 
     let coreUrl = '';
     if (serverValues.isCurrentServerControlPlane) {

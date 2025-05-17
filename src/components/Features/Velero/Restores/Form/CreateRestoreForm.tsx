@@ -17,13 +17,19 @@ interface RestoreBackupProps {
 
 const timeoutRegex = /^\d+[smh]$/;
 
-export function CreateRestoreForm({ backupName, setReload }: RestoreBackupProps) {
+export function CreateRestoreForm({
+                                    backupName,
+                                    setReload
+                                  }: RestoreBackupProps) {
   const { handleCreateRestore } = useCreateRestore();
   const appValues = useAppStatus();
 
   // const { data: manifest, getResourceDescribe } = useResourceDescribe();
 
-  const { data, getCreationBackupSettings } = useCreationBackupSettings();
+  const {
+    data,
+    getCreationBackupSettings
+  } = useCreationBackupSettings();
   const [namespaces, setNamespaces] = useState([]);
   // const [backupLocation, setBackupLocation] = useState([]);
   // const [snapshotLocation, setSnapshotLocation] = useState([]);

@@ -33,7 +33,12 @@ const segmentColors = {
   Paused: 'red.9',
 };
 
-export function StatsSegmentsDonuts({ data, title, icon, path }: StatsSegmentsProps) {
+export function StatsSegmentsDonuts({
+                                      data,
+                                      title,
+                                      icon,
+                                      path
+                                    }: StatsSegmentsProps) {
   const router = useRouter();
   const sections = data.stats.map((segment) => ({
     value: segment.count,

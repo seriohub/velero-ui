@@ -11,7 +11,10 @@ function get_duration({ status }: { status: any }) {
   if (status?.startTimestamp && status?.completionTimestamp) {
     const { startTimestamp } = status;
     const { completionTimestamp } = status;
-    const { formattedDuration, duration } = getDurationDetails(startTimestamp, completionTimestamp);
+    const {
+      formattedDuration,
+      duration
+    } = getDurationDetails(startTimestamp, completionTimestamp);
     return (
       <Tooltip label={duration} color="blue">
         <Text size="sm" fw={600}>
@@ -41,7 +44,7 @@ export function DetailsBackupRestoreStatus({ data }: any) {
         <Text w={150} size="sm">
           Phase:
         </Text>
-        {data?.status?.phase && <VeleroResourceStatusBadge status={data?.status?.phase} />}
+        {data?.status?.phase && <VeleroResourceStatusBadge status={data?.status?.phase}/>}
       </Box>
 
       {data?.status?.errors && (
@@ -134,7 +137,7 @@ export function DetailsBackupRestoreStatus({ data }: any) {
             }}
           >
             <Group gap={5}>
-              <IconClock size={16} />
+              <IconClock size={16}/>
               <Text size="sm">{data?.metadata?.labels['velero.io/schedule-name']}</Text>
             </Group>
           </Anchor>

@@ -15,7 +15,11 @@ import { useInspectBackups } from '@/api/Inspect/useInspectBackups';
 import InspectAction from '@/components/Features/Velero/Inspect/Actions/InspectAction';
 
 export function InspectDatatable() {
-  const { data, getInspectBackups, fetching } = useInspectBackups();
+  const {
+    data,
+    getInspectBackups,
+    fetching
+  } = useInspectBackups();
   const [items, setItems] = useState<any>([]);
   const [reload, setReload] = useState(1);
 
@@ -31,7 +35,7 @@ export function InspectDatatable() {
 
   const renderActions: DataTableColumn<any>['render'] = (record) => (
     <Group gap={4} justify="right" wrap="nowrap">
-      <InspectAction record={record} />
+      <InspectAction record={record}/>
     </Group>
   );
 
@@ -39,7 +43,7 @@ export function InspectDatatable() {
     <MainStack>
       <Toolbar title="Inspect Backups" breadcrumbItem={[{ name: 'Inspect Datatable' }]}>
         {/*<CreateSCMappingIcon setReload={setReload} reload={reload} />*/}
-        <ReloadData setReload={setReload} reload={reload} />
+        <ReloadData setReload={setReload} reload={reload}/>
       </Toolbar>
 
       <DataTable
@@ -63,7 +67,7 @@ export function InspectDatatable() {
             accessor: 'actions',
             title: (
               <Center>
-                <IconClick size={16} />
+                <IconClick size={16}/>
               </Center>
             ),
             width: '100',

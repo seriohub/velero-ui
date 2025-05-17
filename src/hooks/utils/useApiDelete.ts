@@ -22,7 +22,10 @@ export const useApiDelete = ({ target = 'agent' }: UseApiGetProps = {}) => {
   const { logout } = useAuthErrorHandler();
 
   const { addNotificationHistory } = useUserNotificationHistory();
-  const { addApiRequestHistory, addApiResponseHistory } = useApiLogger();
+  const {
+    addApiRequestHistory,
+    addApiResponseHistory
+  } = useApiLogger();
   const [fetchedTime, setFetchedTime] = useState<string | undefined>(undefined);
 
   const backendUrl = useBackend({ target });
@@ -31,7 +34,10 @@ export const useApiDelete = ({ target = 'agent' }: UseApiGetProps = {}) => {
   const [data, setData] = useState<Record<string, any> | undefined>(undefined);
   const [error, setError] = useState(false);
 
-  const deleteData = async ({ url, params }: DeleteParams) => {
+  const deleteData = async ({
+                              url,
+                              params
+                            }: DeleteParams) => {
     if (error) {
       setError(false);
     }

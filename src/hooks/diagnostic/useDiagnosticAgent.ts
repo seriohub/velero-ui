@@ -21,11 +21,26 @@ export const useDiagnosticAgent = () => {
   const [origins, setOrigins] = useState<string | any>('');
   const apiURL = useBackend();
 
-  const { data: k8sHealth, getData: getDataK8sHealth } = useApiGet();
-  const { data: apiOrigins, getData: getApiOrigins } = useApiGet();
-  const { data: apiArch, getData: getApiArch } = useApiGet();
-  const { data: watchdog, getData: getWatchdog } = useApiGet();
-  const { data: compatibility, getData: getCompatibility } = useApiGet();
+  const {
+    data: k8sHealth,
+    getData: getDataK8sHealth
+  } = useApiGet();
+  const {
+    data: apiOrigins,
+    getData: getApiOrigins
+  } = useApiGet();
+  const {
+    data: apiArch,
+    getData: getApiArch
+  } = useApiGet();
+  const {
+    data: watchdog,
+    getData: getWatchdog
+  } = useApiGet();
+  const {
+    data: compatibility,
+    getData: getCompatibility
+  } = useApiGet();
   // const { isUrlAvailable, checkAvailability } = useUrlAvailability();
 
   useEffect(() => {
@@ -47,7 +62,7 @@ export const useDiagnosticAgent = () => {
       getCompatibility({
         url: '/info/compatibility-table',
         params: `version=${NEXT_PUBLIC_FRONT_END_BUILD_VERSION}`,
-       // target: 'agent',
+        // target: 'agent',
       });
     }
 
@@ -86,7 +101,7 @@ export const useDiagnosticAgent = () => {
   stateManager.setVariable(
     'validateOrigins',
     serverValues.isCurrentServerControlPlane ||
-      (origins.length > 0 && (origins.includes(uiURL) || origins.includes('*')))
+    (origins.length > 0 && (origins.includes(uiURL) || origins.includes('*')))
   );
   stateManager.setVariable('getWatchdogInfo', !!(watchdog && true));
   stateManager.setVariable('getClusterHealth', k8sHealth !== undefined);

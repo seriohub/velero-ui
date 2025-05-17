@@ -30,7 +30,7 @@ export function DetailsBackupRestoreLocation({ data }: any) {
         </Text>
         <Anchor size="sm" onClick={() => router.push(`${basePath}/${value}`)}>
           <Group gap={5}>
-            <Icon size={16} />
+            <Icon size={16}/>
             <Text size="sm">{value}</Text>
           </Group>
         </Anchor>
@@ -58,7 +58,7 @@ export function DetailsBackupRestoreLocation({ data }: any) {
           {values.map((value: string, index: number) => (
             <Anchor size="sm" onClick={() => router.push(`${basePath}/${value}`)} key={index}>
               <Group gap={5}>
-                <Icon size={16} />
+                <Icon size={16}/>
                 <Text size="sm">{value}</Text>
               </Group>
             </Anchor>

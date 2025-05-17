@@ -36,10 +36,20 @@ export default function AppShellLayout({ children }: AppShellLayoutProps) {
   const uiValues = useUIStatus();
   const agentValues = useAgentStatus();
   const [opened, { toggle }] = useDisclosure();
-  const [collapsed, { toggle: toggleCollapsed, open }] = useDisclosure();
+  const [collapsed, {
+    toggle: toggleCollapsed,
+    open
+  }] = useDisclosure();
 
-  const { height: vpHeight, width: vpWidth } = useViewportSize();
-  const { ref, width, height } = useElementSize();
+  const {
+    height: vpHeight,
+    width: vpWidth
+  } = useViewportSize();
+  const {
+    ref,
+    width,
+    height
+  } = useElementSize();
   const computedColorScheme = useComputedColorScheme('light', { getInitialValueInEffect: true });
 
   const [openedAside, { toggle: toggleAside }] = useDisclosure();
@@ -58,7 +68,7 @@ export default function AppShellLayout({ children }: AppShellLayoutProps) {
 
   return (
     <>
-      <RouteChangeHandler />
+      <RouteChangeHandler/>
       <AppShell
         header={{ height: 60 }}
         navbar={{
@@ -120,9 +130,9 @@ export default function AppShellLayout({ children }: AppShellLayoutProps) {
               {children}
             </Box>
             <Box ref={ref} p={0}>
-              <AgentError />
-              <TaskInProgressAccordion />
-              {process.env.NODE_ENV === 'development' && <AppShellMainFooter />}
+              <AgentError/>
+              <TaskInProgressAccordion/>
+              {process.env.NODE_ENV === 'development' && <AppShellMainFooter/>}
             </Box>
           </Flex>
 
@@ -164,7 +174,7 @@ export default function AppShellLayout({ children }: AppShellLayoutProps) {
           position="right"
           closeOnEscape={false}
         >
-          <DebugAside />
+          <DebugAside/>
         </Drawer>
 
         <Drawer
@@ -174,11 +184,11 @@ export default function AppShellLayout({ children }: AppShellLayoutProps) {
           position="right"
           closeOnEscape={false}
         >
-          <UIConfig />
+          <UIConfig/>
         </Drawer>
 
         <AppShell.Footer visibleFrom="sm">
-          <AppShellFooter />
+          <AppShellFooter/>
         </AppShell.Footer>
       </AppShell>
     </>

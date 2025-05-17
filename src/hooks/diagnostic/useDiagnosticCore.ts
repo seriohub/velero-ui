@@ -18,10 +18,22 @@ export const useDiagnosticCore = () => {
   const [origins, setOrigins] = useState<string | any>('');
   const apiURL = useBackend({ target: 'static' });
 
-  const { data: k8sHealth, getData: getDataK8sHealth } = useApiGet();
-  const { data: apiOrigins, getData: getApiOrigins } = useApiGet();
-  const { data: apiArch, getData: getApiArch } = useApiGet();
-  const { data: compatibility, getData: getCompatibility } = useApiGet();
+  const {
+    data: k8sHealth,
+    getData: getDataK8sHealth
+  } = useApiGet();
+  const {
+    data: apiOrigins,
+    getData: getApiOrigins
+  } = useApiGet();
+  const {
+    data: apiArch,
+    getData: getApiArch
+  } = useApiGet();
+  const {
+    data: compatibility,
+    getData: getCompatibility
+  } = useApiGet();
 
   useEffect(() => {
     if (serverValues.isServerAvailable) {

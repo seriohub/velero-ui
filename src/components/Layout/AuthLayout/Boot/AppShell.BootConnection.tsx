@@ -11,7 +11,7 @@ interface AppShellBootProps {
 export default function AppShellBootConnection({ children }: AppShellBootProps) {
   return (
     <>
-    {/*<ServerError />*/}
+      {/*<ServerError />*/}
       <AppShellBootAgent>{children}</AppShellBootAgent>
     </>
   );

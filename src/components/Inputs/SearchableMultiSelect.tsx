@@ -20,13 +20,13 @@ interface SearchableMultiSelectProps {
 }
 
 export function SearchableMultiSelect({
-  label = '',
-  content = [],
-  form,
-  fieldName,
-  initialValue,
-  description = '',
-}: SearchableMultiSelectProps) {
+                                        label = '',
+                                        content = [],
+                                        form,
+                                        fieldName,
+                                        initialValue,
+                                        description = '',
+                                      }: SearchableMultiSelectProps) {
   const combobox = useCombobox({
     onDropdownClose: () => combobox.resetSelectedOption(),
     onDropdownOpen: () => combobox.updateSelectedOptionIndex('active'),
@@ -59,7 +59,7 @@ export function SearchableMultiSelect({
     .map((item) => (
       <Combobox.Option value={item} key={item} active={value.includes(item)}>
         <Group gap="sm">
-          {value.includes(item) ? <CheckIcon size={12} /> : null}
+          {value.includes(item) ? <CheckIcon size={12}/> : null}
           <span>{item}</span>
         </Group>
       </Combobox.Option>
@@ -68,7 +68,7 @@ export function SearchableMultiSelect({
   return (
     <Input.Wrapper label={label} description={description}>
       <Combobox store={combobox} onOptionSubmit={handleValueSelect} withinPortal={false}>
-        <Combobox.DropdownTarget >
+        <Combobox.DropdownTarget>
           <PillsInput onClick={() => combobox.openDropdown()}>
             <Pill.Group>
               {values}

@@ -31,7 +31,10 @@ interface AlertComponentProps {
   visible: boolean;
 }
 
-export default function RestoreAlert({ backupName, visible }: AlertComponentProps) {
+export default function RestoreAlert({
+                                       backupName,
+                                       visible
+                                     }: AlertComponentProps) {
   const {
     data: clusterStorageClasses,
     getStorageClasses,
@@ -39,9 +42,16 @@ export default function RestoreAlert({ backupName, visible }: AlertComponentProp
   } = useStorageClasses();
 
   const [loader, setLoader] = useState(false);
-  const { data: manifest, getResourceDescribe } = useResourceDescribe();
+  const {
+    data: manifest,
+    getResourceDescribe
+  } = useResourceDescribe();
 
-  const { data: pvc, getPvc, fetching: fetchingPvc } = usePvcBackupSC();
+  const {
+    data: pvc,
+    getPvc,
+    fetching: fetchingPvc
+  } = usePvcBackupSC();
   const {
     data: veleroMapping,
     getStorageClassesMap,
@@ -61,7 +71,7 @@ export default function RestoreAlert({ backupName, visible }: AlertComponentProp
   if (!loader || fetchingStorgaclass || fetchingVeleroMapping || fetchingPvc) {
     return (
       <Center>
-        <Loader />
+        <Loader/>
         Getting data...
       </Center>
     );
@@ -73,7 +83,7 @@ export default function RestoreAlert({ backupName, visible }: AlertComponentProp
       variant="light"
       color="blue"
       title="Backup Storage info"
-      icon={<IconInfoCircle />}
+      icon={<IconInfoCircle/>}
     >
       <SimpleGrid cols={3}>
         <Box>

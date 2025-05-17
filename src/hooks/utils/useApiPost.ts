@@ -20,7 +20,10 @@ export const useApiPost = () => {
   const { logout } = useAuthErrorHandler();
 
   const { addNotificationHistory } = useUserNotificationHistory();
-  const { addApiRequestHistory, addApiResponseHistory } = useApiLogger();
+  const {
+    addApiRequestHistory,
+    addApiResponseHistory
+  } = useApiLogger();
   const [fetchedTime, setFetchedTime] = useState<string | undefined>(undefined);
 
   const serverValues = useServerStatus();
@@ -30,7 +33,7 @@ export const useApiPost = () => {
   const [data, setData] = useState<Record<string, any> | undefined>(undefined);
   const [error, setError] = useState(false);
 
-  const postData = async (url: string, values: any,  target = 'agent') => {
+  const postData = async (url: string, values: any, target = 'agent') => {
     if (error) {
       setError(false);
     }

@@ -27,8 +27,8 @@ export default function LastBackupsFilter({ setOnlyLast4Schedule }: LastBackup4S
         variant="outline"
         radius={8}
       >
-        {!checked && <IconFilter stroke={1.5} />}
-        {checked && <IconFilterFilled stroke={1.5} />}
+        {!checked && <IconFilter stroke={1.5}/>}
+        {checked && <IconFilterFilled stroke={1.5}/>}
       </ActionIcon>
     </Tooltip>
   );

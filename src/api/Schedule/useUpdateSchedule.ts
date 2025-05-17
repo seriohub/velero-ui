@@ -1,7 +1,11 @@
 import { useApiPut } from '@/hooks/utils/useApiPut';
 
 export const useUpdateSchedule = () => {
-  const { responseStatus, putData, fetching } = useApiPut();
+  const {
+    responseStatus,
+    putData,
+    fetching
+  } = useApiPut();
 
   const handleUpdateSchedule = async (values: any) => {
     try {
