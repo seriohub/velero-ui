@@ -10,10 +10,9 @@ export const useCreateBackup = () => {
 
   const handleCreateBackup = async (values: any) => {
     try {
-      // Execute the API call with the generic method
-      await postData('/v1/backup', values);
-      // This code will be executed only in case of success
-      // console.log('Request successful, execute final action...');
+
+      return await postData('/v1/backup', values);
+
     } catch (e) {
       // Error handling
       // console.error('Error during call:', error);

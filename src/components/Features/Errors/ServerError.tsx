@@ -1,3 +1,5 @@
+'use client';
+
 import { Modal, Stack, Title } from '@mantine/core';
 
 import { useDisclosure } from '@mantine/hooks';

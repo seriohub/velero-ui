@@ -10,11 +10,9 @@ export const useReconnectAgent = () => {
 
   const reconnectAgent = async () => {
     try {
-      // Execute the API call with the generic method
-      await postData('/v1/nats/send-core-restarted', {}, 'core');
 
-      // This code will be executed only in case of success
-      // console.log('Request successful, execute final action...');
+      return await postData('/v1/nats/send-core-restarted', {}, 'core');
+
     } catch (e) {
       // Error handling
       // console.error('Error during call:', error);

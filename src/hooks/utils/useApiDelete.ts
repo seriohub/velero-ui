@@ -1,6 +1,6 @@
-import { useState } from 'react';
+'use client';
 
-import { useBackend } from '../useBackend';
+import { useState } from 'react';
 
 import { useApiLogger } from '../logger/useApiLogger';
 import { useUserNotificationHistory } from '../user/useUserNotificationHistory';
@@ -8,18 +8,21 @@ import { useAuthErrorHandler } from '../user/useAuthErrorHandler';
 import { ApiResponseShowErrorNotification } from '@/components/Display/ApiNotification';
 import { handleApiResponse } from './handleApiResponse';
 import { parseApiResponse } from '@/hooks/utils/parseApiResponse';
+import { useServerStatus } from "@/contexts/ServerContext";
+import { useAgentStatus } from "@/contexts/AgentContext";
+import { buildBackendUrl } from "@/utils/backend";
 
 type DeleteParams = {
   url: string;
   params?: any;
+  target?: string;
 };
 
-interface UseApiGetProps {
-  target?: 'core' | 'agent' | 'static';
-}
-
-export const useApiDelete = ({ target = 'agent' }: UseApiGetProps = {}) => {
+export const useApiDelete = () => {
   const { logout } = useAuthErrorHandler();
+
+  const serverValues = useServerStatus();
+  const agentValues = useAgentStatus();
 
   const { addNotificationHistory } = useUserNotificationHistory();
   const {
@@ -28,24 +31,29 @@ export const useApiDelete = ({ target = 'agent' }: UseApiGetProps = {}) => {
   } = useApiLogger();
   const [fetchedTime, setFetchedTime] = useState<string | undefined>(undefined);
 
-  const backendUrl = useBackend({ target });
-
   const [fetching, setFetching] = useState(false);
   const [data, setData] = useState<Record<string, any> | undefined>(undefined);
   const [error, setError] = useState(false);
 
   const deleteData = async ({
                               url,
-                              params
+                              params,
+                              target = 'agent'
                             }: DeleteParams) => {
     if (error) {
       setError(false);
     }
 
-    // Recupera il token JWT dal localStorage
+    const backendUrl = buildBackendUrl({
+      target: target as 'core' | 'agent' | 'static',
+      serverValues,
+      agentValues,
+    });
+
+    // Retrieves the JWT token from the localStorage
     const jwtToken = localStorage.getItem('token');
 
-    // Aggiungi il token JWT all'header, se presente
+    // Add the JWT token to the header, if present
     const headers: any = {
       'Content-Type': 'application/json',
     };
@@ -67,6 +75,7 @@ export const useApiDelete = ({ target = 'agent' }: UseApiGetProps = {}) => {
     });
 
     setFetching(true);
+
     fetch(`${backendUrl}${url}`, requestOptions)
       .then(parseApiResponse)
       .then((res) => {

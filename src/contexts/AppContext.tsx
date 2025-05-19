@@ -14,6 +14,7 @@ interface AppStatus {
   repoVersion: any;
   refreshGithubRepoVersion: any | undefined;
   appInfo: any;
+  veleroTanzuVersion: any;
 }
 
 interface AppStatusContextProps extends AppStatus {
@@ -27,6 +28,7 @@ interface AppStatusContextProps extends AppStatus {
   setRepoVersion: React.Dispatch<React.SetStateAction<any>>;
   setRefreshRepoVersion: React.Dispatch<React.SetStateAction<any>>;
   setAppInfo: React.Dispatch<React.SetStateAction<Record<string, any>>>;
+  setVeleroTanzuVersion: any;
 }
 
 const AppStatusContext = createContext<AppStatusContextProps | undefined>(undefined);
@@ -56,6 +58,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const [appInfo, setAppInfo] = useState<any>([]);
 
+  const [veleroTanzuVersion, setVeleroTanzuVersion] = useState<any>([]);
+
   return (
     <AppStatusContext.Provider
       value={{
@@ -69,6 +73,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         repoVersion,
         refreshGithubRepoVersion,
         appInfo,
+        veleroTanzuVersion,
+
         setSocketStatus,
         setAppInitialized,
         setAuthenticated,
@@ -79,6 +85,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         setRepoVersion,
         setRefreshRepoVersion,
         setAppInfo,
+        setVeleroTanzuVersion,
       }}
     >
       {children}

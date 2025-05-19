@@ -41,14 +41,14 @@ export const DiagnosticInfoData = ({
     {
       label: 'Validate Origins',
       status: stateManager.getVariable('validateOrigins') ? 'ok' : 'error',
-      warning: [origins.length > 0 && origins.includes('*') ? 'Warning: ORIGINS contains "*"' : ''],
+      warning: [origins?.length > 0 && origins?.includes('*') ? 'Warning: ORIGINS contains "*"' : ''],
       error: [
-        origins.length === 0 || (origins.length > 0 && !origins.includes(uiURL))
+        origins?.length === 0 || (origins?.length > 0 && !origins?.includes(uiURL))
           ? `Error: Origins must contain ${uiURL}`
           : '',
       ],
       value: [
-        !origins.includes('*') && origins.length > 0 && !origins.includes(uiURL)
+        !origins?.includes('*') && origins?.length > 0 && !origins?.includes(uiURL)
           ? "If you have problems you can try to use '*'"
           : '',
       ].filter((msg) => msg !== ''),
@@ -63,7 +63,7 @@ export const DiagnosticInfoData = ({
         `Nodes not ready: ${k8sHealth?.nodes?.in_error}`,
       ],
     },
-    {
+    /*{
       label: 'UI/API Check Compatibility',
       status: stateManager.getVariable('getUiApiVerCompatibility') ? 'ok' : 'error',
       messages: [
@@ -71,7 +71,7 @@ export const DiagnosticInfoData = ({
           ? ''
           : 'UI/API versions not shown in the compatibility list. You can proceed, but errors may occur.',
       ].filter((msg) => msg !== ''),
-    },
+    },*/
   ];
   if (stateManager.getVariable('getWatchdogInfo')) {
     elements.push({

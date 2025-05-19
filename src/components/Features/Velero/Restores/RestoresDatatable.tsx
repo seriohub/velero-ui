@@ -142,7 +142,6 @@ export function RestoresDatatable() {
               <Anchor
                 size="sm"
                 onClick={() => {
-                  // console.log(record);
                   router.push(`/restores/${record?.metadata?.name}`);
                 }}
               >

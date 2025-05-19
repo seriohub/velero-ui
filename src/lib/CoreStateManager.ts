@@ -7,7 +7,7 @@ interface BooleanState {
   getOrigins: boolean;
   validateOrigins: boolean;
   getClusterHealth: boolean;
-  getUiApiVerCompatibility: boolean;
+  // getUiApiVerCompatibility: boolean;
 }
 
 // Class
@@ -25,7 +25,7 @@ export class CoreStateManager {
       getOrigins: false,
       validateOrigins: false,
       getClusterHealth: false,
-      getUiApiVerCompatibility: false,
+      // getUiApiVerCompatibility: false,
     };
     this.allTrue = false;
     this.hasWarnings = false;

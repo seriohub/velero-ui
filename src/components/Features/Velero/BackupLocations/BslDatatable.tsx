@@ -202,7 +202,6 @@ export function BslDatatable() {
               <Anchor
                 size="sm"
                 onClick={() => {
-                  // console.log(record);
                   router.push(`/backup-storage-locations/${record?.metadata?.name}`);
                 }}
               >

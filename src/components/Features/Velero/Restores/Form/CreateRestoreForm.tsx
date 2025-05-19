@@ -84,13 +84,8 @@ export function CreateRestoreForm({
   }, [data]);
 
   function createRestore(values: any) {
-    //console.log(values)
     handleCreateRestore(values);
     closeAllModals();
-    /*const interval = setInterval(() => {
-      setReload((prev) => prev + 1);
-      clearInterval(interval);
-    }, appValues.refreshDatatableAfter);*/
   }
 
   return (

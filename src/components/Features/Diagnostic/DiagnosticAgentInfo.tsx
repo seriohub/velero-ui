@@ -1,27 +1,20 @@
 'use client';
 
 import { ActionIcon, Group, Modal, Text, Tooltip } from '@mantine/core';
-
-import { IconCheck, IconPlugConnected, IconRefresh, IconPlugConnectedX, IconInfoSquare } from '@tabler/icons-react';
-
 import { useDisclosure } from '@mantine/hooks';
 
+import { IconCheck, IconPlugConnected, IconPlugConnectedX, IconInfoSquare } from '@tabler/icons-react';
+
 import { useAgentStatus } from '@/contexts/AgentContext';
-
+import { useServerStatus } from "@/contexts/ServerContext";
 import { useDiagnosticAgent } from '@/hooks/diagnostic/useDiagnosticAgent';
-
 import { DiagnosticInfoData } from './DiagnosticInfoData';
 
 export const DiagnosticAgentInfo = () => {
+  const serverValues = useServerStatus();
+
   const {
-    uiURL,
-    apiURL,
-    apiArch,
-    origins,
-    k8sHealth,
     stateManager,
-    reload,
-    setReload
   } =
     useDiagnosticAgent();
 
@@ -64,7 +57,7 @@ export const DiagnosticAgentInfo = () => {
             </Group>
           </>
         )}
-        {!stateManager.allTrue && (
+        {!stateManager?.allTrue && (
           <>
             <Group gap={0}>
               <IconCheck color="red" size={20}/>
@@ -75,7 +68,7 @@ export const DiagnosticAgentInfo = () => {
           </>
         )}
 
-        <Tooltip label="Refresh agent connection data">
+        {/*<Tooltip label="Refresh agent connection data">
           <ActionIcon
             size={20}
             variant="transparent"
@@ -86,7 +79,7 @@ export const DiagnosticAgentInfo = () => {
           >
             <IconRefresh size={20} stroke={1.5}/>
           </ActionIcon>
-        </Tooltip>
+        </Tooltip>*/}
 
         <Tooltip label="Agent info">
           <ActionIcon
@@ -113,11 +106,11 @@ export const DiagnosticAgentInfo = () => {
         {/* Modal content */}
 
         <DiagnosticInfoData
-          uiURL={uiURL}
-          apiURL={apiURL}
-          apiArch={apiArch}
-          origins={origins}
-          k8sHealth={k8sHealth}
+          uiURL={serverValues.uiURL}
+          apiURL={serverValues.apiURL}
+          apiArch={agentValues?.arch}
+          origins={agentValues?.origins}
+          k8sHealth={agentValues?.k8sHealth}
           stateManager={stateManager}
         />
       </Modal>

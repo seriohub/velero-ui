@@ -10,13 +10,11 @@ export const useSCCreateMap = () => {
 
   const handleScCreateMap = async (values: any) => {
     try {
-      // Execute the API call with the generic method
-      await postData('/v1/sc-mapping', {
+
+      return await postData('/v1/sc-mapping', {
         storageClassMapping: values,
       });
 
-      // This code will be executed only in case of success
-      // console.log('Request successful, execute final action...');
     } catch (e) {
       // Error handling
       // console.error('Error during call:', error);

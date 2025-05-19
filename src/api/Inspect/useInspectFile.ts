@@ -10,10 +10,12 @@ export const useInspectFile = () => {
 
   const getInspectFile = async (path: string): Promise<void> => {
     try {
-      await getData({
+
+      return await getData({
         url: '/v1/inspect/file',
         params: `path=${path}`,
       });
+
     } catch (e) {
       // console.error('Error:', e);
     } finally {

@@ -10,9 +10,11 @@ export const useVeleroPods = () => {
 
   const getVeleroPods = async (): Promise<void> => {
     try {
-      await getData({
+
+      return await getData({
         url: '/v1/velero/pods'
       });
+
     } catch (e) {
       // console.error('Error:', e);
     } finally {

@@ -71,8 +71,6 @@ export function UIConfigFontSize() {
   const appValues = useUIStatus();
 
   function setEndValue(endValue: FontSizeKey) {
-    // console.log('Selected font size mapping:', fontSizeMap[endValue]);
-
     // Update the app state with the selected font sizes
     appValues.setUiFontSize({
       value: String(endValue),

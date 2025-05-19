@@ -104,7 +104,7 @@ export function DetailsBackupRestoreStatus({ data }: any) {
         mt={3}
       >
         <Text w={150} size="sm">
-          Total items:
+          Items:
         </Text>
         <Text fw={600} size="sm" style={{ flex: 1 }}>
           {data?.status?.phase && data?.status?.phase === 'InProgress' && (
@@ -112,7 +112,7 @@ export function DetailsBackupRestoreStatus({ data }: any) {
               {data?.status?.progress?.itemsBackedUp ||
                 data?.status?.progress?.itemsRestored ||
                 'n.a.'}
-              /{data?.status?.progress?.totalItems}
+              {` / `}{data?.status?.progress?.totalItems || 'n.a.'}
             </>
           )}
           {data?.status?.phase !== 'InProgress' && <>{data?.status?.progress?.totalItems}</>}

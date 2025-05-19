@@ -10,9 +10,11 @@ export const useInspectBackups = () => {
 
   const getInspectBackups = async (): Promise<void> => {
     try {
-      await getData({
+
+      return await getData({
         url: '/v1/inspect/backups',
       });
+
     } catch (e) {
       // console.error('Error:', e);
     } finally {

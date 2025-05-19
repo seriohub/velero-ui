@@ -11,7 +11,7 @@ interface BooleanState {
   validateOrigins: boolean;
   getWatchdogInfo: boolean;
   getClusterHealth: boolean;
-  getUiApiVerCompatibility: boolean;
+  // getUiApiVerCompatibility: boolean;
 }
 
 // Class
@@ -25,7 +25,7 @@ export class AgentStateManager {
   public apiOrigins: Record<string, any>;
   public arch: string;
   public watchdog: string;
-  public compatibility: string;
+  // public compatibility: string;
 
   private booleanState: BooleanState;
   public allTrue: boolean;
@@ -38,7 +38,7 @@ export class AgentStateManager {
     this.apiOrigins = [];
     this.arch = '';
     this.watchdog = '';
-    this.compatibility = '';
+    // this.compatibility = '';
 
     this.booleanState = {
       getUiURL: false,
@@ -49,7 +49,7 @@ export class AgentStateManager {
       validateOrigins: false,
       getWatchdogInfo: false,
       getClusterHealth: false,
-      getUiApiVerCompatibility: false, // only for agent now
+      // getUiApiVerCompatibility: false, // only for agent now
     };
     this.allTrue = false;
     this.hasWarnings = false;
@@ -114,7 +114,7 @@ export class AgentStateManager {
 
     markdown += `- Architecture: **${this.arch}**\n`;
     markdown += `- Watchdog: **${this.watchdog}**\n`;
-    markdown += `- Compatibility: **${this.compatibility}**\n`;
+    // markdown += `- Compatibility: **${this.compatibility}**\n`;
 
     markdown += '- Boolean State\n';
     for (const [key, value] of Object.entries(this.booleanState)) {

@@ -1,4 +1,4 @@
-import { Anchor, Box, Card, Group, ScrollArea, Space, Text, Title } from '@mantine/core';
+import { Anchor, Box, Card, Group, Space, Text, Title } from '@mantine/core';
 import { IconFolders, IconServer } from '@tabler/icons-react';
 import { useRouter } from 'next/navigation';
 import VeleroResourceStatusBadge from '@/components/Features/Velero/Commons/Display/VeleroResourceStatusBadge';

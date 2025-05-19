@@ -10,11 +10,9 @@ export const useCreationBackupSettings = () => {
 
   const getCreationBackupSettings = async () => {
     try {
-      // Execute the API call with the generic method
-      await getData({ url: '/v1/backup/environment' });
 
-      // This code will be executed only in case of success
-      // console.log('Request successful, execute final action...');
+      return await getData({ url: '/v1/backup/environment' });
+
     } catch (e) {
       // Error handling
       // console.error('Error during call:', error);

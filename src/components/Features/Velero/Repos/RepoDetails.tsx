@@ -82,7 +82,7 @@ export function RepoDetails({ params }: BackupProps) {
       </Toolbar>
       <Grid gutter="sm">
         <Grid.Col span={4}>
-          <DetailsView data={manifest} fetching={fetching} h={600}/>
+          <DetailsView data={manifest} h={600}/>
         </Grid.Col>
 
         <Grid.Col span={8}>

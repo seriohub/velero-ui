@@ -17,9 +17,6 @@ export function Agent() {
   const {
     uiURL,
     apiURL,
-    apiArch,
-    origins,
-    k8sHealth,
     stateManager,
     reload,
     setReload
@@ -50,9 +47,9 @@ export function Agent() {
       <DiagnosticInfoData
         uiURL={uiURL}
         apiURL={apiURL}
-        apiArch={apiArch}
-        origins={origins}
-        k8sHealth={k8sHealth}
+        apiArch={agentValues?.arch}
+        origins={agentValues?.origins}
+        k8sHealth={agentValues?.k8sHealth}
         stateManager={stateManager}
       />
     </MainStack>

@@ -71,18 +71,18 @@ export const useAppWebSocket = ({ addSocketHistory = null }: UseAppWebSocketPara
         if (NEXT_PUBLIC_AUTH_ENABLED && !isAuthenticated) return;
         try {
           const response = JSON.parse(event.data);
+          if (response.type === 'user_watch' || response.type === 'global_watch') {
+            eventEmitter.emit('watchResources', response);
+          }
           if (response.type === 'agent_alive' && agentValues.currentAgent?.name === response?.payload?.agent_name && response?.payload?.is_alive) {
             agentValues.setIsAgentAvailable(true);
           }
           if (response.type === 'agent_alive' && agentValues.currentAgent?.name === response?.payload?.agent_name && !response?.payload?.is_alive) {
             agentValues.setIsAgentAvailable(false);
           }
-          if (response.type !== 'agent_alive' && response.type !== 'pong') {
-            addSocketHistory?.((prev: string[]) => prev.concat(event.data));
-          }
-          if (response.type === 'user_watch' || response.type === 'global_watch') {
-            eventEmitter.emit('watchResources', response);
-          }
+          // if (response.type !== 'agent_alive' && response.type !== 'pong') {
+          // addSocketHistory?.((prev: string[]) => prev.concat(event.data));
+          // }
         } catch (error) {
           console.error('Error parsing WebSocket message:', error);
         }

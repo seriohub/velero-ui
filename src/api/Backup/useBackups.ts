@@ -40,10 +40,11 @@ export const useBackups = () => {
         forced,
       };
 
-      await getData({
+      return await getData({
         url: '/v1/backups',
         params: jsonToQueryParams(params),
       });
+
     } catch (e) {
       // console.error('Error:', e);
     } finally {

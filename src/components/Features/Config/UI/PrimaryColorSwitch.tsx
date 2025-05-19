@@ -66,7 +66,6 @@ export default function PrimaryColorSwitch() {
   function setColor(value: any) {
     swatchesWithNames.map((item) => {
       if (value === item.color) {
-        // console.log(item.name);
         setPrimaryColor(item.name);
         localStorage.setItem('primaryColor', item.name);
       }

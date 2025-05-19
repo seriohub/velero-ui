@@ -40,7 +40,6 @@ export function ScheduleDetails({ params }: ScheduleProps) {
       message?.payload?.resources === 'schedules' &&
       message?.payload?.resource?.metadata?.name === params.schedule
     ) {
-      console.log("reload")
       setReload((prev) => prev + 1);
     }
   }, 250);

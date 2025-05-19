@@ -10,11 +10,9 @@ export const useCreateSchedule = () => {
 
   const handleCreateSchedule = async (values: any) => {
     try {
-      // Execute the API call with the generic method
-      await postData('/v1/schedule', values);
 
-      // This code will be executed only in case of success
-      // console.log('Request successful, execute final action...')
+      return await postData('/v1/schedule', values);
+
     } catch (e) {
       // Error handling
       // console.error('Error during call:', error);

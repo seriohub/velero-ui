@@ -1,3 +1,5 @@
+'use client';
+
 import {
   Group,
   Stack,
@@ -23,14 +25,12 @@ import {
   IconAffiliate,
   IconFolders,
   IconDog,
-  IconSpy,
   IconAppWindow,
   IconZoomCode,
   IconArrowBarLeft,
   IconArrowBarRight,
   IconDatabaseExport,
   IconDatabaseImport,
-  IconShield,
   IconApi,
   IconAutomation, IconPlayerPlay,
 } from '@tabler/icons-react';
@@ -154,18 +154,6 @@ const systemLink = [
     icon: IconAutomation,
     tooltip: 'Velero',
   },
-  /*{
-    link: '/system/security',
-    label: 'Security',
-    icon: IconShield,
-    tooltip: 'Security',
-  },
-  /*{
-    link: '/system/agent',
-    label: 'Agent',
-    icon: IconSpy,
-    tooltip: 'Agent',
-  },*/
 ];
 
 const homeLink = [

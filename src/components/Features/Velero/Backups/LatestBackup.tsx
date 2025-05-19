@@ -141,7 +141,6 @@ export function LatestBackup({
                   <Anchor
                     size="sm"
                     onClick={() => {
-                      // console.log(record);
                       router.push(`/backups/${record?.metadata?.name}`);
                     }}
                   >

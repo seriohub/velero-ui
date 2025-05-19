@@ -1,3 +1,5 @@
+'use client';
+
 import { useState } from 'react';
 
 import { useRouter } from 'next/navigation';
@@ -9,6 +11,7 @@ import { useAuthErrorHandler } from '../user/useAuthErrorHandler';
 import { ApiResponseShowErrorNotification } from '@/components/Display/ApiNotification';
 import { handleApiResponse } from './handleApiResponse';
 import { parseApiResponse } from './parseApiResponse';
+import { buildBackendUrl } from "@/utils/backend";
 
 type TargetType = 'core' | 'agent' | 'static';
 
@@ -46,19 +49,11 @@ export const useApiGet = () => {
       setError(false);
     }
 
-    let coreUrl = '';
-    if (serverValues.isCurrentServerControlPlane) {
-      if (target === 'core') {
-        coreUrl = '/core';
-      } else if (target === 'static') {
-        coreUrl = '';
-      } else {
-        const agentName = agentValues?.currentAgent?.name;
-        coreUrl = `/agent/${agentName}`;
-      }
-    }
-
-    const backendUrl = `${serverValues?.currentServer?.url}${coreUrl}`;
+    const backendUrl = buildBackendUrl({
+      target,
+      serverValues,
+      agentValues,
+    });
 
     if (!window) {
       console.log(`Window unavailable: skip request ${backendUrl}${url}?${params}`);
@@ -79,12 +74,12 @@ export const useApiGet = () => {
       return;
     }
 
-    // Recupera il token JWT dal localStorage
+    // Retrieves the JWT token from the localStorage
     const jwtToken = localStorage.getItem('token');
 
-    // Aggiungi il token JWT all'header, se presente
+    // Add the JWT token to the header, if present
     const headers: any = {
-      // 'Content-Type': 'application/json',
+      'Content-Type': 'application/json',
     };
 
     if (jwtToken) {
@@ -101,7 +96,7 @@ export const useApiGet = () => {
     }
 
     setFetching(true);
-    fetch(`${backendUrl}${url}?${params}`, {
+    const res = fetch(`${backendUrl}${url}?${params}`, {
       method: 'GET',
       // credentials: 'include', // uncomment for cookie auth
       headers,
@@ -122,6 +117,7 @@ export const useApiGet = () => {
           params,
           method: 'GET',
         });
+        return res?.data?.data;
       })
 
       .catch((err) => {
@@ -144,6 +140,8 @@ export const useApiGet = () => {
           message,
         });
       });
+
+    return res;
   };
 
   return {

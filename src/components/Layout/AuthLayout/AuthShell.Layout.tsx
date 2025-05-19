@@ -1,5 +1,3 @@
-'use client';
-
 import { AppShell, Stack, Box, Flex, ActionIcon, rem, Drawer } from '@mantine/core';
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 
@@ -23,15 +21,10 @@ export default function AuthShellLayout({ children }: AuthShellLayoutProps) {
       <AppShell withBorder={false}>
         <AppShell.Main>
           <Flex
-            //bg="green"
             h={isMobile ? 'auto' : 'calc(100vh - 24px)'}
             mih={isMobile ? 'calc(100vh - 24px)' : 'auto'}
-            //p={0}
-            //mb={100}
-            //gap="md"
             justify="flex-start"
             align="flex-start"
-            // direction={isMobile ? 'column' : 'row'}
             wrap="wrap"
           >
             <Box
@@ -40,7 +33,6 @@ export default function AuthShellLayout({ children }: AuthShellLayoutProps) {
               maw="480px"
               w={isMobile ? '100%' : '480px'}
               h="calc(100vh - 24px)"
-              //bg="red"
             >
               {children}
             </Box>

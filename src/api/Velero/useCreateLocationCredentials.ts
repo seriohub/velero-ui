@@ -10,10 +10,9 @@ export const useCreateLocationCredentials = () => {
 
   const handleCreateCredentials = async (values: any) => {
     try {
-      // Esegui la chiamata API con il metodo generico
-      await postData('/v1/location/create-credentials', values);
-      // This code will be executed only in case of success
-      // console.log('Request successful, execute final action...');
+
+      return await postData('/v1/location/create-credentials', values);
+
     } catch (e) {
       // Error handling
       // console.error('Error during call:', error);

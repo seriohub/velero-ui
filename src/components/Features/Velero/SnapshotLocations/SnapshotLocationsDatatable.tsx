@@ -149,7 +149,6 @@ export function SnapshotLocationsDatatable() {
               <Anchor
                 size="sm"
                 onClick={() => {
-                  // console.log(record);
                   router.push(`/volume-snapshot-locations/${record?.metadata?.name}`);
                 }}
               >

@@ -10,10 +10,9 @@ import { DiagnosticCoreInfo } from '@/components/Features/Diagnostic/DiagnosticC
 
 export function AppShellFooter() {
   const appValues = useAppStatus();
-  const agentValues = useAgentStatus();
   const serverValues = useServerStatus();
 
-  return (
+    return (
     <>
       <Group justify="space-between" gap={5} grow>
         <Group gap={30}>

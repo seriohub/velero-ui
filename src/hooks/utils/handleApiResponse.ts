@@ -92,7 +92,6 @@ export const handleApiResponse = ({
         xFetchedTime: res.xFetchedTime,
       });
     } else {
-      // console.log("data", data)
       addApiResponseHistory({
         method,
         url: `${backendUrl}${url}`,

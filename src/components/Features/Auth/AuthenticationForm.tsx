@@ -1,6 +1,6 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useForm } from '@mantine/form';
 import {
   TextInput,
@@ -28,7 +28,7 @@ import { SwitchCluster } from '@/components/Features/Config/SwitchCluster/Switch
 export function AuthenticationForm() {
   const serverValues = useServerStatus();
   const appValues = useAppStatus();
-  const agentValues = useAgentStatus();
+  const searchParams = useSearchParams();
 
   const router = useRouter();
 
@@ -63,9 +63,11 @@ export function AuthenticationForm() {
       await new Promise((resolve) => setTimeout(resolve, 100));
       //appValues.setAuthenticated(true);
       if (serverValues.isCurrentServerControlPlane) {
-        router.push('/home');
+        const next = searchParams.get('next') || sessionStorage.getItem('next') || '/home';
+        router.push(next);
       } else {
-        router.push('/dashboard');
+        const next = searchParams.get('next') || sessionStorage.getItem('next') || '/dashboard';
+        router.push(next);
       }
     } else {
       form.setErrors({

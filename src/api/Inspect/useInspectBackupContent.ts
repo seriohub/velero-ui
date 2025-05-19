@@ -10,10 +10,12 @@ export const useInspectFolderContent = () => {
 
   const getInspectFolderContent = async (backup: string): Promise<void> => {
     try {
-      await getData({
+
+      return await getData({
         url: '/v1/inspect/folder/content',
         params: `backup=${backup}`,
       });
+
     } catch (e) {
       // console.error('Error:', e);
     } finally {

@@ -9,14 +9,12 @@ export const useResourceDelete = () => {
 
   const handleDeleteResource = async (resourceType: string, params: any) => {
     try {
-      // Execute the API call with the generic method
-      await deleteData({
+
+      return await deleteData({
         url: `/v1/${resourceType}`,
         params,
       });
 
-      // This code will be executed only in case of success
-      // console.log('Request successful, execute final action...');
     } catch (e) {
       // Error handling
       // console.error('Error during call:', error);

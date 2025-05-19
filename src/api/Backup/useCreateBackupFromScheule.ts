@@ -10,11 +10,9 @@ export const useCreateBackupFromScheule = () => {
 
   const handleCreateBackupFromSchedule = async (scheduleName: string) => {
     try {
-      // Execute the API call with the generic method
-      await postData('/v1/backup/create-from-schedule', { scheduleName: `${scheduleName}` });
 
-      // This code will be executed only in case of success
-      // console.log('Request successful, execute final action...');
+      return await postData('/v1/backup/create-from-schedule', { scheduleName: `${scheduleName}` });
+
     } catch (e) {
       // Error handling
       // console.error('Error during call:', error);

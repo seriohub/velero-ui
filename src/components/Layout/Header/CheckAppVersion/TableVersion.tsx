@@ -15,8 +15,7 @@ export default function TableVersion({
                                        githubRelease
                                      }: TableVersionProps) {
   const NEXT_PUBLIC_FRONT_END_BUILD_VERSION = env('NEXT_PUBLIC_FRONT_END_BUILD_VERSION');
-  // console.log('app', app);
-  // console.log('githubRelease', githubRelease);
+
   const elements = [
     {
       position: 0,

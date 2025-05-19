@@ -14,13 +14,11 @@ export const useWatchdogAddService = () => {
 
   const watchdogAddService = async ({ config }: ChannelTest) => {
     try {
-      // Execute the API call with the generic method
-      await postData('/v1/watchdog/user/service', {
+
+      return await postData('/v1/watchdog/user/service', {
         config,
       });
-      //params: `email=${email}&slack=${slack}&telegram=${telegram}`
-      // This code will be executed only in case of success
-      // console.log('Request successful, execute final action...');
+
     } catch (e) {
       // Error handling
       // console.error('Error during call:', error);

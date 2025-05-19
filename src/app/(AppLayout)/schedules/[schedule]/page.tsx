@@ -5,9 +5,5 @@ import { ScheduleDetails } from '@/components/Features/Velero/Schedules/Schedule
 
 export default function SchedulePage(props: any) {
   const params = use(props.params);
-  return (
-    <>
-      <ScheduleDetails params={params}/>
-    </>
-  );
+  return <ScheduleDetails params={params}/>;
 }

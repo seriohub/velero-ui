@@ -16,9 +16,11 @@ import './layout.css';
 import { ServerProvider } from '@/contexts/ServerContext';
 import { AgentProvider } from '@/contexts/AgentContext';
 import { AppProvider } from '@/contexts/AppContext';
-import { UIProvider, useUIStatus } from '@/contexts/UIContext';
+import { UIProvider } from '@/contexts/UIContext';
 import { LoggerProvider } from '@/contexts/LoggerContext';
 import LayoutTheme from "@/app/layoutTheme";
+
+import AppClientWrapper from "@/components/AppClientWrapper";
 
 export default function RootLayout({ children }: { children: any }) {
   const loggerEnabled = env('NEXT_PUBLIC_LOGGER_ENABLED')?.toLocaleLowerCase() === 'true';
@@ -41,7 +43,7 @@ export default function RootLayout({ children }: { children: any }) {
         <AppProvider>
           <ServerProvider>
             <AgentProvider>
-              <LayoutTheme>{children}</LayoutTheme>
+              <LayoutTheme><AppClientWrapper>{children}</AppClientWrapper></LayoutTheme>
             </AgentProvider>
           </ServerProvider>
         </AppProvider>
@@ -53,7 +55,7 @@ export default function RootLayout({ children }: { children: any }) {
           <AppProvider>
             <ServerProvider>
               <AgentProvider>
-                <LayoutTheme>{children}</LayoutTheme>
+                <LayoutTheme><AppClientWrapper>{children}</AppClientWrapper></LayoutTheme>
               </AgentProvider>
             </ServerProvider>
           </AppProvider>

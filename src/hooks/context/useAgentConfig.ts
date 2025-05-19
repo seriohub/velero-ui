@@ -1,13 +1,18 @@
+'use client';
+
 import { useEffect } from 'react';
-// import { env } from 'next-runtime-env';
 import { useAppStatus } from '@/contexts/AppContext';
-import { useApiGet } from '@/hooks/utils/useApiGet';
+
 import { useServerStatus } from '@/contexts/ServerContext';
 import { useAgentStatus } from '@/contexts/AgentContext';
 import { useSocketStatus } from '@/contexts/SocketContext';
 import { useAgentConfiguration } from '@/api/Agent/useAgentConfiguration';
-// import { useAppInfo } from '@/api/App/useAppInfo';
-// import { isRecordStringAny } from '@/utils/isRecordStringIsType';
+import { useAppInfoOrigins } from "@/api/Agent/useAppInfoOrigins";
+import { useAgentGHealthWatchdog } from "@/api/Agent/useAgentInfoWatchdog";
+import { useAppInfoArch } from "@/api/Agent/useAppInfoArch";
+import { useCoreAgents } from "@/api/Core/useCoreAgents";
+import { useClusterHealth } from "@/api/Agent/useClusterHealth";
+import { useAppVersion } from "@/api/App/useAppVersion";
 
 export interface AgentApiConfig {
   name: string;
@@ -21,71 +26,91 @@ export const useAgentConfig = () => {
   const agentValues = useAgentStatus();
   const socketValues = useSocketStatus();
 
-  /*const {
-    data: agentInfo,
-    getAppInfo
-  } = useAppInfo();*/
   const {
-    data: agentConfiguration,
+    getAppVersion
+  } = useAppVersion();
+
+  const {
     getAgentConfiguration
   } = useAgentConfiguration();
-  const {
-    data: agentsAvailable,
-    getData: getDataAgent
-  } = useApiGet();
 
-  // agent list if core connected
+  const {
+    getAppInfoOrigins
+  } = useAppInfoOrigins();
+
+  const {
+    getAppInfoArch
+  } = useAppInfoArch();
+
+  const {
+    getCoreAgents
+  } = useCoreAgents();
+
+  const {
+    getClusterHealth
+  } = useClusterHealth();
+
+  const {
+    getAgentHealthWatchdog
+  } = useAgentGHealthWatchdog();
+
+  // setCurrentAgent
   useEffect(() => {
-    if (serverValues.isCurrentServerControlPlane && appValues.isAuthenticated && appValues.isAuthenticated) {
-      getDataAgent({
-        url: '/v1/agents',
-        target: 'core',
+    if (serverValues.isCurrentServerControlPlane && appValues.isAuthenticated && serverValues.isServerAvailable) {
+      getCoreAgents().then(response => {
+        if (serverValues.isCurrentServerControlPlane) {
+          if (response !== undefined) {
+            agentValues.setAgents(response);
+            const agentIndex =
+              localStorage.getItem('agent') &&
+              Number(localStorage.getItem('agent')) < response?.length
+                ? Number(localStorage.getItem('agent'))
+                : 0;
+
+            agentValues.setCurrentAgent(response[agentIndex]);
+          } else {
+            agentValues.setCurrentAgent(undefined);
+          }
+        }
+
       });
     }
-  }, [serverValues.isCurrentServerControlPlane, appValues.isAuthenticated, agentValues.reload]);
 
-  // agent info and agent configuration
-  useEffect(() => {
-    /*if (agentValues.isAgentAvailable) {
-      getAppInfo(serverValues.isCurrentServerControlPlane ? 'core' : 'agent');
-    }*/
-    if (agentValues.isAgentAvailable && appValues.isAuthenticated) {
-      getAgentConfiguration();
-    }
-  }, [agentValues.isAgentAvailable, appValues.isAuthenticated]);
-
-  // set
-
-  // set initial agent
-  useEffect(() => {
-    if (serverValues.isCurrentServerControlPlane) {
-      if (agentsAvailable !== undefined && Array.isArray(agentsAvailable)) {
-        agentValues.setAgents(agentsAvailable);
-        const agentIndex =
-          localStorage.getItem('agent') &&
-          Number(localStorage.getItem('agent')) < agentsAvailable?.length
-            ? Number(localStorage.getItem('agent'))
-            : 0;
-
-        agentValues.setCurrentAgent(agentsAvailable[agentIndex]);
-      } else {
-        agentValues.setCurrentAgent(undefined);
-      }
-    }
-
-    if (!serverValues.isCurrentServerControlPlane) {
+    if (serverValues.isCurrentServerControlPlane == false && serverValues.currentServer && serverValues.isServerAvailable) {
       agentValues.setCurrentAgent(serverValues.currentServer);
     }
-  }, [agentsAvailable, serverValues.isCurrentServerControlPlane]);
+  }, [serverValues.isCurrentServerControlPlane, appValues.isAuthenticated, agentValues.reload, serverValues.isServerAvailable, serverValues.currentServer]);
 
-  // agent available
   useEffect(() => {
-    if (serverValues.isCurrentServerControlPlane) {
+    if (agentValues.isAgentAvailable && agentValues.currentAgent && appValues.isAuthenticated) {
+      getAgentConfiguration().then(response => {
+        agentValues.setAgentConfig(response);
+      })
+      getAppVersion().then(response => {agentValues.setVeleroInstalledVersion(response)})
+    }
+    if (agentValues.isAgentAvailable && agentValues.currentAgent && (serverValues.isCurrentServerControlPlane == false || (serverValues.isCurrentServerControlPlane == true && appValues.isAuthenticated))) {
+      getClusterHealth().then(response => {
+        agentValues.setK8sHealth(response)
+      });
+      getAgentHealthWatchdog().then(response => {
+        agentValues.setWatchdogStatus(response)
+      });
+      getAppInfoOrigins().then(response => {
+        agentValues.setOrigins(response)
+      });
+      getAppInfoArch().then(response => {
+        agentValues.setArch(response)
+      });
+    }
+  }, [agentValues.isAgentAvailable, appValues.isAuthenticated, agentValues.currentAgent]);
+
+  // set current agent available
+  useEffect(() => {
+    if (serverValues.isCurrentServerControlPlane == true) {
       const checkAgentStatus = async () => {
         if (
           serverValues.isServerAvailable &&
           serverValues.isCurrentServerControlPlane &&
-          // agentValues.currentAgent?.name !== undefined &&
           appValues.isAuthenticated
         ) {
           console.log(
@@ -105,13 +130,15 @@ export const useAgentConfig = () => {
         }
       };
       checkAgentStatus();
-      const interval = setInterval(checkAgentStatus, 8000);
+      const interval = setInterval(checkAgentStatus, 15000);
       return () => clearInterval(interval);
     }
-    if (!serverValues.isCurrentServerControlPlane) {
-      agentValues.setIsAgentAvailable(serverValues.isServerAvailable);
-    }
 
+    if (serverValues.isCurrentServerControlPlane == false) {
+      if (agentValues.isAgentAvailable !== serverValues.isServerAvailable) {
+        agentValues.setIsAgentAvailable(serverValues.isServerAvailable);
+      }
+    }
     return undefined;
   }, [
     agentValues.currentAgent,
@@ -119,17 +146,4 @@ export const useAgentConfig = () => {
     serverValues.isCurrentServerControlPlane,
   ]);
 
-  // agent configuration
-  useEffect(() => {
-    if (agentConfiguration !== undefined && typeof agentConfiguration === 'object') {
-      agentValues.setAgentConfig(agentConfiguration);
-    }
-  }, [agentConfiguration]);
-
-  // agent info
-  /*useEffect(() => {
-    if (agentInfo && isRecordStringAny(agentInfo)) {
-      //agentValues.setAgentInfo(agentInfo);
-    }
-  }, [agentInfo]);*/
 };

@@ -154,7 +154,6 @@ export function SchedulesDatatable() {
               <Anchor
                 size="sm"
                 onClick={() => {
-                  // console.log(record);
                   router.push(`/schedules/${record?.metadata?.name}`);
                 }}
               >
@@ -187,7 +186,6 @@ export function SchedulesDatatable() {
                 <Anchor
                   size="sm"
                   onClick={() => {
-                    // console.log(record);
                     router.push(`/backup-storage-locations/${spec.template.storageLocation}`);
                   }}
                 >

@@ -10,16 +10,14 @@ export const useStatsInProgress = () => {
 
   const getStatsInProgress = async (forced: boolean = false) => {
     try {
-      // Execute the API call with the generic method
-      await getData({
+
+      return await getData({
         url: '/v1/stats/in-progress',
         addInHistory: false,
         target: 'agent',
         params: `forced=${forced}`,
       });
 
-      // This code will be executed only in case of success
-      // console.log('Request successful, execute final action...');
     } catch (e) {
       // Error handling
       // console.error('Error during call:', error);

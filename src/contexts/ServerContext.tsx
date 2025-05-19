@@ -9,6 +9,11 @@ interface ServerStatus {
   isServerAvailable: Boolean | undefined;
   serverInfo: any;
   isCurrentServerControlPlane: Boolean | undefined;
+  origins: any;
+  arch: any;
+  k8sHealth: any;
+  uiURL: string | undefined;
+  apiURL: string | undefined;
 }
 
 interface ServerStatusContextProps extends ServerStatus {
@@ -17,6 +22,11 @@ interface ServerStatusContextProps extends ServerStatus {
   setIsServerAvailable: React.Dispatch<React.SetStateAction<any | undefined>>;
   setCurrentServerAsControlPlane: React.Dispatch<React.SetStateAction<Boolean | undefined>>;
   setServerInfo: React.Dispatch<React.SetStateAction<Record<string, any>>>;
+  setOrigins: React.Dispatch<React.SetStateAction<Record<string, any>>>;
+  setArch: React.Dispatch<React.SetStateAction<Record<string, any>>>;
+  setK8sHealth: React.Dispatch<React.SetStateAction<Record<string, any>>>;
+  setApiURL: React.Dispatch<React.SetStateAction<string | undefined>>;
+  setUiURL: React.Dispatch<React.SetStateAction<string | undefined>>;
 }
 
 const ServerStatusContext = createContext<ServerStatusContextProps | undefined>(undefined);
@@ -31,7 +41,12 @@ export const ServerProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   >(undefined);
 
   const [isServerAvailable, setIsServerAvailable] = useState<Boolean | undefined>(undefined);
-  const [serverInfo, setServerInfo] = useState<any>([]);
+  const [serverInfo, setServerInfo] = useState<Record<string, any>>([]);
+  const [origins, setOrigins] = useState<Record<string, any>>([]);
+  const [arch, setArch] = useState<Record<string, any>>([]);
+  const [k8sHealth, setK8sHealth] = useState<Record<string, any>>([]);
+  const [uiURL, setUiURL] = useState<string | undefined>(undefined);
+  const [apiURL, setApiURL] = useState<string | undefined>(undefined);
 
   return (
     <ServerStatusContext.Provider
@@ -41,13 +56,21 @@ export const ServerProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         isServerAvailable,
         isCurrentServerControlPlane,
         serverInfo,
-        //init,
+        origins,
+        arch,
+        k8sHealth,
+        uiURL,
+        apiURL,
         setServers,
         setCurrentBackend,
         setIsServerAvailable,
         setCurrentServerAsControlPlane,
         setServerInfo,
-        //setInit,
+        setOrigins,
+        setArch,
+        setK8sHealth,
+        setUiURL,
+        setApiURL,
       }}
     >
       {children}

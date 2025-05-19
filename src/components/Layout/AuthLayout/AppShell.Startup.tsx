@@ -6,29 +6,20 @@ import { useServerStatus } from '@/contexts/ServerContext';
 import { useAppStatus } from '@/contexts/AppContext';
 import { SocketProvider } from '@/contexts/SocketContext';
 
-import { useServerConfig } from '@/hooks/context/useServerConfig';
-import { useUIConfig } from '@/hooks/context/useUIConfig';
-
-import AppShellBootConnection from './Boot/AppShell.BootConnection';
 import AppShellLoader from '../AppShell.Loader';
-import { useAppConfig } from "@/hooks/context/useAppConfig";
+import AppShellRuntime from "./AppShell.Runtime";
 
 interface AppShellBootProps {
   children: any;
 }
 
-export default function AppShellBoot({ children }: AppShellBootProps) {
+export default function AppShellStartup({ children }: AppShellBootProps) {
   const serverValues = useServerStatus();
   const appValues = useAppStatus();
 
-  useAppConfig();
-  useUIConfig();
-
-  useServerConfig();
-
   useEffect(() => {
     if (serverValues.currentServer && typeof window !== 'undefined') {
-      appValues.setAppInitialized(true); // currentServer is available and widow is available
+      appValues.setAppInitialized(true); // currentServer is initialized and window is available
     }
   }, [serverValues.currentServer]);
 
@@ -39,7 +30,7 @@ export default function AppShellBoot({ children }: AppShellBootProps) {
       )}
       {serverValues.currentServer && (
         <SocketProvider>
-          <AppShellBootConnection>{children}</AppShellBootConnection>
+          <AppShellRuntime>{children}</AppShellRuntime>
         </SocketProvider>
       )}
     </>
