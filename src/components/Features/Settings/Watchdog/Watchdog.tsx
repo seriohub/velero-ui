@@ -101,8 +101,10 @@ export function Watchdog() {
 
   useEffect(() => {
     getWatchdogConfig();
-    getWatchdogCron();
-    getWatchdogAppConfigs();
+    if (appValues?.appInfo?.helm_version) {
+      getWatchdogCron();
+      getWatchdogAppConfigs();
+    }
   }, [reload, agentValues.isAgentAvailable]);
 
   useEffect(() => {
