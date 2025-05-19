@@ -8,10 +8,14 @@ export const useWatchdogCron = () => {
     error
   } = useApiGet();
 
-  const getWatchdogCron = async () => {
+  const getWatchdogCron = async (forced: boolean = false) => {
     try {
 
-      return await getData({ url: '/v1/watchdog/cron' });
+      return await getData({
+        url: '/v1/watchdog/cron',
+        cache: true,
+        force: forced
+      });
 
     } catch (e) {
       // Error handling

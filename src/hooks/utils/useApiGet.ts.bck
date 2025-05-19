@@ -13,9 +13,6 @@ import { handleApiResponse } from './handleApiResponse';
 import { parseApiResponse } from './parseApiResponse';
 import { buildBackendUrl } from "@/utils/backend";
 
-const inMemoryCache = new Map<string, { data: any; timestamp: number }>();
-const CACHE_TTL = 60000;
-
 type TargetType = 'core' | 'agent' | 'static';
 
 type GetDataParams = {
@@ -23,9 +20,6 @@ type GetDataParams = {
   params?: string;
   addInHistory?: boolean;
   target?: TargetType;
-  force?: boolean;
-  cache?: boolean;
-  ttl?: number;
 };
 
 export const useApiGet = () => {
@@ -50,9 +44,6 @@ export const useApiGet = () => {
                            params = '',
                            addInHistory = true,
                            target = 'agent',
-                           force = false,
-                           cache = false,
-                           ttl
                          }: GetDataParams) => {
     if (error) {
       setError(false);
@@ -64,25 +55,13 @@ export const useApiGet = () => {
       agentValues,
     });
 
-    const fullUrl = `${backendUrl}${url}?${params}`
-
-    if (cache && !force) {
-      const cached = inMemoryCache.get(fullUrl);
-      const ttlToUse = ttl ?? CACHE_TTL;
-
-      if (cached && Date.now() - cached.timestamp < ttlToUse) {
-        setData(cached.data);
-        return cached.data;
-      }
-    }
-
     if (!window) {
-      console.log(`Window unavailable: skip request ${fullUrl}`);
+      console.log(`Window unavailable: skip request ${backendUrl}${url}?${params}`);
       return;
     }
 
     if (!serverValues.isServerAvailable) {
-      console.log(`Server unavailable: skip request ${fullUrl}`);
+      console.log(`Server unavailable: skip request ${backendUrl}${url}?${params}`);
       return;
     }
 
@@ -111,13 +90,13 @@ export const useApiGet = () => {
       addApiRequestHistory({
         method: 'GET',
         headers,
-        url: `${fullUrl}`,
+        url: `${backendUrl}${url}?${params}`,
         params,
       });
     }
 
     setFetching(true);
-    const res = fetch(`${fullUrl}`, {
+    const res = fetch(`${backendUrl}${url}?${params}`, {
       method: 'GET',
       // credentials: 'include', // uncomment for cookie auth
       headers,
@@ -138,14 +117,6 @@ export const useApiGet = () => {
           params,
           method: 'GET',
         });
-
-        if (cache) {
-          inMemoryCache.set(`${fullUrl}`, {
-            data: res?.data?.data,
-            timestamp: Date.now(),
-          });
-        }
-
         return res?.data?.data;
       })
 

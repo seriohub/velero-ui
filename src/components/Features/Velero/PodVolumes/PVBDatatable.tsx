@@ -70,7 +70,7 @@ export function PVBDatatable({ type }: any) {
 
   useEffect(() => {
     if (agentValues.isAgentAvailable && reload > 1) {
-      getPodVolumes(type);
+      getPodVolumes(type, true);
     }
   }, [reload]);
 

@@ -11,7 +11,11 @@ export const useCreationBackupSettings = () => {
   const getCreationBackupSettings = async () => {
     try {
 
-      return await getData({ url: '/v1/backup/environment' });
+      return await getData({
+        url: '/v1/backup/environment',
+        cache: true,
+        ttl: 60000 * 10
+      });
 
     } catch (e) {
       // Error handling

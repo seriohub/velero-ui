@@ -8,12 +8,14 @@ export const useWatchdogAppSecrets = () => {
     error
   } = useApiGet();
 
-  const getWatchdogAppSecrets = async () => {
+  const getWatchdogAppSecrets = async (forced: boolean = false) => {
     try {
 
       return await getData({
         url: '/v1/watchdog/user/services',
-        target: 'agent'
+        target: 'agent',
+        cache: true,
+        force: forced,
       });
 
     } catch (e) {

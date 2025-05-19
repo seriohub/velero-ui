@@ -43,6 +43,8 @@ export const useBackups = () => {
       return await getData({
         url: '/v1/backups',
         params: jsonToQueryParams(params),
+        cache: true,
+        force: forced,
       });
 
     } catch (e) {

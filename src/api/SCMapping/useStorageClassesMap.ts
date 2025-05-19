@@ -14,6 +14,8 @@ export const useStorageClassesMap = () => {
       return await getData({
         url: '/v1/sc-mapping',
         params: `forced=${forced}`,
+        cache: true,
+        force: forced
       });
 
     } catch (e) {

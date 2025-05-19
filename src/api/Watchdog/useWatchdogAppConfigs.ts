@@ -8,10 +8,14 @@ export const useWatchdogAppConfigs = () => {
     error
   } = useApiGet();
 
-  const getWatchdogAppConfigs = async () => {
+  const getWatchdogAppConfigs = async (forced: boolean = false) => {
     try {
 
-      return await getData({ url: '/v1/watchdog/user/configs' });
+      return await getData({
+        url: '/v1/watchdog/user/configs',
+        cache: true,
+        force: forced,
+      });
 
     } catch (e) {
       // Error handling

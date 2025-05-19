@@ -97,7 +97,7 @@ export function Watchdog() {
   } = useWatchdogCron();
   const [reload, setReload] = useState(1);
 
-  const agentValues = useAgentStatus();
+  //const agentValues = useAgentStatus();
 
   useEffect(() => {
     getWatchdogConfig();
@@ -105,7 +105,17 @@ export function Watchdog() {
       getWatchdogCron();
       getWatchdogAppConfigs();
     }
-  }, [reload, agentValues.isAgentAvailable]);
+  }, []);
+
+  useEffect(() => {
+    if (reload > 1) {
+      getWatchdogConfig(true);
+      if (appValues?.appInfo?.helm_version) {
+        getWatchdogCron(true);
+        getWatchdogAppConfigs(true);
+      }
+    }
+  }, [reload]);
 
   useEffect(() => {
     if (deployConfiguration && userConfiguration) {
@@ -189,7 +199,7 @@ export function Watchdog() {
             <Stack ref={stackRef} h="100%" p={0}>
               <ScrollArea h={scrollHeight} p={0}>
                 <WatchdogUserConfigs userConfiguration={userConfiguration} setReload={setReload}/>
-                <WatchdogService/>
+                <WatchdogService reload={reload}/>
               </ScrollArea>
             </Stack>
           </Tabs.Panel>

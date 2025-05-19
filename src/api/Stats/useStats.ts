@@ -16,6 +16,8 @@ export const useStats = () => {
         url: '/v1/stats',
         params: `forced=${forced}`,
         target: 'agent',
+        cache: true,
+        force: forced,
       });
 
     } catch (e) {

@@ -19,7 +19,6 @@ import { useBackups } from '@/api/Backup/useBackups';
 
 import { MainStack } from '@/components/Commons/MainStack';
 import { BackupDatatableView } from '@/components/Features/Velero/Backups/BackupsDatatableView';
-// import { useWatchResources } from '@/hooks/useWatchResources';
 import { eventEmitter } from '@/lib/EventEmitter.js';
 
 const PAGE_SIZES = [10, 15, 20];
@@ -91,7 +90,7 @@ export function BackupsDatatable({ scheduleName }: BackupDataProps) {
       getBackups({
         scheduleName,
         onlyLast4Schedule,
-        forced: true,
+        forced: false,
       });
     }
   }, [onlyLast4Schedule, agentValues.isAgentAvailable]);

@@ -15,6 +15,8 @@ export const useSchedules = () => {
       return await getData({
         url: '/v1/schedules',
         params: `forced=${forced}`,
+        cache: true,
+        force: forced,
       });
 
     } catch (e) {

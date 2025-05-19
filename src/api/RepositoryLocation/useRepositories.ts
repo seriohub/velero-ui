@@ -15,6 +15,8 @@ export const useRepositories = () => {
       return await getData({
         url: '/v1/repos',
         params: `forced=${forced}`,
+        cache: true,
+        force: forced,
       });
 
     } catch (e) {

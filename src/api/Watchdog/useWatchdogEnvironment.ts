@@ -8,10 +8,14 @@ export const useWatchdogEnvironment = () => {
     error
   } = useApiGet();
 
-  const getWatchdogConfig = async () => {
+  const getWatchdogConfig = async (forced: boolean = false) => {
     try {
 
-      return await getData({ url: '/v1/watchdog/environment' });
+      return await getData({
+        url: '/v1/watchdog/environment',
+        cache: true,
+        force: forced,
+      });
 
     } catch (e) {
       // Error handling

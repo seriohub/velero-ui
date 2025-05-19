@@ -9,11 +9,13 @@ export const usePodVolumes = () => {
     fetchedTime
   } = useApiGet();
 
-  const getPodVolumes = async (type: string) => {
+  const getPodVolumes = async (type: string, forced: boolean = false) => {
     try {
 
       return await getData({
         url: type === 'PodVolumeBackup' ? '/v1/pod-volume-backups' : '/v1/pod-volume-restores',
+        cache: true,
+        force: forced,
       });
 
     } catch (e) {

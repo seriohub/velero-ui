@@ -15,6 +15,8 @@ export const useSnapshotLocation = () => {
       return await getData({
         url: '/v1/vsl',
         params: `forced=${forced}`,
+        cache: true,
+        force: forced,
       });
 
     } catch (e) {

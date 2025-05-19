@@ -15,6 +15,8 @@ export const useBackupLocation = () => {
       return await getData({
         url: '/v1/bsl',
         params: `forced=${forced}`,
+        cache: true,
+        force: forced,
       });
 
     } catch (e) {
