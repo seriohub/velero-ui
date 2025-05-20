@@ -30,7 +30,12 @@ const segmentColors = {
   Paused: 'red.9',
 };
 
-export function StatsSegments({ data, title, icon, path }: StatsSegmentsProps) {
+export function StatsSegments({
+                                data,
+                                title,
+                                icon,
+                                path
+                              }: StatsSegmentsProps) {
   const router = useRouter();
 
   return (
@@ -74,7 +79,7 @@ export function StatsSegments({ data, title, icon, path }: StatsSegmentsProps) {
       <CardSection>
         <Button
           variant="transparent"
-          rightSection={<IconChevronRight size={18} />}
+          rightSection={<IconChevronRight size={18}/>}
           onClick={() => {
             router.push(path);
           }}

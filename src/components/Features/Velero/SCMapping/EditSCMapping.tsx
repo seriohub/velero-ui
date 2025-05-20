@@ -11,7 +11,11 @@ interface EditSCMappingProps {
   setReload: React.Dispatch<React.SetStateAction<number>>;
 }
 
-export default function EditSCMapping({ record, reload, setReload }: EditSCMappingProps) {
+export default function EditSCMapping({
+                                        record,
+                                        reload,
+                                        setReload
+                                      }: EditSCMappingProps) {
   return (
     <Tooltip label="Edit">
       <ActionIcon
@@ -23,12 +27,12 @@ export default function EditSCMapping({ record, reload, setReload }: EditSCMappi
             title: 'Edit Storage Class Mapping',
             size: 'lg',
             children: (
-              <SCMappingForm record={record} reload={reload} setReload={setReload} mode="update" />
+              <SCMappingForm record={record} reload={reload} setReload={setReload} mode="update"/>
             ),
           });
         }}
       >
-        <IconEdit color="green" />
+        <IconEdit color="green"/>
       </ActionIcon>
     </Tooltip>
   );

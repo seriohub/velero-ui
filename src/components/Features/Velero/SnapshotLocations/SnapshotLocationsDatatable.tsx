@@ -34,7 +34,12 @@ const PAGE_SIZES = [10, 15, 20];
 
 export function SnapshotLocationsDatatable() {
   const router = useRouter();
-  const { data, getSnapshotLocation, fetching, fetchedTime } = useSnapshotLocation();
+  const {
+    data,
+    getSnapshotLocation,
+    fetching,
+    fetchedTime
+  } = useSnapshotLocation();
   const [items, setItems] = useState<Array<any>>([]);
   const [reload, setReload] = useState(1);
   const agentValues = useAgentStatus();
@@ -96,10 +101,10 @@ export function SnapshotLocationsDatatable() {
 
   const renderActions: DataTableColumn<any>['render'] = (record) => (
     <Group gap={4} justify="right" wrap="nowrap">
-      <CredentialActionIcon name={record.metadata.name} record={record} />
-      <DescribeActionIcon resourceType={record.kind} record={record} />
-      <EditVslAction record={record} setReload={setReload} />
-      <DeleteAction resourceType="vsl" record={record} setReload={setReload} />
+      <CredentialActionIcon name={record.metadata.name} record={record}/>
+      <DescribeActionIcon resourceType={record.kind} record={record}/>
+      <EditVslAction record={record} setReload={setReload}/>
+      <DeleteAction resourceType="vsl" record={record} setReload={setReload}/>
     </Group>
   );
 
@@ -113,8 +118,8 @@ export function SnapshotLocationsDatatable() {
           },
         ]}
       >
-        <CreateVslToolbar setReload={setReload} reload={reload} />
-        <ReloadData setReload={setReload} reload={reload} />
+        <CreateVslToolbar setReload={setReload} reload={reload}/>
+        <ReloadData setReload={setReload} reload={reload}/>
       </Toolbar>
       <DataFetchedInfo fetchedTime={fetchedTime}/>
       <DataTable
@@ -144,12 +149,11 @@ export function SnapshotLocationsDatatable() {
               <Anchor
                 size="sm"
                 onClick={() => {
-                  // console.log(record);
                   router.push(`/volume-snapshot-locations/${record?.metadata?.name}`);
                 }}
               >
                 <Group gap={5}>
-                  <IconCamera size={16} />
+                  <IconCamera size={16}/>
                   <Text>{record?.metadata?.name}</Text>
                 </Group>
               </Anchor>
@@ -182,7 +186,7 @@ export function SnapshotLocationsDatatable() {
             accessor: 'actions',
             title: (
               <Center>
-                <IconClick size={16} />
+                <IconClick size={16}/>
               </Center>
             ),
             width: '0%',

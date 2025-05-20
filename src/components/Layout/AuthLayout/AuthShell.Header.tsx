@@ -17,10 +17,10 @@ export function AuthShellHeader() {
         variant="outline"
         href="https://github.com/seriohub/velero-ui"
       >
-        <IconBrandGithub />
+        <IconBrandGithub/>
       </ActionIcon>
 
-      <SwitchColorScheme />
+      <SwitchColorScheme/>
     </Group>
   );
 }

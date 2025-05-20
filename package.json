@@ -71,6 +71,7 @@
     "@typescript-eslint/eslint-plugin": "^8.27.0",
     "@typescript-eslint/parser": "^8.27.0",
     "babel-loader": "^10.0.0",
+    "cz-conventional-changelog": "^3.3.0",
     "depcheck": "^1.4.7",
     "eslint": "^9.22.0",
     "eslint-config-airbnb": "19.0.4",
@@ -96,5 +97,10 @@
   "packageManager": "yarn@4.5.3",
   "resolutions": {
     "@types/react": "19.0.12"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }

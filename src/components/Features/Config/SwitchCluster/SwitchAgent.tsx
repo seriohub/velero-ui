@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState } from 'react';
 import { Menu, Group, rem, Button, Image } from '@mantine/core';
 
@@ -13,7 +15,7 @@ export function SwitchAgent() {
 
   const [opened, setOpened] = useState(false);
 
-  const {reconnectAgent} = useReconnectAgent()
+  const { reconnectAgent } = useReconnectAgent()
 
   const items =
     agentValues?.agents?.map((item: any, index: number) => (
@@ -59,7 +61,7 @@ export function SwitchAgent() {
           </Menu.Target>
           <Menu.Dropdown>
             {items}
-            <Menu.Divider />
+            <Menu.Divider/>
 
             <Menu.Item
               leftSection={

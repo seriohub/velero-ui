@@ -1,3 +1,5 @@
+'use client';
+
 import { useState, useEffect } from 'react';
 import { Alert } from '@mantine/core';
 import { IconInfoCircle } from '@tabler/icons-react';
@@ -6,7 +8,7 @@ import { useAgentStatus } from '@/contexts/AgentContext';
 
 export default function AgentError() {
   const agentValues = useAgentStatus();
-  const icon = <IconInfoCircle />;
+  const icon = <IconInfoCircle/>;
   const [showAlert, setShowAlert] = useState<boolean>(false);
   const [alertType, setAlertType] = useState<'error' | 'check' | null>(null);
 

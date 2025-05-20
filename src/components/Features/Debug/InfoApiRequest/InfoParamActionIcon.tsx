@@ -22,7 +22,7 @@ export default function InfoParamActionIcon({ params }: InfoParamActionIconProps
           openModal({
             title: 'Params',
             size: '80%',
-            children: <InfoPostParameters params={params} />,
+            children: <InfoPostParameters params={params}/>,
           });
         }}
       >

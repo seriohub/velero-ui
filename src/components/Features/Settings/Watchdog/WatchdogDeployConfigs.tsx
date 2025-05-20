@@ -1,10 +1,10 @@
 'use client';
 
 import React from 'react';
-import {Group, Text} from '@mantine/core';
-import {IconAlertTriangle, IconArrowRight} from '@tabler/icons-react';
-import {DataTable} from 'mantine-datatable';
-import {MaskedConfiguration} from '@/components/Features/Settings/Watchdog/Display/MaskedConfiguration';
+import { Group, Text } from '@mantine/core';
+import { IconAlertTriangle, IconArrowRight } from '@tabler/icons-react';
+import { DataTable } from 'mantine-datatable';
+import { MaskedConfiguration } from '@/components/Features/Settings/Watchdog/Display/MaskedConfiguration';
 
 interface Props {
   deployConfiguration: Record<string, any>;
@@ -51,7 +51,7 @@ export function WatchdogDeployConfigs({
             accessor: 'name',
             title: 'Environment variable',
             width: 150,
-            render: ({key}) => (
+            render: ({ key }) => (
               <>
                 <Group gap={5}>
                   {hasChanged(key) && (
@@ -65,7 +65,7 @@ export function WatchdogDeployConfigs({
           {
             accessor: 'value',
             title: 'value',
-            render: ({key}: any) => (
+            render: ({ key }: any) => (
               <>
                 <Group gap={2}>
                   {maskValue(key, deployConfiguration[key])}

@@ -21,13 +21,13 @@ interface MultiSelectCreatableProps {
 }
 
 export function MultiSelectCreatable({
-  label = '',
-  content = [],
-  form,
-  fieldName,
-  initalValue = [],
-  description = '',
-}: MultiSelectCreatableProps) {
+                                       label = '',
+                                       content = [],
+                                       form,
+                                       fieldName,
+                                       initalValue = [],
+                                       description = '',
+                                     }: MultiSelectCreatableProps) {
   const combobox = useCombobox({
     onDropdownClose: () => combobox.resetSelectedOption(),
     onDropdownOpen: () => combobox.updateSelectedOptionIndex('active'),
@@ -65,7 +65,7 @@ export function MultiSelectCreatable({
     .map((item) => (
       <Combobox.Option value={item} key={item} active={value.includes(item)}>
         <Group gap="sm">
-          {value.includes(item) ? <CheckIcon size={12} /> : null}
+          {value.includes(item) ? <CheckIcon size={12}/> : null}
           <span>{item}</span>
         </Group>
       </Combobox.Option>

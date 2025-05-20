@@ -24,18 +24,18 @@ type HandleApiResponseParams = {
 };
 
 export const handleApiResponse = ({
-  res,
-  setData,
-  setFetchedTime,
-  setError,
-  addNotificationHistory,
-  addApiResponseHistory,
-  addInHistory,
-  backendUrl,
-  url,
-  params,
-  method,
-}: HandleApiResponseParams) => {
+                                    res,
+                                    setData,
+                                    setFetchedTime,
+                                    setError,
+                                    addNotificationHistory,
+                                    addApiResponseHistory,
+                                    addInHistory,
+                                    backendUrl,
+                                    url,
+                                    params,
+                                    method,
+                                  }: HandleApiResponseParams) => {
   const { data } = res;
   const statusCode = res.status;
 
@@ -92,7 +92,6 @@ export const handleApiResponse = ({
         xFetchedTime: res.xFetchedTime,
       });
     } else {
-      // console.log("data", data)
       addApiResponseHistory({
         method,
         url: `${backendUrl}${url}`,

@@ -15,7 +15,7 @@ export default function DebugAppContext(props: any) {
     <>
       <ScrollArea px={10} type="always" viewportRef={viewport} scrollbarSize={8} {...props}>
         <Code block>
-          <DebInfoContextJson data={appValues} />
+          <DebInfoContextJson data={appValues}/>
         </Code>
       </ScrollArea>
     </>

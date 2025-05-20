@@ -10,10 +10,12 @@ interface TableVersionProps {
   githubRelease: any;
 }
 
-export default function TableVersion({ app, githubRelease }: TableVersionProps) {
+export default function TableVersion({
+                                       app,
+                                       githubRelease
+                                     }: TableVersionProps) {
   const NEXT_PUBLIC_FRONT_END_BUILD_VERSION = env('NEXT_PUBLIC_FRONT_END_BUILD_VERSION');
-  // console.log('app', app);
-  // console.log('githubRelease', githubRelease);
+
   const elements = [
     {
       position: 0,
@@ -61,7 +63,7 @@ export default function TableVersion({ app, githubRelease }: TableVersionProps) 
   const rows = elements.map((element) => (
     <Table.Tr key={element.name}>
       <Table.Td>
-        {element.updateAvailable && <IconArrowUp color="green" size={15} />}
+        {element.updateAvailable && <IconArrowUp color="green" size={15}/>}
         <Anchor href={element.href} target="_blank">
           {element.name}
         </Anchor>
@@ -78,11 +80,11 @@ export default function TableVersion({ app, githubRelease }: TableVersionProps) 
   return (
     <>
       <Group gap={5}>
-        {app?.helm_version !== '-' && <IconCheck color="green" size={16} />}
-        {app?.helm_version === '-' && <IconX color="red" size={16} />}
+        {app?.helm_version !== '-' && <IconCheck color="green" size={16}/>}
+        {app?.helm_version === '-' && <IconX color="red" size={16}/>}
         <Text size="sm"> Helm installed (recommended)</Text>
       </Group>
-      <Space h="md" />
+      <Space h="md"/>
       <Table>
         <Table.Thead>
           <Table.Tr>
@@ -94,7 +96,7 @@ export default function TableVersion({ app, githubRelease }: TableVersionProps) 
         </Table.Thead>
         <Table.Tbody>{rows}</Table.Tbody>
       </Table>
-      <Space h="md" />
+      <Space h="md"/>
     </>
   );
 }

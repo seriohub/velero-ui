@@ -17,12 +17,12 @@ interface DeleteActionIconProps {
 }
 
 const DeleteAction: React.FC<DeleteActionIconProps> = ({
-  resourceType,
-  record,
-  setReload,
-  buttonType = 'actionIcon',
-  redirectAfterDelete = '',
-}) => {
+                                                         resourceType,
+                                                         record,
+                                                         setReload,
+                                                         buttonType = 'actionIcon',
+                                                         redirectAfterDelete = '',
+                                                       }) => {
   const resourceName = record?.metadata?.name || 'Unknown';
 
   const handleOpenModal = (e: React.MouseEvent) => {
@@ -44,11 +44,11 @@ const DeleteAction: React.FC<DeleteActionIconProps> = ({
   return buttonType === 'actionIcon' ? (
     <Tooltip label="Delete">
       <ActionIcon size="sm" variant="subtle" onClick={handleOpenModal}>
-        <IconTrashX color="red" />
+        <IconTrashX color="red"/>
       </ActionIcon>
     </Tooltip>
   ) : (
-    <Button h={38} leftSection={<IconTrashX />} color="red" onClick={handleOpenModal}>
+    <Button h={38} leftSection={<IconTrashX/>} color="red" onClick={handleOpenModal}>
       Delete
     </Button>
   );

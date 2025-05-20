@@ -13,7 +13,10 @@ interface CreateBslProps {
 
 const ttlRegex = /^(\d+h)?(\d+m)?(\d+s)?$/;
 
-export function CreateBslForm({ reload, setReload }: CreateBslProps) {
+export function CreateBslForm({
+                                reload,
+                                setReload
+                              }: CreateBslProps) {
   const appValues = useAppStatus();
 
   const { handleCreateBsl } = useCreateBsl();
@@ -73,5 +76,5 @@ export function CreateBslForm({ reload, setReload }: CreateBslProps) {
     }, appValues.refreshDatatableAfter);*/
   }
 
-  return <BslFormView mode="create" form={form} onDone={createBsl} />;
+  return <BslFormView mode="create" form={form} onDone={createBsl}/>;
 }

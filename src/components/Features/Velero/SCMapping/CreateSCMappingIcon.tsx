@@ -10,7 +10,10 @@ interface CreateSCMappingIconProps {
   setReload: React.Dispatch<React.SetStateAction<number>>;
 }
 
-export default function CreateSCMappingIcon({ reload, setReload }: CreateSCMappingIconProps) {
+export default function CreateSCMappingIcon({
+                                              reload,
+                                              setReload
+                                            }: CreateSCMappingIconProps) {
   return (
     <Tooltip label="Create Storage Class Mapping">
       <ActionIcon
@@ -22,7 +25,7 @@ export default function CreateSCMappingIcon({ reload, setReload }: CreateSCMappi
           openModal({
             title: 'Create New Storage Class Mapping',
             size: 'lg',
-            children: <SCMappingForm mode="create" reload={reload} setReload={setReload} />,
+            children: <SCMappingForm mode="create" reload={reload} setReload={setReload}/>,
           });
         }}
       >

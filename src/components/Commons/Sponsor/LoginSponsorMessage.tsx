@@ -54,11 +54,11 @@ export function LoginSponsorMessage() {
 
             <Text fw={500} fz="sm" mb={5}>
               🚀 If VUI has been helpful in your work, please consider supporting us to unlock exclusive <Anchor
-                size="sm"
-                fw={700}
-                href="https://vui.seriohub.com/docs/guide/features/core" target="_blank">
-                Core
-              </Anchor> features and
+              size="sm"
+              fw={700}
+              href="https://vui.seriohub.com/docs/guide/features/core" target="_blank">
+              Core
+            </Anchor> features and
               help drive future development.
             </Text>
 

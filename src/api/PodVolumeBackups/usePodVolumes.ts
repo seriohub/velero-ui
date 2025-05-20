@@ -1,17 +1,23 @@
 import { useApiGet } from '@/hooks/utils/useApiGet';
 
 export const usePodVolumes = () => {
-  const { data, getData, fetching, error, fetchedTime } = useApiGet();
+  const {
+    data,
+    getData,
+    fetching,
+    error,
+    fetchedTime
+  } = useApiGet();
 
-  const getPodVolumes = async (type: string) => {
+  const getPodVolumes = async (type: string, forced: boolean = false) => {
     try {
-      // Execute the API call with the generic method
-      await getData({
+
+      return await getData({
         url: type === 'PodVolumeBackup' ? '/v1/pod-volume-backups' : '/v1/pod-volume-restores',
+        cache: true,
+        force: forced,
       });
 
-      // This code will be executed only in case of success
-      // console.log('Request successful, execute final action...');
     } catch (e) {
       // Error handling
       // console.error('Error during call:', error);

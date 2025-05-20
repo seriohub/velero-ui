@@ -16,9 +16,15 @@ interface CreateScheduleProps {
 const ttlRegex = /^(\d+h)?(\d+m)?(\d+s)?$/;
 const timeoutRegex = /^\d+[smh]$/;
 
-export function CreateScheduleForm({ reload, setReload }: CreateScheduleProps) {
+export function CreateScheduleForm({
+                                     reload,
+                                     setReload
+                                   }: CreateScheduleProps) {
   const appValues = useAppStatus();
-  const { data, getCreationScheduleSettings } = useCreationScheduleSettings();
+  const {
+    data,
+    getCreationScheduleSettings
+  } = useCreationScheduleSettings();
 
   const { handleCreateSchedule } = useCreateSchedule();
 
@@ -51,7 +57,7 @@ export function CreateScheduleForm({ reload, setReload }: CreateScheduleProps) {
       datamover: '',
       parallelFilesUpload: 10,
       resourcePolicy: null,
-      snapshotMoveData:true,
+      snapshotMoveData: true,
 
       // spec.labelselector
       labelSelector: {},

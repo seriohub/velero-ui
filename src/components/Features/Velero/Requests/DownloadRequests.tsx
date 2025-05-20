@@ -23,11 +23,20 @@ import { useDownloadRequests } from '@/api/Requests/useDownloadRequests';
 import DownloadAction from '@/components/Features/Velero/Requests/Actions/DownloadAction';
 import { eventEmitter } from '@/lib/EventEmitter.js';
 
-export default function DownloadRequests({ reload, setReload, active, setFetchingData }: any) {
+export default function DownloadRequests({
+                                           reload,
+                                           setReload,
+                                           active,
+                                           setFetchingData
+                                         }: any) {
   // const appValues = useAppStatus();
   const agentValues = useAgentStatus();
 
-  const { data, getDownloadRequests, fetching } = useDownloadRequests();
+  const {
+    data,
+    getDownloadRequests,
+    fetching
+  } = useDownloadRequests();
 
   const [records, setRecords] = useState<Array<any>>([]);
 
@@ -93,7 +102,10 @@ export default function DownloadRequests({ reload, setReload, active, setFetchin
   const renderActions: DataTableColumn<any>['render'] = (record) => (
     <Group gap={4} justify="left" wrap="nowrap">
       <CopyButton value={record?.status?.downloadURL} timeout={2000}>
-        {({ copied, copy }) => (
+        {({
+            copied,
+            copy
+          }) => (
           <Tooltip label={copied ? 'Copied' : 'Copy URL'} withArrow position="right">
             <ActionIcon color={copied ? 'teal' : ''} variant="transparent" onClick={copy}>
               {copied ? (
@@ -115,9 +127,9 @@ export default function DownloadRequests({ reload, setReload, active, setFetchin
           </Tooltip>
         )}
       </CopyButton>
-      <DescribeActionIcon resourceType={record.kind} record={record} />
-      <DownloadAction url={record?.status?.downloadURL || undefined} />
-      <DeleteAction resourceType="downloadrequest" record={record} setReload={setReload} />
+      <DescribeActionIcon resourceType={record.kind} record={record}/>
+      <DownloadAction url={record?.status?.downloadURL || undefined}/>
+      <DeleteAction resourceType="downloadrequest" record={record} setReload={setReload}/>
     </Group>
   );
 
@@ -162,7 +174,7 @@ export default function DownloadRequests({ reload, setReload, active, setFetchin
           width: 150,
           ellipsis: true,
           render: ({ status }: any) => (
-            <VeleroResourceStatusBadge status={status?.phase || undefined} />
+            <VeleroResourceStatusBadge status={status?.phase || undefined}/>
           ),
         },
         {
@@ -177,7 +189,7 @@ export default function DownloadRequests({ reload, setReload, active, setFetchin
           accessor: 'actions',
           title: (
             <Center>
-              <IconClick size={16} />
+              <IconClick size={16}/>
             </Center>
           ),
           width: '0%',

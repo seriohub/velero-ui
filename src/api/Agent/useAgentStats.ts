@@ -1,19 +1,22 @@
 import { useApiGet } from '@/hooks/utils/useApiGet';
 
 export const useAgentStats = () => {
-  const { data, getData, fetching, error } = useApiGet();
+  const {
+    data,
+    getData,
+    fetching,
+    error
+  } = useApiGet();
 
   const getAgentStats = async (forced: boolean = false) => {
     try {
-      // Execute the API call with the generic method
-      await getData({
+
+      return await getData({
         url: '/v1/agents/health',
         target: 'core',
         params: `forced=${forced}`,
       });
 
-      // This code will be executed only in case of success
-      // console.log('Request successful, execute final action...');
     } catch (e) {
       // Error handling
       // console.error('Error during call:', error);

@@ -14,14 +14,14 @@ export function JsonViewer({ record = '' }: DetailProps) {
   if (record === undefined) {
     return (
       <Center>
-        <Loader color="blue" />
+        <Loader color="blue"/>
       </Center>
     );
   }
 
   return (
     <div style={{ whiteSpace: 'pre-line' }}>
-      <JsonView data={record} shouldExpandNode={allExpanded} style={defaultStyles} />
+      <JsonView data={record} shouldExpandNode={allExpanded} style={defaultStyles}/>
     </div>
   );
 }

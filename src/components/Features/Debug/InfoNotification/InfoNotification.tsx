@@ -37,7 +37,10 @@ export default function InfoNotification() {
     <Stack gap={0} key={index} mb={15}>
       <Group gap={2}>
         <CopyButton value={`${item.statusCode}: ${item.title}: ${item.description}`} timeout={2000}>
-          {({ copied, copy }) => (
+          {({
+              copied,
+              copy
+            }) => (
             <Tooltip label={copied ? 'Copied' : 'Copy'} withArrow position="right">
               <ActionIcon color={copied ? 'teal' : 'gray'} variant="transparent" onClick={copy}>
                 {copied ? (

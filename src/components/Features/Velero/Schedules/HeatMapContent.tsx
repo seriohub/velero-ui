@@ -14,7 +14,10 @@ interface DayHeatmapProps {
 const xLabels = new Array(60).fill(0).map((_, i) => (i % 5 === 0 ? `${i}` : ''));
 const yLabels = new Array(24).fill(0).map((_, i) => `${i}`);
 
-export function HeatMapContent({ data, heatmapScheduleName }: DayHeatmapProps) {
+export function HeatMapContent({
+                                 data,
+                                 heatmapScheduleName
+                               }: DayHeatmapProps) {
   const computedColorScheme = useComputedColorScheme();
   const [scheduleName, setScheduleName] = useState<string[]>([]);
 

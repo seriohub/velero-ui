@@ -9,5 +9,5 @@ interface InfoPostParametersProps {
 }
 
 export function InfoPostParameters({ params }: InfoPostParametersProps) {
-  return <JsonView data={params} shouldExpandNode={allExpanded} style={defaultStyles} />;
+  return <JsonView data={params} shouldExpandNode={allExpanded} style={defaultStyles}/>;
 }

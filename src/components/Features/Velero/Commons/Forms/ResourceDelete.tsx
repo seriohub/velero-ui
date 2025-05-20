@@ -13,11 +13,11 @@ interface ResourceDeleteProps {
 }
 
 export function ResourceDelete({
-  resourceType,
-  resourceName,
-  setReload,
-  redirectAfterDelete = '',
-}: ResourceDeleteProps) {
+                                 resourceType,
+                                 resourceName,
+                                 setReload,
+                                 redirectAfterDelete = '',
+                               }: ResourceDeleteProps) {
   const router = useRouter();
   const appValues = useAppStatus();
   const { handleDeleteResource } = useResourceDelete();

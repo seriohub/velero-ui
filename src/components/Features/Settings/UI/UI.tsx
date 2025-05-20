@@ -1,13 +1,13 @@
 'use client';
 
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 
-import {env} from 'next-runtime-env';
+import { env } from 'next-runtime-env';
 
-import {DataTable} from 'mantine-datatable';
-import {useServerStatus} from '@/contexts/ServerContext';
+import { DataTable } from 'mantine-datatable';
+import { useServerStatus } from '@/contexts/ServerContext';
 
-import {MainStack} from '@/components/Commons/MainStack';
+import { MainStack } from '@/components/Commons/MainStack';
 import Toolbar from '@/components/Display/Toolbar';
 import ReloadData from '@/components/Inputs/ReloadData';
 
@@ -41,11 +41,15 @@ export function UI() {
       name: 'NEXT_PUBLIC_FRONT_END_BUILD_DATE',
       value: env('NEXT_PUBLIC_FRONT_END_BUILD_DATE'),
     },
+    {
+      name: 'NEXT_PUBLIC_CACHE_TTL',
+      value: env('NEXT_PUBLIC_CACHE_TTL'),
+    },
   ];
 
   return (
     <MainStack>
-      <Toolbar title="Backup" breadcrumbItem={[{name: 'UI'}]}>
+      <Toolbar title="Backup" breadcrumbItem={[{ name: 'UI' }]}>
         <ReloadData setReload={setReload} reload={reload}/>
       </Toolbar>
       <DataTable

@@ -23,7 +23,8 @@ import DescribeActionIcon from '@/components/Features/Velero/Commons/Actions/Des
 import DeleteAction from '@/components/Features/Velero/Commons/Actions/DeleteAction';
 
 import StartStopActionIcon from '@/components/Features/Velero/Schedules/StartStopActionIcon';
-import CreateBackupFromScheduleAction from '@/components/Features/Velero/Schedules/Action/CreateBackupFromScheduleAction';
+import CreateBackupFromScheduleAction
+  from '@/components/Features/Velero/Schedules/Action/CreateBackupFromScheduleAction';
 
 import EditScheduleAction from '@/components/Features/Velero/Schedules/Action/EditScheduleAction';
 import SchedulesHeatmapToolbarIcon from '@/components/Features/Velero/Schedules/SchedulesHeatmap';
@@ -38,7 +39,12 @@ const PAGE_SIZES = [10, 15, 20];
 
 export function SchedulesDatatable() {
   const router = useRouter();
-  const { data, getSchedules, fetching, fetchedTime } = useSchedules();
+  const {
+    data,
+    getSchedules,
+    fetching,
+    fetchedTime
+  } = useSchedules();
   const agentValues = useAgentStatus();
   const [items = [], setItems] = useState<Array<any>>([]);
   const [reload, setReload] = useState(1);
@@ -101,25 +107,25 @@ export function SchedulesDatatable() {
 
   const renderActions: DataTableColumn<any>['render'] = (record) => (
     <Group gap={4} justify="right" wrap="nowrap">
-      <DescribeActionIcon resourceType="schedule" record={record} />
-      <CreateBackupFromScheduleAction record={record} />
+      <DescribeActionIcon resourceType="schedule" record={record}/>
+      <CreateBackupFromScheduleAction record={record}/>
       <StartStopActionIcon
         resourceName={record.metadata.name}
         paused={record.spec.paused === true}
         reload={reload}
         setReload={setReload}
       />
-      <EditScheduleAction record={record} setReload={setReload} />
-      <DeleteAction resourceType="schedule" record={record} setReload={setReload} />
+      <EditScheduleAction record={record} setReload={setReload}/>
+      <DeleteAction resourceType="schedule" record={record} setReload={setReload}/>
     </Group>
   );
 
   return (
     <MainStack>
       <Toolbar title="Schedule" breadcrumbItem={[{ name: 'Schedules' }]}>
-        <SchedulesHeatmapToolbarIcon />
-        <CreateSecheduleAction setReload={setReload} reload={reload} />
-        <ReloadData setReload={setReload} reload={reload} />
+        <SchedulesHeatmapToolbarIcon/>
+        <CreateSecheduleAction setReload={setReload} reload={reload}/>
+        <ReloadData setReload={setReload} reload={reload}/>
       </Toolbar>
       <DataFetchedInfo fetchedTime={fetchedTime}/>
       <DataTable
@@ -148,12 +154,11 @@ export function SchedulesDatatable() {
               <Anchor
                 size="sm"
                 onClick={() => {
-                  // console.log(record);
                   router.push(`/schedules/${record?.metadata?.name}`);
                 }}
               >
                 <Group gap={5}>
-                  <IconClock size={16} />
+                  <IconClock size={16}/>
                   <Text>{record?.metadata?.name}</Text>
                 </Group>
               </Anchor>
@@ -181,12 +186,11 @@ export function SchedulesDatatable() {
                 <Anchor
                   size="sm"
                   onClick={() => {
-                    // console.log(record);
                     router.push(`/backup-storage-locations/${spec.template.storageLocation}`);
                   }}
                 >
                   <Group gap={5}>
-                    <IconServer size={16} />
+                    <IconServer size={16}/>
                     <Text>{spec.template.storageLocation}</Text>
                   </Group>
                 </Anchor>
@@ -198,9 +202,9 @@ export function SchedulesDatatable() {
             title: 'File-system backup',
             render: (record: any) => {
               if (record.spec.template.defaultVolumesToFsBackup === true) {
-                return <VeleroResourceStatusBadge status="true" />;
+                return <VeleroResourceStatusBadge status="true"/>;
               }
-              return <VeleroResourceStatusBadge status="false" />;
+              return <VeleroResourceStatusBadge status="false"/>;
             },
           },
 
@@ -218,7 +222,7 @@ export function SchedulesDatatable() {
             accessor: 'actions',
             title: (
               <Center>
-                <IconClick size={16} />
+                <IconClick size={16}/>
               </Center>
             ),
             width: '0%',

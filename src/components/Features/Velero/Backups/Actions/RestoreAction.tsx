@@ -15,10 +15,10 @@ interface RestoreActionIconProps {
 }
 
 const RestoreAction: React.FC<RestoreActionIconProps> = ({
-  record,
-  setReload,
-  buttonType = 'actionIcon',
-}) => {
+                                                           record,
+                                                           setReload,
+                                                           buttonType = 'actionIcon',
+                                                         }) => {
   const isDisabled = record?.status?.phase === 'InProgress' || record?.status?.phase === 'Unknown' || record?.status?.phase === 'Failed';
   const backupName = record?.metadata?.name || 'Unknown';
 
@@ -27,7 +27,7 @@ const RestoreAction: React.FC<RestoreActionIconProps> = ({
     openModal({
       title: `Restore Backup ${backupName}`,
       size: '60rem',
-      children: <CreateRestoreForm backupName={backupName} setReload={setReload} />,
+      children: <CreateRestoreForm backupName={backupName} setReload={setReload}/>,
       padding: 'md',
       radius: 'md',
       centered: true,
@@ -37,13 +37,13 @@ const RestoreAction: React.FC<RestoreActionIconProps> = ({
   return buttonType === 'actionIcon' ? (
     <Tooltip label="Restore">
       <ActionIcon size="sm" variant="subtle" disabled={isDisabled} onClick={handleOpenModal}>
-        <IconRestore color="green" />
+        <IconRestore color="green"/>
       </ActionIcon>
     </Tooltip>
   ) : (
     <Button
       h={38}
-      leftSection={<IconRestore />}
+      leftSection={<IconRestore/>}
       color="green"
       disabled={isDisabled}
       onClick={handleOpenModal}

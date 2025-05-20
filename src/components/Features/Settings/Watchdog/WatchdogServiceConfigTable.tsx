@@ -15,9 +15,9 @@ interface WatchdogServiceConfigTableProps {
 }
 
 export default function WatchdogServiceConfigTable({
-  services,
-  setServices,
-}: WatchdogServiceConfigTableProps) {
+                                                     services,
+                                                     setServices,
+                                                   }: WatchdogServiceConfigTableProps) {
   const [value, setValue] = useState<string>('');
   const { watchdogDeleteService } = useWatchdogDeleteService();
   const { watchdogAddService } = useWatchdogAddService();
@@ -33,7 +33,8 @@ export default function WatchdogServiceConfigTable({
       },
       confirmProps: { color: 'red' },
 
-      onCancel: () => {},
+      onCancel: () => {
+      },
       onConfirm: () => handleRemoveRow(element),
     });
 
@@ -47,7 +48,7 @@ export default function WatchdogServiceConfigTable({
   const rows = services.map((element: any) => (
     <Table.Tr key={btoa(element)}>
       <Table.Td>
-        <MaskedService service={element} />
+        <MaskedService service={element}/>
       </Table.Td>
       <Table.Td>
         <Group gap={10}>
@@ -57,13 +58,13 @@ export default function WatchdogServiceConfigTable({
               variant="transparent"
               onClick={() => watchdogTestService({ config: element })}
             >
-              <IconSend />
+              <IconSend/>
             </ActionIcon>
           </Tooltip>
 
           <Tooltip label="Delete Service">
             <ActionIcon size="sm" variant="transparent" onClick={() => openModal(element)}>
-              <IconTrashX color="red" />
+              <IconTrashX color="red"/>
             </ActionIcon>
           </Tooltip>
         </Group>
@@ -81,7 +82,7 @@ export default function WatchdogServiceConfigTable({
           placeholder="value"
         />
         <Tooltip label="Test Service">
-          <Button onClick={() => watchdogTestService({ config: value })} leftSection={<IconSend />}>
+          <Button onClick={() => watchdogTestService({ config: value })} leftSection={<IconSend/>}>
             Test Service
           </Button>
         </Tooltip>
@@ -93,14 +94,14 @@ export default function WatchdogServiceConfigTable({
                 setValue('');
               });
             }}
-            leftSection={<IconPlus />}
+            leftSection={<IconPlus/>}
           >
             Add Service
           </Button>
         </Tooltip>
       </Group>
 
-      <Space my={10} />
+      <Space my={10}/>
       {services.length > 0 && (
         <Table striped>
           <Table.Thead>

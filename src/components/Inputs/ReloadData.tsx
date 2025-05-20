@@ -4,7 +4,11 @@ import { ActionIcon, Tooltip } from '@mantine/core';
 
 import { IconRefresh } from '@tabler/icons-react';
 
-export default function ReloadData({ setReload, reload, fetching = false }: any) {
+export default function ReloadData({
+                                     setReload,
+                                     reload,
+                                     fetching = false
+                                   }: any) {
   return (
     <>
       <Tooltip label="Click to refresh">
@@ -19,7 +23,7 @@ export default function ReloadData({ setReload, reload, fetching = false }: any)
           radius={8}
           disabled={fetching}
         >
-          <IconRefresh stroke={1.5} />
+          <IconRefresh stroke={1.5}/>
         </ActionIcon>
       </Tooltip>
     </>

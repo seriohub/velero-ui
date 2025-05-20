@@ -90,7 +90,6 @@ export function PodVolumeList({
               <Anchor
                 size="sm"
                 onClick={() => {
-                  // console.log(record);
                   router.push(
                     `/${type === 'podvolumebackups' ? 'pod-volume-backups' : 'pod-volume-restores'}/${metadata?.name}`
                   );

@@ -17,14 +17,17 @@ interface SCMappingFormProps {
 }
 
 export function SCMappingForm({
-  record = null,
-  reload,
-  setReload,
-  mode = 'create',
-}: SCMappingFormProps) {
+                                record = null,
+                                reload,
+                                setReload,
+                                mode = 'create',
+                              }: SCMappingFormProps) {
   const appValues = useAppStatus();
 
-  const { data: storageClasses, getStorageClasses } = useStorageClasses();
+  const {
+    data: storageClasses,
+    getStorageClasses
+  } = useStorageClasses();
   const { handleScCreateMap } = useSCCreateMap();
   const { handleScUpdateMap } = useSCUpdateMap();
   const form = useForm({

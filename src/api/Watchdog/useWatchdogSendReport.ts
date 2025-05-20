@@ -1,15 +1,18 @@
 import { useApiPost } from '@/hooks/utils/useApiPost';
 
 export const useWatchdogSendReport = () => {
-  const { data, postData, fetching, error } = useApiPost();
+  const {
+    data,
+    postData,
+    fetching,
+    error
+  } = useApiPost();
 
   const watchdogSendReport = async () => {
     try {
-      // Execute the API call with the generic method
-      await postData('/v1/watchdog/send-report', {});
 
-      // This code will be executed only in case of success
-      // console.log('Request successful, execute final action...');
+      return await postData('/v1/watchdog/send-report', {});
+
     } catch (e) {
       // Error handling
       // console.error('Error during call:', error);

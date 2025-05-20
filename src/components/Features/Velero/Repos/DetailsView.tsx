@@ -1,17 +1,20 @@
-import { Anchor, Box, Card, Group, ScrollArea, Space, Text, Title } from '@mantine/core';
+import { Anchor, Box, Card, Group, Space, Text, Title } from '@mantine/core';
 import { IconFolders, IconServer } from '@tabler/icons-react';
 import { useRouter } from 'next/navigation';
 import VeleroResourceStatusBadge from '@/components/Features/Velero/Commons/Display/VeleroResourceStatusBadge';
 import React from 'react';
 import classes from '@/styles/veleroResourceDetails.module.css';
 
-export function DetailsView({ data, ...rest }: any) {
+export function DetailsView({
+                              data,
+                              ...rest
+                            }: any) {
   const router = useRouter();
   return (
     <Card shadow="sm" radius="md" withBorder {...rest}>
       <Card.Section p="sm">
         <Group gap={5}>
-          <IconFolders size={80} />
+          <IconFolders size={80}/>
           <Box>
             <Title order={2} fw={800}>
               {data?.metadata?.name}
@@ -23,9 +26,9 @@ export function DetailsView({ data, ...rest }: any) {
         </Group>
       </Card.Section>
 
-      <Space h={3} />
+      <Space h={3}/>
 
-      <Space h={3} />
+      <Space h={3}/>
       <Card.Section p="sm" className={classes.section}>
         <Text fz="sm" c="dimmed" className={classes.label}>
           Status
@@ -64,7 +67,7 @@ export function DetailsView({ data, ...rest }: any) {
         )}
       </Card.Section>
 
-      <Space h={3} />
+      <Space h={3}/>
       <Card.Section p="sm" className={classes.section}>
         <Text fz="sm" c="dimmed" className={classes.label}>
           Config
@@ -80,7 +83,7 @@ export function DetailsView({ data, ...rest }: any) {
           <Text w={150} size="sm">
             Type:
           </Text>
-          <VeleroResourceStatusBadge status={data?.spec?.repositoryType} />
+          <VeleroResourceStatusBadge status={data?.spec?.repositoryType}/>
         </Box>
 
         <Box
@@ -130,7 +133,7 @@ export function DetailsView({ data, ...rest }: any) {
               }}
             >
               <Group gap={5}>
-                <IconServer size={16} />
+                <IconServer size={16}/>
                 <Text size="sm">{data?.spec?.backupStorageLocation}</Text>
               </Group>
             </Anchor>

@@ -1,7 +1,12 @@
 import { useApiPost } from '@/hooks/utils/useApiPost';
 
 export const useRepositoryUnlock = () => {
-  const { data, postData, fetching, error } = useApiPost();
+  const {
+    data,
+    postData,
+    fetching,
+    error
+  } = useApiPost();
 
   const getRepositoryUnlock = async (
     bsl: string,
@@ -9,23 +14,21 @@ export const useRepositoryUnlock = () => {
     removeAll: boolean = false
   ) => {
     try {
-      // Execute the API call with the generic method
+
       if (!removeAll) {
-        await postData('/v1/repo/unlock', {
+        return await postData('/v1/repo/unlock', {
           bsl,
           repositoryUrl,
           removeAll: false,
         });
       } else {
-        await postData('/v1/repo/unlock', {
+        return await postData('/v1/repo/unlock', {
           bsl,
           repositoryUrl,
           removeAll: true,
         });
       }
 
-      // This code will be executed only in case of success
-      // console.log('Request successful, execute final action...');
     } catch (e) {
       // Error handling
       // console.error('Error during call:', error);

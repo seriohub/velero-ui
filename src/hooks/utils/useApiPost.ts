@@ -1,6 +1,6 @@
-import { useState } from 'react';
+'use client';
 
-import { useBackend } from '../useBackend';
+import { useState } from 'react';
 
 import { useApiLogger } from '../logger/useApiLogger';
 import { useUserNotificationHistory } from '../user/useUserNotificationHistory';
@@ -11,6 +11,7 @@ import { ApiResponseShowErrorNotification } from '@/components/Display/ApiNotifi
 import { parseApiResponse } from '@/hooks/utils/parseApiResponse';
 import { useServerStatus } from "@/contexts/ServerContext";
 import { useAgentStatus } from "@/contexts/AgentContext";
+import { buildBackendUrl } from "@/utils/backend";
 
 interface UseApiPostProps {
   target?: 'core' | 'agent' | 'static';
@@ -19,40 +20,35 @@ interface UseApiPostProps {
 export const useApiPost = () => {
   const { logout } = useAuthErrorHandler();
 
-  const { addNotificationHistory } = useUserNotificationHistory();
-  const { addApiRequestHistory, addApiResponseHistory } = useApiLogger();
-  const [fetchedTime, setFetchedTime] = useState<string | undefined>(undefined);
-
   const serverValues = useServerStatus();
   const agentValues = useAgentStatus();
 
+  const { addNotificationHistory } = useUserNotificationHistory();
+  const {
+    addApiRequestHistory,
+    addApiResponseHistory
+  } = useApiLogger();
+
+  const [fetchedTime, setFetchedTime] = useState<string | undefined>(undefined);
   const [fetching, setFetching] = useState(false);
   const [data, setData] = useState<Record<string, any> | undefined>(undefined);
   const [error, setError] = useState(false);
 
-  const postData = async (url: string, values: any,  target = 'agent') => {
+  const postData = async (url: string, values: any, target = 'agent') => {
     if (error) {
       setError(false);
     }
 
-    let coreUrl = '';
-    if (serverValues.isCurrentServerControlPlane) {
-      if (target === 'core') {
-        coreUrl = '/core';
-      } else if (target === 'static') {
-        coreUrl = '';
-      } else {
-        const agentName = agentValues?.currentAgent?.name;
-        coreUrl = `/agent/${agentName}`;
-      }
-    }
+    const backendUrl = buildBackendUrl({
+      target: target as 'core' | 'agent' | 'static',
+      serverValues,
+      agentValues,
+    });
 
-    const backendUrl = `${serverValues?.currentServer?.url}${coreUrl}`;
-
-    // Recupera il token JWT dal localStorage
+    // Retrieves the JWT token from the localStorage
     const jwtToken = localStorage.getItem('token');
 
-    // Aggiungi il token JWT all'header, se presente
+    // Add the JWT token to the header, if present
     const headers: any = {
       'Content-Type': 'application/json',
     };
@@ -74,6 +70,7 @@ export const useApiPost = () => {
     });
 
     setFetching(true);
+
     fetch(`${backendUrl}${url}`, requestOptions)
       .then(parseApiResponse)
       .then((res) => {

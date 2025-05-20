@@ -41,7 +41,13 @@ export default function UserMenu() {
   }
 
   const UserButton = forwardRef<HTMLButtonElement, UserButtonProps>(
-    ({ image, name, email, icon, ...others }: UserButtonProps, ref) => (
+    ({
+       image,
+       name,
+       email,
+       icon,
+       ...others
+     }: UserButtonProps, ref) => (
       <UnstyledButton
         ref={ref}
         style={{
@@ -53,7 +59,7 @@ export default function UserMenu() {
       >
         <Group>
           <Avatar color="var(--mantine-primary-color-filled)" radius="xl">
-            <IconUser />
+            <IconUser/>
           </Avatar>
         </Group>
       </UnstyledButton>
@@ -102,7 +108,7 @@ export default function UserMenu() {
               {userValues.user?.email}
             </Text>
           </Menu.Label>
-          <Menu.Divider />
+          <Menu.Divider/>
           <Menu.Label>Settings</Menu.Label>
 
           <Menu.Item
@@ -123,7 +129,7 @@ export default function UserMenu() {
               event.preventDefault();
               openModal({
                 title: 'Change Password',
-                children: <UpdatePasswordForm />,
+                children: <UpdatePasswordForm/>,
               });
             }}
           >
@@ -148,13 +154,13 @@ export default function UserMenu() {
             UI Config
           </Menu.Item>
 
-          <Menu.Divider />
+          <Menu.Divider/>
 
           <Menu.Label>Debug</Menu.Label>
           <Menu.Item
             onClick={(event) => {
-              event.preventDefault(); // Impedisce altri comportamenti
-              event.stopPropagation(); // Impedisce la propagazione
+              event.preventDefault();
+              event.stopPropagation();
               uiValues.setShowDebugAside(!uiValues.showDebugAside);
             }}
             closeMenuOnClick={false}
@@ -169,7 +175,7 @@ export default function UserMenu() {
           >
             <Group w="100%" justify="space-between">
               Context Debug
-              <Switch checked={uiValues.showDebugAside} />
+              <Switch checked={uiValues.showDebugAside}/>
             </Group>
           </Menu.Item>
           {process.env.NODE_ENV === 'development' && (
@@ -191,11 +197,11 @@ export default function UserMenu() {
             >
               <Group w="100%" justify="space-between">
                 Debug Bar
-                <Switch checked={uiValues.showBottomDebugBar} />
+                <Switch checked={uiValues.showBottomDebugBar}/>
               </Group>
             </Menu.Item>
           )}
-          <Menu.Divider />
+          <Menu.Divider/>
 
           <Menu.Item
             disabled={!NEXT_PUBLIC_AUTH_ENABLED}

@@ -32,7 +32,10 @@ interface BackupLatestProps {
   setReload: React.Dispatch<React.SetStateAction<number>>;
 }
 
-export function LatestBackup({ setReload, latest = [] }: BackupLatestProps) {
+export function LatestBackup({
+                               setReload,
+                               latest = []
+                             }: BackupLatestProps) {
   const router = useRouter();
   const [items, setItems] = useState<Array<any>>(latest);
   const isMobile = useMediaQuery('(max-width: 36em)');
@@ -66,10 +69,10 @@ export function LatestBackup({ setReload, latest = [] }: BackupLatestProps) {
 
   const renderActions: DataTableColumn<any>['render'] = (record) => (
     <Group gap={4} justify="right" wrap="nowrap">
-      <DescribeActionIcon resourceType="backup" record={record} />
+      <DescribeActionIcon resourceType="backup" record={record}/>
       {/*<LogsActionIcon resourceType="backup" record={record} />*/}
-      <RestoreAction record={record} setReload={setReload} />
-      <DeleteAction resourceType="backup" record={record} setReload={setReload} />
+      <RestoreAction record={record} setReload={setReload}/>
+      <DeleteAction resourceType="backup" record={record} setReload={setReload}/>
     </Group>
   );
 
@@ -138,7 +141,6 @@ export function LatestBackup({ setReload, latest = [] }: BackupLatestProps) {
                   <Anchor
                     size="sm"
                     onClick={() => {
-                      // console.log(record);
                       router.push(`/backups/${record?.metadata?.name}`);
                     }}
                   >
@@ -160,7 +162,7 @@ export function LatestBackup({ setReload, latest = [] }: BackupLatestProps) {
                         }}
                       >
                         <Group gap={5}>
-                          <IconClock size={16} />
+                          <IconClock size={16}/>
                           <Text>{metadata.labels['velero.io/schedule-name']}</Text>
                         </Group>
                       </Anchor>
@@ -173,7 +175,7 @@ export function LatestBackup({ setReload, latest = [] }: BackupLatestProps) {
                 title: 'Status',
                 sortable: true,
                 render: ({ status }: any) => (
-                  <VeleroResourceStatusBadge status={status?.phase || undefined} />
+                  <VeleroResourceStatusBadge status={status?.phase || undefined}/>
                 ),
               },
               {
@@ -196,7 +198,7 @@ export function LatestBackup({ setReload, latest = [] }: BackupLatestProps) {
                 accessor: 'actions',
                 title: (
                   <Center>
-                    <IconClick size={16} />
+                    <IconClick size={16}/>
                   </Center>
                 ),
                 width: '0%',

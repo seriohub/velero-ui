@@ -11,7 +11,10 @@ interface UnscheduledNamespacesProps {
   total: number;
 }
 
-export function UnscheduledNamespaces({ namespaces, total }: UnscheduledNamespacesProps) {
+export function UnscheduledNamespaces({
+                                        namespaces,
+                                        total
+                                      }: UnscheduledNamespacesProps) {
   const values = () =>
     Object.entries(namespaces)
       .sort(([, valueA], [, valueB]) => valueA.localeCompare(valueB))

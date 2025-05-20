@@ -4,7 +4,11 @@ import { Button, Tooltip } from '@mantine/core';
 import { IconAlertSquareRounded } from '@tabler/icons-react';
 import { notifications } from '@mantine/notifications';
 
-export default function ReloadConfig({ watchdogReloadConfig, hasDiff, setReload }: any) {
+export default function ReloadConfig({
+                                       watchdogReloadConfig,
+                                       hasDiff,
+                                       setReload
+                                     }: any) {
   if (!hasDiff) {
     return (
       <Button
@@ -43,7 +47,7 @@ export default function ReloadConfig({ watchdogReloadConfig, hasDiff, setReload 
         aria-label="ActionIcon with size as a number"
         h={38}
         radius="md"
-        leftSection={<IconAlertSquareRounded />}
+        leftSection={<IconAlertSquareRounded/>}
       >
         Needed Restart Watchdog
       </Button>

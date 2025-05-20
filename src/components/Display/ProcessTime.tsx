@@ -16,9 +16,9 @@ export const ProcessTime = () => {
   const xProcessTimeAvg =
     xProcessTimeArray.length > 0
       ? xProcessTimeArray.reduce(
-          (sum: number, current: number) => Number(sum) + Number(current),
-          0
-        ) / xProcessTimeArray.length
+      (sum: number, current: number) => Number(sum) + Number(current),
+      0
+    ) / xProcessTimeArray.length
       : 0;
 
   return (

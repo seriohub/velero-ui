@@ -16,31 +16,31 @@ export default function DebugAside() {
       <Stack h="100%">
         <Box>
           <Text size="sm">Logger Context</Text>
-          <DebugLoggerContext />
+          <DebugLoggerContext/>
         </Box>
         <Box>
           <Text size="sm">UI Context</Text>
-          <DebUIContext />
+          <DebUIContext/>
         </Box>
         <Box>
           <Text size="sm">App Context</Text>
-          <DebugAppContext />
+          <DebugAppContext/>
         </Box>
         <Box>
           <Text size="sm">Server Context</Text>
-          <DebugServerContext />
+          <DebugServerContext/>
         </Box>
         <Box>
           <Text size="sm">Agent Context</Text>
-          <DebugContextAgent />
+          <DebugContextAgent/>
         </Box>
         <Box>
           <Text size="sm">Socket Context</Text>
-          <DebugSocketContext />
+          <DebugSocketContext/>
         </Box>
         <Box>
           <Text size="sm">User Context</Text>
-          <DebugUserContext />
+          <DebugUserContext/>
         </Box>
       </Stack>
     </>

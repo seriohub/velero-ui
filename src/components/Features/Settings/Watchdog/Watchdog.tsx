@@ -25,6 +25,7 @@ import { MainStack } from '@/components/Commons/MainStack';
 import { useUIStatus } from "@/contexts/UIContext";
 import { WatchdogUserConfigs } from "@/components/Features/Settings/Watchdog/WatchdogUserConfigs";
 import WatchdogService from "@/components/Features/Settings/Watchdog/WatchdogService";
+import { useAppStatus } from "@/contexts/AppContext";
 
 type Differences<T> = {
   hasDifferences: boolean;
@@ -57,6 +58,7 @@ function hasDifferentValues<T extends Record<string, any>>(obj1: T, obj2: T): Di
 
 export function Watchdog() {
   const uiValues = useUIStatus();
+  const appValues = useAppStatus()
   const stackRef = useRef<HTMLDivElement>(null);
   const [scrollHeight, setScrollHeight] = useState<number>(800);
 
@@ -95,13 +97,25 @@ export function Watchdog() {
   } = useWatchdogCron();
   const [reload, setReload] = useState(1);
 
-  const agentValues = useAgentStatus();
+  //const agentValues = useAgentStatus();
 
   useEffect(() => {
     getWatchdogConfig();
-    getWatchdogCron();
-    getWatchdogAppConfigs();
-  }, [reload, agentValues.isAgentAvailable]);
+    if (appValues?.appInfo?.helm_version) {
+      getWatchdogCron();
+      getWatchdogAppConfigs();
+    }
+  }, []);
+
+  useEffect(() => {
+    if (reload > 1) {
+      getWatchdogConfig(true);
+      if (appValues?.appInfo?.helm_version) {
+        getWatchdogCron(true);
+        getWatchdogAppConfigs(true);
+      }
+    }
+  }, [reload]);
 
   useEffect(() => {
     if (deployConfiguration && userConfiguration) {
@@ -151,18 +165,21 @@ export function Watchdog() {
       <Toolbar title="Watchdog" breadcrumbItem={[{ name: 'Watchdog' }]}>
         <ReloadData setReload={setReload} reload={reload}/>
         <SendReport fetching={reportFetching} requestSendReport={watchdogSendReport}/>
-        <ReloadConfig
-          watchdogReloadConfig={watchdogRestart}
-          hasDiff={hasDiff}
-          setReload={setReload}
-        />
+        {appValues?.appInfo?.helm_version && (
+          <ReloadConfig
+            watchdogReloadConfig={watchdogRestart}
+            hasDiff={hasDiff}
+            setReload={setReload}
+          />
+        )}
       </Toolbar>
       <Tabs defaultValue="Environment" h="calc(100% - 70px)" value={activeTab} onChange={setActiveTab}>
         <Tabs.List>
           <Tabs.Tab value="Environment" leftSection={<IconVariable size={20}/>}>
             Current Environment
           </Tabs.Tab>
-          <Tabs.Tab value="Settings" leftSection={<IconSettings size={20}/>}>
+          <Tabs.Tab value="Settings" leftSection={<IconSettings size={20}/>}
+                    disabled={!appValues?.appInfo?.helm_version}>
             Configuration
           </Tabs.Tab>
         </Tabs.List>
@@ -177,15 +194,16 @@ export function Watchdog() {
             />
           </Stack>
         </Tabs.Panel>
-
-        <Tabs.Panel value="Settings" h="calc(100% - 40px)" p={0}>
-          <Stack ref={stackRef} h="100%" p={0}>
-            <ScrollArea h={scrollHeight} p={0}>
-              <WatchdogUserConfigs userConfiguration={userConfiguration} setReload={setReload}/>
-              <WatchdogService/>
-            </ScrollArea>
-          </Stack>
-        </Tabs.Panel>
+        {appValues?.appInfo?.helm_version && (
+          <Tabs.Panel value="Settings" h="calc(100% - 40px)" p={0}>
+            <Stack ref={stackRef} h="100%" p={0}>
+              <ScrollArea h={scrollHeight} p={0}>
+                <WatchdogUserConfigs userConfiguration={userConfiguration} setReload={setReload}/>
+                <WatchdogService reload={reload}/>
+              </ScrollArea>
+            </Stack>
+          </Tabs.Panel>
+        )}
       </Tabs>
     </MainStack>
   );

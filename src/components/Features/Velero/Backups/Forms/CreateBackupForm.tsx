@@ -13,7 +13,10 @@ const timeoutRegex = /^\d+[smh]$/;
 
 export function CreateBackupForm() {
   // const appValues = useAppStatus();
-  const { data, getCreationBackupSettings } = useCreationBackupSettings();
+  const {
+    data,
+    getCreationBackupSettings
+  } = useCreationBackupSettings();
 
   const { handleCreateBackup } = useCreateBackup();
 

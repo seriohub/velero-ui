@@ -1,18 +1,21 @@
 import { useApiGet } from '@/hooks/utils/useApiGet';
 
 export const useResourceLogs = () => {
-  const { data, getData, fetching, error } = useApiGet();
+  const {
+    data,
+    getData,
+    fetching,
+    error
+  } = useApiGet();
 
   const getResourceLogs = async (resourceType: string, resourceName: string) => {
     try {
-      // Execute the API call with the generic method
-      await getData({
+
+      return await getData({
         url: `/v1/${resourceType}/logs`,
         params: `resource_name=${resourceName}`,
       });
 
-      // This code will be executed only in case of success
-      // console.log('Request successful, execute final action...');
     } catch (e) {
       // Error handling
       // console.error('Error during call:', error);

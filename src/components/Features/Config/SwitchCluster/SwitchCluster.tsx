@@ -17,12 +17,12 @@ export function SwitchCluster() {
   const serverValues = useServerStatus();
 
   const [opened, setOpened] = useState(false);
-  const [icon, setIcon] = useState(<IconLoader size={40} />);
+  const [icon, setIcon] = useState(<IconLoader size={40}/>);
 
   //const [selected, setSelected] = useState(data[0]);
   const items = serverValues?.servers?.map((item: any, index: number) => (
     <Menu.Item
-      leftSection={<IconAffiliate width={18} height={18} />}
+      leftSection={<IconAffiliate width={18} height={18}/>}
       onClick={() => {
         serverValues.setCurrentServerAsControlPlane(undefined);
 
@@ -39,11 +39,11 @@ export function SwitchCluster() {
 
   useEffect(() => {
     if (serverValues.isCurrentServerControlPlane === undefined) {
-      setIcon(<IconPlugConnectedX size={40} color="red" />);
+      setIcon(<IconPlugConnectedX size={40} color="red"/>);
     } else if (serverValues.isCurrentServerControlPlane) {
-      setIcon(<IconServer size={40} color="#40c057" />);
+      setIcon(<IconServer size={40} color="#40c057"/>);
     } else if (!serverValues.isCurrentServerControlPlane) {
-      setIcon(<IconSpy size={40} color="#40c057" />);
+      setIcon(<IconSpy size={40} color="#40c057"/>);
     }
   }, [serverValues.isCurrentServerControlPlane]);
 
@@ -75,7 +75,7 @@ export function SwitchCluster() {
                 </Text>
               </div>
             </Group>
-            <IconChevronDown size="1rem" className={classes.icon} stroke={1.5} />
+            <IconChevronDown size="1rem" className={classes.icon} stroke={1.5}/>
           </UnstyledButton>
         </Menu.Target>
         <Menu.Dropdown>{items}</Menu.Dropdown>

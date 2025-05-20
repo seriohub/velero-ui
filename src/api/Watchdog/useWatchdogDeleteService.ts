@@ -5,15 +5,20 @@ interface Service {
 }
 
 export const useWatchdogDeleteService = () => {
-  const { data, deleteData, error } = useApiDelete();
+  const {
+    data,
+    deleteData,
+    error
+  } = useApiDelete();
 
   const watchdogDeleteService = async ({ name }: Service) => {
     try {
-      // Execute the API call with the generic method
-      await deleteData({
+
+      return await deleteData({
         url: '/v1/watchdog/user/service',
         params: { name },
       });
+
     } catch (e) {
       // Error handling
       // console.error('Error during call:', error);
@@ -22,6 +27,7 @@ export const useWatchdogDeleteService = () => {
       // console.log('Final action after request')
     }
   };
+
   // Return the function for the call and the necessary data
   return {
     watchdogDeleteService,

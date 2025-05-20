@@ -1,18 +1,21 @@
 import { useApiGet } from '@/hooks/utils/useApiGet';
 
 export const useCoreInfo = () => {
-  const { data, getData, fetching, error } = useApiGet();
+  const {
+    data,
+    getData,
+    fetching,
+    error
+  } = useApiGet();
 
   const getCoreInfo = async () => {
     try {
-      // Execute the API call with the generic method
-      await getData({
+
+      return await getData({
         url: '/info/app',
         target: 'static',
       });
 
-      // This code will be executed only in case of success
-      // console.log('Request successful, execute final action...');
     } catch (e) {
       // Error handling
       // console.error('Error during call:', error);

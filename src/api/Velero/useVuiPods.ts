@@ -10,9 +10,11 @@ export const useVuiPods = () => {
 
   const getVuiPods = async (): Promise<void> => {
     try {
-      await getData({
+
+      return await getData({
         url: '/v1/vui/pods'
       });
+
     } catch (e) {
       // console.error('Error:', e);
     } finally {

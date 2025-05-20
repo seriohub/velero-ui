@@ -12,16 +12,16 @@ interface EditBslActionProps {
 }
 
 export default function EditBslAction({
-  record,
-  setReload,
-  buttonType = 'actionIcon',
-}: EditBslActionProps) {
+                                        record,
+                                        setReload,
+                                        buttonType = 'actionIcon',
+                                      }: EditBslActionProps) {
   const handleOpenModal = (e: React.MouseEvent) => {
     e.stopPropagation();
     openModal({
       title: 'Edit Backup Storage Location',
       size: '60rem',
-      children: <EditBslForm record={record} setReload={setReload} />,
+      children: <EditBslForm record={record} setReload={setReload}/>,
       padding: 'md',
       radius: 'md',
       centered: true,
@@ -31,11 +31,11 @@ export default function EditBslAction({
   return buttonType === 'actionIcon' ? (
     <Tooltip label="Edit">
       <ActionIcon size="sm" variant="subtle" onClick={handleOpenModal}>
-        <IconEdit color="green" />
+        <IconEdit color="green"/>
       </ActionIcon>
     </Tooltip>
   ) : (
-    <Button h={38} leftSection={<IconEdit />} onClick={handleOpenModal}>
+    <Button h={38} leftSection={<IconEdit/>} onClick={handleOpenModal}>
       Edit
     </Button>
   );

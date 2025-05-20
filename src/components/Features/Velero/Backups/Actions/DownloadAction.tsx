@@ -15,13 +15,16 @@ interface DownloadActionIconProps {
 }
 
 const DownloadAction: React.FC<DownloadActionIconProps> = ({
-  record,
-  buttonType = 'actionIcon',
-}) => {
+                                                             record,
+                                                             buttonType = 'actionIcon',
+                                                           }) => {
   const isDisabled = ['inprogress', 'new'].includes(record?.status?.phase.toLowerCase() ?? '');
 
   const backupName = record?.metadata?.name || 'Unknown';
-  const { data, downloadBackup } = useDownloadBackup();
+  const {
+    data,
+    downloadBackup
+  } = useDownloadBackup();
 
   const handleOpenModal = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -46,11 +49,11 @@ const DownloadAction: React.FC<DownloadActionIconProps> = ({
   return buttonType === 'actionIcon' ? (
     <Tooltip label="Download">
       <ActionIcon size="sm" variant="subtle" disabled={isDisabled} onClick={handleOpenModal}>
-        <IconDownload />
+        <IconDownload/>
       </ActionIcon>
     </Tooltip>
   ) : (
-    <Button h={38} leftSection={<IconDownload />} disabled={isDisabled} onClick={handleOpenModal}>
+    <Button h={38} leftSection={<IconDownload/>} disabled={isDisabled} onClick={handleOpenModal}>
       Download
     </Button>
   );

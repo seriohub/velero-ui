@@ -7,7 +7,7 @@ export default function AlertLocationEdit({ setShowAlert }: any) {
       variant="light"
       color="yellow"
       title="Warning: Configuration Change Risk"
-      icon={<IconAlertTriangle />}
+      icon={<IconAlertTriangle/>}
       m={10}
       p={5}
       withCloseButton

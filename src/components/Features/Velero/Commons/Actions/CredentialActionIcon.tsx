@@ -12,7 +12,10 @@ interface DetailActionIconProps {
   record: any;
 }
 
-export default function CredentialActionIcon({ name, record }: DetailActionIconProps) {
+export default function CredentialActionIcon({
+                                               name,
+                                               record
+                                             }: DetailActionIconProps) {
   return (
     <>
       {record.spec.credential && (
@@ -36,7 +39,7 @@ export default function CredentialActionIcon({ name, record }: DetailActionIconP
               });
             }}
           >
-            <IconKey />
+            <IconKey/>
           </ActionIcon>
         </Tooltip>
       )}
@@ -51,11 +54,11 @@ export default function CredentialActionIcon({ name, record }: DetailActionIconP
               openModal({
                 title: `Credential ${name}`,
                 size: 'md',
-                children: <CredentialView record={record} cloudCredential />,
+                children: <CredentialView record={record} cloudCredential/>,
               });
             }}
           >
-            <IconKey />
+            <IconKey/>
           </ActionIcon>
         </Tooltip>
       )}

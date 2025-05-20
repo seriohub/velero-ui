@@ -1,15 +1,17 @@
 import { useApiPut } from '@/hooks/utils/useApiPut';
 
 export const useUpdatePassword = () => {
-  const { putData, responseStatus, fetching } = useApiPut({ target: 'static' });
+  const {
+    putData,
+    responseStatus,
+    fetching
+  } = useApiPut();
 
   const handleUpdatePassword = async (password: string) => {
     try {
-      // Execute the API call with the generic method
-      await putData('/v1/users/me/update/pwd', { password });
 
-      // This code will be executed only in case of success
-      // console.log('Request successful, execute final action...');
+      return await putData('/v1/users/me/update/pwd', { password }, 'static');
+
     } catch (e) {
       // Error handling
       // console.error('Error during call:', error);
@@ -19,7 +21,7 @@ export const useUpdatePassword = () => {
     }
   };
 
-  // Restituisci la funzione per la chiamata e i dati necessari
+  // Return the function for the call and the necessary data
   return {
     handleUpdatePassword,
     responseStatus,

@@ -1,8 +1,7 @@
-'use client';
-
 import React from 'react';
-import AppShellBoot from '@/components/Layout/AuthLayout/AppShell.Boot';
+
+import AppShellStartup from '@/components/Layout/AuthLayout/AppShell.Startup';
 
 export default function RootLayout({ children }: { children: any }) {
-  return <AppShellBoot>{children}</AppShellBoot>;
+  return <AppShellStartup>{children}</AppShellStartup>;
 }

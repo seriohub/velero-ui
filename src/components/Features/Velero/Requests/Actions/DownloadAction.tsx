@@ -19,7 +19,7 @@ const DownloadAction: React.FC<DownloadActionIconProps> = ({ url }) => {
   return (
     <Tooltip label="Download">
       <ActionIcon size="sm" variant="subtle" onClick={handleOpenModal} disabled={url === undefined}>
-        <IconDownload />
+        <IconDownload/>
       </ActionIcon>
     </Tooltip>
   );

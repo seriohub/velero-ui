@@ -1,18 +1,21 @@
 import { useApiGet } from '@/hooks/utils/useApiGet';
 
 export const useVeleroSecretKey = () => {
-  const { data, getData, fetching, error } = useApiGet();
+  const {
+    data,
+    getData,
+    fetching,
+    error
+  } = useApiGet();
 
   const getVeleroSecretKey = async (secretName: string) => {
     try {
-      // Execute the API call with the generic method
-      await getData({
+
+      return await getData({
         url: '/v1/k8s/velero/secret/key',
         params: `secret_name=${secretName}`,
       });
 
-      // This code will be executed only in case of success
-      // console.log('Request successful, execute final action...');
     } catch (e) {
       // Error handling
       // console.error('Error during call:', error);

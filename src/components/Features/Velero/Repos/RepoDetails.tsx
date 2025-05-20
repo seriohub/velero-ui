@@ -21,7 +21,11 @@ interface BackupProps {
 }
 
 export function RepoDetails({ params }: BackupProps) {
-  const { data, getManifest, fetching } = useVeleroManifest();
+  const {
+    data,
+    getManifest,
+    fetching
+  } = useVeleroManifest();
   const [reload, setReload] = useState(1);
   const agentValues = useAgentStatus();
   const [manifest, setManifest] = useState<Record<string, any>>([]);
@@ -74,11 +78,11 @@ export function RepoDetails({ params }: BackupProps) {
           },
         ]}
       >
-        <ReloadData setReload={setReload} reload={reload} />
+        <ReloadData setReload={setReload} reload={reload}/>
       </Toolbar>
       <Grid gutter="sm">
         <Grid.Col span={4}>
-          <DetailsView data={manifest} fetching={fetching} h={600} />
+          <DetailsView data={manifest} h={600}/>
         </Grid.Col>
 
         <Grid.Col span={8}>

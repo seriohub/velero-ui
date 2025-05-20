@@ -1,58 +1,35 @@
+'use client';
+
 import { ActionIcon, Group, Indicator, Modal, Text } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 
 import { IconRefresh, IconRotateClockwise } from '@tabler/icons-react';
 
 import { useEffect, useState } from 'react';
-
-import { useAgentStatus } from '@/contexts/AgentContext';
-import { useServerStatus } from '@/contexts/ServerContext';
 import { useAppStatus } from '@/contexts/AppContext';
-
-import { useAgentInfo } from '@/api/Agent/useAgentInfo';
-import { useCoreInfo } from '@/api/Core/useCoreInfo';
 
 import TableVersion from './TableVersion';
 import { compareVersions } from './CompareVersion';
 
 export default function CheckAppVersion() {
   const [updateAvailable, setUpdateAvailable] = useState(false);
-  const [opened, { open, close }] = useDisclosure(false);
-  const agentValues = useAgentStatus();
-  const serverValues = useServerStatus();
+  const [opened, {
+    open,
+    close
+  }] = useDisclosure(false);
   const appValues = useAppStatus();
 
-  const { data: agentData, getAgentInfo } = useAgentInfo();
-  const { data: coreData, getCoreInfo } = useCoreInfo();
-
   useEffect(() => {
-    if (serverValues.isServerAvailable && serverValues.isCurrentServerControlPlane) {
-      getCoreInfo();
-    }
-
-    if (agentValues.isAgentAvailable && !serverValues.isCurrentServerControlPlane) {
-      getAgentInfo();
-    }
-  }, [
-    serverValues.isServerAvailable,
-    serverValues.isCurrentServerControlPlane,
-    agentValues.isAgentAvailable,
-  ]);
-
-  useEffect(() => {
-    const currentAppVersion = serverValues.isCurrentServerControlPlane ? coreData : agentData;
-
+    const currentAppVersion = appValues.appInfo;
     if (currentAppVersion?.helm_version && appValues.repoVersion?.helm) {
-      //const cmp = compareVersions(currentAppVersion?.helm_version, appValues.repoVersion?.helm?.replace(/^[a-zA-Z]/, ''));
       const cmp = compareVersions(currentAppVersion?.helm_version, appValues.repoVersion?.helm?.replace(/^[a-zA-Z]/, ''));
-
       if (cmp === 'githubRelease') {
         setUpdateAvailable(true);
-      }else{
+      } else {
         setUpdateAvailable(false);
       }
     }
-  }, [agentData, coreData, appValues.repoVersion]);
+  }, [appValues.repoVersion]);
 
   return (
     <>
@@ -62,7 +39,7 @@ export default function CheckAppVersion() {
         title={`App version v${appValues.appInfo?.helm_app_version}`}
         size="lg"
       >
-        <TableVersion app={agentData || coreData} githubRelease={appValues.repoVersion} />
+        <TableVersion app={appValues.appInfo} githubRelease={appValues.repoVersion}/>
         <Group justify="flex-end">
           <Text size="sm">Last check {appValues.repoVersion?.datetime || 'N.A'}</Text>
           <ActionIcon
@@ -73,7 +50,7 @@ export default function CheckAppVersion() {
               appValues.setRefreshRepoVersion((prev: number) => prev + 1);
             }}
           >
-            <IconRefresh size={18} stroke={1.5} />
+            <IconRefresh size={18} stroke={1.5}/>
           </ActionIcon>
         </Group>
       </Modal>
@@ -85,8 +62,8 @@ export default function CheckAppVersion() {
           aria-label="Toggle color scheme"
           onClick={open}
         >
-          {updateAvailable && <IconRotateClockwise stroke={1.5} />}
-          {!updateAvailable && <IconRotateClockwise stroke={1.5} />}
+          {updateAvailable && <IconRotateClockwise stroke={1.5}/>}
+          {!updateAvailable && <IconRotateClockwise stroke={1.5}/>}
         </ActionIcon>
       </Indicator>
     </>

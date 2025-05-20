@@ -1,15 +1,21 @@
 import { useApiGet } from '@/hooks/utils/useApiGet';
 
 export const useVeleroTanzuVersion = () => {
-  const { data, getData, fetching, error } = useApiGet();
+  const {
+    data,
+    getData,
+    fetching,
+    error
+  } = useApiGet();
 
   const getVeleroTanzuVersion = async () => {
     try {
-      // Execute the API call with the generic method
-      await getData({ url: '/info/velero-repo-tag', target: 'static' });
 
-      // This code will be executed only in case of success
-      // console.log('Request successful, execute final action...');
+      return await getData({
+        url: '/info/velero-repo-tag',
+        target: 'static'
+      });
+
     } catch (e) {
       // Error handling
       // console.error('Error during call:', error);

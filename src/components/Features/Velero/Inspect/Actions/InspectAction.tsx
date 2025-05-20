@@ -18,7 +18,7 @@ export default function InspectAction({ record }: any) {
           router.push(`/inspect/${record.name}`);
         }}
       >
-        <IconZoomCode />
+        <IconZoomCode/>
       </ActionIcon>
     </Tooltip>
   );

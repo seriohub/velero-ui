@@ -1,3 +1,5 @@
+'use client';
+
 import { useState } from 'react';
 
 import { useRouter } from 'next/navigation';
@@ -9,6 +11,11 @@ import { useAuthErrorHandler } from '../user/useAuthErrorHandler';
 import { ApiResponseShowErrorNotification } from '@/components/Display/ApiNotification';
 import { handleApiResponse } from './handleApiResponse';
 import { parseApiResponse } from './parseApiResponse';
+import { buildBackendUrl } from "@/utils/backend";
+import { env } from 'next-runtime-env';
+
+const inMemoryCache = new Map<string, { data: any; timestamp: number }>();
+const CACHE_TTL = Number(env('NEXT_PUBLIC_CACHE_TTL') ?? 60) * 1000;
 
 type TargetType = 'core' | 'agent' | 'static';
 
@@ -17,12 +24,18 @@ type GetDataParams = {
   params?: string;
   addInHistory?: boolean;
   target?: TargetType;
+  force?: boolean;
+  cache?: boolean;
+  ttl?: number;
 };
 
 export const useApiGet = () => {
   const { logout } = useAuthErrorHandler();
   const router = useRouter();
-  const { addApiRequestHistory, addApiResponseHistory } = useApiLogger();
+  const {
+    addApiRequestHistory,
+    addApiResponseHistory
+  } = useApiLogger();
   const { addNotificationHistory } = useUserNotificationHistory();
 
   const serverValues = useServerStatus();
@@ -34,37 +47,50 @@ export const useApiGet = () => {
   const [error, setError] = useState(false);
 
   const getData = async ({
-    url,
-    params = '',
-    addInHistory = true,
-    target = 'agent',
-  }: GetDataParams) => {
+                           url,
+                           params = '',
+                           addInHistory = true,
+                           target = 'agent',
+                           force = false,
+                           cache = false,
+                           ttl
+                         }: GetDataParams) => {
     if (error) {
       setError(false);
     }
 
+    const backendUrl = buildBackendUrl({
+      target,
+      serverValues,
+      agentValues,
+    });
 
-    let coreUrl = '';
-    if (serverValues.isCurrentServerControlPlane) {
-      if (target === 'core') {
-        coreUrl = '/core';
-      } else if (target === 'static') {
-        coreUrl = '';
-      } else {
-        const agentName = agentValues?.currentAgent?.name;
-        coreUrl = `/agent/${agentName}`;
+    // Remove `forced` from the cache key
+    const cacheKeyParams = params
+      .split('&')
+      .filter(p => !p.startsWith('forced='))
+      .join('&');
+
+    const fullUrl = `${backendUrl}${url}?${params}`
+    const cacheKeyUrl = `${backendUrl}${url}?${cacheKeyParams}`;
+
+    if (cache && !force) {
+      const cached = inMemoryCache.get(cacheKeyUrl);
+      const ttlToUse = ttl ?? CACHE_TTL;
+
+      if (cached && Date.now() - cached.timestamp < ttlToUse) {
+        setData(cached.data);
+        return cached.data;
       }
     }
 
-    const backendUrl = `${serverValues?.currentServer?.url}${coreUrl}`;
-
-    if (!window) {
-      console.log(`Window unavailable: skip request ${backendUrl}${url}?${params}`);
+    if (typeof window === 'undefined') {
+      console.log(`Window unavailable: skip request ${fullUrl}`);
       return;
     }
 
     if (!serverValues.isServerAvailable) {
-      console.log(`Server unavailable: skip request ${backendUrl}${url}?${params}`);
+      console.log(`Server unavailable: skip request ${fullUrl}`);
       return;
     }
 
@@ -77,12 +103,12 @@ export const useApiGet = () => {
       return;
     }
 
-    // Recupera il token JWT dal localStorage
+    // Retrieves the JWT token from the localStorage
     const jwtToken = localStorage.getItem('token');
 
-    // Aggiungi il token JWT all'header, se presente
+    // Add the JWT token to the header, if present
     const headers: any = {
-      // 'Content-Type': 'application/json',
+      'Content-Type': 'application/json',
     };
 
     if (jwtToken) {
@@ -93,13 +119,13 @@ export const useApiGet = () => {
       addApiRequestHistory({
         method: 'GET',
         headers,
-        url: `${backendUrl}${url}?${params}`,
+        url: `${fullUrl}`,
         params,
       });
     }
 
     setFetching(true);
-    fetch(`${backendUrl}${url}?${params}`, {
+    const res = fetch(`${fullUrl}`, {
       method: 'GET',
       // credentials: 'include', // uncomment for cookie auth
       headers,
@@ -120,6 +146,15 @@ export const useApiGet = () => {
           params,
           method: 'GET',
         });
+
+        if (cache) {
+          inMemoryCache.set(`${cacheKeyUrl}`, {
+            data: res?.data?.data,
+            timestamp: Date.now(),
+          });
+        }
+
+        return res?.data?.data;
       })
 
       .catch((err) => {
@@ -142,6 +177,8 @@ export const useApiGet = () => {
           message,
         });
       });
+
+    return res;
   };
 
   return {

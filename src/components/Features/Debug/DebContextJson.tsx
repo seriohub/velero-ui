@@ -14,5 +14,5 @@ const jsonStyle = {
 };
 
 export function DebInfoContextJson({ data }: InfoAppContextProps) {
-  return <JsonView data={data} shouldExpandNode={collapseAllNested} style={jsonStyle} />;
+  return <JsonView data={data} shouldExpandNode={collapseAllNested} style={jsonStyle}/>;
 }

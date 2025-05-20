@@ -1,10 +1,11 @@
+'use client';
+
 import { useEffect } from 'react';
 import { useUIStatus } from '@/contexts/UIContext';
 import { fontSizeMap, FontSizeKey } from '@/components/Features/Config/UI/UIConfigFontSize';
 
 export const useUIConfig = () => {
   const uiValues = useUIStatus();
-
   useEffect(() => {
     const defaultFontSizeRaw = localStorage.getItem('fontSize');
     const defaultFontSize = defaultFontSizeRaw ? parseInt(defaultFontSizeRaw) : 50;

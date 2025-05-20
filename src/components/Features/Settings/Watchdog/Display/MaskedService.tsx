@@ -18,7 +18,7 @@ export function MaskedService({ service }: { service: string }) {
   return (
     <Group>
       <ActionIcon variant="transparent" onClick={() => setVisible((v) => !v)}>
-        {visible ? <IconEyeOff /> : <IconEye />}
+        {visible ? <IconEyeOff/> : <IconEye/>}
       </ActionIcon>
       <Text>{visible ? service : maskUrl(service)}</Text>
     </Group>

@@ -1,30 +1,22 @@
-import { useEffect } from 'react';
+'use client';
 
 import { Alert, Code, Group, Stack, Text, Tooltip, useComputedColorScheme } from '@mantine/core';
 import { IconAlertTriangle } from '@tabler/icons-react';
-
 import { useAgentStatus } from '@/contexts/AgentContext';
 import { useUIStatus } from '@/contexts/UIContext';
-
 import { useAppVersion } from '@/api/App/useAppVersion';
-
-import { useVeleroTanzuVersion } from '@/api/App/useVeleroTanzuVersion';
+import { useAppStatus } from "@/contexts/AppContext";
 
 export const Version = () => {
-  const { data, getAppVersion } = useAppVersion();
+  const {
+    data,
+    getAppVersion
+  } = useAppVersion();
+
   const agentValues = useAgentStatus();
   const computedColorScheme = useComputedColorScheme();
   const uiValues = useUIStatus();
-  const { data: veleroTanzuVersion, getVeleroTanzuVersion } = useVeleroTanzuVersion();
-
-  useEffect(() => {
-    if (agentValues.isAgentAvailable) {
-      getAppVersion();
-      getVeleroTanzuVersion();
-    }
-  }, [agentValues.isAgentAvailable]);
-
-  if (data === undefined) return <></>;
+  const appValues = useAppStatus();
 
   return (
     <>
@@ -43,7 +35,7 @@ export const Version = () => {
           >
             Velero installed
           </Text>
-          <Code fw={700}>{data?.toString()}</Code>
+          <Code fw={700}>{agentValues.veleroInstalledVersion}</Code>
         </Group>
         {data && data.warning && (
           <Group>
@@ -51,7 +43,7 @@ export const Version = () => {
               variant="outline"
               color="yellow"
               title="Warning"
-              icon={<IconAlertTriangle />}
+              icon={<IconAlertTriangle/>}
               p={5}
             >
               <Text fw={500} size="xs">
@@ -60,7 +52,7 @@ export const Version = () => {
             </Alert>
           </Group>
         )}
-        {veleroTanzuVersion?.velero && (
+        {appValues?.veleroTanzuVersion?.velero && (
           <Group justify="space-between" gap={0}>
             <Text
               fw={400}
@@ -75,9 +67,9 @@ export const Version = () => {
             >
               Velero available
             </Text>
-            <Tooltip label={`Latest release ${veleroTanzuVersion?.velero}`}>
+            <Tooltip label={`Latest release ${appValues?.veleroTanzuVersion?.velero}`}>
               <Code fw={700}>
-                {veleroTanzuVersion?.velero.substring(0, veleroTanzuVersion?.velero.indexOf(' '))}
+                {appValues?.veleroTanzuVersion?.velero.substring(0, appValues?.veleroTanzuVersion?.velero.indexOf(' '))}
               </Code>
             </Tooltip>
           </Group>

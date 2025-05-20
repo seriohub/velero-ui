@@ -1,3 +1,5 @@
+'use client';
+
 import { useEffect } from 'react';
 
 import { useAppStatus } from '@/contexts/AppContext';
@@ -5,7 +7,7 @@ import { useGithubRepoVersion } from '@/api/App/useGithubRepoVersion';
 import { useAgentStatus } from '@/contexts/AgentContext';
 import { useServerStatus } from '@/contexts/ServerContext';
 import { useAppInfo } from '@/api/App/useAppInfo';
-import { isRecordStringAny } from "@/utils/isRecordStringIsType";
+import { useVeleroTanzuVersion } from "@/api/App/useVeleroTanzuVersion";
 
 export const useAppConfig = () => {
   const appValues = useAppStatus();
@@ -13,7 +15,6 @@ export const useAppConfig = () => {
   const serverValues = useServerStatus();
 
   const {
-    data: appInfo,
     getAppInfo
   } = useAppInfo();
 
@@ -22,15 +23,21 @@ export const useAppConfig = () => {
     getRepoVersion
   } = useGithubRepoVersion();
 
-  useEffect(() => {
-    if (serverValues.isServerAvailable && serverValues.isCurrentServerControlPlane) {
-      getRepoVersion('core');
-    }
+  const {
+    getVeleroTanzuVersion
+  } = useVeleroTanzuVersion();
 
-    if (agentValues.isAgentAvailable && !serverValues.isCurrentServerControlPlane) {
-      getRepoVersion('agent');
+  useEffect(() => {
+    if (appValues.isAuthenticated) {
+      if (serverValues.isServerAvailable && serverValues.isCurrentServerControlPlane) {
+        getRepoVersion('core');
+      }
+
+      if (agentValues.isAgentAvailable && !serverValues.isCurrentServerControlPlane) {
+        getRepoVersion('agent');
+      }
     }
-  }, [serverValues.isServerAvailable, agentValues.isAgentAvailable]);
+  }, [serverValues.isServerAvailable, agentValues.isAgentAvailable, appValues.isAuthenticated]);
 
   useEffect(() => {
     if (appValues.refreshGithubRepoVersion > 0) {
@@ -49,14 +56,17 @@ export const useAppConfig = () => {
   }, [repoVersion]);
 
   useEffect(() => {
+    if (serverValues.isServerAvailable && appValues.isAuthenticated) {
+      // getAppInfo();
+      getVeleroTanzuVersion().then(response => {
+        appValues.setVeleroTanzuVersion(response)
+      });
+    }
     if (serverValues.isServerAvailable) {
-      getAppInfo();
+      getAppInfo().then(response => {
+        appValues.setAppInfo(response);
+      });
     }
-  }, [serverValues.isServerAvailable]);
+  }, [serverValues.isServerAvailable, appValues.isAuthenticated]);
 
-  useEffect(() => {
-    if (appInfo && isRecordStringAny(appInfo)) {
-      appValues.setAppInfo(appInfo);
-    }
-  }, [appInfo]);
 };

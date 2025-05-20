@@ -9,5 +9,5 @@ interface InfoDataResponseProps {
 }
 
 export function InfoDataResponse({ data }: InfoDataResponseProps) {
-  return <JsonView data={data} shouldExpandNode={collapseAllNested} style={defaultStyles} />;
+  return <JsonView data={data} shouldExpandNode={collapseAllNested} style={defaultStyles}/>;
 }

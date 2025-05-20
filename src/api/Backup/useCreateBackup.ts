@@ -1,20 +1,24 @@
 import { useApiPost } from '@/hooks/utils/useApiPost';
 
 export const useCreateBackup = () => {
-  const { data, postData, fetching, error } = useApiPost();
+  const {
+    data,
+    postData,
+    fetching,
+    error
+  } = useApiPost();
 
   const handleCreateBackup = async (values: any) => {
     try {
-      // Execute the API call with the generic method
-      await postData('/v1/backup', values);
-      // This code will be executed only in case of success
-      // console.log('Richiesta riuscita, eseguo azioni finali...');
+
+      return await postData('/v1/backup', values);
+
     } catch (e) {
       // Error handling
-      // console.error('Errore durante la chiamata:', error);
+      // console.error('Error during call:', error);
     } finally {
       // This code will always be executed
-      // console.log('Azione finale dopo la richiesta');
+      // console.log('Final action after request')
     }
   };
 

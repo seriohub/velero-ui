@@ -23,7 +23,12 @@ import { eventEmitter } from '@/lib/EventEmitter.js';
 const PAGE_SIZES = [10, 15, 20];
 
 export function PVBDatatable({ type }: any) {
-  const { data, getPodVolumes, fetching, fetchedTime } = usePodVolumes();
+  const {
+    data,
+    getPodVolumes,
+    fetching,
+    fetchedTime
+  } = usePodVolumes();
 
   const [items, setItems] = useState<Record<string, any>>([]);
   const [reload, setReload] = useState(1);
@@ -65,7 +70,7 @@ export function PVBDatatable({ type }: any) {
 
   useEffect(() => {
     if (agentValues.isAgentAvailable && reload > 1) {
-      getPodVolumes(type);
+      getPodVolumes(type, true);
     }
   }, [reload]);
 
@@ -89,7 +94,10 @@ export function PVBDatatable({ type }: any) {
     const data_sorted = sortBy(items, sortStatus.columnAccessor);
 
     // filter
-    const data_filter = data_sorted.filter(({ spec, status }: any) => {
+    const data_filter = data_sorted.filter(({
+                                              spec,
+                                              status
+                                            }: any) => {
       if (
         debouncedQuery !== '' &&
         !spec.tags.backup.toLowerCase().includes(debouncedQuery.trim().toLowerCase())
@@ -122,7 +130,7 @@ export function PVBDatatable({ type }: any) {
           },
         ]}
       >
-        <ReloadData setReload={setReload} reload={reload} />
+        <ReloadData setReload={setReload} reload={reload}/>
       </Toolbar>
       <DataFetchedInfo fetchedTime={fetchedTime}/>
 

@@ -6,7 +6,6 @@ import { useAgentStatus } from '@/contexts/AgentContext';
 
 import { useVeleroManifest } from '@/api/Velero/useVeleroManifest';
 
-
 import Toolbar from '@/components/Display/Toolbar';
 import ReloadData from '@/components/Inputs/ReloadData';
 
@@ -25,7 +24,10 @@ interface BackupProps {
 }
 
 export function BslDetails({ params }: BackupProps) {
-  const { data, getManifest } = useVeleroManifest();
+  const {
+    data,
+    getManifest
+  } = useVeleroManifest();
   const [reload, setReload] = useState(1);
   const agentValues = useAgentStatus();
 
@@ -79,8 +81,8 @@ export function BslDetails({ params }: BackupProps) {
             },
           ]}
         >
-          <ReloadData setReload={setReload} reload={reload} />
-          <EditBslAction record={manifest} setReload={setReload} buttonType="button" />
+          <ReloadData setReload={setReload} reload={reload}/>
+          <EditBslAction record={manifest} setReload={setReload} buttonType="button"/>
           <DeleteAction
             resourceType="bsl"
             record={manifest}
@@ -90,8 +92,8 @@ export function BslDetails({ params }: BackupProps) {
           />
         </Toolbar>
       }
-      details={<BslDetailsView data={manifest}  />}
-      manifest={ <Manifest
+      details={<BslDetailsView data={manifest}/>}
+      manifest={<Manifest
         resourceType="BackupStorageLocation"
         resourceName={params.bsl}
         reload={reload}
