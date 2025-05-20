@@ -41,6 +41,10 @@ export function UI() {
       name: 'NEXT_PUBLIC_FRONT_END_BUILD_DATE',
       value: env('NEXT_PUBLIC_FRONT_END_BUILD_DATE'),
     },
+    {
+      name: 'NEXT_PUBLIC_CACHE_TTL',
+      value: env('NEXT_PUBLIC_CACHE_TTL'),
+    },
   ];
 
   return (

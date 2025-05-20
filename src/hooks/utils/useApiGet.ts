@@ -12,9 +12,10 @@ import { ApiResponseShowErrorNotification } from '@/components/Display/ApiNotifi
 import { handleApiResponse } from './handleApiResponse';
 import { parseApiResponse } from './parseApiResponse';
 import { buildBackendUrl } from "@/utils/backend";
+import { env } from 'next-runtime-env';
 
 const inMemoryCache = new Map<string, { data: any; timestamp: number }>();
-const CACHE_TTL = 60000;
+const CACHE_TTL = Number(env('NEXT_PUBLIC_CACHE_TTL') ?? 60) * 1000;
 
 type TargetType = 'core' | 'agent' | 'static';
 
