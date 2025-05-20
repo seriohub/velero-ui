@@ -64,10 +64,17 @@ export const useApiGet = () => {
       agentValues,
     });
 
+    // Remove `forced` from the cache key
+    const cacheKeyParams = params
+      .split('&')
+      .filter(p => !p.startsWith('forced='))
+      .join('&');
+
     const fullUrl = `${backendUrl}${url}?${params}`
+    const cacheKeyUrl = `${backendUrl}${url}?${cacheKeyParams}`;
 
     if (cache && !force) {
-      const cached = inMemoryCache.get(fullUrl);
+      const cached = inMemoryCache.get(cacheKeyUrl);
       const ttlToUse = ttl ?? CACHE_TTL;
 
       if (cached && Date.now() - cached.timestamp < ttlToUse) {
@@ -76,7 +83,7 @@ export const useApiGet = () => {
       }
     }
 
-    if (!window) {
+    if (typeof window === 'undefined') {
       console.log(`Window unavailable: skip request ${fullUrl}`);
       return;
     }
@@ -140,7 +147,7 @@ export const useApiGet = () => {
         });
 
         if (cache) {
-          inMemoryCache.set(`${fullUrl}`, {
+          inMemoryCache.set(`${cacheKeyUrl}`, {
             data: res?.data?.data,
             timestamp: Date.now(),
           });
