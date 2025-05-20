@@ -74,6 +74,13 @@ export default function AuthGate({
         return;
       }
 
+      if (user) {
+        if (pathname === '/') {
+          router.push('/dashboard');
+        }
+        return;
+      }
+
       // all okay
       setChecking(false);
     };
