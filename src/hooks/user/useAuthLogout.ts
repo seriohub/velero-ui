@@ -1,5 +1,6 @@
-import { useRouter, usePathname } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useAppStatus } from '@/contexts/AppContext';
+import { clearInMemoryCache } from "@/cache/inMemoryCache";
 
 export const useAuthLogout = () => {
   const router = useRouter();
@@ -9,6 +10,8 @@ export const useAuthLogout = () => {
     localStorage.removeItem('token');
     sessionStorage.removeItem('next');
     appValues.setAuthenticated(false);
+    appValues.setIsUserLoaded(false);
+    clearInMemoryCache();
     router.push('/login');
   };
 

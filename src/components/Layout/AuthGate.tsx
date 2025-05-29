@@ -27,29 +27,32 @@ export default function AuthGate({
   const pathname = usePathname();
 
   const [checking, setChecking] = useState(true);
+
+  // Read auth flag from environment variable
   const loggerEnabled = env('NEXT_PUBLIC_AUTH_ENABLED')?.toLocaleLowerCase() === 'true';
 
   useEffect(() => {
     const check = async () => {
       const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
 
-      // if auth disabled via config → always access
+      // 🔓 If auth is disabled in config, allow access to all pages
       if (!loggerEnabled) {
         if (pathname === '/') {
-          router.push('/dashboard');
+          router.push('/dashboard'); // redirect root to dashboard
         } else {
-          setChecking(false);
+          setChecking(false); // allow access
         }
         return;
       }
 
-      // if there is no token or error
+      // 🚫 If there's no token or an auth error occurred
       if (!token || error) {
-        localStorage.removeItem('token');
+        localStorage.removeItem('token'); // clear invalid token
 
         const isLoginRoute = pathname.startsWith('/login');
         const isRoot = pathname === '/';
 
+        // If the page is not guest-only, redirect to login
         if (!guestOnly) {
           const searchParams = new URLSearchParams(window.location.search);
           const existingNext = searchParams.get('next');
@@ -61,40 +64,48 @@ export default function AuthGate({
               ? `?next=${encodeURIComponent(pathname)}`
               : '';
 
-          router.replace(`/login${redirectTarget}`);
+          router.push(`/login${redirectTarget}`);
         }
 
-        setChecking(false);
+        // ✅ Allow guest access to login route
+        if (isLoginRoute) {
+          setChecking(false);
+        }
+
         return;
       }
 
-      // if authenticated user and this is a guest page
+      // 🔐 If authenticated user tries to access a guest-only page (e.g. /login)
       if (guestOnly && user) {
         router.push('/dashboard');
         return;
       }
 
+      // ✅ If authenticated user on root, redirect to dashboard
       if (user) {
         if (pathname === '/') {
           router.push('/dashboard');
+          return;
         }
+
+        // ✅ Authenticated and on a valid page
+        setChecking(false);
         return;
       }
-
-      // all okay
-      setChecking(false);
     };
 
     check();
   }, [user, error, appValues?.isAuthenticated, guestOnly, pathname, router]);
 
+  // ⏳ Show loader while checking authentication
   if (checking) {
     return (
       <Center h="100vh">
-        <Loader/>
+        <Loader size="lg" type="dots"/>
       </Center>
     );
   }
 
+  // ✅ Render children if access is allowed
   return <>{children}</>;
 }
