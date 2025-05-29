@@ -1,6 +1,6 @@
 {
   "name": "velero-ui",
-  "version": "1.0.0",
+  "version": "0.2.7",
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
