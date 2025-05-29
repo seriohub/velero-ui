@@ -113,7 +113,7 @@ export const useAgentConfig = () => {
           serverValues.isCurrentServerControlPlane &&
           appValues.isAuthenticated
         ) {
-          console.log(
+          console.warn(
             `Server is core type. Send a request to confirm ${agentValues.currentAgent?.name}'s availability.`
           );
           const message =
