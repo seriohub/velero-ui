@@ -24,6 +24,7 @@ import { useServerStatus } from '@/contexts/ServerContext';
 import { useAgentStatus } from '@/contexts/AgentContext';
 
 import { SwitchCluster } from '@/components/Features/Config/SwitchCluster/SwitchCluster';
+import { Logo } from "@/components/Display/Logo";
 
 export function AuthenticationForm() {
   const serverValues = useServerStatus();
@@ -87,9 +88,7 @@ export function AuthenticationForm() {
         border: 'none',
       }}
     >
-      <Text size="22px" fw={800} lightHidden c="white">
-        Velero
-      </Text>
+      <Logo/>
       <Text size="22px" fw={800} darkHidden c="dark">
         Velero
       </Text>
