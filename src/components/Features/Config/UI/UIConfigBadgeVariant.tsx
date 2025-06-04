@@ -16,7 +16,7 @@ export function UIConfigBadgeVariant() {
   return (
     <Box maw={400} mx="auto" mt={50}>
       <Select
-        label="Font Family"
+        label="Badge style"
         data={[
           {
             value: 'filled',
