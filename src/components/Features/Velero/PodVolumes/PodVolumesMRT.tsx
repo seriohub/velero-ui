@@ -123,7 +123,7 @@ export function PodVolumesMRT({
     }}
     mantineTableContainerPropsContent={{
       style: {
-        maxHeight: "calc(100% - 90px)",
+        height: "calc(100% - 90px)",
         border: '0px',
         borderRadius: '0px',
       }

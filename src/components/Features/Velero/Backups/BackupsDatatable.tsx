@@ -12,12 +12,17 @@ import { DataFetchedInfo } from '@/components/Display/DataFetchedInfo';
 import { useBackups } from '@/api/Backup/useBackups';
 import { MainStack } from '@/components/Commons/MainStack';
 import { BackupsMRT } from '@/components/Features/Velero/Backups/BackupsMRT';
+import { Box } from '@mantine/core';
 
 interface BackupDataProps {
   scheduleName?: string; // The property is optional
+  onlyTable?: boolean;
 }
 
-export function BackupsDatatable({ scheduleName }: BackupDataProps) {
+export function BackupsDatatable({
+                                   scheduleName,
+                                   onlyTable
+                                 }: BackupDataProps) {
   const {
     data,
     getBackups,
@@ -73,6 +78,28 @@ export function BackupsDatatable({ scheduleName }: BackupDataProps) {
     }
   }, [data]);
 
+  const datatable = () => (
+    <BackupsMRT
+      customActions={
+        <>
+          <CreateBackupAction/>
+          <LastBackupsFilter setOnlyLast4Schedule={setOnlyLast4Schedule}/>
+        </>
+      }
+      fetching={fetching}
+      setReload={setReload}
+      items={items}
+    />
+  )
+  
+  if (onlyTable) {
+    return (
+      <Box h="calc(100% - 35px)">
+        {datatable()}
+      </Box>
+    )
+  }
+
   return (
     <MainStack>
       <Toolbar
@@ -81,17 +108,7 @@ export function BackupsDatatable({ scheduleName }: BackupDataProps) {
       >
         <></>
       </Toolbar>
-      <BackupsMRT
-        customActions={
-          <>
-            <CreateBackupAction/>
-            <LastBackupsFilter setOnlyLast4Schedule={setOnlyLast4Schedule}/>
-          </>
-        }
-        fetching={fetching}
-        setReload={setReload}
-        items={items}
-      />
+      {datatable()}
       <DataFetchedInfo fetchedTime={fetchedTime}/>
     </MainStack>
   );
