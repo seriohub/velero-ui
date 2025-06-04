@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import { Button, Card, Group, List, rem, ScrollArea, Stack, Table, Text, ThemeIcon } from '@mantine/core';
 import { IconAlertTriangle, IconCheck, IconMoodSad2 } from '@tabler/icons-react';
 import { openModal } from '@mantine/modals';
@@ -15,11 +15,8 @@ export function UnscheduledNamespaces({
                                         namespaces,
                                         total
                                       }: UnscheduledNamespacesProps) {
-  const [selectedNamespace, setSelectedNamespace] = useState<string | null>(null);
-  const [reload, setReload] = useState(0); // se ti serve per ricaricare dati
 
   const handleCreateSchedule = (namespace: string) => {
-    setSelectedNamespace(namespace);
     openModal({
       title: 'Create New Schedule',
       size: '60rem',
