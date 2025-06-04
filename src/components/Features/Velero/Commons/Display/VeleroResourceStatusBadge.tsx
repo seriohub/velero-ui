@@ -104,15 +104,17 @@ interface VeleroResourceStatusBadgeProps {
 
 export default function VeleroResourceStatusBadge({ status }: VeleroResourceStatusBadgeProps) {
   const uiValues = useUIStatus();
-  const {
-    color,
-    icon
-  } = statusConfig[status];
+
+  const fallback = {
+    color: 'gray',
+    icon: <IconAlertTriangle size={18}/>,
+  };
+  const config = statusConfig[status] ?? fallback;
 
   return (
     <Box w="100%">
       <Badge
-        color={color}
+        color={config.color}
         radius="xs"
         variant={uiValues.badgeVariant || 'filled'}
         w="100%"
@@ -120,7 +122,7 @@ export default function VeleroResourceStatusBadge({ status }: VeleroResourceStat
         size="md"
       >
         <Group gap={5}>
-          {icon}
+          {config.icon}
           {status}
         </Group>
       </Badge>
