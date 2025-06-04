@@ -4,23 +4,19 @@ import { useForm } from '@mantine/form';
 import { closeAllModals } from '@mantine/modals';
 
 import BackupScheduleFormView from '@/components/Features/Velero/Commons/Forms/BackupScheduleFormView';
-import { useAppStatus } from '@/contexts/AppContext';
 import { useCreationScheduleSettings } from '@/api/Schedule/useScheduleSettings';
 import { useCreateSchedule } from '@/api/Schedule/useCreateSchedule';
 
 interface CreateScheduleProps {
-  reload: number;
-  setReload: React.Dispatch<React.SetStateAction<number>>;
+  ns?: Array<string>;
 }
 
 const ttlRegex = /^(\d+h)?(\d+m)?(\d+s)?$/;
 const timeoutRegex = /^\d+[smh]$/;
 
 export function CreateScheduleForm({
-                                     reload,
-                                     setReload
+                                     ns = [],
                                    }: CreateScheduleProps) {
-  const appValues = useAppStatus();
   const {
     data,
     getCreationScheduleSettings
@@ -45,7 +41,7 @@ export function CreateScheduleForm({
       // spec.template
       csiSnapshotTimeout: '10m',
       ttl: '720h0m0s',
-      includedNamespaces: [],
+      includedNamespaces: ns,
       excludedNamespaces: [],
       includedResources: [],
       excludedResources: [],

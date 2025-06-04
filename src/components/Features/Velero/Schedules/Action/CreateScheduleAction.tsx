@@ -4,15 +4,7 @@ import { IconPlus } from '@tabler/icons-react';
 
 import { CreateScheduleForm } from '@/components/Features/Velero/Schedules/Forms/CreateScheduleForm';
 
-interface CreateSecheduleToolbarIconProps {
-  reload: number;
-  setReload: React.Dispatch<React.SetStateAction<number>>;
-}
-
-export default function CreateScheduleAction({
-                                               reload,
-                                               setReload,
-                                             }: CreateSecheduleToolbarIconProps) {
+export default function CreateScheduleAction() {
   return (
     <Tooltip label="New schedule">
       <Button
@@ -24,7 +16,7 @@ export default function CreateScheduleAction({
           openModal({
             title: 'Create New Schedules',
             size: '60rem',
-            children: <CreateScheduleForm reload={reload} setReload={setReload}/>,
+            children: <CreateScheduleForm/>,
             padding: 'md',
             radius: 'md',
             centered: true,

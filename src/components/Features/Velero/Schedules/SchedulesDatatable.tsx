@@ -73,7 +73,7 @@ export function SchedulesDatatable() {
         items={items}
         customActions={
           <>
-            <CreateScheduleAction setReload={setReload} reload={reload}/>
+            <CreateScheduleAction/>
             <SchedulesHeatmapToolbarIcon/>
           </>
         }
