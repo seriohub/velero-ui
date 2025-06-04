@@ -1,6 +1,5 @@
-import { ActionIcon, Tooltip } from '@mantine/core';
+import { Button, Tooltip } from '@mantine/core';
 import { openModal } from '@mantine/modals';
-
 import { IconPlus } from '@tabler/icons-react';
 
 import { CreateVslForm } from '@/components/Features/Velero/SnapshotLocations/Forms/CreateVslForm';
@@ -16,10 +15,10 @@ export default function CreateVslToolbar({
                                          }: CreateVslToolbarIconProps) {
   return (
     <Tooltip label="Create VSL">
-      <ActionIcon
-        size={38}
-        radius={8}
-        variant="outline"
+      <Button
+        variant="default"
+        className="react-table-custom-action"
+        h={38}
         onClick={(e) => {
           e.stopPropagation();
           openModal({
@@ -32,9 +31,10 @@ export default function CreateVslToolbar({
             centered: true,
           });
         }}
+        leftSection={<IconPlus/>}
       >
-        <IconPlus/>
-      </ActionIcon>
+        New
+      </Button>
     </Tooltip>
   );
 }

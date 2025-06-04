@@ -1,17 +1,16 @@
 import { Button, Group, Text } from '@mantine/core';
 import { closeAllModals } from '@mantine/modals';
+
 import { useAppStatus } from '@/contexts/AppContext';
 import { useSCDelete } from '@/api/SCMapping/useSCDelete';
 
 interface SCMappingDeleteProps {
   record: any;
-  reload: number;
   setReload: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export function SCMappingDelete({
                                   record,
-                                  reload,
                                   setReload
                                 }: SCMappingDeleteProps) {
   const appValues = useAppStatus();
@@ -24,7 +23,7 @@ export function SCMappingDelete({
     });
 
     const interval = setInterval(() => {
-      setReload(reload + 1);
+      setReload(prev => prev + 1);
       clearInterval(interval);
     }, appValues.refreshDatatableAfter);
   }

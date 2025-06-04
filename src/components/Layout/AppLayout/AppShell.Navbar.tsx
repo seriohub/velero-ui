@@ -1,43 +1,45 @@
 'use client';
 
 import {
-  Group,
-  Stack,
-  NavLink,
-  Burger,
-  ScrollArea,
-  Box,
-  Text,
-  useComputedColorScheme,
-  Tooltip,
   ActionIcon,
+  Box,
+  Burger,
+  Group,
+  NavLink,
+  ScrollArea,
+  Stack,
+  Text,
+  Tooltip,
+  useComputedColorScheme,
 } from '@mantine/core';
 
 import {
-  IconDashboard,
-  IconRestore,
-  IconDeviceFloppy,
-  IconCalendarEvent,
-  IconDatabase,
-  IconLink,
-  IconServer,
-  IconHome,
   IconAffiliate,
-  IconFolders,
-  IconDog,
+  IconApi,
   IconAppWindow,
-  IconZoomCode,
   IconArrowBarLeft,
   IconArrowBarRight,
+  IconAutomation,
+  IconClock,
+  IconDashboard,
+  IconDatabase,
   IconDatabaseExport,
   IconDatabaseImport,
-  IconApi,
-  IconAutomation, IconPlayerPlay,
+  IconDeviceFloppy,
+  IconDog,
+  IconFolders,
+  IconHome,
+  IconLink,
+  IconPlayerPlay,
+  IconRestore,
+  IconServer,
+  IconZoomCode,
 } from '@tabler/icons-react';
 
-import { useRouter, usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 
 import { useMediaQuery } from '@mantine/hooks';
+
 import { useUIStatus } from '@/contexts/UIContext';
 import { useServerStatus } from '@/contexts/ServerContext';
 
@@ -70,7 +72,7 @@ const veleroResourceLinks = [
   {
     link: '/schedules',
     label: 'Schedules',
-    icon: IconCalendarEvent,
+    icon: IconClock,
     tooltip: 'Schedules',
   },
   {

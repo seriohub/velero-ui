@@ -1,17 +1,16 @@
-import { ActionIcon, Tooltip } from '@mantine/core';
+import { Button, Tooltip } from '@mantine/core';
 import { openModal } from '@mantine/modals';
-
 import { IconPlus } from '@tabler/icons-react';
 
-import { CreateBackupForm } from '../Forms/CreateBackupForm';
+import { CreateBackupForm } from '@/components/Features/Velero/Backups/Forms/CreateBackupForm';
 
 export default function CreateBackupAction() {
   return (
-    <Tooltip label="Create backup">
-      <ActionIcon
-        size={38}
-        radius={8}
-        variant="outline"
+    <Tooltip label="New Backup">
+      <Button
+        variant="default"
+        className="react-table-custom-action"
+        h={38}
         onClick={(e) => {
           e.stopPropagation();
           openModal({
@@ -23,14 +22,10 @@ export default function CreateBackupAction() {
             centered: true,
           });
         }}
+        leftSection={<IconPlus/>}
       >
-        <IconPlus
-          style={{
-            width: '70%',
-            height: '70%',
-          }}
-        />
-      </ActionIcon>
+        New
+      </Button>
     </Tooltip>
   );
 }

@@ -2,9 +2,9 @@
 
 import React, { useEffect, useState } from 'react';
 
-import { Stack, Loader, Center, ScrollArea, SimpleGrid, Grid, Box } from '@mantine/core';
+import { Box, Center, Grid, Loader, ScrollArea, SimpleGrid, Stack } from '@mantine/core';
 
-import { IconClock, IconDeviceFloppy, IconRestore, IconCalendarEvent } from '@tabler/icons-react';
+import { IconCalendarEvent, IconClock, IconDeviceFloppy, IconRestore } from '@tabler/icons-react';
 
 import { useStats } from '@/api/Stats/useStats';
 
@@ -60,7 +60,6 @@ export function Dashboard() {
             <Toolbar title="Dashboard" fetching={fetching}>
               <ReloadData setReload={setReload} reload={reload} fetching={fetching}/>
             </Toolbar>
-            <DataFetchedInfo fetchedTime={fetchedTime}/>
           </Box>
 
           <SimpleGrid
@@ -151,6 +150,7 @@ export function Dashboard() {
               />
             </Grid.Col>
           </Grid>
+          <DataFetchedInfo fetchedTime={fetchedTime}/>
         </Stack>
       </ScrollArea>
     </>

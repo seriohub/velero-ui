@@ -3,12 +3,12 @@
 import { ActionIcon, Group, Modal, Text, Tooltip } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 
-import { IconCheck, IconPlugConnected, IconPlugConnectedX, IconInfoSquare } from '@tabler/icons-react';
+import { IconCheck, IconInfoSquare, IconPlugConnected, IconPlugConnectedX } from '@tabler/icons-react';
 
 import { useAgentStatus } from '@/contexts/AgentContext';
-import { useServerStatus } from "@/contexts/ServerContext";
+import { useServerStatus } from '@/contexts/ServerContext';
 import { useDiagnosticAgent } from '@/hooks/diagnostic/useDiagnosticAgent';
-import { DiagnosticInfoData } from './DiagnosticInfoData';
+import { DiagnosticMRT } from './DiagnosticMRT';
 
 export const DiagnosticAgentInfo = () => {
   const serverValues = useServerStatus();
@@ -68,26 +68,13 @@ export const DiagnosticAgentInfo = () => {
           </>
         )}
 
-        {/*<Tooltip label="Refresh agent connection data">
-          <ActionIcon
-            size={20}
-            variant="transparent"
-            aria-label="Settings"
-            onClick={() => {
-              setReload(reload + 1);
-            }}
-          >
-            <IconRefresh size={20} stroke={1.5}/>
-          </ActionIcon>
-        </Tooltip>*/}
-
         <Tooltip label="Agent info">
           <ActionIcon
             size={20}
             variant="transparent"
             onClick={open}
           >
-            <IconInfoSquare size={20} stroke={1.5}/>
+            <IconInfoSquare size={20}/>
           </ActionIcon>
         </Tooltip>
       </Group>
@@ -103,9 +90,7 @@ export const DiagnosticAgentInfo = () => {
           blur: 3,
         }}
       >
-        {/* Modal content */}
-
-        <DiagnosticInfoData
+        <DiagnosticMRT
           uiURL={serverValues.uiURL}
           apiURL={serverValues.apiURL}
           apiArch={agentValues?.arch}

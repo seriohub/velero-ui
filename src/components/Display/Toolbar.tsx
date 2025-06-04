@@ -1,10 +1,9 @@
 'use client';
 
-import { Text, Group, Box, Title } from '@mantine/core';
+import { Box, Group, Text, Title } from '@mantine/core';
 
 import { useUserStatus } from '@/contexts/UserContext';
 import { useServerStatus } from '@/contexts/ServerContext';
-import { useAgentStatus } from '@/contexts/AgentContext';
 import Breadcrumb from './Breadcrumb';
 
 interface ToolbarProps {
@@ -20,11 +19,10 @@ export default function Toolbar({
                                   breadcrumbItem
                                 }: ToolbarProps) {
   const serverValues = useServerStatus();
-  const agentValues = useAgentStatus();
   const userValues = useUserStatus();
 
   return (
-    <Box mt={10} mb={10}>
+    <Box mt={10} mb={15}>
       <Group justify="space-between">
         {(title !== 'Dashboard' && title !== 'Clusters') && breadcrumbItem && <Breadcrumb {...breadcrumbItem} />}
         {title === 'Dashboard' &&

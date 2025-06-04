@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { UnstyledButton, Menu, Group, Text } from '@mantine/core';
+import { Group, Menu, Text, UnstyledButton } from '@mantine/core';
 
 import {
   IconAffiliate,
@@ -19,7 +19,6 @@ export function SwitchCluster() {
   const [opened, setOpened] = useState(false);
   const [icon, setIcon] = useState(<IconLoader size={40}/>);
 
-  //const [selected, setSelected] = useState(data[0]);
   const items = serverValues?.servers?.map((item: any, index: number) => (
     <Menu.Item
       leftSection={<IconAffiliate width={18} height={18}/>}
@@ -75,7 +74,7 @@ export function SwitchCluster() {
                 </Text>
               </div>
             </Group>
-            <IconChevronDown size="1rem" className={classes.icon} stroke={1.5}/>
+            <IconChevronDown size="1rem" className={classes.icon}/>
           </UnstyledButton>
         </Menu.Target>
         <Menu.Dropdown>{items}</Menu.Dropdown>

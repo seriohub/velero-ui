@@ -1,6 +1,6 @@
 'use client';
 
-import { rem, Slider, Text, Box } from '@mantine/core';
+import { Box, rem, Slider, Text } from '@mantine/core';
 import { useUIStatus } from '@/contexts/UIContext';
 
 const marks = [
@@ -77,6 +77,7 @@ export function UIConfigFontSize() {
       fontSize: fontSizeMap[endValue],
     });
     localStorage.setItem('fontSize', String(endValue));
+    document.documentElement.style.setProperty('--text-fz', String(endValue));
   }
 
   return (

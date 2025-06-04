@@ -1,21 +1,20 @@
 'use client';
 
-import { ActionIcon, Tooltip } from '@mantine/core';
+import { Button, Tooltip } from '@mantine/core';
 import { openModal } from '@mantine/modals';
-
+import { useMediaQuery } from '@mantine/hooks';
 import { IconCalendarWeek } from '@tabler/icons-react';
 
-import { useMediaQuery } from '@mantine/hooks';
 import { HeatMapBox } from '@/components/Features/Velero/Schedules/HeatMapBox';
 
 export default function SchedulesHeatmapToolbarIcon() {
   const isMobile = useMediaQuery('(max-width: 1024px)');
   return (
     <Tooltip label="Cron Schedule Heatmap">
-      <ActionIcon
-        size={38}
-        radius={8}
-        variant="outline"
+      <Button
+        variant="default"
+        className="react-table-custom-action"
+        h={38}
         onClick={(e) => {
           e.stopPropagation();
           openModal({
@@ -28,9 +27,10 @@ export default function SchedulesHeatmapToolbarIcon() {
             centered: true,
           });
         }}
+        leftSection={<IconCalendarWeek/>}
       >
-        <IconCalendarWeek stroke="1.5"/>
-      </ActionIcon>
+        Cron Heatmap
+      </Button>
     </Tooltip>
   );
 }

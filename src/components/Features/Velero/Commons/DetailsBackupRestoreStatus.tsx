@@ -2,24 +2,24 @@ import { Anchor, Box, Card, Group, Text, Tooltip } from '@mantine/core';
 import React from 'react';
 import { useRouter } from 'next/navigation';
 import { IconClock } from '@tabler/icons-react';
+
 import classes from '@/styles/veleroResourceDetails.module.css';
 import VeleroResourceStatusBadge from './Display/VeleroResourceStatusBadge';
 import { getExpirationString } from '@/utils/getExpirationString';
-import { getDurationDetails } from '@/utils/getDurationDetails';
+import { getDurationDetails, getDurationInMilliseconds } from '@/utils/getDurationDetails';
 
-function get_duration({ status }: { status: any }) {
+function get_duration(status: any) {
   if (status?.startTimestamp && status?.completionTimestamp) {
     const { startTimestamp } = status;
     const { completionTimestamp } = status;
+    const ms = getDurationInMilliseconds(startTimestamp, completionTimestamp)
     const {
-      formattedDuration,
-      duration
-    } = getDurationDetails(startTimestamp, completionTimestamp);
+      humanDuration,
+      durationHHmmss
+    } = getDurationDetails(ms);
     return (
-      <Tooltip label={duration} color="blue">
-        <Text size="sm" fw={600}>
-          {formattedDuration}
-        </Text>
+      <Tooltip label={durationHHmmss} offset={5}>
+        <Text size="sm">{humanDuration}</Text>
       </Tooltip>
     );
   }

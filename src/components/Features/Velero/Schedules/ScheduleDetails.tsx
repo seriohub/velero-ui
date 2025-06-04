@@ -17,7 +17,7 @@ import CreateBackupFromScheduleAction
 import StartStopActionIcon from '@/components/Features/Velero/Schedules/StartStopActionIcon';
 import { useWatchResources } from '@/hooks/useWatchResources';
 import { eventEmitter } from '@/lib/EventEmitter.js';
-import { VeleroDetailsLayout } from "@/components/Commons/VeleroDetailsLayout";
+import { VeleroDetailsLayout } from '@/components/Commons/VeleroDetailsLayout';
 
 interface ScheduleProps {
   params: any;
@@ -87,8 +87,6 @@ export function ScheduleDetails({ params }: ScheduleProps) {
           <StartStopActionIcon
             resourceName={manifest?.metadata?.name}
             paused={manifest?.spec?.paused === true}
-            reload={reload}
-            setReload={setReload}
             buttonType="button"
           />
           <EditScheduleAction record={manifest} setReload={setReload} buttonType="button"/>

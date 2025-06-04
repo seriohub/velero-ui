@@ -21,11 +21,11 @@ export const theme = createTheme({
   components: {
     Loader: Loader.extend({
       defaultProps: {
-        loaders: {
+        /*loaders: {
           ...Loader.defaultLoaders,
           ring: RingLoader,
         },
-        type: 'ring',
+        type: 'ring',*/
       },
     }),
   },

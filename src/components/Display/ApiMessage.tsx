@@ -14,7 +14,7 @@ export const ApiMessage = ({
     title,
     size: 'lg',
     children: (
-      <Code block color="#010101">
+      <Code block>
         {description.join('\n')}
       </Code>
     ),

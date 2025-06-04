@@ -1,8 +1,8 @@
 'use client';
 
-import { Group, Text, Mark } from '@mantine/core';
-
+import { Group, Mark, Text } from '@mantine/core';
 import { IconClock } from '@tabler/icons-react';
+
 import { WatchdogDeployConfigs } from '@/components/Features/Settings/Watchdog/WatchdogDeployConfigs';
 
 export function WatchdogEnvironment({
@@ -10,6 +10,7 @@ export function WatchdogEnvironment({
                                       deployConfiguration,
                                       userConfiguration,
                                       fetching,
+                                      setReload
                                     }: any) {
   return (
     <>
@@ -23,6 +24,7 @@ export function WatchdogEnvironment({
 
       <WatchdogDeployConfigs
         fetching={fetching}
+        setReload={setReload}
         deployConfiguration={deployConfiguration || {}}
         userConfiguration={userConfiguration || {}}
       />

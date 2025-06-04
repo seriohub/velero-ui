@@ -4,16 +4,14 @@ import { useEffect, useState } from 'react';
 import { Box, Tabs } from '@mantine/core';
 import { debounce } from 'lodash';
 import { IconDatabaseExport, IconFileText } from '@tabler/icons-react';
+
 import { useVeleroManifest } from '@/api/Velero/useVeleroManifest';
-import { useAgentStatus } from '@/contexts/AgentContext';
+import { eventEmitter } from '@/lib/EventEmitter.js';
 
 import Toolbar from '@/components/Display/Toolbar';
 import ReloadData from '@/components/Inputs/ReloadData';
-
 import { ResourceLogs } from '@/components/Features/Velero/Logs/ResourceLogs';
-
 import { Manifest } from '@/components/Features/Velero/Commons/Display/Manifest';
-
 import { PodVolumeList } from '@/components/Features/Velero/PodVolumes/PodVolumeList';
 import { BackupDetailsView } from '@/components/Features/Velero/Backups/BackupDetailsView';
 import RestoreAction from '@/components/Features/Velero/Backups/Actions/RestoreAction';
@@ -22,8 +20,7 @@ import DeleteAction from '@/components/Features/Velero/Commons/Actions/DeleteAct
 import { isRecordStringAny } from '@/utils/isRecordStringIsType';
 import DownloadAction from '@/components/Features/Velero/Backups/Actions/DownloadAction';
 import InspectAction from '@/components/Features/Velero/Backups/Actions/InspectAction';
-import { eventEmitter } from '@/lib/EventEmitter.js';
-import { VeleroDetailsLayout } from "@/components/Commons/VeleroDetailsLayout";
+import { VeleroDetailsLayout } from '@/components/Commons/VeleroDetailsLayout';
 
 interface BackupProps {
   params: any;
@@ -36,7 +33,6 @@ export function BackupDetails({ params }: BackupProps) {
   } = useVeleroManifest();
 
   const [reload, setReload] = useState(1);
-  const agentValues = useAgentStatus();
 
   const [manifest, setManifest] = useState<Record<string, any>>([]);
 
@@ -61,7 +57,7 @@ export function BackupDetails({ params }: BackupProps) {
     if (params.backup) {
       getManifest('backup', params.backup, false);
     }
-  }, [agentValues.isAgentAvailable, reload]);
+  }, [reload]);
 
   useEffect(() => {
     if (isRecordStringAny(data)) {
@@ -111,14 +107,14 @@ export function BackupDetails({ params }: BackupProps) {
             </Tabs.Tab>
           </Tabs.List>
 
-          <Tabs.Panel value="PodVolumes">
-            <Box p={5}>
-              <PodVolumeList podVolumeName={params.backup} type="podvolumebackups" height={height - 6}/>
+          <Tabs.Panel value="PodVolumes" h="100%">
+            <Box p={0} h="100%">
+              <PodVolumeList podVolumeName={params.backup} type="podvolumebackups"/>
             </Box>
           </Tabs.Panel>
 
-          <Tabs.Panel value="Logs">
-            <Box p={5}>
+          <Tabs.Panel value="Logs" h="100%">
+            <Box p={5} h="100%">
               <ResourceLogs resourceType="backup" resourceName={data?.metadata?.name} h={height - 50}/>
             </Box>
           </Tabs.Panel>

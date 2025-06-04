@@ -1,6 +1,5 @@
-import { ActionIcon, Tooltip } from '@mantine/core';
+import { Button, Tooltip } from '@mantine/core';
 import { openModal } from '@mantine/modals';
-
 import { IconPlus } from '@tabler/icons-react';
 
 import { CreateBslForm } from '@/components/Features/Velero/BackupLocations/Forms/CreateBslForm';
@@ -15,11 +14,11 @@ export default function CreateBslToolbar({
                                            setReload
                                          }: CreateBslToolbarIconProps) {
   return (
-    <Tooltip label="Create BSL">
-      <ActionIcon
-        size={38}
-        radius={8}
-        variant="outline"
+    <Tooltip label="New Backup Storage Location">
+      <Button
+        variant="default"
+        className="react-table-custom-action"
+        h={38}
         onClick={(e) => {
           e.stopPropagation();
           openModal({
@@ -32,9 +31,10 @@ export default function CreateBslToolbar({
             centered: true,
           });
         }}
+        leftSection={<IconPlus/>}
       >
-        <IconPlus/>
-      </ActionIcon>
+        New
+      </Button>
     </Tooltip>
   );
 }

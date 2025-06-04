@@ -2,10 +2,9 @@
 
 import { ActionIcon, Group, Indicator, Modal, Text } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-
 import { IconRefresh, IconRotateClockwise } from '@tabler/icons-react';
-
 import { useEffect, useState } from 'react';
+
 import { useAppStatus } from '@/contexts/AppContext';
 
 import TableVersion from './TableVersion';
@@ -50,7 +49,7 @@ export default function CheckAppVersion() {
               appValues.setRefreshRepoVersion((prev: number) => prev + 1);
             }}
           >
-            <IconRefresh size={18} stroke={1.5}/>
+            <IconRefresh size={18}/>
           </ActionIcon>
         </Group>
       </Modal>
@@ -62,8 +61,8 @@ export default function CheckAppVersion() {
           aria-label="Toggle color scheme"
           onClick={open}
         >
-          {updateAvailable && <IconRotateClockwise stroke={1.5}/>}
-          {!updateAvailable && <IconRotateClockwise stroke={1.5}/>}
+          {updateAvailable && <IconRotateClockwise/>}
+          {!updateAvailable && <IconRotateClockwise/>}
         </ActionIcon>
       </Indicator>
     </>

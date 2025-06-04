@@ -2,8 +2,8 @@ import { useEffect } from 'react';
 
 import { useForm } from '@mantine/form';
 import { closeAllModals } from '@mantine/modals';
-
 import { Box, Button, Group, Input, Select, TextInput } from '@mantine/core';
+
 import { useAppStatus } from '@/contexts/AppContext';
 import { useStorageClasses } from '@/api/Kubernetes/useStorageClasses';
 import { useSCCreateMap } from '@/api/SCMapping/useSCCreateMap';
@@ -11,14 +11,12 @@ import { useSCUpdateMap } from '@/api/SCMapping/useSCUpdateMap';
 
 interface SCMappingFormProps {
   record?: any;
-  reload: number;
   setReload: React.Dispatch<React.SetStateAction<number>>;
   mode: string;
 }
 
 export function SCMappingForm({
                                 record = null,
-                                reload,
                                 setReload,
                                 mode = 'create',
                               }: SCMappingFormProps) {
@@ -55,7 +53,7 @@ export function SCMappingForm({
 
     closeAllModals();
     const interval = setInterval(() => {
-      setReload(reload + 1);
+      setReload(prev => prev + 1);
       clearInterval(interval);
     }, appValues.refreshDatatableAfter);
   }

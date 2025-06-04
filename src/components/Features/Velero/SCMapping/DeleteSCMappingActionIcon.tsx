@@ -1,19 +1,16 @@
 import { ActionIcon, Tooltip } from '@mantine/core';
 import { openModal } from '@mantine/modals';
-
 import { IconTrashX } from '@tabler/icons-react';
 
-import { SCMappingDelete } from './Forms/SCMappingDelete';
+import { SCMappingDelete } from '@/components/Features/Velero/SCMapping/Forms/SCMappingDelete';
 
 interface DeleteSCMappingActionIconProps {
   record: any;
-  reload: number;
   setReload: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export default function DeleteSCMappingActionIcon({
                                                     record,
-                                                    reload,
                                                     setReload,
                                                   }: DeleteSCMappingActionIconProps) {
   return (
@@ -26,7 +23,7 @@ export default function DeleteSCMappingActionIcon({
           openModal({
             title: 'Delete Storage Class Mapping',
             size: 'lg',
-            children: <SCMappingDelete record={record} reload={reload} setReload={setReload}/>,
+            children: <SCMappingDelete record={record} setReload={setReload}/>,
           });
         }}
       >
