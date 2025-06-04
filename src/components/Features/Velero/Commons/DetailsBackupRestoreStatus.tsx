@@ -1,4 +1,4 @@
-import { Anchor, Box, Card, Group, Text, Tooltip } from '@mantine/core';
+import { Anchor, Box, Card, Group, Text } from '@mantine/core';
 import React from 'react';
 import { useRouter } from 'next/navigation';
 import { IconClock } from '@tabler/icons-react';
@@ -6,25 +6,7 @@ import { IconClock } from '@tabler/icons-react';
 import classes from '@/styles/veleroResourceDetails.module.css';
 import VeleroResourceStatusBadge from './Display/VeleroResourceStatusBadge';
 import { getExpirationString } from '@/utils/getExpirationString';
-import { getDurationDetails, getDurationInMilliseconds } from '@/utils/getDurationDetails';
-
-function get_duration(status: any) {
-  if (status?.startTimestamp && status?.completionTimestamp) {
-    const { startTimestamp } = status;
-    const { completionTimestamp } = status;
-    const ms = getDurationInMilliseconds(startTimestamp, completionTimestamp)
-    const {
-      humanDuration,
-      durationHHmmss
-    } = getDurationDetails(ms);
-    return (
-      <Tooltip label={durationHHmmss} offset={5}>
-        <Text size="sm">{humanDuration}</Text>
-      </Tooltip>
-    );
-  }
-  return <></>;
-}
+import { get_duration } from '@/utils/getDuration';
 
 export function DetailsBackupRestoreStatus({ data }: any) {
   const router = useRouter();

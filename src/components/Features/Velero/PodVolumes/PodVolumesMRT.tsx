@@ -108,7 +108,7 @@ export function PodVolumesMRT({
   );
 
   return <GenericMRTTableLayout
-    title='pod-volumes'
+    name='pod-volumes'
     fetching={fetching}
     items={items || []}
     setReload={setReload}

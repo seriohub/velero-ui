@@ -199,7 +199,7 @@ export function BackupRestoreStreamMRT({
     }}
   >
     <GenericMRTTableLayout
-      title='backups-restores'
+      name='backups-restores'
       fetching={fetching}
       items={items || []}
       setReload={setReload}

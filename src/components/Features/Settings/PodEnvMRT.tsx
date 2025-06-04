@@ -27,7 +27,7 @@ export function PodEnvMRT({
   );
 
   return <GenericMRTTableLayout
-    title={name}
+    name={name}
     fetching={fetching}
     items={items || []}
     setReload={setReload}

@@ -158,7 +158,7 @@ export function PVBMRT({
   );
 
   return <GenericMRTTableLayout
-    title='pvb'
+    name='pvb'
     fetching={fetching}
     items={items || []}
     setReload={setReload}

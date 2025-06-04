@@ -129,7 +129,7 @@ export function BslMRT({
   );
 
   return <GenericMRTTableLayout
-    title='bsl'
+    name='bsl'
     fetching={fetching}
     items={items || []}
     setReload={setReload}

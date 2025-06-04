@@ -150,7 +150,7 @@ export function RestoresMRT({
   );
 
   return <GenericMRTTableLayout
-    title='restores'
+    name='restores'
     fetching={fetching}
     items={items || []}
     setReload={setReload}

@@ -69,7 +69,7 @@ export function VeleroMRT({
   );
 
   return <GenericMRTTableLayout
-    title='velero'
+    name='velero'
     fetching={fetching}
     items={items || []}
     setReload={setReload}

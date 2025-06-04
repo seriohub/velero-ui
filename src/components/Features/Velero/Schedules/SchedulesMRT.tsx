@@ -52,7 +52,7 @@ export function SchedulesMRT({
           const globalFilter = table.getState().globalFilter ?? '';
           const columnFilter = column.getFilterValue() ?? '';
           const highlights = [globalFilter, columnFilter].filter(Boolean);
-          
+
           return (
             <Anchor
               size="sm"
@@ -141,7 +141,7 @@ export function SchedulesMRT({
   );
 
   return <GenericMRTTableLayout
-    title='schedules'
+    name='schedules'
     fetching={fetching}
     items={items || []}
     setReload={setReload}

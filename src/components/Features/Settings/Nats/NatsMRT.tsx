@@ -116,7 +116,7 @@ export function NatsMRT({
   );
 
   return <GenericMRTTableLayout
-    title='nats'
+    name='nats'
     fetching={fetching}
     items={items || []}
     setReload={setReload}

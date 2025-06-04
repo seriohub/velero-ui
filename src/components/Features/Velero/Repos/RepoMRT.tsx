@@ -227,7 +227,7 @@ export function RepoMRT({
   );
 
   return <GenericMRTTableLayout
-    title='repos'
+    name='repos'
     fetching={fetching}
     items={items || []}
     setReload={setReload}

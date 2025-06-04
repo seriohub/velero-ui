@@ -53,24 +53,25 @@ export function UnscheduledNamespaces({
 
   return (
     <Card withBorder p="md" radius="md" shadow="sm" h={310}>
-      <Group justify="space-between" gap={5}>
-        <Group align="baseline">
-          <Text size="4rem" fw={800}>
-            {namespaces.length}
-          </Text>
-          <Text size="md" fw={500}>
-            / {total}
-          </Text>
+      <Card.Section p="md">
+        <Group justify="space-between" gap={5}>
+          <Group align="baseline">
+            <Text size="4rem" fw={800}>
+              {namespaces.length}
+            </Text>
+            <Text size="md" fw={500}>
+              / {total}
+            </Text>
+          </Group>
+          <IconAlertTriangle
+            size="4rem"
+            color="var(--mantine-primary-color-light-color)"
+          />
         </Group>
-        <IconAlertTriangle
-          size="4rem"
-          color="var(--mantine-primary-color-light-color)"
-        />
-      </Group>
-      <Text size="md" c="dimmed">
-        Unscheduled namespace
-      </Text>
-
+        <Text size="md" c="dimmed">
+          Unscheduled namespace
+        </Text>
+      </Card.Section>
       {namespaces.length === 0 && (
         <List spacing="xs" size="sm" center mt={25}>
           <List.Item
@@ -92,15 +93,17 @@ export function UnscheduledNamespaces({
           </List.Item>
         </List>
       )}
-      {namespaces.length > 0 && (
-        <ScrollArea h={160} mt={20} type="auto" bg="var(--mantine-color-body)">
-          <Table striped highlightOnHover>
-            <Table.Tbody>
-              {rows()}
-            </Table.Tbody>
-          </Table>
-        </ScrollArea>
-      )}
+      <Card.Section p={0}>
+        {namespaces.length > 0 && (
+          <ScrollArea h={180} mt={10} type="auto" bg="var(--mantine-color-body)">
+            <Table striped highlightOnHover>
+              <Table.Tbody>
+                {rows()}
+              </Table.Tbody>
+            </Table>
+          </ScrollArea>
+        )}
+      </Card.Section>
     </Card>
   );
 }

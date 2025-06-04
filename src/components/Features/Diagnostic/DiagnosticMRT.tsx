@@ -122,7 +122,7 @@ export const DiagnosticMRT = ({
 
   return (
     <GenericMRTTableLayout
-      title='diagnostic'
+      name='diagnostic'
       items={data || []}
       columns={columns}
       initialState={{

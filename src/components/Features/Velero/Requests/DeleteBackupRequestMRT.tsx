@@ -58,7 +58,7 @@ export function DeleteBackupRequestMRT({
     }}
   >
     <GenericMRTTableLayout
-      title='delete-backup-requests'
+      name='delete-backup-requests'
       fetching={fetching}
       items={items || []}
       setReload={setReload}

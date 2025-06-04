@@ -1,7 +1,7 @@
 'use client';
 
 import React from "react";
-import { ActionIcon, Divider, Flex, Indicator, Tooltip, } from '@mantine/core';
+import { ActionIcon, Center, Divider, Flex, Indicator, Title, Tooltip, } from '@mantine/core';
 import { IconFilterOff, IconRefresh, IconSettingsX, } from '@tabler/icons-react';
 import {
   MantineReactTable,
@@ -16,6 +16,7 @@ import {
 import { usePersistentTableState } from '@/hooks/usePersistentTableState';
 
 export function GenericMRTTableLayout({
+                                        name,
                                         title,
                                         setReload,
                                         initialState = {},
@@ -32,6 +33,7 @@ export function GenericMRTTableLayout({
                                         enableTopToolbar = true,
                                         enableBottomToolbar = true,
                                         enableGrouping = true,
+                                        enableRefreshButton = true,
                                       }:
                                       any
 ) {
@@ -70,7 +72,7 @@ export function GenericMRTTableLayout({
     columnPinning,
     setColumnPinning,
     resetTableState,
-  } = usePersistentTableState(`${title}-table`, initialState);
+  } = usePersistentTableState(`${name}-table`, initialState);
 
   const table = useMantineReactTable({
     columns,
@@ -132,17 +134,20 @@ export function GenericMRTTableLayout({
     renderTopToolbarCustomActions: ({ table }) => (
       <>
         <Flex gap='xs'>
-          <Tooltip label="Refresh">
-            <ActionIcon
-              h={38}
-              w={38}
-              variant="default"
-              className="react-table-custom-action"
-              onClick={() => setReload((prev: number) => prev + 1)}
-            >
-              <IconRefresh/>
-            </ActionIcon>
-          </Tooltip>
+          {title && (<Center><Title order={4} mr={10}>{title}</Title></Center>)}
+          {enableRefreshButton && (
+            <Tooltip label="Refresh">
+              <ActionIcon
+                h={38}
+                w={38}
+                variant="default"
+                className="react-table-custom-action"
+                onClick={() => setReload((prev: number) => prev + 1)}
+              >
+                <IconRefresh/>
+              </ActionIcon>
+            </Tooltip>
+          )}
           <Divider orientation="vertical"/>
           <MRT_GlobalFilterTextInput table={table} style={{ width: '400px' }}/>
           <Tooltip label="Clear All Filter">
@@ -171,7 +176,6 @@ export function GenericMRTTableLayout({
 
     renderToolbarInternalActions: ({ table }) => (
       <Flex gap="xs" align="center">
-
         <Tooltip label="Reset table view">
           <ActionIcon variant="subtle"
                       className="react-table-custom-action"

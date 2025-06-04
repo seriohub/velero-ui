@@ -45,7 +45,7 @@ export function WatchdogEnvMRT({
   );
 
   return <GenericMRTTableLayout
-    title="watchdog"
+    name="watchdog"
     fetching={fetching}
     items={items || []}
     setReload={setReload}

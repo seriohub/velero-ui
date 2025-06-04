@@ -31,7 +31,7 @@ export function InspectMRT({
   );
 
   return <GenericMRTTableLayout
-    title='inspect'
+    name='inspect'
     fetching={fetching}
     items={items || []}
     setReload={setReload}

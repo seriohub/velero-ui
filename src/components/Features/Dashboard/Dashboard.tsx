@@ -10,7 +10,7 @@ import { useStats } from '@/api/Stats/useStats';
 
 import { useAgentStatus } from '@/contexts/AgentContext';
 
-import { LatestBackup } from '@/components/Features/Velero/Backups/LatestBackup';
+import { LatestBackupMRT } from '@/components/Features/Velero/Backups/LatestBackupMRT';
 import Toolbar from '@/components/Display/Toolbar';
 import ReloadData from '@/components/Inputs/ReloadData';
 import { DataFetchedInfo } from '@/components/Display/DataFetchedInfo';
@@ -135,7 +135,7 @@ export function Dashboard() {
                 lg: 9,
               }}
             >
-              <LatestBackup latest={data.backups.latest} setReload={setReload}/>
+              <LatestBackupMRT latest={data.backups.latest} setReload={setReload}/>
             </Grid.Col>
             <Grid.Col
               span={{

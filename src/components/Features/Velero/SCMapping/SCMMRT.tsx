@@ -37,7 +37,7 @@ export function SCMMRT({
   );
 
   return <GenericMRTTableLayout
-    title='scm'
+    name='scm'
     fetching={fetching}
     items={items || []}
     setReload={setReload}

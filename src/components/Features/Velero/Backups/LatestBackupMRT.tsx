@@ -1,41 +1,48 @@
-'use client';
-
 import React, { useMemo } from 'react';
-import { ActionIcon, Anchor, CopyButton, Group, Text, Tooltip } from '@mantine/core';
-import { IconCheck, IconClock, IconCopy, IconServer, } from '@tabler/icons-react';
-import { type MRT_ColumnDef, MRT_Row } from 'mantine-react-table';
-import { usePathname, useRouter } from 'next/navigation';
-
-import { getExpirationString } from '@/utils/getExpirationString';
-import { getDurationInMilliseconds } from '@/utils/getDurationDetails';
+import {
+  ActionIcon,
+  Anchor,
+  Box,
+  Card,
+  CopyButton,
+  Group,
+  Text,
+  Tooltip,
+  useComputedColorScheme,
+} from '@mantine/core';
+import { IconCheck, IconClock, IconCopy, IconServer } from '@tabler/icons-react';
+import { useRouter } from 'next/navigation';
 
 import DescribeActionIcon from '@/components/Features/Velero/Commons/Actions/DescribeActionIcon';
-import DeleteAction from '@/components/Features/Velero/Commons/Actions/DeleteAction';
+
 import RestoreAction from '@/components/Features/Velero/Backups/Actions/RestoreAction';
-import UpdateExpirationAction from '@/components/Features/Velero/Backups/Actions/UpdateExpirationAction';
-import DownloadAction from '@/components/Features/Velero/Backups/Actions/DownloadAction';
-import InspectAction from '@/components/Features/Velero/Backups/Actions/InspectAction';
-import { GenericMRTTableLayout } from '@/components/Features/Velero/GenericMRTTableLayout';
-import VeleroResourceStatusBadge from '@/components/Features/Velero/Commons/Display/VeleroResourceStatusBadge';
+import DeleteAction from '@/components/Features/Velero/Commons/Actions/DeleteAction';
+
+import VeleroResourceStatusBadge from '../Commons/Display/VeleroResourceStatusBadge';
+import { MRT_ColumnDef, MRT_Row } from 'mantine-react-table';
 import { highlightMultiple } from '@/utils/highlightMultiple';
+import { getDurationInMilliseconds } from '@/utils/getDurationDetails';
+import { getExpirationString } from '@/utils/getExpirationString';
 import { get_duration } from '@/utils/getDuration';
+import { GenericMRTTableLayout } from '@/components/Features/Velero/GenericMRTTableLayout';
 
-export function BackupsMRT({
-                             fetching,
-                             setReload,
-                             items,
-                             customActions
-                           }: any) {
+interface BackupLatestProps {
+  latest: Array<any>;
+  setReload: React.Dispatch<React.SetStateAction<number>>;
+}
 
+export function LatestBackupMRT({
+                                  setReload,
+                                  latest = []
+                                }: BackupLatestProps) {
   const router = useRouter();
-  const pathname = usePathname();
+
+  const computedColorScheme = useComputedColorScheme('light', { getInitialValueInEffect: true });
 
   const renderActions = (record: any) => (
-    <Group gap={2} wrap="nowrap">
+    <Group gap={4} justify="right" wrap="nowrap">
       <DescribeActionIcon resourceType="backup" record={record}/>
-      <UpdateExpirationAction record={record} setReload={setReload}/>
-      <DownloadAction record={record}/>
-      <InspectAction record={record}/>
+      {/*<LogsActionIcon resourceType="backup" record={record} />*/}
       <RestoreAction record={record} setReload={setReload}/>
       <DeleteAction resourceType="backup" record={record} setReload={setReload}/>
     </Group>
@@ -108,7 +115,7 @@ export function BackupsMRT({
 
           const highlighted = highlightMultiple(scheduleName, highlights);
 
-          return pathname !== `/schedules/${scheduleName}` ? (
+          return (
             <Anchor
               size="sm"
               onClick={() => router.push(`/schedules/${scheduleName}`)}
@@ -118,11 +125,7 @@ export function BackupsMRT({
                 {highlighted}
               </Group>
             </Anchor>
-          ) : (
-            <Text size="sm" truncate="end">
-              {highlighted}
-            </Text>
-          );
+          )
         },
       },
       {
@@ -145,6 +148,10 @@ export function BackupsMRT({
       {
         accessorKey: 'metadata.creationTimestamp',
         header: 'Created',
+      },
+      {
+        accessorKey: 'status.completionTimestamp',
+        header: 'Completation',
       },
       {
         id: 'duration',
@@ -204,26 +211,61 @@ export function BackupsMRT({
             </Anchor>
           );
         },
-
       },
     ],
     [],
   );
 
-  return <GenericMRTTableLayout
-    name='backups'
-    fetching={fetching}
-    items={items || []}
-    setReload={setReload}
-    columns={columns}
-    initialState={{
-      columnVisibility: {
-        'metadata.creationTimestamp': false,
-        'status.errors': false,
-        'status.warnings': false,
-      },
-    }}
-    renderRowActions={({ row }: { row: MRT_Row<any> }) => <>{renderActions(row?.original)}</>}
-    customActions={customActions}
-  />
+  return (
+    <Card
+      withBorder
+      p="md"
+      radius="md"
+      shadow="sm"
+      h={310}
+      bg={
+        computedColorScheme === 'light'
+          ? 'var(--mantine-color-white)'
+          : 'var(--mantine-color-dark-6)'
+      }
+    >
+      <Card.Section p={0}>
+        <Box
+          style={{
+            height: 310,
+            transition: 'height 0.2s ease',
+            boxShadow: '0 -2px 6px rgba(0, 0, 0, 0.1)',
+            zIndex: 999,
+          }}
+        >
+          <GenericMRTTableLayout
+            name='latest'
+            title='Recent Backups – last 24 hours or top 10'
+            items={latest || []}
+            setReload={setReload}
+            columns={columns}
+            enablePagination={false}
+            enableBottomToolbar={false}
+            enableRefreshButton={false}
+            initialState={{
+              columnVisibility: {
+                'metadata.creationTimestamp': false,
+                'duration': false,
+                'status.errors': false,
+                'status.warnings': false,
+              },
+              density: 'xs',
+            }}
+            mantineTableContainerPropsContent={{ style: { height: "252px" } }}
+            mantinePaperPropsContent={{
+              style: {
+                border: 'None',
+              }
+            }}
+            renderRowActions={({ row }: { row: MRT_Row<any> }) => <>{renderActions(row?.original)}</>}
+          />
+        </Box>
+      </Card.Section>
+    </Card>
+  );
 }

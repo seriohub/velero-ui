@@ -55,7 +55,7 @@ export function ServerStatusRequestMRT({
     }}
   >
     <GenericMRTTableLayout
-      title='server-requests'
+      name='server-requests'
       fetching={fetching}
       items={items || []}
       setReload={setReload}

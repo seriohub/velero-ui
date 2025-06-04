@@ -93,7 +93,7 @@ export function DownloadRequestMRT({
     }}
   >
     <GenericMRTTableLayout
-      title='download-requests'
+      name='download-requests'
       fetching={fetching}
       items={items || []}
       setReload={setReload}

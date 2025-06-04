@@ -111,7 +111,7 @@ export function VslMRT({
   );
 
   return <GenericMRTTableLayout
-    title='vsl'
+    name='vsl'
     fetching={fetching}
     items={items || []}
     setReload={setReload}

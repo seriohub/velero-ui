@@ -66,7 +66,7 @@ export function VuiMRT({
   );
 
   return <GenericMRTTableLayout
-    title='vui'
+    name='vui'
     fetching={fetching}
     items={items || []}
     setReload={setReload}
