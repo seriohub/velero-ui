@@ -2,9 +2,9 @@
 
 import React, { useMemo } from 'react';
 import { ActionIcon, Anchor, Box, CopyButton, Group, Progress, Text, Tooltip, } from '@mantine/core';
-import { IconCheck, IconCopy, IconServer, } from '@tabler/icons-react';
+import { IconCheck, IconClock, IconCopy, IconServer, } from '@tabler/icons-react';
 import { type MRT_ColumnDef, MRT_Row } from 'mantine-react-table';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 
 import { getExpirationString } from '@/utils/getExpirationString';
 
@@ -22,6 +22,7 @@ export function BackupRestoreStreamMRT({
                                        }: any) {
 
   const router = useRouter();
+  const pathname = usePathname();
 
   const renderActions = (record: any) => (
     <Group gap={2} wrap="nowrap">
@@ -87,13 +88,38 @@ export function BackupRestoreStreamMRT({
         },
       },
       {
-        accessorKey: 'metadata.labels["velero.io/schedule-name"]',
-        header: 'Schedules',
-        Cell: ({ row }) => {
-          if (row.original?.metadata?.labels !== undefined && 'velero.io/schedule-name' in row.original?.metadata.labels) {
-            return <>{row.original?.metadata.labels['velero.io/schedule-name']}</>;
-          }
-          return <></>;
+        id: 'scheduleName',
+        accessorFn: (row) => row.metadata?.labels?.['velero.io/schedule-name'] ?? '',
+        header: 'Schedule',
+        Cell: ({
+                 row,
+                 column,
+                 table
+               }) => {
+          const scheduleName = row.original.metadata.labels?.['velero.io/schedule-name'];
+          const globalFilter = table.getState().globalFilter ?? '';
+          const columnFilter = column.getFilterValue() ?? '';
+          const highlights = [globalFilter, columnFilter].filter(Boolean);
+
+          if (!scheduleName) return null;
+
+          const highlighted = highlightMultiple(scheduleName, highlights);
+
+          return pathname !== `/schedules/${scheduleName}` ? (
+            <Anchor
+              size="sm"
+              onClick={() => router.push(`/schedules/${scheduleName}`)}
+            >
+              <Group gap={5}>
+                <IconClock size={16}/>
+                {highlighted}
+              </Group>
+            </Anchor>
+          ) : (
+            <Text size="sm" truncate="end">
+              {highlighted}
+            </Text>
+          );
         },
       },
       {

@@ -35,7 +35,7 @@ export function BackupsDatatable({ scheduleName }: BackupDataProps) {
     if (message?.payload?.resources === 'backups' || message?.payload?.resources === 'deletebackuprequests') {
       setReload((prev) => prev + 1);
     }
-  }, 250);
+  }, 150);
 
   useEffect(() => {
     eventEmitter.on('watchResources', handleWatchResources);

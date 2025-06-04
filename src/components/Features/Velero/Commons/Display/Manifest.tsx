@@ -1,20 +1,20 @@
 'use client';
 
 import {
-  Code,
-  Group,
-  ScrollArea,
-  Text,
   ActionIcon,
-  CopyButton,
-  Tooltip,
-  Switch,
-  Loader,
   Center,
+  Code,
+  CopyButton,
   Flex,
+  Group,
+  Loader,
+  ScrollArea,
+  Switch,
+  Text,
+  Tooltip,
 } from '@mantine/core';
 
-import { IconCopy, IconCheck } from '@tabler/icons-react';
+import { IconCheck, IconCopy } from '@tabler/icons-react';
 import { useEffect, useState } from 'react';
 import { debounce } from 'lodash';
 import { useVeleroManifest } from '@/api/Velero/useVeleroManifest';
@@ -52,7 +52,7 @@ export function Manifest({
     ) {
       getManifest(resourceType, resourceName, neat);
     }
-  }, 250);
+  }, 150);
 
   useEffect(() => {
     eventEmitter.on('watchResources', handleWatchResources);

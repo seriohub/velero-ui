@@ -29,7 +29,7 @@ export default function DownloadRequests({
     if (message?.payload?.resources === 'downloadrequests') {
       setReload((prev: number) => prev + 1);
     }
-  }, 250);
+  }, 150);
 
   useEffect(() => {
     eventEmitter.on('watchResources', handleWatchResources);

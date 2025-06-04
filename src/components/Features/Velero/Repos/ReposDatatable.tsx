@@ -30,7 +30,7 @@ export function ReposDatatable() {
     if (message?.payload?.resources === 'backuprepositories') {
       setReload((prev) => prev + 1);
     }
-  }, 250);
+  }, 150);
 
   useEffect(() => {
     eventEmitter.on('watchResources', handleWatchResources);

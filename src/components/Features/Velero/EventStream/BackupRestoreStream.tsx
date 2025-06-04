@@ -30,7 +30,7 @@ export default function BackupRestoreStream({
     if (message?.payload?.resources === 'backups' || message?.payload?.resources === 'restores') {
       setReload((prev: number) => prev + 1);
     }
-  }, 250);
+  }, 150);
 
   useEffect(() => {
     eventEmitter.on('watchResources', handleWatchResources);

@@ -29,7 +29,7 @@ export function PVBDatatable({ type }: any) {
     if (message?.payload?.resources === 'podvolumebackups') {
       setReload((prev) => prev + 1);
     }
-  }, 250);
+  }, 150);
 
   useEffect(() => {
     eventEmitter.on('watchResources', handleWatchResources);

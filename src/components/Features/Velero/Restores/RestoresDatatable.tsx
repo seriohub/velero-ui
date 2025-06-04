@@ -29,7 +29,7 @@ export function RestoresDatatable() {
     if (message?.payload?.resources === 'restores') {
       setReload((prev) => prev + 1);
     }
-  }, 250);
+  }, 150);
 
   useEffect(() => {
     eventEmitter.on('watchResources', handleWatchResources);

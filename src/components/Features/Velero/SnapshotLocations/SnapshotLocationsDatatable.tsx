@@ -30,7 +30,7 @@ export function SnapshotLocationsDatatable() {
     if (message?.payload?.resources === 'volumesnapshotlocations') {
       setReload((prev) => prev + 1);
     }
-  }, 250);
+  }, 150);
 
   useEffect(() => {
     eventEmitter.on('watchResources', handleWatchResources);

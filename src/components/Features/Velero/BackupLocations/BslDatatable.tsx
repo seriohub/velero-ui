@@ -30,7 +30,7 @@ export function BslDatatable() {
     if (message?.payload?.resources === 'backupstoragelocations') {
       setReload((prev) => prev + 1);
     }
-  }, 250);
+  }, 150);
 
   useEffect(() => {
     eventEmitter.on('watchResources', handleWatchResources);

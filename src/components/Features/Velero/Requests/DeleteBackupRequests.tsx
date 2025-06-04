@@ -29,7 +29,7 @@ export default function DeleteBackupRequests({
     if (message?.payload?.resources === 'deletebackuprequests') {
       setReload((prev: number) => prev + 1);
     }
-  }, 250);
+  }, 150);
 
   useEffect(() => {
     if (!active) return undefined;

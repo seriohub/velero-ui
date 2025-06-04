@@ -73,7 +73,7 @@ export default function TaskInProgressAccordion() {
         clearTimeout(timer);
       };
     }
-  }, 250);
+  }, 150);
 
   useEffect(() => {
     setOpened(localStorage.getItem('showTaskInProgress') === 'true');

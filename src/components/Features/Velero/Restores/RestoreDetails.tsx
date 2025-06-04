@@ -38,7 +38,7 @@ export function RestoreDetails({ params }: RestoreProps) {
     if (message?.payload?.resources === 'restores' && message?.payload?.resource?.metadata?.name === params.restore) {
       setManifest(message?.payload?.resource);
     }
-  }, 250);
+  }, 150);
 
   useEffect(() => {
     eventEmitter.on('watchResources', handleWatchResources);

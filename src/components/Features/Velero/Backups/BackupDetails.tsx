@@ -42,7 +42,7 @@ export function BackupDetails({ params }: BackupProps) {
     if (message?.payload?.resources === 'backups' && message?.payload?.resource?.metadata?.name === params.backup) {
       setManifest(message?.payload?.resource);
     }
-  }, 250);
+  }, 150);
 
   useEffect(() => {
     eventEmitter.on('watchResources', handleWatchResources);

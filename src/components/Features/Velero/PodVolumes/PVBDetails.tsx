@@ -1,12 +1,9 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Card, Grid } from '@mantine/core';
 import { debounce } from 'lodash';
 import { useVeleroManifest } from '@/api/Velero/useVeleroManifest';
 import { useAgentStatus } from '@/contexts/AgentContext';
-
-import { PageScrollArea } from '@/components/Commons/PageScrollArea';
 
 import Toolbar from '@/components/Display/Toolbar';
 import ReloadData from '@/components/Inputs/ReloadData';
@@ -19,11 +16,6 @@ import { PVBDetailsView } from '@/components/Features/Velero/PodVolumes/PVBDetai
 import { useWatchResources } from '@/hooks/useWatchResources';
 import { eventEmitter } from '@/lib/EventEmitter.js';
 import { VeleroDetailsLayout } from "@/components/Commons/VeleroDetailsLayout";
-import EditVslAction from "@/components/Features/Velero/SnapshotLocations/Actions/EditVSLAction";
-import DeleteAction from "@/components/Features/Velero/Commons/Actions/DeleteAction";
-import {
-  SnapshotLocationDetailsView
-} from "@/components/Features/Velero/SnapshotLocations/SnapshotLocationDetailsView";
 
 interface BackupProps {
   params: any;
@@ -52,7 +44,7 @@ export function PVBDetails({
     ) {
       setManifest(message?.payload?.resource);
     }
-  }, 250);
+  }, 150);
 
   useEffect(() => {
     eventEmitter.on('watchResources', handleWatchResources);
