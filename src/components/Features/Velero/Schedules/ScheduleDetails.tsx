@@ -18,6 +18,9 @@ import StartStopActionIcon from '@/components/Features/Velero/Schedules/StartSto
 import { useWatchResources } from '@/hooks/useWatchResources';
 import { eventEmitter } from '@/lib/EventEmitter.js';
 import { VeleroDetailsLayout } from '@/components/Commons/VeleroDetailsLayout';
+import { Box, Tabs } from '@mantine/core';
+import { IconDatabaseExport, IconFileText } from '@tabler/icons-react';
+import { BackupsOverview } from '@/components/Features/Velero/Schedules/BackupsOverview';
 
 interface ScheduleProps {
   params: any;
@@ -102,7 +105,29 @@ export function ScheduleDetails({ params }: ScheduleProps) {
       details={<ScheduleDetailsView data={manifest} fetching={fetching}/>}
       manifest={<Manifest resourceType="Schedule" resourceName={params.schedule} reload={reload}/>}
       tabs={(height) => (
-        <BackupsDatatable scheduleName={params.schedule}/>
+        <Tabs defaultValue="PodVolumes" h="100%">
+          <Tabs.List>
+            <Tabs.Tab value="PodVolumes" leftSection={<IconDatabaseExport size={12}/>}>
+              Backups
+            </Tabs.Tab>
+            <Tabs.Tab value="Logs" leftSection={<IconFileText size={12}/>}>
+              Overview
+            </Tabs.Tab>
+          </Tabs.List>
+
+          <Tabs.Panel value="PodVolumes" h="100%">
+            <Box p={0} h="100%">
+              <BackupsDatatable scheduleName={params.schedule} onlyTable={true}/>
+            </Box>
+          </Tabs.Panel>
+
+          <Tabs.Panel value="Logs" h="100%">
+            <Box p={5} h="100%">
+              <BackupsOverview scheduleName={params.schedule}/>
+            </Box>
+          </Tabs.Panel>
+        </Tabs>
+
       )}
     />
   );

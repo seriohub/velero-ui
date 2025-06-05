@@ -137,7 +137,7 @@ export function DetailsBackupRestoreStatus({ data }: any) {
           Duration:
         </Text>
 
-        {get_duration({ status: data?.status })}
+        {get_duration(data?.status)}
       </Box>
     </Card.Section>
   );

@@ -3775,6 +3775,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/luxon@npm:^3":
+  version: 3.6.2
+  resolution: "@types/luxon@npm:3.6.2"
+  checksum: 10c0/7572ee52b3d3e9dd10464b90561a728b90f34b9a257751cc3ce23762693dd1d14fa98b7f103e2efe2c6f49033331f91de5681ffd65cca88618cefe555be326db
+  languageName: node
+  linkType: hard
+
 "@types/mdx@npm:^2.0.0":
   version: 2.0.13
   resolution: "@types/mdx@npm:2.0.13"
@@ -9901,6 +9908,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"luxon@npm:^3.6.1":
+  version: 3.6.1
+  resolution: "luxon@npm:3.6.1"
+  checksum: 10c0/906d57a9dc4d1de9383f2e9223e378c298607c1b4d17b6657b836a3cd120feb1c1de3b5d06d846a3417e1ca764de8476e8c23b3cd4083b5cdb870adcb06a99d5
+  languageName: node
+  linkType: hard
+
 "lz-string@npm:^1.5.0":
   version: 1.5.0
   resolution: "lz-string@npm:1.5.0"
@@ -13818,6 +13832,7 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/js-yaml": "npm:^4.0.9"
     "@types/lodash": "npm:^4.17.16"
+    "@types/luxon": "npm:^3"
     "@types/node": "npm:^22.13.10"
     "@types/react": "npm:^19.1.6"
     "@types/react-dom": "npm:^19.1.6"
@@ -13844,6 +13859,7 @@ __metadata:
     jest-environment-jsdom: "npm:^29.7.0"
     js-yaml: "npm:^4.1.0"
     lodash: "npm:^4.17.21"
+    luxon: "npm:^3.6.1"
     mantine-contextmenu: "npm:^7.17.1"
     mantine-react-table: "npm:^2.0.0-beta.9"
     moment: "npm:^2.30.1"

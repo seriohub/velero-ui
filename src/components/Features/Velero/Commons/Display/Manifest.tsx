@@ -12,6 +12,7 @@ import {
   Switch,
   Text,
   Tooltip,
+  useComputedColorScheme,
 } from '@mantine/core';
 
 import { IconCheck, IconCopy } from '@tabler/icons-react';
@@ -35,6 +36,7 @@ export function Manifest({
                            resourceName,
                            reload
                          }: ManifestProps) {
+  const computedColorScheme = useComputedColorScheme();
   const {
     fetching,
     data,
@@ -101,7 +103,7 @@ export function Manifest({
         />
       </Group>
 
-      <Code block style={{ borderRadius: '5px' }}>
+      <Code block style={{ borderRadius: '5px' }} color={computedColorScheme === 'light' ? '' : 'dark.8'}>
         <ScrollArea>
           {fetching && manifest.length === 0 && (
             <Center>
