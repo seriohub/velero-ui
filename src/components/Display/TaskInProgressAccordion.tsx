@@ -221,6 +221,7 @@ export default function TaskInProgressAccordion() {
               <Tabs.Panel value="DownloadRequests">
                 <WithCoreAndAgentReady>
                   <DownloadRequests
+                    enableTopToolbar={enableTopToolbar}
                     reload={reload}
                     setReload={setReload}
                     setFetchingData={setFetching}
