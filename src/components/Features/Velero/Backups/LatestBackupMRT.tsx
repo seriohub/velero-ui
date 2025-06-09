@@ -52,7 +52,7 @@ export function LatestBackupMRT({
     () => [
       {
         id: 'metadata.name',
-        accessorKey: 'metadata.name',
+        accessorFn: (row) => row.metadata?.name ?? '',
         header: 'Name',
         Cell: ({
                  row,
@@ -139,19 +139,23 @@ export function LatestBackupMRT({
         ),
       },
       {
-        accessorKey: 'status.errors',
+        id: 'status.errors',
+        accessorFn: (row) => row?.status?.errors ?? '',
         header: 'Errors',
       },
       {
-        accessorKey: 'status.warnings',
-        header: 'Warnings'
+        id: 'status.warnings',
+        accessorFn: (row) => row?.status?.warnings ?? '',
+        header: 'Warnings',
       },
       {
-        accessorKey: 'metadata.creationTimestamp',
+        id: 'metadata.creationTimestamp',
+        accessorFn: (row) => row?.metadata?.creationTimestamp ?? '',
         header: 'Created',
       },
       {
-        accessorKey: 'status.completionTimestamp',
+        id: 'status.completionTimestamp',
+        accessorFn: (row) => row?.metadata?.completionTimestamp ?? '',
         header: 'Completation',
       },
       {
@@ -169,7 +173,8 @@ export function LatestBackupMRT({
 
       },
       {
-        accessorKey: 'status.expiration',
+        id: 'status.expiration',
+        accessorFn: (row) => row?.status?.expiration ?? '',
         header: 'Expires in',
         enableColumnFilter: false,
         Cell: ({
@@ -183,7 +188,8 @@ export function LatestBackupMRT({
         ),
       },
       {
-        accessorKey: 'spec.storageLocation',
+        id: 'spec.storageLocation',
+        accessorFn: (row) => row?.spec?.storageLocation ?? '',
         header: 'Storage Location',
         Cell: ({
                  row,
