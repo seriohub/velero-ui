@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 
 import { Box, Center, Grid, Loader, ScrollArea, SimpleGrid, Stack } from '@mantine/core';
 
-import { IconCalendarEvent, IconClock, IconDeviceFloppy, IconRestore } from '@tabler/icons-react';
+import { IconCalendarEvent, IconCalendarTime, IconDeviceFloppy, IconHistory, IconRestore } from '@tabler/icons-react';
 
 import { useStats } from '@/api/Stats/useStats';
 
@@ -109,7 +109,7 @@ export function Dashboard() {
             <StatsSegmentsDonuts
               data={data.backups.stats.latest}
               title="Last Backups"
-              icon={<IconClock/>}
+              icon={<IconHistory/>}
               path="/backups"
             />
             <StatsSegmentsDonuts
@@ -121,7 +121,7 @@ export function Dashboard() {
             <StatsSegmentsDonuts
               data={data.schedules.all}
               title="Schedules"
-              icon={<IconCalendarEvent/>}
+              icon={<IconCalendarTime/>}
               path="/schedules"
             />
           </SimpleGrid>

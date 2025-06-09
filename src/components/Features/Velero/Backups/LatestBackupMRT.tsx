@@ -10,7 +10,7 @@ import {
   Tooltip,
   useComputedColorScheme,
 } from '@mantine/core';
-import { IconCheck, IconClock, IconCopy, IconServer } from '@tabler/icons-react';
+import { IconCalendarTime, IconCheck, IconCopy, IconServer } from '@tabler/icons-react';
 import { useRouter } from 'next/navigation';
 
 import DescribeActionIcon from '@/components/Features/Velero/Commons/Actions/DescribeActionIcon';
@@ -51,6 +51,7 @@ export function LatestBackupMRT({
   const columns = useMemo<MRT_ColumnDef<any>[]>(
     () => [
       {
+        id: 'metadata.name',
         accessorKey: 'metadata.name',
         header: 'Name',
         Cell: ({
@@ -121,7 +122,7 @@ export function LatestBackupMRT({
               onClick={() => router.push(`/schedules/${scheduleName}`)}
             >
               <Group gap={5}>
-                <IconClock size={16}/>
+                <IconCalendarTime size={16}/>
                 {highlighted}
               </Group>
             </Anchor>

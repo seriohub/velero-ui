@@ -20,19 +20,19 @@ import {
   IconArrowBarLeft,
   IconArrowBarRight,
   IconAutomation,
-  IconClock,
+  IconCalendarTime,
+  IconCamera,
   IconDashboard,
-  IconDatabase,
   IconDatabaseExport,
   IconDatabaseImport,
   IconDeviceFloppy,
   IconDog,
-  IconFolders,
   IconHome,
   IconLink,
   IconPlayerPlay,
   IconRestore,
   IconServer,
+  IconStack,
   IconZoomCode,
 } from '@tabler/icons-react';
 
@@ -72,7 +72,7 @@ const veleroResourceLinks = [
   {
     link: '/schedules',
     label: 'Schedules',
-    icon: IconClock,
+    icon: IconCalendarTime,
     tooltip: 'Schedules',
   },
   {
@@ -84,25 +84,25 @@ const veleroResourceLinks = [
   {
     link: '/volume-snapshot-locations',
     label: 'Volume Locations',
-    icon: IconDatabase,
+    icon: IconCamera,
     tooltip: 'Volume Locations',
   },
   {
     link: '/repos',
     label: 'Repositories',
-    icon: IconFolders,
+    icon: IconStack,
     tooltip: 'Repositories',
   },
   {
     link: '/pod-volume-backups',
     label: 'Pod Volume Backups',
-    icon: IconDatabaseExport,
+    icon: IconDatabaseImport,
     tooltip: 'Pod Volumes Backup',
   },
   {
     link: '/pod-volume-restores',
     label: 'Pod Volume Restores',
-    icon: IconDatabaseImport,
+    icon: IconDatabaseExport,
     tooltip: 'Pod Volumes Restore',
   },
 ];

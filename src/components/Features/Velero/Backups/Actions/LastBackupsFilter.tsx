@@ -1,7 +1,7 @@
 'use client';
 
 import { Button, Tooltip } from '@mantine/core';
-import { IconClockCheck, IconClockFilled } from '@tabler/icons-react';
+import { IconHistory, IconHistoryOff } from '@tabler/icons-react';
 import { useEffect, useState } from 'react';
 
 interface LastBackup4ScheduleProps {
@@ -25,8 +25,8 @@ export default function LastBackupsFilter({ setOnlyLast4Schedule }: LastBackup4S
           h={38}
           variant={!checked ? "default" : 'light'}
           leftSection={<>
-            {!checked && <IconClockCheck/>}
-            {checked && <IconClockFilled/>}
+            {!checked && <IconHistory/>}
+            {checked && <IconHistoryOff/>}
           </>}
         >
           Latest

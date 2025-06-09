@@ -1,8 +1,8 @@
 'use client';
 
-import { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { ActionIcon, Anchor, CopyButton, Group, Menu, rem, Text, Tooltip, } from '@mantine/core';
-import { IconCheck, IconCopy, IconDatabase, IconDots, IconServer, } from '@tabler/icons-react';
+import { IconCheck, IconCopy, IconDots, IconServer, } from '@tabler/icons-react';
 import { type MRT_ColumnDef, MRT_Row } from 'mantine-react-table';
 import { useRouter } from 'next/navigation';
 
@@ -111,19 +111,39 @@ export function RepoMRT({
             .filter(Boolean);
 
           return (
-            <Anchor
-              size="sm"
-              onClick={() => {
-                router.push(`/repos/${name}`);
-              }}
-            >
-              <Group gap={5}>
-                <IconDatabase size={16}/>
-                <Text truncate="end">
-                  {highlightMultiple(name, highlights)}
-                </Text>
-              </Group>
-            </Anchor>
+            <Group gap={5}>
+              <CopyButton value={name} timeout={2000}>
+                {({
+                    copied,
+                    copy
+                  }) => (
+                  <Tooltip label={copied ? 'Copied' : 'Copy backup name'} withArrow position="right">
+                    <ActionIcon
+                      color={copied ? 'teal' : 'var(--mantine-primary-color-filled)'}
+                      variant="light"
+                      size="sm"
+                      onClick={copy}
+                      p={0}
+                      m={0}
+                    >
+                      {copied ? <IconCheck size={14}/> : <IconCopy size={16}/>}
+                    </ActionIcon>
+                  </Tooltip>
+                )}
+              </CopyButton>
+              <Anchor
+                size="sm"
+                onClick={() => {
+                  router.push(`/repos/${name}`);
+                }}
+              >
+                <Group gap={5}>
+                  <Text truncate="end">
+                    {highlightMultiple(name, highlights)}
+                  </Text>
+                </Group>
+              </Anchor>
+            </Group>
           );
         },
       },

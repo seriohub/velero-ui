@@ -1,8 +1,8 @@
 'use client';
 
-import { useMemo } from 'react';
-import { Anchor, Group, } from '@mantine/core';
-import { IconDeviceFloppy, IconRestore, } from '@tabler/icons-react';
+import React, { useMemo } from 'react';
+import { ActionIcon, Anchor, CopyButton, Group, Tooltip, } from '@mantine/core';
+import { IconCalendarEvent, IconCheck, IconCopy, IconDeviceFloppy, } from '@tabler/icons-react';
 
 import { type MRT_ColumnDef, MRT_Row } from 'mantine-react-table';
 
@@ -47,17 +47,37 @@ export function RestoresMRT({
           const name = row?.original?.metadata?.name ?? '';
 
           return (
-            <Anchor
-              size="sm"
-              onClick={() => {
-                router.push(`/restores/${name}`);
-              }}
-            >
-              <Group gap={5}>
-                <IconRestore size={16}/>
-                {highlightMultiple(name, highlights)}
-              </Group>
-            </Anchor>
+            <Group gap={5}>
+              <CopyButton value={name} timeout={2000}>
+                {({
+                    copied,
+                    copy
+                  }) => (
+                  <Tooltip label={copied ? 'Copied' : 'Copy backup name'} withArrow position="right">
+                    <ActionIcon
+                      color={copied ? 'teal' : 'var(--mantine-primary-color-filled)'}
+                      variant="light"
+                      size="sm"
+                      onClick={copy}
+                      p={0}
+                      m={0}
+                    >
+                      {copied ? <IconCheck size={14}/> : <IconCopy size={16}/>}
+                    </ActionIcon>
+                  </Tooltip>
+                )}
+              </CopyButton>
+              <Anchor
+                size="sm"
+                onClick={() => {
+                  router.push(`/restores/${name}`);
+                }}
+              >
+                <Group gap={5}>
+                  {highlightMultiple(name, highlights)}
+                </Group>
+              </Anchor>
+            </Group>
           );
         },
       },
@@ -115,7 +135,7 @@ export function RestoresMRT({
               }}
             >
               <Group gap={5}>
-                <IconDeviceFloppy size={16}/>
+                <IconCalendarEvent size={16}/>
                 {highlightMultiple(scheduleName, highlights)}
               </Group>
             </Anchor>

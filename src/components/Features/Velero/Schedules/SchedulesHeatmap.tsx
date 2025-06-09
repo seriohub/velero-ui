@@ -3,7 +3,7 @@
 import { Button, Tooltip } from '@mantine/core';
 import { openModal } from '@mantine/modals';
 import { useMediaQuery } from '@mantine/hooks';
-import { IconCalendarWeek } from '@tabler/icons-react';
+import { IconCalendarEvent } from '@tabler/icons-react';
 
 import { HeatMapBox } from '@/components/Features/Velero/Schedules/HeatMapBox';
 
@@ -27,7 +27,7 @@ export default function SchedulesHeatmapToolbarIcon() {
             centered: true,
           });
         }}
-        leftSection={<IconCalendarWeek/>}
+        leftSection={<IconCalendarEvent/>}
       >
         Cron Heatmap
       </Button>

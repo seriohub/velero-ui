@@ -1,8 +1,8 @@
 'use client';
 
-import { useMemo } from 'react';
-import { Anchor, Group } from '@mantine/core';
-import { IconClock, IconServer, } from '@tabler/icons-react';
+import React, { useMemo } from 'react';
+import { ActionIcon, Anchor, CopyButton, Group, Tooltip } from '@mantine/core';
+import { IconCheck, IconCopy, IconServer, } from '@tabler/icons-react';
 import { type MRT_ColumnDef, MRT_Row } from 'mantine-react-table';
 import { useRouter } from 'next/navigation';
 
@@ -55,17 +55,38 @@ export function SchedulesMRT({
           const highlights = [globalFilter, columnFilter].filter(Boolean);
 
           return (
-            <Anchor
-              size="sm"
-              onClick={() => {
-                router.push(`/schedules/${name}`);
-              }}
-            >
-              <Group gap={5}>
-                <IconClock size={16}/>
-                {highlightMultiple(name, highlights)}
-              </Group>
-            </Anchor>
+            <Group gap={5}>
+              <CopyButton value={name} timeout={2000}>
+                {({
+                    copied,
+                    copy
+                  }) => (
+                  <Tooltip label={copied ? 'Copied' : 'Copy backup name'} withArrow position="right">
+                    <ActionIcon
+                      color={copied ? 'teal' : 'var(--mantine-primary-color-filled)'}
+                      variant="light"
+                      size="sm"
+                      onClick={copy}
+                      p={0}
+                      m={0}
+                    >
+                      {copied ? <IconCheck size={14}/> : <IconCopy size={16}/>}
+                    </ActionIcon>
+                  </Tooltip>
+                )}
+              </CopyButton>
+              <Anchor
+                size="sm"
+                onClick={() => {
+                  router.push(`/schedules/${name}`);
+                }}
+              >
+                <Group gap={5}>
+
+                  {highlightMultiple(name, highlights)}
+                </Group>
+              </Anchor>
+            </Group>
           );
         },
       },
@@ -99,17 +120,21 @@ export function SchedulesMRT({
           const highlights = [globalFilter, columnFilter].filter(Boolean);
 
           return (
-            <Anchor
-              size="sm"
-              onClick={() => {
-                router.push(`/backup-storage-locations/${storageLocation}`);
-              }}
-            >
-              <Group gap={5}>
-                <IconServer size={16}/>
-                {highlightMultiple(storageLocation, highlights)}
-              </Group>
-            </Anchor>
+            <>
+              {storageLocation !== '' && (
+                <Anchor
+                  size="sm"
+                  onClick={() => {
+                    router.push(`/backup-storage-locations/${storageLocation}`);
+                  }}
+                >
+                  <Group gap={5}>
+                    <IconServer size={16}/>
+                    {highlightMultiple(storageLocation, highlights)}
+                  </Group>
+                </Anchor>
+              )}
+            </>
           );
         },
       },

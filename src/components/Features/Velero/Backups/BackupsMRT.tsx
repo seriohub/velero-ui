@@ -2,7 +2,7 @@
 
 import React, { useMemo } from 'react';
 import { ActionIcon, Anchor, CopyButton, Group, Text, Tooltip } from '@mantine/core';
-import { IconCheck, IconClock, IconCopy, IconServer, } from '@tabler/icons-react';
+import { IconCalendarEvent, IconCheck, IconCopy, IconServer, } from '@tabler/icons-react';
 import { type MRT_ColumnDef, MRT_Row } from 'mantine-react-table';
 import { usePathname, useRouter } from 'next/navigation';
 
@@ -89,7 +89,6 @@ export function BackupsMRT({
             </Group>
           );
         },
-
       },
       {
         id: 'scheduleName',
@@ -115,7 +114,7 @@ export function BackupsMRT({
               onClick={() => router.push(`/schedules/${scheduleName}`)}
             >
               <Group gap={5}>
-                <IconClock size={16}/>
+                <IconCalendarEvent size={16}/>
                 {highlighted}
               </Group>
             </Anchor>

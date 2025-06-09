@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { ActionIcon, Box, CopyButton, Group, rem, Tooltip, } from '@mantine/core';
 import { type MRT_ColumnDef, MRT_Row } from 'mantine-react-table';
 import { IconCheck, IconCopy } from '@tabler/icons-react';
@@ -60,6 +60,36 @@ export function DownloadRequestMRT({
         accessorKey: 'metadata.name',
         accessorFn: (row) => row?.metadata?.name ?? '',
         header: 'Name',
+        Cell: ({
+                 row,
+               }) => {
+          const name = row?.original?.metadata?.name ?? '';
+
+          return (
+            <Group gap={5}>
+              <CopyButton value={name} timeout={2000}>
+                {({
+                    copied,
+                    copy
+                  }) => (
+                  <Tooltip label={copied ? 'Copied' : 'Copy backup name'} withArrow position="right">
+                    <ActionIcon
+                      color={copied ? 'teal' : 'var(--mantine-primary-color-filled)'}
+                      variant="light"
+                      size="sm"
+                      onClick={copy}
+                      p={0}
+                      m={0}
+                    >
+                      {copied ? <IconCheck size={14}/> : <IconCopy size={16}/>}
+                    </ActionIcon>
+                  </Tooltip>
+                )}
+              </CopyButton>
+              {name}
+            </Group>
+          );
+        },
       },
       {
         id: 'spec.target.kind',

@@ -1,5 +1,5 @@
 import { Anchor, Box, Card, Group, Space, Text, Title } from '@mantine/core';
-import { IconFolders, IconServer } from '@tabler/icons-react';
+import { IconServer, IconStack } from '@tabler/icons-react';
 import { useRouter } from 'next/navigation';
 import VeleroResourceStatusBadge from '@/components/Features/Velero/Commons/Display/VeleroResourceStatusBadge';
 import React from 'react';
@@ -14,7 +14,7 @@ export function DetailsView({
     <Card shadow="sm" radius="md" withBorder {...rest}>
       <Card.Section p="sm">
         <Group gap={5}>
-          <IconFolders size={80}/>
+          <IconStack size={80}/>
           <Box>
             <Title order={2} fw={800}>
               {data?.metadata?.name}
