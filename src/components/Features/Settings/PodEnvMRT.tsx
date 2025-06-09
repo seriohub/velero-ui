@@ -33,5 +33,6 @@ export function PodEnvMRT({
     setReload={setReload}
     columns={columns}
     enableRowActions={false}
+    enableRefreshButton={false}
   />
 }

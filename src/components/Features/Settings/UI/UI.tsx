@@ -1,7 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
-
+import React, { useMemo } from 'react';
 import { env } from 'next-runtime-env';
 import { useServerStatus } from '@/contexts/ServerContext';
 
@@ -12,9 +11,7 @@ import { PodEnvMRT } from '@/components/Features/Settings/PodEnvMRT';
 export function UI() {
   const serverValues = useServerStatus();
 
-  const [reload, setReload] = useState(1);
-
-  const uiConfiguration = [
+  const uiConfiguration = useMemo(() => [
     {
       name: 'NEXT_PUBLIC_REFRESH_DATATABLE_AFTER',
       value: env('NEXT_PUBLIC_REFRESH_DATATABLE_AFTER'),
@@ -25,11 +22,11 @@ export function UI() {
     },
     {
       name: 'NEXT_PUBLIC_VELERO_API_URL',
-      value: serverValues.currentServer?.url,
+      value: serverValues.currentServer?.url ?? 'N.A.',
     },
     {
       name: 'NEXT_PUBLIC_VELERO_API_WS',
-      value: serverValues.currentServer?.ws,
+      value: serverValues.currentServer?.ws ?? 'N.A.',
     },
     {
       name: 'NEXT_PUBLIC_FRONT_END_BUILD_VERSION',
@@ -43,17 +40,19 @@ export function UI() {
       name: 'NEXT_PUBLIC_CACHE_TTL',
       value: env('NEXT_PUBLIC_CACHE_TTL'),
     },
-  ];
+  ], [serverValues]);
 
   return (
     <MainStack>
       <Toolbar title="Backup" breadcrumbItem={[{ name: 'UI' }]}>
         <></>
       </Toolbar>
+      
       <PodEnvMRT
         name="ui"
         fetching={false}
-        setReload={setReload}
+        setReload={() => {
+        }}
         items={uiConfiguration}
       />
     </MainStack>
