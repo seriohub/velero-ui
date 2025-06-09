@@ -46,7 +46,7 @@ export function Dashboard() {
     return (
       <Stack h="100%" justify="center">
         <Center>
-          <Loader color="blue"/>
+          <Loader/>
         </Center>
       </Stack>
     );

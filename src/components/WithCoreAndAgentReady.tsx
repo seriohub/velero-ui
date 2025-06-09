@@ -47,7 +47,7 @@ export default function WithCoreAndAgentReady({
             h="100%"
           />
           <Center pos="absolute" top={0} left={0} w="100%" h="100%">
-            {fallback ?? <Loader color="blue" size="lg"/>}
+            {fallback ?? <Loader size="lg"/>}
           </Center>
         </>
       )}
