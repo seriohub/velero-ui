@@ -177,7 +177,7 @@ export function LogsView({
                   bg="yellow"
                   style={{
                     borderRadius: 2,
-                    opacity: 0.6,
+                    opacity: 0.5,
                   }}
                 />
               ))}
