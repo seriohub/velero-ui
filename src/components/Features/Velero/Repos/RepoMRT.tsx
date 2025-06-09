@@ -52,30 +52,30 @@ export function RepoMRT({
         <Menu.Dropdown>
           <Menu.Label>Restic Repository</Menu.Label>
           <Menu.Item
-            onClick={() => getRepositoryCheck(row?.spec.backupStorageLocation, row?.spec.resticIdentifier)}
-            disabled={row?.spec.repositoryType !== 'restic'}>
+            onClick={() => getRepositoryCheck(row?.spec?.backupStorageLocation, row?.spec?.resticIdentifier)}
+            disabled={row?.spec?.repositoryType !== 'restic'}>
             Check
           </Menu.Item>
           <Menu.Item
-            onClick={() => getRepositoryLocks(row?.spec.backupStorageLocation, row?.spec.resticIdentifier)}
-            disabled={row?.spec.repositoryType !== 'restic'}>
+            onClick={() => getRepositoryLocks(row?.spec?.backupStorageLocation, row?.spec?.resticIdentifier)}
+            disabled={row?.spec?.repositoryType !== 'restic'}>
             Check if locked
           </Menu.Item>
           <Menu.Item
             onClick={() => getRepositoryUnlock(
-              row?.spec.backupStorageLocation,
-              row?.spec.resticIdentifier
+              row?.spec?.backupStorageLocation,
+              row?.spec?.resticIdentifier
             )}
-            disabled={row?.spec.repositoryType !== 'restic'}>
+            disabled={row?.spec?.repositoryType !== 'restic'}>
             Unlock
           </Menu.Item>
           <Menu.Item
             onClick={() => getRepositoryUnlock(
-              row?.spec.backupStorageLocation,
-              row?.spec.resticIdentifier,
+              row?.spec?.backupStorageLocation,
+              row?.spec?.resticIdentifier,
               true
             )}
-            disabled={row.spec.repositoryType !== 'restic'}>
+            disabled={row?.spec?.repositoryType !== 'restic'}>
             Unlock--remove-all
           </Menu.Item>
         </Menu.Dropdown>
@@ -83,11 +83,11 @@ export function RepoMRT({
 
       <DescribeActionIcon resourceType={row?.kind} record={row}/>
       <InfoRepositoryActionIcon
-        repositoryURL={row?.spec.resticIdentifier}
-        backupStorageLocation={row?.spec.backupStorageLocation}
-        repositoryName={row?.metadata.name}
-        repositoryType={row?.spec.repositoryType}
-        volumeNamespace={row?.spec.volumeNamespace}
+        repositoryURL={row?.spec?.resticIdentifier}
+        backupStorageLocation={row?.spec?.backupStorageLocation}
+        repositoryName={row?.metadata?.name}
+        repositoryType={row?.spec?.repositoryType}
+        volumeNamespace={row?.spec?.volumeNamespace}
       />
     </Group>
   );
@@ -95,14 +95,15 @@ export function RepoMRT({
   const columns = useMemo<MRT_ColumnDef<any>[]>(
     () => [
       {
-        accessorKey: 'metadata.name',
+        id: 'metadata.name',
+        accessorFn: (row) => row?.metadata?.name ?? '',
         header: 'Name',
         Cell: ({
                  row,
                  column,
                  table
                }) => {
-          const name = row.original?.metadata?.name ?? '';
+          const name = row?.original?.metadata?.name ?? '';
           const globalFilter = table.getState().globalFilter ?? '';
           const columnFilter = column.getFilterValue() ?? '';
           const highlights = [globalFilter, columnFilter]
@@ -127,25 +128,28 @@ export function RepoMRT({
         },
       },
       {
-        accessorKey: 'status.phase',
+        id: 'status.phase',
+        accessorFn: (row) => row?.status?.phase ?? '',
         header: 'Status',
         Cell: ({ row }) => (
-          <VeleroResourceStatusBadge status={row.original?.status?.phase || undefined}/>
+          <VeleroResourceStatusBadge status={row?.original?.status?.phase || undefined}/>
         ),
       },
       {
-        accessorKey: 'spec.volumeNamespace',
+        id: 'spec.volumeNamespace',
+        accessorFn: (row) => row?.spec?.volumeNamespace ?? '',
         header: 'Volume Namespace',
       },
       {
-        accessorKey: 'spec.backupStorageLocation',
+        id: 'spec.backupStorageLocation',
+        accessorFn: (row) => row?.spec?.backupStorageLocation ?? '',
         header: 'Backups Storage Location',
         Cell: ({
                  row,
                  column,
                  table
                }) => {
-          const location = row.original?.spec?.backupStorageLocation ?? '';
+          const location = row?.original?.spec?.backupStorageLocation ?? '';
           const globalFilter = table.getState().globalFilter ?? '';
           const columnFilter = column.getFilterValue() ?? '';
           const highlights = [globalFilter, columnFilter]
@@ -170,23 +174,21 @@ export function RepoMRT({
         },
       },
       {
-        accessorKey: 'spec.repositoryType',
+        id: 'spec.repositoryType',
+        accessorFn: (row) => row?.spec?.repositoryType ?? '',
         header: 'Repository Type',
-        Cell: ({ row }) => <VeleroResourceStatusBadge status={row.original?.spec.repositoryType}/>,
+        Cell: ({ row }) => <VeleroResourceStatusBadge status={row?.original?.spec?.repositoryType}/>,
       },
       {
-        accessorKey: 'locks',
-        header: 'Locks',
-      },
-      {
-        accessorKey: 'spec.resticIdentifier',
+        id: 'spec.resticIdentifier',
+        accessorFn: (row) => row?.spec?.resticIdentifier ?? '',
         header: 'Identifier',
         Cell: ({
                  row,
                  column,
                  table
                }) => {
-          const resticId = row.original?.spec?.resticIdentifier ?? '';
+          const resticId = row?.original?.spec?.resticIdentifier ?? '';
           const globalFilter = table.getState().globalFilter ?? '';
           const columnFilter = column.getFilterValue() ?? '';
           const highlights = [globalFilter, columnFilter]
@@ -234,7 +236,6 @@ export function RepoMRT({
     columns={columns}
     initialState={{
       columnVisibility: {
-        'locks': false,
         'spec.resticIdentifier': false,
       }
     }}

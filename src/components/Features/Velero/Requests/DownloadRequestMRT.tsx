@@ -58,27 +58,32 @@ export function DownloadRequestMRT({
     () => [
       {
         accessorKey: 'metadata.name',
+        accessorFn: (row) => row?.metadata?.name ?? '',
         header: 'Name',
       },
       {
-        accessorKey: 'spec.target.kind',
+        id: 'spec.target.kind',
+        accessorFn: (row) => row?.spec?.target?.kind ?? '',
         header: 'Target Kind',
       },
       {
-        accessorKey: 'spec.target.name',
+        id: 'spec.target.name',
+        accessorFn: (row) => row?.spec?.target?.name ?? '',
         header: 'Target Name',
       },
       {
-        accessorKey: 'status.phase',
+        id: 'status.phase',
+        accessorFn: (row) => row?.status?.phase ?? '',
         header: 'Status',
         Cell: ({ row }: any) => (
           <VeleroResourceStatusBadge status={row.original?.status?.phase || undefined}/>
         ),
       },
       {
-        accessorKey: 'status.expire_in',
+        id: 'status.expire_in',
+        accessorFn: (row) => row?.status?.expire_in ?? '',
         header: 'Expires in',
-        Cell: ({ row }) => getExpirationString(row.original?.status?.expiration),
+        Cell: ({ row }) => getExpirationString(row?.original?.status?.expiration),
       },
     ],
     [],

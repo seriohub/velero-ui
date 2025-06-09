@@ -26,8 +26,8 @@ export function BslMRT({
 
   const renderActions = (record: any) => (
     <Group gap={2} wrap="nowrap">
-      <CredentialActionIcon name={record.metadata.name} record={record}/>
-      <DescribeActionIcon resourceType={record.kind} record={record}/>
+      <CredentialActionIcon name={record?.metadata?.name} record={record}/>
+      <DescribeActionIcon resourceType={record?.kind} record={record}/>
       <EditBslAction record={record} setReload={setReload}/>
       <DeleteAction resourceType="bsl" record={record} setReload={setReload}/>
     </Group>
@@ -36,7 +36,8 @@ export function BslMRT({
   const columns = useMemo<MRT_ColumnDef<any>[]>(
     () => [
       {
-        accessorKey: 'metadata.name',
+        id: 'metadata.name',
+        accessorFn: (row) => row?.metadata?.name ?? '',
         header: 'Name',
         Cell: ({
                  row,
@@ -69,11 +70,11 @@ export function BslMRT({
       },
       {
         id: 'spec.default',
-        accessorFn: (row) => (row.spec?.default ? 'True' : 'False'),
+        accessorFn: (row) => (row?.spec?.default ? 'True' : 'False'),
         header: 'Default',
         Cell: ({ row }) => (
           <>
-            {row?.original?.spec.default ? (
+            {row?.original?.spec?.default ? (
               <VeleroResourceStatusBadge status="true"/>
             ) : (
               <VeleroResourceStatusBadge status="false"/>
@@ -82,15 +83,18 @@ export function BslMRT({
         ),
       },
       {
-        accessorKey: 'spec.provider',
+        id: 'spec.provider',
+        accessorFn: (row) => (row?.spec?.provider ?? ''),
         header: 'provider',
       },
       {
-        accessorKey: 'spec.config.s3Url',
+        id: 'spec.config.s3Url',
+        accessorFn: (row) => (row?.spec?.config?.s3Url ?? ''),
         header: 'S3 Url',
       },
       {
-        accessorKey: 'spec.objectStorage.bucket',
+        id: 'spec.objectStorage.bucket',
+        accessorFn: (row) => (row?.spec?.objectStorage?.bucket ?? ''),
         header: 'Bucket/Prefix',
         Cell: ({ row }) => (
           <Group gap={5}>
@@ -100,25 +104,30 @@ export function BslMRT({
         ),
       },
       {
-        accessorKey: 'spec.accessMode',
+        id: 'spec.accessMode',
+        accessorFn: (row) => (row?.spec?.accessMode ?? ''),
         header: 'Access Mode',
       },
       {
-        accessorKey: 'spec.credential.name',
+        id: 'spec.credential.name',
+        accessorFn: (row) => (row?.spec?.credential?.name ?? ''),
         header: 'Cred. Secret Name',
-        Cell: ({ row }) => <>{row?.original?.spec.credential && row?.original?.spec.credential.name}</>,
+        Cell: ({ row }) => <>{row?.original?.spec?.credential && row?.original?.spec?.credential?.name}</>,
       },
       {
-        accessorKey: 'spec.credential.key',
+        id: 'spec.credential.key',
+        accessorFn: (row) => (row?.spec?.credential?.key ?? ''),
         header: 'Key Name',
-        Cell: ({ row }) => <>{row?.original?.spec.credential && row?.original?.spec.credential.key}</>,
+        Cell: ({ row }) => <>{row?.original?.spec?.credential && row?.original?.spec?.credential?.key}</>,
       },
       {
-        accessorKey: 'status.lastSyncedTime',
+        id: 'status.lastSyncedTime',
+        accessorFn: (row) => (row?.spec?.lastSyncedTime ?? ''),
         header: 'Last sync',
       },
       {
-        accessorKey: 'status.phase',
+        id: 'status.phase',
+        accessorFn: (row) => (row?.status?.phase ?? ''),
         header: 'Phase',
         Cell: ({ row }) => (
           <VeleroResourceStatusBadge status={row?.original?.status?.phase || undefined}/>

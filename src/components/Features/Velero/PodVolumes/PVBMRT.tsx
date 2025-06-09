@@ -28,14 +28,15 @@ export function PVBMRT({
   const columns = useMemo<MRT_ColumnDef<any>[]>(
     () => [
       {
-        accessorKey: 'metadata.name',
+        id: 'metadata.name',
+        accessorFn: (row) => row?.metadata?.name ?? '',
         header: 'Name',
         Cell: ({
                  row,
                  column,
                  table
                }) => {
-          const name = row.original?.metadata?.name ?? '';
+          const name = row?.original?.metadata?.name ?? '';
           const globalFilter = table.getState().globalFilter ?? '';
           const columnFilter = column.getFilterValue() ?? '';
           const highlights = [globalFilter, columnFilter]
@@ -76,14 +77,15 @@ export function PVBMRT({
         },
       },
       {
-        accessorKey: 'spec.tags.backup',
+        id: 'spec.tags.backup',
+        accessorFn: (row) => row?.spec?.tags?.backup ?? '',
         header: 'From Backup',
         Cell: ({
                  row,
                  column,
                  table
                }) => {
-          const backup = row.original?.spec?.tags?.backup ?? '';
+          const backup = row?.original?.spec?.tags?.backup ?? '';
           const globalFilter = table.getState().globalFilter ?? '';
           const columnFilter = column.getFilterValue() ?? '';
           const highlights = [globalFilter, columnFilter]
@@ -106,23 +108,25 @@ export function PVBMRT({
         },
       },
       {
-        accessorKey: 'status.phase',
+        id: 'status.phase',
+        accessorFn: (row) => row?.status?.phase ?? '',
         header: 'Status',
         Cell: ({
                  row
                }) => (
-          <VeleroResourceStatusBadge status={row.original.status?.phase || undefined}/>
+          <VeleroResourceStatusBadge status={row?.original?.status?.phase || undefined}/>
         ),
       },
       {
-        accessorKey: 'spec.backupStorageLocation',
+        id: 'spec.backupStorageLocation',
+        accessorFn: (row) => row?.spec?.backupStorageLocation ?? '',
         header: 'Storage Location',
         Cell: ({
                  row,
                  column,
                  table
                }) => {
-          const location = row.original?.spec?.backupStorageLocation ?? '';
+          const location = row?.original?.spec?.backupStorageLocation ?? '';
           const globalFilter = table.getState().globalFilter ?? '';
           const columnFilter = column.getFilterValue() ?? '';
           const highlights = [globalFilter, columnFilter]
@@ -145,11 +149,13 @@ export function PVBMRT({
         },
       },
       {
-        accessorKey: 'spec.tags.pod',
+        id: 'spec.tags.pod',
+        accessorFn: (row) => row?.spec?.tags?.pod ?? '',
         header: 'Pod Name',
       },
       {
-        accessorKey: 'spec.tags.volume',
+        id: 'spec.tags.volume',
+        accessorFn: (row) => row?.spec?.tags?.volume ?? '',
         header: 'Volume'
       },
 

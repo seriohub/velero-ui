@@ -33,7 +33,8 @@ export function RestoresMRT({
   const columns = useMemo<MRT_ColumnDef<any>[]>(
     () => [
       {
-        accessorKey: 'metadata.name',
+        id: 'metadata.name',
+        accessorFn: (row) => row?.metadata?.name ?? '',
         header: 'Name',
         Cell: ({
                  row,
@@ -61,7 +62,8 @@ export function RestoresMRT({
         },
       },
       {
-        accessorKey: 'spec.backupName',
+        id: 'spec.backupName',
+        accessorFn: (row) => row?.spec?.backupName ?? '',
         header: 'From Backup',
         Cell: ({
                  row,
@@ -90,7 +92,8 @@ export function RestoresMRT({
 
       },
       {
-        accessorKey: 'spec.scheduleName',
+        id: 'spec.scheduleName',
+        accessorFn: (row) => row?.spec?.scheduleName ?? '',
         header: 'From Schedule',
         Cell: ({
                  row,
@@ -120,7 +123,8 @@ export function RestoresMRT({
         },
       },
       {
-        accessorKey: 'status.phase',
+        id: 'status.phase',
+        accessorFn: (row) => row?.status?.phase ?? '',
         header: 'Status',
         Cell: ({
                  row
@@ -129,20 +133,24 @@ export function RestoresMRT({
         ),
       },
       {
-        accessorKey: 'status.startTimestamp',
+        id: 'status.startTimestamp',
+        accessorFn: (row) => row?.status?.startTimestamp ?? '',
         header: 'Started',
       },
       {
-        accessorKey: 'status.completionTimestamp',
+        id: 'status.completionTimestamp',
+        accessorFn: (row) => row?.status?.completionTimestamp ?? '',
         header: 'Completed',
         enableColumnFilter: false,
       },
       {
-        accessorKey: 'status.errors',
+        id: 'status.errors',
+        accessorFn: (row) => row?.status?.errors ?? '',
         header: 'Errors',
       },
       {
-        accessorKey: 'status.warnings',
+        id: 'status.warnings',
+        accessorFn: (row) => row?.status?.warnings ?? '',
         header: 'Warnings',
       },
     ],

@@ -44,7 +44,8 @@ export function BackupsMRT({
   const columns = useMemo<MRT_ColumnDef<any>[]>(
     () => [
       {
-        accessorKey: 'metadata.name',
+        id: 'metadata.name',
+        accessorFn: (row) => row?.metadata?.name ?? '',
         header: 'Name',
         Cell: ({
                  row,
@@ -54,7 +55,7 @@ export function BackupsMRT({
           const globalFilter = table.getState().globalFilter ?? '';
           const columnFilter = column.getFilterValue() ?? '';
           const highlights = [globalFilter, columnFilter].filter(Boolean);
-          const name = row.original?.metadata?.name ?? '';
+          const name = row?.original?.metadata?.name ?? '';
 
           return (
             <Group gap={5}>
@@ -92,14 +93,14 @@ export function BackupsMRT({
       },
       {
         id: 'scheduleName',
-        accessorFn: (row) => row.metadata?.labels?.['velero.io/schedule-name'] ?? '',
+        accessorFn: (row) => row?.metadata?.labels?.['velero.io/schedule-name'] ?? '',
         header: 'Schedule',
         Cell: ({
                  row,
                  column,
                  table
                }) => {
-          const scheduleName = row.original.metadata.labels?.['velero.io/schedule-name'];
+          const scheduleName = row?.original?.metadata?.labels?.['velero.io/schedule-name'];
           const globalFilter = table.getState().globalFilter ?? '';
           const columnFilter = column.getFilterValue() ?? '';
           const highlights = [globalFilter, columnFilter].filter(Boolean);
@@ -126,56 +127,62 @@ export function BackupsMRT({
         },
       },
       {
-        accessorKey: 'status.phase',
+        id: 'status.phase',
+        accessorFn: (row) => row?.status?.phase ?? '',
         header: 'Status',
         Cell: ({
                  row
                }) => (
-          <VeleroResourceStatusBadge status={row.original.status?.phase || undefined}/>
+          <VeleroResourceStatusBadge status={row?.original?.status?.phase || undefined}/>
         ),
       },
       {
-        accessorKey: 'status.errors',
+        id: 'status.errors',
+        accessorFn: (row) => row?.status?.errors ?? '',
         header: 'Errors',
       },
       {
-        accessorKey: 'status.warnings',
+        id: 'status.warnings',
+        accessorFn: (row) => row?.status?.warnings ?? '',
         header: 'Warnings'
       },
       {
-        accessorKey: 'metadata.creationTimestamp',
+        id: 'metadata.creationTimestamp',
+        accessorFn: (row) => row?.metadata?.creationTimestamp ?? '',
         header: 'Created',
       },
       {
         id: 'duration',
-        accessorFn: (row) => Number(getDurationInMilliseconds(row.status?.startTimestamp, row.status?.completionTimestamp)),
+        accessorFn: (row) => Number(getDurationInMilliseconds(row?.status?.startTimestamp, row?.status?.completionTimestamp)),
         header: 'Duration',
         enableColumnFilter: false,
         Cell: ({
                  row
                }) => (
           <>
-            {get_duration(row.original.status)}
+            {get_duration(row?.original?.status)}
           </>
         ),
 
       },
       {
-        accessorKey: 'status.expiration',
+        id: 'status.expiration',
+        accessorFn: (row) => row?.status?.expiration ?? '',
         header: 'Expires in',
         enableColumnFilter: false,
         Cell: ({
                  row
                }) => (
           <>
-            <Tooltip label={row.original.status?.expiration} offset={5}>
-              <Text size="sm">{getExpirationString(row.original.status?.expiration)}</Text>
+            <Tooltip label={row?.original?.status?.expiration} offset={5}>
+              <Text size="sm">{getExpirationString(row?.original?.status?.expiration)}</Text>
             </Tooltip>
           </>
         ),
       },
       {
-        accessorKey: 'spec.storageLocation',
+        id: 'spec.storageLocation',
+        accessorFn: (row) => row?.spec?.storageLocation ?? '',
         header: 'Storage Location',
         Cell: ({
                  row,
@@ -184,7 +191,7 @@ export function BackupsMRT({
                }) => {
           const globalFilter = table.getState().globalFilter ?? '';
           const columnFilter = column.getFilterValue() ?? '';
-          const storageLocation = row.original?.spec?.storageLocation ?? '';
+          const storageLocation = row?.original?.spec?.storageLocation ?? '';
 
           const highlights = [globalFilter, columnFilter].filter(Boolean);
 
@@ -204,7 +211,6 @@ export function BackupsMRT({
             </Anchor>
           );
         },
-
       },
     ],
     [],

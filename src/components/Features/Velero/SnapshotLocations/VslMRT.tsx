@@ -34,7 +34,8 @@ export function VslMRT({
   const columns = useMemo<MRT_ColumnDef<any>[]>(
     () => [
       {
-        accessorKey: 'metadata.name',
+        id: 'metadata.name',
+        accessorFn: (row) => row?.metadata?.name ?? '',
         header: 'Name',
         Cell: ({
                  row,
@@ -66,18 +67,20 @@ export function VslMRT({
         },
       },
       {
-        accessorKey: 'spec.provider',
+        id: 'spec.provider',
+        accessorFn: (row) => row?.spec?.provider ?? '',
         header: 'Provider',
       },
       {
-        accessorKey: 'spec.credential.name',
+        id: 'spec.credential.name',
+        accessorFn: (row) => row?.credential?.name ?? '',
         header: 'Cred. Secret Name',
         Cell: ({
                  row,
                  column,
                  table
                }) => {
-          const name = row.original?.spec?.credential?.name ?? '';
+          const name = row?.original?.spec?.credential?.name ?? '';
           const globalFilter = table.getState().globalFilter ?? '';
           const columnFilter = column.getFilterValue() ?? '';
           const highlights = [globalFilter, columnFilter]
@@ -88,7 +91,8 @@ export function VslMRT({
         },
       },
       {
-        accessorKey: 'spec.credential.key',
+        id: 'spec.credential.key',
+        accessorFn: (row) => row?.spec?.credential?.key ?? '',
         header: 'Key Name',
         Cell: ({
                  row,

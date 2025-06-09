@@ -28,18 +28,21 @@ export function ServerStatusRequestMRT({
         header: 'Kind',
       },
       {
-        accessorKey: 'metadata.name',
+        id: 'metadata.name',
+        accessorFn: (row) => row?.metadata?.name ?? '',
         header: 'Name',
       },
       {
-        accessorKey: 'metadata.creationTimestamp',
+        id: 'metadata.creationTimestamp',
+        accessorFn: (row) => row?.metadata?.creationTimestamp ?? '',
         header: 'Creation',
       },
       {
-        accessorKey: 'status.phase',
+        id: 'status.phase',
+        accessorFn: (row) => row?.status?.phase ?? '',
         header: 'Status',
         Cell: ({ row }) => (
-          <VeleroResourceStatusBadge status={row.original?.status?.phase || undefined}/>
+          <VeleroResourceStatusBadge status={row?.original?.status?.phase || undefined}/>
         ),
       },
     ],

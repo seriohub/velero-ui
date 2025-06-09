@@ -1,6 +1,6 @@
 'use client';
 
-import { Badge, Group } from '@mantine/core';
+import { Badge, Group, Tooltip } from '@mantine/core';
 import {
   IconAlertTriangle,
   IconCheck,
@@ -13,12 +13,11 @@ import {
   IconX,
 } from '@tabler/icons-react';
 import { useUIStatus } from '@/contexts/UIContext';
-import { JSX } from 'react';
+import React from 'react';
 
 type VeleroResourceStatus =
   | 'Available'
   | 'Unavailable'
-
   | 'Ready'
   | 'Completed'
   | 'Failed'
@@ -26,96 +25,99 @@ type VeleroResourceStatus =
   | 'PartiallyFailed'
   | 'Deleting'
   | 'InProgress'
-
   | 'Running'
   | 'Paused'
-
   | 'restic'
   | 'kopia'
-
   | 'true'
   | 'false'
-
   | 'Enabled'
   | 'Disabled';
 
-const statusConfig: Record<
-  VeleroResourceStatus,
-  { color: string; icon: JSX.Element }
-> = {
+// ✅ Nessuna complicazione con ref: ElementType va benissimo
+type StatusIconConfig = {
+  color: string;
+  icon: React.ElementType;
+  className?: string;
+  tooltip?: string;
+};
+
+const statusConfig: Record<VeleroResourceStatus, StatusIconConfig> = {
   Available: {
     color: 'green.9',
-    icon: <IconCheck size={18}/>
+    icon: IconCheck
   },
   Unavailable: {
     color: 'red.9',
-    icon: <IconX size={18}/>
+    icon: IconX
   },
 
   Ready: {
     color: 'green.9',
-    icon: <IconCheck size={18}/>
+    icon: IconCheck
   },
   Completed: {
     color: 'green.9',
-    icon: <IconCheck size={18}/>
+    icon: IconCheck
   },
   Failed: {
     color: 'red.9',
-    icon: <IconX size={18}/>
+    icon: IconX
   },
   FailedValidation: {
     color: 'red.9',
-    icon: <IconAlertTriangle size={18}/>
+    icon: IconAlertTriangle
   },
   PartiallyFailed: {
     color: 'red.9',
-    icon: <IconAlertTriangle size={18}/>
+    icon: IconAlertTriangle
   },
   Deleting: {
     color: 'red.9',
-    icon: <IconTrash size={18}/>
+    icon: IconTrash
   },
   InProgress: {
     color: 'yellow.7',
-    icon: <IconLoader size={18} className="icon-spin"/>
+    icon: IconLoader,
+    className: 'spin-icon',
+    tooltip: 'Operation in progress',
   },
 
   Running: {
     color: 'green.9',
-    icon: <IconPlayerPlay size={18}/>
+    icon: IconPlayerPlay
   },
   Paused: {
     color: 'red.9',
-    icon: <IconPlayerPause size={18}/>
+    icon: IconPlayerPause
   },
 
   restic: {
     color: 'yellow.9',
-    icon: <IconCloud size={18}/>
+    icon: IconCloud
   },
   kopia: {
     color: 'blue.9',
-    icon: <IconCloudCog size={18}/>
+    icon: IconCloudCog
   },
 
   true: {
     color: 'var(--mantine-primary-color-9)',
-    icon: <IconCheck size={18}/>
+    icon: IconCheck
   },
+
   false: {
     color: 'var(--mantine-color-red-9)',
-    icon: <IconX size={18}/>
+    icon: IconX
   },
 
   Enabled: {
     color: 'green.9',
-    icon: <IconCheck size={18}/>
+    icon: IconCheck
   },
-
   Disabled: {
     color: 'red.9',
-    icon: <IconX size={18}/>
+    icon: IconX
   },
 };
 
@@ -126,13 +128,21 @@ interface VeleroResourceStatusBadgeProps {
 export default function VeleroResourceStatusBadge({ status }: VeleroResourceStatusBadgeProps) {
   const uiValues = useUIStatus();
 
-  const fallback = {
+  const fallback: StatusIconConfig = {
     color: 'gray',
-    icon: <IconAlertTriangle size={18}/>,
+    icon: IconAlertTriangle,
+    className: '',
+    tooltip: 'Unknown status',
   };
-  const config = statusConfig[status] ?? fallback;
 
-  return (
+  const config = statusConfig[status] ?? fallback;
+  const IconComponent = config.icon;
+
+  const iconElement = (
+    <IconComponent size={18} className={config.className || ''}/>
+  );
+
+  const badge = (
     <Badge
       color={config.color}
       radius="xs"
@@ -141,9 +151,18 @@ export default function VeleroResourceStatusBadge({ status }: VeleroResourceStat
       w={150}
     >
       <Group gap={5}>
-        {config.icon}
+        {iconElement}
         {status}
       </Group>
     </Badge>
   );
+
+  return config.tooltip ? (
+    <Tooltip label={config.tooltip} withArrow>
+      {badge}
+    </Tooltip>
+  ) : (
+    badge
+  );
+
 }

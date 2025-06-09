@@ -36,18 +36,20 @@ export function BackupRestoreStreamMRT({
   const columns = useMemo<MRT_ColumnDef<any>[]>(
     () => [
       {
-        accessorKey: 'kind',
+        id: 'kind',
+        accessorFn: (row) => row?.kind ?? '',
         header: 'Kind',
       },
       {
-        accessorKey: 'metadata.name',
+        id: 'metadata.name',
+        accessorFn: (row) => row?.metadata?.name ?? '',
         header: 'Name',
         Cell: ({
                  row,
                  column,
                  table
                }) => {
-          const name = row.original?.metadata?.name ?? '';
+          const name = row?.original?.metadata?.name ?? '';
           const globalFilter = table.getState().globalFilter ?? '';
           const columnFilter = column.getFilterValue() ?? '';
           const highlights = [globalFilter, columnFilter]
@@ -89,14 +91,14 @@ export function BackupRestoreStreamMRT({
       },
       {
         id: 'scheduleName',
-        accessorFn: (row) => row.metadata?.labels?.['velero.io/schedule-name'] ?? '',
+        accessorFn: (row) => row?.metadata?.labels?.['velero.io/schedule-name'] ?? '',
         header: 'Schedule',
         Cell: ({
                  row,
                  column,
                  table
                }) => {
-          const scheduleName = row.original.metadata.labels?.['velero.io/schedule-name'];
+          const scheduleName = row?.original?.metadata?.labels?.['velero.io/schedule-name'];
           const globalFilter = table.getState().globalFilter ?? '';
           const columnFilter = column.getFilterValue() ?? '';
           const highlights = [globalFilter, columnFilter].filter(Boolean);
@@ -123,19 +125,21 @@ export function BackupRestoreStreamMRT({
         },
       },
       {
-        accessorKey: 'status.phase',
+        id: 'status.phase',
+        accessorFn: (row) => row?.status?.phase ?? '',
         header: 'Status',
         Cell: ({ row }) => (
-          <VeleroResourceStatusBadge status={row.original?.status?.phase || undefined}/>
+          <VeleroResourceStatusBadge status={row?.original?.status?.phase || undefined}/>
         ),
       },
       {
-        accessorKey: 'status.progress.itemsBackedUp',
+        id: 'status.progress.itemsBackedUp',
+        accessorFn: (row) => row?.status?.progress?.itemsBackedUp ?? '',
         header: 'Progress',
         Cell: ({ row }) => {
           const progressValue =
-            row.original?.status?.progress?.itemsBackedUp ?? row.original?.status?.progress?.itemsRestored;
-          const totalValue = row.original?.status?.progress?.totalItems;
+            row?.original?.status?.progress?.itemsBackedUp ?? row?.original?.status?.progress?.itemsRestored;
+          const totalValue = row?.original?.status?.progress?.totalItems;
 
           return (
             <>
@@ -161,7 +165,8 @@ export function BackupRestoreStreamMRT({
         }
       },
       {
-        accessorKey: 'spec.storageLocation',
+        id: 'spec.storageLocation',
+        accessorFn: (row) => row?.spec?.storageLocation ?? '',
         header: 'Storage Location',
         Cell: ({
                  row,
@@ -170,7 +175,7 @@ export function BackupRestoreStreamMRT({
                }) => {
           const globalFilter = table.getState().globalFilter ?? '';
           const columnFilter = column.getFilterValue() ?? '';
-          const storageLocation = row.original?.spec?.storageLocation ?? '';
+          const storageLocation = row?.original?.spec?.storageLocation ?? '';
 
           const highlights = [globalFilter, columnFilter].filter(Boolean);
 
@@ -192,25 +197,30 @@ export function BackupRestoreStreamMRT({
         },
       },
       {
-        accessorKey: 'status.errors',
+        id: 'status.errors',
+        accessorFn: (row) => row?.status?.errors ?? '',
         header: 'Errors',
       },
       {
-        accessorKey: 'status.warnings',
-        header: 'Warnings',
+        id: 'status.warnings',
+        accessorFn: (row) => row?.status?.warnings ?? '',
+        header: 'Warnings'
       },
       {
-        accessorKey: 'status.startTimestamp',
+        id: 'status.startTimestamp',
+        accessorFn: (row) => row?.status?.startTimestamp ?? '',
         header: 'Start',
       },
       {
-        accessorKey: 'status.completionTimestamp',
+        id: 'status.completionTimestamp',
+        accessorFn: (row) => row?.status?.completionTimestamp ?? '',
         header: 'Completion',
       },
       {
-        accessorKey: 'status.expire_in',
+        id: 'status.expire_in',
+        accessorFn: (row) => row?.status?.expire_in ?? '',
         header: 'Expires in',
-        Cell: ({ row }: any) => getExpirationString(row.original?.status?.expiration),
+        Cell: ({ row }: any) => getExpirationString(row?.original?.status?.expiration),
       },
     ],
     [],

@@ -24,27 +24,28 @@ export function DeleteBackupRequestMRT({
   const columns = useMemo<MRT_ColumnDef<any>[]>(
     () => [
       {
-        accessorKey: 'metadata.name',
+        id: 'metadata.name',
+        accessorFn: (row) => row?.metadata?.name ?? '',
         header: 'Name',
       },
       {
-        accessorKey: 'spec.backupName',
+        id: 'spec.backupName',
+        accessorFn: (row) => row?.spec?.backupName ?? '',
         header: 'Target Backup Name',
       },
       {
-        accessorKey: 'status.phase',
+        id: 'status.phase',
+        accessorFn: (row) => row?.status?.phase ?? '',
         header: 'Status',
         Cell: ({ row }) => (
           <VeleroResourceStatusBadge status={row.original?.status?.phase || undefined}/>
         ),
       },
       {
-        accessorKey: 'status.errors',
+        id: 'status.errors',
+        accessorFn: (row) => row?.status?.errors ?? '',
         header: 'Errors',
-        sortable: true,
-        width: 500,
-        ellipsis: true,
-      }
+      },
     ],
     [],
   );

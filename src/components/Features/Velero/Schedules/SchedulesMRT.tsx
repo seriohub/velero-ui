@@ -30,8 +30,8 @@ export function SchedulesMRT({
       <DescribeActionIcon resourceType="schedule" record={record}/>
       <CreateBackupFromScheduleAction record={record}/>
       <StartStopActionIcon
-        resourceName={record.metadata.name}
-        paused={record.spec.paused === true}
+        resourceName={record?.metadata?.name}
+        paused={record?.spec?.paused === true}
       />
       <EditScheduleAction record={record} setReload={setReload}/>
       <DeleteAction resourceType="schedule" record={record} setReload={setReload}/>
@@ -41,14 +41,15 @@ export function SchedulesMRT({
   const columns = useMemo<MRT_ColumnDef<any>[]>(
     () => [
       {
-        accessorKey: 'metadata.name',
+        id: 'metadata.name',
+        accessorFn: (row) => row?.metadata?.name ?? '',
         header: 'Name',
         Cell: ({
                  row,
                  column,
                  table
                }) => {
-          const name = row.original?.metadata?.name ?? '';
+          const name = row?.original?.metadata?.name ?? '';
           const globalFilter = table.getState().globalFilter ?? '';
           const columnFilter = column.getFilterValue() ?? '';
           const highlights = [globalFilter, columnFilter].filter(Boolean);
@@ -69,26 +70,30 @@ export function SchedulesMRT({
         },
       },
       {
-        accessorKey: 'spec.schedule',
+        id: 'spec.schedule',
+        accessorFn: (row) => row?.spec?.schedule ?? '',
         header: 'Schedules',
       },
       {
-        accessorKey: 'status.lastBackup',
+        id: 'status.lastBackup',
+        accessorFn: (row) => row?.status?.lastBackup ?? '',
         header: 'Last Backups',
       },
       {
-        accessorKey: 'spec.template.ttl',
+        id: 'spec.template.ttl',
+        accessorFn: (row) => row?.spec?.template?.ttl ?? '',
         header: 'TTL',
       },
       {
-        accessorKey: 'spec.template.storageLocation',
+        id: 'spec.template.storageLocation',
+        accessorFn: (row) => row?.spec?.temaplte?.storageLocation ?? '',
         header: 'Storage Location',
         Cell: ({
                  row,
                  column,
                  table
                }) => {
-          const storageLocation = row.original?.spec?.template?.storageLocation ?? '';
+          const storageLocation = row?.original?.spec?.template?.storageLocation ?? '';
           const globalFilter = table.getState().globalFilter ?? '';
           const columnFilter = column.getFilterValue() ?? '';
           const highlights = [globalFilter, columnFilter].filter(Boolean);
@@ -109,24 +114,24 @@ export function SchedulesMRT({
         },
       },
       {
-        accessorKey: 'spec.template.defaultVolumesToFsBackup',
+        id: 'spec.template.defaultVolumesToFsBackup',
+        accessorFn: (row) => (row?.spec?.template?.defaultVolumesToFsBackup ? 'True' : 'False'),
         header: 'File-system backup',
-        accessorFn: (row) => (row.spec?.template?.defaultVolumesToFsBackup ? 'True' : 'False'),
         Cell: ({ row }) => (
-          <>{row.original.spec.template.defaultVolumesToFsBackup === true && (
+          <>{row?.original?.spec?.template?.defaultVolumesToFsBackup === true && (
             <VeleroResourceStatusBadge status="true"/>)}
-            {row.original.spec.template.defaultVolumesToFsBackup !== true && (
+            {row?.original?.spec?.template?.defaultVolumesToFsBackup !== true && (
               <VeleroResourceStatusBadge status="false"/>)}
           </>
         ),
       },
       {
         id: 'status',
-        accessorFn: (row) => (row.spec?.paused ? 'Paused' : 'Running'),
+        accessorFn: (row) => (row?.spec?.paused ? 'Paused' : 'Running'),
         header: 'Status',
         Cell: ({ row }) => (
           <VeleroResourceStatusBadge
-            status={row.original.spec.paused === true ? 'Paused' : 'Running'}
+            status={row?.original?.spec?.paused === true ? 'Paused' : 'Running'}
           />
         ),
         filterFn: 'equals',
