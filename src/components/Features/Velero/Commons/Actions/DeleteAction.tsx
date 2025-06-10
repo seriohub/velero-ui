@@ -8,9 +8,7 @@ import { ResourceDelete } from '@/components/Features/Velero/Commons/Forms/Resou
 
 interface DeleteActionIconProps {
   resourceType: string;
-  record: {
-    metadata?: { name: string };
-  };
+  record: any;
   setReload: React.Dispatch<React.SetStateAction<number>>;
   buttonType?: 'actionIcon' | 'button';
   redirectAfterDelete?: string;
@@ -28,13 +26,18 @@ const DeleteAction: React.FC<DeleteActionIconProps> = ({
   const handleOpenModal = (e: React.MouseEvent) => {
     e.stopPropagation();
     openModal({
-      title: `Delete ${resourceType}`,
-      size: 'lg',
+      title: `Delete ${record?.kind ?? resourceType}?`,
+      styles: {
+        title: {
+          marginLeft: 'auto',
+        },
+      },
+      size: 'xl',
       children: (
         <ResourceDelete
           resourceType={resourceType}
           resourceName={resourceName}
-          setReload={setReload}
+          record={record}
           redirectAfterDelete={redirectAfterDelete}
         />
       ),

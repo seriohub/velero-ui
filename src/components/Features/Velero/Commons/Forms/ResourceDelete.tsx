@@ -1,4 +1,4 @@
-import { Button, Group, Text } from '@mantine/core';
+import { Button, Center, Group, Text } from '@mantine/core';
 import { closeAllModals } from '@mantine/modals';
 
 import { useRouter } from 'next/navigation';
@@ -8,14 +8,14 @@ import { useResourceDelete } from '@/api/Velero/useResourceDelete';
 interface ResourceDeleteProps {
   resourceType: string;
   resourceName: string;
-  setReload: React.Dispatch<React.SetStateAction<number>>;
+  record: any;
   redirectAfterDelete: string;
 }
 
 export function ResourceDelete({
                                  resourceType,
                                  resourceName,
-                                 setReload,
+                                 record,
                                  redirectAfterDelete = '',
                                }: ResourceDeleteProps) {
   const router = useRouter();
@@ -37,10 +37,15 @@ export function ResourceDelete({
 
   return (
     <>
-      <Text>
-        Confirm delete {resourceType} {resourceName}?
-      </Text>
-      <Group mt="md" gap="sm" justify="flex-end">
+      <Center>
+        <Text>
+          Confirm delete {record?.kind ?? resourceType} {record?.metadata?.name ?? resourceName}?
+        </Text>
+      </Center>
+      <Group mt="md" gap="sm" justify="center">
+        <Button color="gray" onClick={() => closeAllModals()}>
+          Close
+        </Button>
         <Button
           color="red"
           onClick={() => {
@@ -49,9 +54,6 @@ export function ResourceDelete({
           }}
         >
           Delete
-        </Button>
-        <Button variant="transparent" c="dimmed" onClick={() => closeAllModals()}>
-          Close
         </Button>
       </Group>
     </>
