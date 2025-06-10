@@ -50,7 +50,7 @@ export function DownloadRequestMRT({
       </CopyButton>
       <DescribeActionIcon resourceType={record.kind} record={record}/>
       <DownloadAction url={record?.status?.downloadURL || undefined}/>
-      <DeleteAction resourceType="downloadrequest" record={record} setReload={setReload}/>
+      <DeleteAction resourceType="download-request" record={record} setReload={setReload}/>
     </Group>
   );
 

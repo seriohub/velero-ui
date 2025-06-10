@@ -8,6 +8,7 @@ import DescribeActionIcon from '@/components/Features/Velero/Commons/Actions/Des
 import { GenericMRTTableLayout } from '@/components/Features/Velero/GenericMRTTableLayout';
 import VeleroResourceStatusBadge from '@/components/Features/Velero/Commons/Display/VeleroResourceStatusBadge';
 import { IconCheck, IconCopy } from '@tabler/icons-react';
+import DeleteAction from '@/components/Features/Velero/Commons/Actions/DeleteAction';
 
 export function ServerStatusRequestMRT({
                                          fetching,
@@ -19,6 +20,7 @@ export function ServerStatusRequestMRT({
   const renderActions = (record: any) => (
     <Group gap={2} wrap="nowrap">
       <DescribeActionIcon resourceType={record.kind} record={record}/>
+      <DeleteAction resourceType="server-status-request" record={record} setReload={setReload}/>
     </Group>
   );
 

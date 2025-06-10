@@ -1,6 +1,6 @@
 import { useApiGet } from '@/hooks/utils/useApiGet';
 
-export const useDownloadBackupRequests = () => {
+export const useDeleteBackupRequests = () => {
   const {
     data,
     getData,
@@ -8,11 +8,11 @@ export const useDownloadBackupRequests = () => {
     error
   } = useApiGet();
 
-  const getDownloadBackupRequests = async () => {
+  const getDeleteBackupRequests = async () => {
     try {
 
       return await getData({
-        url: '/v1/download-backup-requests',
+        url: '/v1/delete-backup-requests',
       });
 
     } catch (e) {
@@ -25,7 +25,7 @@ export const useDownloadBackupRequests = () => {
 
   // Return the function for the call and the necessary data
   return {
-    getDownloadBackupRequests,
+    getDeleteBackupRequests,
     data,
     fetching,
     error,

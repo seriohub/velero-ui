@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 
-import { useDownloadBackupRequests } from '@/api/Requests/useDownloadBackupRequests';
+import { useDeleteBackupRequests } from '@/api/Requests/useDeleteBackupRequests';
 import { debounce } from 'lodash';
 import { eventEmitter } from '@/lib/EventEmitter.js';
 
@@ -17,9 +17,9 @@ export default function DeleteBackupRequests({
                                              }: any) {
   const {
     data,
-    getDownloadBackupRequests,
+    getDeleteBackupRequests,
     fetching
-  } = useDownloadBackupRequests();
+  } = useDeleteBackupRequests();
 
   const [records, setRecords] = useState<Array<any>>([]);
 
@@ -33,7 +33,7 @@ export default function DeleteBackupRequests({
 
   useEffect(() => {
     if (!active) return undefined;
-    getDownloadBackupRequests();
+    getDeleteBackupRequests();
     return undefined;
   }, []);
 
@@ -47,7 +47,7 @@ export default function DeleteBackupRequests({
   /* end watch */
 
   useEffect(() => {
-    getDownloadBackupRequests();
+    getDeleteBackupRequests();
   }, [reload]);
 
   useEffect(() => {
@@ -64,7 +64,7 @@ export default function DeleteBackupRequests({
 
   useEffect(() => {
     if (!active) return undefined;
-    getDownloadBackupRequests();
+    getDeleteBackupRequests();
     return undefined
     /*const interval = setInterval(() => {
       getDownloadBackupRequests();

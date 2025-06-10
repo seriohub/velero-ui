@@ -155,8 +155,8 @@ export function LatestBackupMRT({
       },
       {
         id: 'status.completionTimestamp',
-        accessorFn: (row) => row?.metadata?.completionTimestamp ?? '',
-        header: 'Completation',
+        accessorFn: (row) => row?.status?.completionTimestamp ?? '',
+        header: 'Completion',
       },
       {
         id: 'duration',

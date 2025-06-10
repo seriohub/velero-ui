@@ -1,6 +1,6 @@
 'use client';
 
-import { Group, Tree, Text, ScrollArea } from '@mantine/core';
+import { Group, ScrollArea, Text, Tree } from '@mantine/core';
 
 import { IconChevronDown, IconFileText, IconFolder } from '@tabler/icons-react';
 
@@ -38,7 +38,7 @@ export function ExplorerFolder({
                          }) => (
               <Group gap={2} {...elementProps}>
                 {hasChildren && (
-                  <Group gap={0} w={370}>
+                  <Group gap={0} w={370} style={{ 'flex': 'none' }}>
                     <IconChevronDown
                       size={18}
                       style={{ transform: expanded ? 'rotate(180deg)' : 'rotate(0deg)' }}
@@ -50,7 +50,7 @@ export function ExplorerFolder({
                   </Group>
                 )}
                 {!hasChildren && (
-                  <Group gap={0} w={360}>
+                  <Group gap={0} w={360} style={{ 'flex': 'none' }}>
                     <IconFileText size="16"/>
                     <Text
                       size="sm"
