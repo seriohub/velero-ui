@@ -241,6 +241,7 @@ export function BackupRestoreStreamMRT({
       setReload={setReload}
       columns={columns}
       enablePagination={false}
+      showLoading={false}
       initialState={{
         columnVisibility: {
           'status.startTimestamp': false,

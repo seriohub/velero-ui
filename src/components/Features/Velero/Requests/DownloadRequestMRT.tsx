@@ -134,6 +134,7 @@ export function DownloadRequestMRT({
       setReload={setReload}
       columns={columns}
       enablePagination={false}
+      showLoading={false}
       initialState={{
         columnVisibility: {
           'status.expire_in': false

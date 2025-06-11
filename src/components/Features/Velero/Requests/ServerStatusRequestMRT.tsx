@@ -97,6 +97,7 @@ export function ServerStatusRequestMRT({
       setReload={setReload}
       columns={columns}
       enablePagination={false}
+      showLoading={false}
       initialState={{
         density: 'xs',
       }}

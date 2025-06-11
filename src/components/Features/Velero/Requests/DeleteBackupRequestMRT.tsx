@@ -102,6 +102,7 @@ export function DeleteBackupRequestMRT({
       setReload={setReload}
       columns={columns}
       enablePagination={false}
+      showLoading={false}
       initialState={{
         density: 'xs',
       }}

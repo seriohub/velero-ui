@@ -26,6 +26,7 @@ export function GenericMRTTableLayout({
                                         columns,
                                         renderRowActionMenuItems,
                                         customActions,
+                                        showLoading = true,
                                         mantinePaperPropsContent = { style: { height: "100%" } },
                                         mantineTableContainerPropsContent = { style: { height: "calc(100% - 112px)" } },
                                         enableRowActions = true,
@@ -102,7 +103,7 @@ export function GenericMRTTableLayout({
       columnOrder,
       density,
       globalFilter,
-      isLoading: fetching && items?.length === 0,
+      isLoading: showLoading && fetching && items?.length === 0,
       showProgressBars: fetching,
       columnSizing,
       columnPinning
