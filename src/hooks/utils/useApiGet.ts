@@ -165,6 +165,7 @@ export const useApiGet = () => {
 
         if (err.message.includes('Unauthorized')) {
           logout();
+          return
         }
         if (err.message.includes('404')) {
           router.push('/dashboard');

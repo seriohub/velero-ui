@@ -22,7 +22,7 @@ export default function Toolbar({
   const userValues = useUserStatus();
 
   return (
-    <Box mt={10} mb={15}>
+    <Box mt={10} mb={10}>
       <Group justify="space-between">
         {(title !== 'Dashboard' && title !== 'Clusters') && breadcrumbItem && <Breadcrumb {...breadcrumbItem} />}
         {title === 'Dashboard' &&

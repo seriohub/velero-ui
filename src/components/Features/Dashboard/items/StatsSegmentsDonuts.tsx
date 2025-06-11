@@ -69,7 +69,7 @@ export function StatsSegmentsDonuts({
             />
           </Anchor>
         </Group>
-        <Center py={30}>
+        <Center py={15}>
           {sections.length > 0 && (
             <DonutChart
               size={200}
