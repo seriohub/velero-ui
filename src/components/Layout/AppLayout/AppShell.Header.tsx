@@ -1,15 +1,15 @@
-import { Group, ActionIcon, Burger, Stack, useComputedColorScheme, Box } from '@mantine/core';
+import { ActionIcon, Box, Burger, Group, Stack, useComputedColorScheme } from '@mantine/core';
 
-import { IconBrandGithub, IconHelp, IconHeartFilled } from '@tabler/icons-react';
-
+import { IconBrandGithub, IconHeartFilled, IconHelp } from '@tabler/icons-react';
 import Link from 'next/link';
+
+import { useServerStatus } from "@/contexts/ServerContext";
 
 import SwitchColorScheme from '@/components/Layout/Header/SwitchColorScheme/SwitchColorScheme';
 import CheckAppVersion from '@/components/Layout/Header/CheckAppVersion/CheckAppVersion';
 import UserMenu from '@/components/Layout/Header/UserMenu';
-import { Logo } from "@/components/Display/Logo";
-import { SwitchAgent } from "@/components/Features/Config/SwitchCluster/SwitchAgent";
-import { useServerStatus } from "@/contexts/ServerContext";
+import { Logo } from '@/components/Display/Logo';
+import { SwitchAgent } from '@/components/Features/Config/SwitchCluster/SwitchAgent';
 
 export function AppShellHeader({
                                  opened,
@@ -53,7 +53,7 @@ export function AppShellHeader({
             radius={8}
             href="https://github.com/seriohub/velero-ui"
           >
-            <IconBrandGithub stroke={1.5}/>
+            <IconBrandGithub/>
           </ActionIcon>
 
           <ActionIcon
@@ -64,7 +64,7 @@ export function AppShellHeader({
             radius={8}
             href="https://vui.seriohub.com"
           >
-            <IconHelp stroke={1.5}/>
+            <IconHelp/>
           </ActionIcon>
 
           <CheckAppVersion/>

@@ -3,17 +3,17 @@
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useForm } from '@mantine/form';
 import {
-  TextInput,
-  PasswordInput,
-  Text,
-  Paper,
-  Group,
-  Button,
-  Stack,
-  Space,
   ActionIcon,
   Badge,
   Box,
+  Button,
+  Group,
+  Paper,
+  PasswordInput,
+  Space,
+  Stack,
+  Text,
+  TextInput,
 } from '@mantine/core';
 
 import { IconLock, IconUser } from '@tabler/icons-react';
@@ -21,9 +21,9 @@ import { env } from 'next-runtime-env';
 
 import { useAppStatus } from '@/contexts/AppContext';
 import { useServerStatus } from '@/contexts/ServerContext';
-import { useAgentStatus } from '@/contexts/AgentContext';
 
 import { SwitchCluster } from '@/components/Features/Config/SwitchCluster/SwitchCluster';
+import { Logo } from '@/components/Display/Logo';
 
 export function AuthenticationForm() {
   const serverValues = useServerStatus();
@@ -87,12 +87,7 @@ export function AuthenticationForm() {
         border: 'none',
       }}
     >
-      <Text size="22px" fw={800} lightHidden c="white">
-        Velero
-      </Text>
-      <Text size="22px" fw={800} darkHidden c="dark">
-        Velero
-      </Text>
+      <Logo/>
 
       <Text
         style={{
@@ -112,7 +107,6 @@ export function AuthenticationForm() {
         <Stack>
           <Box style={{ marginTop: '8%' }}>
             <TextInput
-              //variant="filled"
               leftSection={
                 <ActionIcon variant="outline" p={4} tabIndex={-1}>
                   <IconUser/>
@@ -128,7 +122,6 @@ export function AuthenticationForm() {
                 ))
               }
               size="md"
-              //style={{ marginTop: '8%' }}
               required
               placeholder="Your username"
               value={form.values.username}
@@ -138,7 +131,6 @@ export function AuthenticationForm() {
           </Box>
 
           <PasswordInput
-            //variant="filled"
             leftSection={
               <ActionIcon variant="outline" p={4} tabIndex={-1}>
                 <IconLock/>

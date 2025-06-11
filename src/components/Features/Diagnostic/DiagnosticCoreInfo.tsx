@@ -1,17 +1,13 @@
 import { ActionIcon, Group, Modal, Text, Tooltip } from '@mantine/core';
 
-import {
-  IconCheck,
-  IconInfoSquare,
-  IconServer,
-} from '@tabler/icons-react';
+import { IconCheck, IconInfoSquare, IconServer, } from '@tabler/icons-react';
 
 import { useDisclosure } from '@mantine/hooks';
 
 import { useServerStatus } from '@/contexts/ServerContext';
 import { useDiagnosticCore } from '@/hooks/diagnostic/useDiagnosticCore';
 
-import { DiagnosticInfoData } from "@/components/Features/Diagnostic/DiagnosticInfoData";
+import { DiagnosticMRT } from '@/components/Features/Diagnostic/DiagnosticMRT';
 
 export const DiagnosticCoreInfo = () => {
   const stateManager = useDiagnosticCore();
@@ -66,7 +62,7 @@ export const DiagnosticCoreInfo = () => {
             variant="transparent"
             onClick={open}
           >
-            <IconInfoSquare size={20} stroke={1.5}/>
+            <IconInfoSquare size={20}/>
           </ActionIcon>
         </Tooltip>
       </Group>
@@ -84,7 +80,7 @@ export const DiagnosticCoreInfo = () => {
       >
         {/* Modal content */}
 
-        <DiagnosticInfoData
+        <DiagnosticMRT
           uiURL={serverValues?.uiURL}
           apiURL={serverValues?.apiURL}
           apiArch={serverValues?.arch}

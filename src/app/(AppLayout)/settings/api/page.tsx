@@ -1,5 +1,6 @@
 import { API } from '@/components/Features/Settings/API/API';
+import WithCoreAndAgentReady from '@/components/WithCoreAndAgentReady';
 
 export default function APIConfigurationPage() {
-  return <API/>
+  return <WithCoreAndAgentReady><API/></WithCoreAndAgentReady>
 }

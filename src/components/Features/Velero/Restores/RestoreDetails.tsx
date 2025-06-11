@@ -2,25 +2,22 @@
 
 import { useEffect, useState } from 'react';
 import { Box, Tabs } from '@mantine/core';
-
 import { debounce } from 'lodash';
 import { IconDatabaseExport, IconFileText } from '@tabler/icons-react';
 import { useVeleroManifest } from '@/api/Velero/useVeleroManifest';
 
+import { eventEmitter } from '@/lib/EventEmitter.js';
+import { isRecordStringAny } from '@/utils/isRecordStringIsType';
 import { useAgentStatus } from '@/contexts/AgentContext';
 
 import Toolbar from '@/components/Display/Toolbar';
 import ReloadData from '@/components/Inputs/ReloadData';
-
 import { ResourceLogs } from '@/components/Features/Velero/Logs/ResourceLogs';
-
 import { Manifest } from '@/components/Features/Velero/Commons/Display/Manifest';
 import DeleteAction from '@/components/Features/Velero/Commons/Actions/DeleteAction';
-import { isRecordStringAny } from '@/utils/isRecordStringIsType';
 import { RestoreDetailsView } from '@/components/Features/Velero/Restores/RestoreDetailsView';
-import { eventEmitter } from '@/lib/EventEmitter.js';
 import { PodVolumeList } from '@/components/Features/Velero/PodVolumes/PodVolumeList';
-import { VeleroDetailsLayout } from "@/components/Commons/VeleroDetailsLayout";
+import { VeleroDetailsLayout } from '@/components/Commons/VeleroDetailsLayout';
 
 interface RestoreProps {
   params: any;
@@ -41,7 +38,7 @@ export function RestoreDetails({ params }: RestoreProps) {
     if (message?.payload?.resources === 'restores' && message?.payload?.resource?.metadata?.name === params.restore) {
       setManifest(message?.payload?.resource);
     }
-  }, 250);
+  }, 150);
 
   useEffect(() => {
     eventEmitter.on('watchResources', handleWatchResources);
@@ -102,14 +99,14 @@ export function RestoreDetails({ params }: RestoreProps) {
             </Tabs.Tab>
           </Tabs.List>
 
-          <Tabs.Panel value="PodVolumes">
-            <Box p={5}>
-              <PodVolumeList podVolumeName={params.backup} type="podvolumerestores" height={height}/>
+          <Tabs.Panel value="PodVolumes" h="100%">
+            <Box p={5} h="100%">
+              <PodVolumeList podVolumeName={params.backup} type="podvolumerestores"/>
             </Box>
           </Tabs.Panel>
 
-          <Tabs.Panel value="Logs">
-            <Box p={5}>
+          <Tabs.Panel value="Logs" h="100%">
+            <Box p={5} h="100%">
               <ResourceLogs resourceType="restore" resourceName={data?.metadata?.name} h={height - 50}/>
             </Box>
           </Tabs.Panel>

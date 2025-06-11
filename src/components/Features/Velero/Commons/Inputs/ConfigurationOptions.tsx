@@ -1,16 +1,6 @@
 import { useState } from 'react';
 import { IconPlus } from '@tabler/icons-react';
-import {
-  TextInput,
-  Text,
-  Table,
-  Space,
-  ActionIcon,
-  Input,
-  Flex,
-  Button,
-  Card,
-} from '@mantine/core';
+import { ActionIcon, Button, Card, Flex, Input, Space, Table, Text, TextInput, } from '@mantine/core';
 
 interface ConfigurationOptionsProps {
   label: string;
@@ -94,7 +84,7 @@ export default function ConfigurationOptions({
               setValue('');
             }}
           >
-            <IconPlus size={18} stroke={1.5}/>
+            <IconPlus size={18}/>
           </ActionIcon>
         </Flex>
       </Input.Wrapper>

@@ -1,8 +1,8 @@
 'use client';
 
-import { Loader, Center, Text } from '@mantine/core';
+import { Center, Loader } from '@mantine/core';
 
-import { JsonView, allExpanded, defaultStyles } from 'react-json-view-lite';
+import { allExpanded, defaultStyles, JsonView } from 'react-json-view-lite';
 
 import 'react-json-view-lite/dist/index.css';
 
@@ -14,7 +14,7 @@ export function JsonViewer({ record = '' }: DetailProps) {
   if (record === undefined) {
     return (
       <Center>
-        <Loader color="blue"/>
+        <Loader/>
       </Center>
     );
   }

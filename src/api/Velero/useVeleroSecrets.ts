@@ -20,7 +20,6 @@ export const useVeleroSecrets = () => {
       // console.error('Error during call:', error);
     } finally {
       // This code will always be executed
-      // console.log('Final action after request')
     }
   };
 

@@ -1,55 +1,83 @@
 'use client';
 
 import useSWR from 'swr';
-import axios from 'axios';
 import { useAppStatus } from '@/contexts/AppContext';
 import { useServerStatus } from '@/contexts/ServerContext';
 import { useAuthErrorHandler } from "@/hooks/user/useAuthErrorHandler";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo } from "react";
 
 export const useAuth = () => {
   const serverValues = useServerStatus();
   const appValues = useAppStatus();
-
-  const jwtToken = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
   const { logout } = useAuthErrorHandler();
 
-  const headers: Record<string, string> = jwtToken ? { Authorization: `Bearer ${jwtToken}` } : {};
+  // 🔐 Read JWT token from localStorage
+  const jwtToken = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
 
-  const [fetchKey, setFetchKey] = useState<string | null>(null);
+  // 🧠 Compute SWR fetch key only when token and server URL are available
+  const fetchKey = useMemo(() => {
+    if (!jwtToken || !serverValues?.currentServer?.url) return null;
+    return `${serverValues.currentServer.url}/v1/users/me/info`;
+  }, [jwtToken, serverValues?.currentServer?.url]);
 
-  useEffect(() => {
-    if (serverValues?.currentServer?.url && jwtToken) {
-      setFetchKey(`${serverValues?.currentServer?.url}/v1/users/me/info`);
-    } else {
-      console.warn("Server is not available");
+  // 🌐 Fetcher function to load user info
+  const fetcher = async (url: string) => {
+
+    const res = await fetch(url, {
+      headers: {
+        Authorization: `Bearer ${jwtToken}`,
+      },
+    });
+
+    // 🚫 Unauthorized: throw error with status for SWR to catch
+    if (res.status === 401) {
+      throw Object.assign(new Error('Unauthorized'), { status: 401 });
     }
-  }, [serverValues?.currentServer?.url, jwtToken]);
 
+    // ❌ Any other HTTP error
+    if (!res.ok) {
+      throw Object.assign(new Error('Fetch failed'), { status: res.status });
+    }
+
+    // ✅ Successful response
+    const json = await res.json();
+
+    // 🔄 Update app-level auth status
+    appValues.setIsUserLoaded(true);
+    appValues.setAuthenticated(true);
+
+    return json.data;
+  };
+
+  // ⚡ SWR handles data fetching, caching and error state
   const {
     data: user,
     error,
     mutate,
-  } = useSWR(
-    fetchKey,
-    () =>
-      axios
-        .get(fetchKey!, { headers /*, withCredentials: true // uncomment for cookie auth */ })
-        .then((res) => {
-          //userValues.setUser(res.data.data);
-          appValues.setIsUserLoaded(true);
-          appValues.setAuthenticated(true);
-          return res.data.data;
-        })
-        .catch((e) => {
-          console.error('error', e);
-          if (e.response.status === 401) logout()
-          return undefined;
-        })
-  );
+  } = useSWR(fetchKey, fetcher, {
+    revalidateOnFocus: false,
+    shouldRetryOnError: false,
+  });
+
+  // 🔁 Handle logout if error is 401 (unauthorized)
+  if (error?.status === 401) {
+    logout();
+  }
+
+  // 🧹 Reset SWR cache and error if token or server is missing
+  useEffect(() => {
+    if (!jwtToken || !serverValues?.currentServer?.url) {
+      const key = `${serverValues?.currentServer?.url}/v1/users/me/info`;
+      if (key) {
+        mutate(null, { revalidate: false }); // 🧼 Reset SWR state for that key
+      }
+    }
+  }, [jwtToken, serverValues?.currentServer?.url]);
+
+  // Expose user info, error state and mutate function
   return {
     user,
     error,
-    mutate,
+    mutate
   };
 };

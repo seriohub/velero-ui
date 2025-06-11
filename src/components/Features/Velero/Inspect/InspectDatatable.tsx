@@ -2,17 +2,10 @@
 
 import { useEffect, useState } from 'react';
 
-import { DataTable, DataTableColumn } from 'mantine-datatable';
-import { Center, Group } from '@mantine/core';
-
-import { IconClick } from '@tabler/icons-react';
-
 import { MainStack } from '@/components/Commons/MainStack';
-import ReloadData from '@/components/Inputs/ReloadData';
 import Toolbar from '@/components/Display/Toolbar';
-
 import { useInspectBackups } from '@/api/Inspect/useInspectBackups';
-import InspectAction from '@/components/Features/Velero/Inspect/Actions/InspectAction';
+import { InspectMRT } from '@/components/Features/Velero/Inspect/InspectMRT';
 
 export function InspectDatatable() {
   const {
@@ -33,47 +26,16 @@ export function InspectDatatable() {
     getInspectBackups();
   }, [reload]);
 
-  const renderActions: DataTableColumn<any>['render'] = (record) => (
-    <Group gap={4} justify="right" wrap="nowrap">
-      <InspectAction record={record}/>
-    </Group>
-  );
-
   return (
     <MainStack>
       <Toolbar title="Inspect Backups" breadcrumbItem={[{ name: 'Inspect Datatable' }]}>
-        {/*<CreateSCMappingIcon setReload={setReload} reload={reload} />*/}
-        <ReloadData setReload={setReload} reload={reload}/>
+        <></>
       </Toolbar>
 
-      <DataTable
-        minHeight={160}
-        maw={600}
-        withTableBorder
-        borderRadius="sm"
-        striped
-        highlightOnHover
-        records={items}
-        idAccessor="name"
-        totalRecords={items.length}
+      <InspectMRT
         fetching={fetching}
-        columns={[
-          {
-            accessor: 'name',
-            title: 'Backups available',
-            width: 600,
-          },
-          {
-            accessor: 'actions',
-            title: (
-              <Center>
-                <IconClick size={16}/>
-              </Center>
-            ),
-            width: '100',
-            render: renderActions,
-          },
-        ]}
+        setReload={setReload}
+        items={items}
       />
     </MainStack>
   );

@@ -1,9 +1,7 @@
 'use client';
 
-import { ActionIcon, Tooltip } from '@mantine/core';
-
-import { IconFilter, IconFilterFilled } from '@tabler/icons-react';
-
+import { Button, Tooltip } from '@mantine/core';
+import { IconHistory, IconHistoryOff } from '@tabler/icons-react';
 import { useEffect, useState } from 'react';
 
 interface LastBackup4ScheduleProps {
@@ -17,19 +15,23 @@ export default function LastBackupsFilter({ setOnlyLast4Schedule }: LastBackup4S
     setOnlyLast4Schedule(checked);
   }, [checked]);
   return (
-    <Tooltip label="Filter last backup for every schedule">
-      <ActionIcon
-        onClick={() => {
-          setChecked(!checked);
-        }}
-        size={38}
-        //variant="default"
-        variant="outline"
-        radius={8}
-      >
-        {!checked && <IconFilter stroke={1.5}/>}
-        {checked && <IconFilterFilled stroke={1.5}/>}
-      </ActionIcon>
-    </Tooltip>
+    <>
+      <Tooltip label="Filter last backup for every schedule">
+        <Button
+          className="react-table-custom-action"
+          onClick={() => {
+            setChecked(!checked);
+          }}
+          h={38}
+          variant={!checked ? "default" : 'light'}
+          leftSection={<>
+            {!checked && <IconHistory/>}
+            {checked && <IconHistoryOff/>}
+          </>}
+        >
+          Latest
+        </Button>
+      </Tooltip>
+    </>
   );
 }

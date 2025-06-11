@@ -1,10 +1,10 @@
 'use client';
 
 import React from 'react';
-
-import { List, ThemeIcon, rem, Text, Group, Stack, ScrollArea, Card } from '@mantine/core';
-
-import { IconAlertTriangle, IconCheck } from '@tabler/icons-react';
+import { Button, Card, Group, List, rem, ScrollArea, Stack, Table, Text, ThemeIcon } from '@mantine/core';
+import { IconAlertTriangle, IconCheck, IconMoodSad2 } from '@tabler/icons-react';
+import { openModal } from '@mantine/modals';
+import { CreateScheduleForm } from '@/components/Features/Velero/Schedules/Forms/CreateScheduleForm';
 
 interface UnscheduledNamespacesProps {
   namespaces: string;
@@ -15,15 +15,43 @@ export function UnscheduledNamespaces({
                                         namespaces,
                                         total
                                       }: UnscheduledNamespacesProps) {
-  const values = () =>
+
+  const handleCreateSchedule = (namespace: string) => {
+    openModal({
+      title: 'Create New Schedule',
+      size: '60rem',
+      children: (
+        <CreateScheduleForm
+          ns={[namespace]}
+        />
+      ),
+      padding: 'md',
+      radius: 'md',
+      centered: true,
+    });
+  };
+
+  const rows = () =>
     Object.entries(namespaces)
       .sort(([, valueA], [, valueB]) => valueA.localeCompare(valueB))
-      .map(([key, value]) => <List.Item key={key}>{value}</List.Item>);
+      .map(([key, value]) => (
+        <Table.Tr key={key}>
+          <Table.Td><Group gap={5}><IconMoodSad2 color="orange"/>{value}</Group></Table.Td>
+          <Table.Td>
+            <Group justify="right" px={5}>
+              <Button size="compact-sm" onClick={() => handleCreateSchedule(value)}>
+                Create schedule
+              </Button>
+            </Group>
+          </Table.Td>
+
+        </Table.Tr>
+      ));
 
   return (
-    <>
-      <Card withBorder p="md" radius="md" shadow="sm" h={310}>
-        <Group justify="space-between" gap="xs">
+    <Card withBorder p="md" radius="md" shadow="sm" h={310}>
+      <Card.Section p="md">
+        <Group justify="space-between" gap={5}>
           <Group align="baseline">
             <Text size="4rem" fw={800}>
               {namespaces.length}
@@ -32,60 +60,47 @@ export function UnscheduledNamespaces({
               / {total}
             </Text>
           </Group>
-          {/*React.cloneElement(icon, { size: '3rem', className: classes.icon, stroke: '1.5' })*/}
           <IconAlertTriangle
             size="4rem"
-            stroke="1.5"
             color="var(--mantine-primary-color-light-color)"
           />
         </Group>
         <Text size="md" c="dimmed">
           Unscheduled namespace
         </Text>
-
-        {namespaces.length === 0 && (
-          <List spacing="xs" size="sm" center mt={25}>
-            <List.Item
-              icon={
-                <ThemeIcon color="green" size={24} radius="xl">
-                  <IconCheck
-                    style={{
-                      width: rem(16),
-                      height: rem(16),
-                    }}
-                  />
-                </ThemeIcon>
-              }
-            >
-              <Stack gap={0}>
-                <Text fw={800}>Good!</Text>
-                <Text size="sm">All namespaces have at least one scheduled backup</Text>
-              </Stack>
-            </List.Item>
-          </List>
-        )}
+      </Card.Section>
+      {namespaces.length === 0 && (
+        <List spacing="xs" size="sm" center mt={25}>
+          <List.Item
+            icon={
+              <ThemeIcon color="green" size={24} radius="xl">
+                <IconCheck
+                  style={{
+                    width: rem(16),
+                    height: rem(16),
+                  }}
+                />
+              </ThemeIcon>
+            }
+          >
+            <Stack gap={0}>
+              <Text fw={800}>Good!</Text>
+              <Text size="sm">All namespaces have at least one scheduled backup</Text>
+            </Stack>
+          </List.Item>
+        </List>
+      )}
+      <Card.Section p={0}>
         {namespaces.length > 0 && (
-          <ScrollArea h={160} mt={20} type="auto">
-            <List
-              spacing="xs"
-              size="sm"
-              center
-              icon={
-                <ThemeIcon color="orange" size={24} radius="xl">
-                  <IconAlertTriangle
-                    style={{
-                      width: rem(16),
-                      height: rem(16),
-                    }}
-                  />
-                </ThemeIcon>
-              }
-            >
-              {values()}
-            </List>
+          <ScrollArea h={180} mt={10} type="auto" bg="var(--mantine-color-body)">
+            <Table striped highlightOnHover>
+              <Table.Tbody>
+                {rows()}
+              </Table.Tbody>
+            </Table>
           </ScrollArea>
         )}
-      </Card>
-    </>
+      </Card.Section>
+    </Card>
   );
 }

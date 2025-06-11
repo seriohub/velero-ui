@@ -1,7 +1,6 @@
 'use client';
 
 import { ActionIcon, Tooltip } from '@mantine/core';
-
 import { IconRefresh } from '@tabler/icons-react';
 
 export default function ReloadData({
@@ -18,12 +17,12 @@ export default function ReloadData({
             setReload(reload + 1);
           }}
           size={38}
-          variant="default"
-          //variant="outline"
+          //variant="default"
+          variant="outline"
           radius={8}
           disabled={fetching}
         >
-          <IconRefresh stroke={1.5}/>
+          <IconRefresh/>
         </ActionIcon>
       </Tooltip>
     </>

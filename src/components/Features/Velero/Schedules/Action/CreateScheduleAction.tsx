@@ -1,39 +1,31 @@
-import { ActionIcon, Tooltip } from '@mantine/core';
+import { Button, Tooltip } from '@mantine/core';
 import { openModal } from '@mantine/modals';
-
 import { IconPlus } from '@tabler/icons-react';
 
-import { CreateScheduleForm } from '../Forms/CreateScheduleForm';
+import { CreateScheduleForm } from '@/components/Features/Velero/Schedules/Forms/CreateScheduleForm';
 
-interface CreateSecheduleToolbarIconProps {
-  reload: number;
-  setReload: React.Dispatch<React.SetStateAction<number>>;
-}
-
-export default function CreateSecheduleAction({
-                                                reload,
-                                                setReload,
-                                              }: CreateSecheduleToolbarIconProps) {
+export default function CreateScheduleAction() {
   return (
-    <Tooltip label="Create schedule">
-      <ActionIcon
-        size={38}
-        radius={8}
-        variant="outline"
+    <Tooltip label="New schedule">
+      <Button
+        variant="default"
+        className="react-table-custom-action"
+        h={38}
         onClick={(e) => {
           e.stopPropagation();
           openModal({
             title: 'Create New Schedules',
             size: '60rem',
-            children: <CreateScheduleForm reload={reload} setReload={setReload}/>,
+            children: <CreateScheduleForm/>,
             padding: 'md',
             radius: 'md',
             centered: true,
           });
         }}
+        leftSection={<IconPlus/>}
       >
-        <IconPlus stroke="1.5"/>
-      </ActionIcon>
+        New
+      </Button>
     </Tooltip>
   );
 }

@@ -1,9 +1,8 @@
-import { ActionIcon, Tooltip } from '@mantine/core';
+import { Button, Tooltip } from '@mantine/core';
 import { openModal } from '@mantine/modals';
-
 import { IconPlus } from '@tabler/icons-react';
 
-import { SCMappingForm } from './Forms/SCMappingForm';
+import { SCMappingForm } from '@/components/Features/Velero/SCMapping/Forms/SCMappingForm';
 
 interface CreateSCMappingIconProps {
   reload: number;
@@ -16,26 +15,22 @@ export default function CreateSCMappingIcon({
                                             }: CreateSCMappingIconProps) {
   return (
     <Tooltip label="Create Storage Class Mapping">
-      <ActionIcon
-        size={38}
-        variant="outline"
-        radius={8}
+      <Button
+        variant="default"
+        className="react-table-custom-action"
+        h={38}
         onClick={(e) => {
           e.stopPropagation();
           openModal({
             title: 'Create New Storage Class Mapping',
             size: 'lg',
-            children: <SCMappingForm mode="create" reload={reload} setReload={setReload}/>,
+            children: <SCMappingForm mode="create" setReload={setReload}/>,
           });
         }}
+        leftSection={<IconPlus/>}
       >
-        <IconPlus
-          style={{
-            width: '70%',
-            height: '70%',
-          }}
-        />
-      </ActionIcon>
+        New
+      </Button>
     </Tooltip>
   );
 }

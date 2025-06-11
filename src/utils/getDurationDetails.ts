@@ -11,18 +11,19 @@ const secondsToHHMMSS = (secs: number): string => {
   return `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
 };
 
-// Calculate expiration duration and format as a string
-export const getDurationDetails = (start: string, end: string) => {
+export const getDurationInMilliseconds = (start: string, end: string) => {
   const startMoment = moment.utc(start);
   const endMoment = moment.utc(end);
 
-  const timeDifferenceInMilliseconds = Math.abs(endMoment.diff(startMoment));
+  return Math.abs(endMoment.diff(startMoment));
+};
 
-  const formattedDuration = moment.duration(timeDifferenceInMilliseconds).humanize(true);
-  const duration = secondsToHHMMSS(moment.duration(timeDifferenceInMilliseconds).asSeconds());
-
+// Calculate expiration duration and format as a string
+export const getDurationDetails = (timeDifferenceInMilliseconds: number) => {
+  const humanDuration = moment.duration(timeDifferenceInMilliseconds).humanize(true);
+  const durationHHmmss = secondsToHHMMSS(moment.duration(timeDifferenceInMilliseconds).asSeconds());
   return {
-    formattedDuration,
-    duration,
+    humanDuration,
+    durationHHmmss,
   };
 };

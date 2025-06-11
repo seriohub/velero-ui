@@ -1,19 +1,16 @@
 import { ActionIcon, Tooltip } from '@mantine/core';
 import { openModal } from '@mantine/modals';
-
 import { IconEdit } from '@tabler/icons-react';
 
-import { SCMappingForm } from './Forms/SCMappingForm';
+import { SCMappingForm } from '@/components/Features/Velero/SCMapping/Forms/SCMappingForm';
 
 interface EditSCMappingProps {
   record: any;
-  reload: number;
   setReload: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export default function EditSCMapping({
                                         record,
-                                        reload,
                                         setReload
                                       }: EditSCMappingProps) {
   return (
@@ -27,7 +24,7 @@ export default function EditSCMapping({
             title: 'Edit Storage Class Mapping',
             size: 'lg',
             children: (
-              <SCMappingForm record={record} reload={reload} setReload={setReload} mode="update"/>
+              <SCMappingForm record={record} setReload={setReload} mode="update"/>
             ),
           });
         }}

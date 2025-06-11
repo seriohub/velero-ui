@@ -20,7 +20,6 @@ export const useInspectFile = () => {
       // console.error('Error:', e);
     } finally {
       // This code will always be executed
-      // console.log('Final action after request')
     }
   };
 

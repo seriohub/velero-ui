@@ -1,4 +1,4 @@
-import { Loader, Center, Box, TextInput, Group, Button } from '@mantine/core';
+import { Box, Button, Center, Group, Loader, TextInput } from '@mantine/core';
 import { useEffect } from 'react';
 import { useForm } from '@mantine/form';
 import { closeAllModals } from '@mantine/modals';
@@ -43,7 +43,7 @@ export function UpdateExpirationForm({
   if (record === undefined) {
     return (
       <Center>
-        <Loader color="blue"/>
+        <Loader/>
       </Center>
     );
   }

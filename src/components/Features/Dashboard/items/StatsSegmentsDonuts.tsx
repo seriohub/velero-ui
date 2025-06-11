@@ -1,6 +1,6 @@
 import React from 'react';
 import { DonutChart } from '@mantine/charts';
-import { Text, Group, Center, Card, Title, Anchor } from '@mantine/core';
+import { Anchor, Card, Center, Group, Text, Title } from '@mantine/core';
 import { IconActivity } from '@tabler/icons-react';
 import { useRouter } from 'next/navigation';
 
@@ -22,7 +22,7 @@ const segmentColors = {
   InProgress: '',
   WaitingForPluginOperations: 'gray',
   WaitingForPluginOperationsPartiallyFailed: 'red.8',
-  FinalizingafterPluginOperations: 'red.8',
+  FinalizingAfterPluginOperations: 'red.8',
   FinalizingPartiallyFailed: 'red.8',
   Completed: 'green.6',
   PartiallyFailed: 'red.8',
@@ -65,12 +65,11 @@ export function StatsSegmentsDonuts({
           >
             <IconActivity
               size="2rem"
-              stroke="1.5"
               color="var(--mantine-primary-color-light-color)"
             />
           </Anchor>
         </Group>
-        <Center py={30}>
+        <Center py={15}>
           {sections.length > 0 && (
             <DonutChart
               size={200}

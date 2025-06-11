@@ -39,7 +39,7 @@ export function RepoDetails({ params }: BackupProps) {
     ) {
       setManifest(message?.payload?.resource);
     }
-  }, 250);
+  }, 150);
 
   useEffect(() => {
     eventEmitter.on('watchResources', handleWatchResources);

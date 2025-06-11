@@ -34,15 +34,15 @@ interface UIStatusContextProps extends UIStatus {
 const UIStateContext = createContext<UIStatusContextProps | undefined>(undefined);
 
 export const UIProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [primaryColor, setPrimaryColor] = useState('blue');
+  const [primaryColor, setPrimaryColor] = useState('indigo');
 
   const [uiFontFamily, setUiFontFamily] = useState({
     name: 'Open Sans',
     fontFamily: 'Open Sans',
   });
   const [uiFontSize, setUiFontSize] = useState(undefined);
-  const [navbarColored, setNavbarColored] = useState(false);
-  const [mainColored, setMainColored] = useState(false);
+  const [navbarColored, setNavbarColored] = useState(true);
+  const [mainColored, setMainColored] = useState(true);
   const [badgeVariant, setBadgeVariant] = useState('Filled');
 
   const [showDebugAside, setShowDebugAside] = useState(false);

@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 import { useUIStatus } from '@/contexts/UIContext';
-import { fontSizeMap, FontSizeKey } from '@/components/Features/Config/UI/UIConfigFontSize';
+import { FontSizeKey, fontSizeMap } from '@/components/Features/Config/UI/UIConfigFontSize';
 
 export const useUIConfig = () => {
   const uiValues = useUIStatus();
@@ -25,13 +25,13 @@ export const useUIConfig = () => {
       fontFamily: defaultFontFamily,
     });
 
-    const mainColored = localStorage.getItem('mainColored') === 'true';
+    const mainColored = localStorage.getItem('mainColored') ? localStorage.getItem('navbarColored') === 'true' : 'true';
     uiValues.setMainColored(mainColored);
 
-    const navbarColored = localStorage.getItem('navbarColored') === 'true';
+    const navbarColored = localStorage.getItem('navbarColored') ? localStorage.getItem('navbarColored') === 'true' : 'true';
     uiValues.setNavbarColored(navbarColored);
 
-    const primaryColor = localStorage.getItem('primaryColor') || 'blue';
+    const primaryColor = localStorage.getItem('primaryColor') || 'indigo';
     uiValues.setPrimaryColor(primaryColor);
 
     const badgeVariant = localStorage.getItem('badgeVariant') || 'filled';

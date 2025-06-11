@@ -1,6 +1,6 @@
 'use client';
 
-import { Loader, Center, Box, TextInput } from '@mantine/core';
+import { Box, Center, Loader, TextInput } from '@mantine/core';
 import { useEffect } from 'react';
 import { useForm } from '@mantine/form';
 
@@ -62,7 +62,7 @@ export function CredentialView({
   if (record === undefined) {
     return (
       <Center>
-        <Loader color="blue"/>
+        <Loader/>
       </Center>
     );
   }

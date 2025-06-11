@@ -1,22 +1,17 @@
 'use client';
 
-import React, { useState } from 'react';
-
+import React, { useMemo } from 'react';
 import { env } from 'next-runtime-env';
-
-import { DataTable } from 'mantine-datatable';
 import { useServerStatus } from '@/contexts/ServerContext';
 
 import { MainStack } from '@/components/Commons/MainStack';
 import Toolbar from '@/components/Display/Toolbar';
-import ReloadData from '@/components/Inputs/ReloadData';
+import { PodEnvMRT } from '@/components/Features/Settings/PodEnvMRT';
 
 export function UI() {
   const serverValues = useServerStatus();
 
-  const [reload, setReload] = useState(1);
-
-  const uiConfiguration = [
+  const uiConfiguration = useMemo(() => [
     {
       name: 'NEXT_PUBLIC_REFRESH_DATATABLE_AFTER',
       value: env('NEXT_PUBLIC_REFRESH_DATATABLE_AFTER'),
@@ -27,11 +22,11 @@ export function UI() {
     },
     {
       name: 'NEXT_PUBLIC_VELERO_API_URL',
-      value: serverValues.currentServer?.url,
+      value: serverValues.currentServer?.url ?? 'N.A.',
     },
     {
       name: 'NEXT_PUBLIC_VELERO_API_WS',
-      value: serverValues.currentServer?.ws,
+      value: serverValues.currentServer?.ws ?? 'N.A.',
     },
     {
       name: 'NEXT_PUBLIC_FRONT_END_BUILD_VERSION',
@@ -45,32 +40,20 @@ export function UI() {
       name: 'NEXT_PUBLIC_CACHE_TTL',
       value: env('NEXT_PUBLIC_CACHE_TTL'),
     },
-  ];
+  ], [serverValues]);
 
   return (
     <MainStack>
       <Toolbar title="Backup" breadcrumbItem={[{ name: 'UI' }]}>
-        <ReloadData setReload={setReload} reload={reload}/>
+        <></>
       </Toolbar>
-      <DataTable
-        withTableBorder
-        striped
-        idAccessor="name"
-        columns={[
-          {
-            accessor: 'name',
-            title: 'Environment variable',
-          },
-          {
-            accessor: 'key',
-            title: 'value',
-            render: (record: any) => <>{record.value}</>,
-            sortable: true,
-
-            ellipsis: true,
-          },
-        ]}
-        records={uiConfiguration}
+      
+      <PodEnvMRT
+        name="ui"
+        fetching={false}
+        setReload={() => {
+        }}
+        items={uiConfiguration}
       />
     </MainStack>
   );

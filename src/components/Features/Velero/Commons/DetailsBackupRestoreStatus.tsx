@@ -1,30 +1,12 @@
-import { Anchor, Box, Card, Group, Text, Tooltip } from '@mantine/core';
+import { Anchor, Box, Card, Group, Text } from '@mantine/core';
 import React from 'react';
 import { useRouter } from 'next/navigation';
-import { IconClock } from '@tabler/icons-react';
+
 import classes from '@/styles/veleroResourceDetails.module.css';
 import VeleroResourceStatusBadge from './Display/VeleroResourceStatusBadge';
 import { getExpirationString } from '@/utils/getExpirationString';
-import { getDurationDetails } from '@/utils/getDurationDetails';
-
-function get_duration({ status }: { status: any }) {
-  if (status?.startTimestamp && status?.completionTimestamp) {
-    const { startTimestamp } = status;
-    const { completionTimestamp } = status;
-    const {
-      formattedDuration,
-      duration
-    } = getDurationDetails(startTimestamp, completionTimestamp);
-    return (
-      <Tooltip label={duration} color="blue">
-        <Text size="sm" fw={600}>
-          {formattedDuration}
-        </Text>
-      </Tooltip>
-    );
-  }
-  return <></>;
-}
+import { get_duration } from '@/utils/getDuration';
+import { IconCalendarTime } from '@tabler/icons-react';
 
 export function DetailsBackupRestoreStatus({ data }: any) {
   const router = useRouter();
@@ -137,7 +119,7 @@ export function DetailsBackupRestoreStatus({ data }: any) {
             }}
           >
             <Group gap={5}>
-              <IconClock size={16}/>
+              <IconCalendarTime size={16}/>
               <Text size="sm">{data?.metadata?.labels['velero.io/schedule-name']}</Text>
             </Group>
           </Anchor>
@@ -155,7 +137,7 @@ export function DetailsBackupRestoreStatus({ data }: any) {
           Duration:
         </Text>
 
-        {get_duration({ status: data?.status })}
+        {get_duration(data?.status)}
       </Box>
     </Card.Section>
   );

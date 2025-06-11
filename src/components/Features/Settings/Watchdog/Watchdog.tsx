@@ -1,12 +1,8 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-
-import { Tabs, Stack, ScrollArea } from '@mantine/core';
-
+import { ScrollArea, Stack, Tabs } from '@mantine/core';
 import { IconSettings, IconVariable } from '@tabler/icons-react';
-
-import { useAgentStatus } from '@/contexts/AgentContext';
 
 import { useWatchdogEnvironment } from '@/api/Watchdog/useWatchdogEnvironment';
 import { useWatchdogRestart } from '@/api/Watchdog/useWatchdogRestart';
@@ -14,18 +10,17 @@ import { useWatchdogCron } from '@/api/Watchdog/useWatchdogCron';
 import { useWatchdogSendReport } from '@/api/Watchdog/useWatchdogSendReport';
 import { useWatchdogAppConfigs } from '@/api/Watchdog/useWatchdogAppConfigs';
 
-import Toolbar from '@/components/Display/Toolbar';
+import { useUIStatus } from '@/contexts/UIContext';
+import { useAppStatus } from '@/contexts/AppContext';
 
-import ReloadData from '@/components/Inputs/ReloadData';
+import Toolbar from '@/components/Display/Toolbar';
 import SendReport from '@/components/Features/Settings/Watchdog/Actions/SendReport';
 import ReloadConfig from '@/components/Features/Settings/Watchdog/Actions/ReloadConfig';
-
 import { WatchdogEnvironment } from '@/components/Features/Settings/Watchdog/Display/WatchdogEnvironment';
 import { MainStack } from '@/components/Commons/MainStack';
-import { useUIStatus } from "@/contexts/UIContext";
-import { WatchdogUserConfigs } from "@/components/Features/Settings/Watchdog/WatchdogUserConfigs";
-import WatchdogService from "@/components/Features/Settings/Watchdog/WatchdogService";
-import { useAppStatus } from "@/contexts/AppContext";
+import { WatchdogUserConfigs } from '@/components/Features/Settings/Watchdog/WatchdogUserConfigs';
+import WatchdogService from '@/components/Features/Settings/Watchdog/WatchdogService';
+import ReloadData from '@/components/Inputs/ReloadData';
 
 type Differences<T> = {
   hasDifferences: boolean;
@@ -189,6 +184,7 @@ export function Watchdog() {
             <WatchdogEnvironment
               fetching={fetching}
               cron={cron}
+              setReload={setReload}
               deployConfiguration={deployConfiguration}
               userConfiguration={userConfiguration}
             />

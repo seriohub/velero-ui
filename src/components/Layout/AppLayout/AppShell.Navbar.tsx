@@ -1,43 +1,45 @@
 'use client';
 
 import {
-  Group,
-  Stack,
-  NavLink,
-  Burger,
-  ScrollArea,
-  Box,
-  Text,
-  useComputedColorScheme,
-  Tooltip,
   ActionIcon,
+  Box,
+  Burger,
+  Group,
+  NavLink,
+  ScrollArea,
+  Stack,
+  Text,
+  Tooltip,
+  useComputedColorScheme,
 } from '@mantine/core';
 
 import {
-  IconDashboard,
-  IconRestore,
-  IconDeviceFloppy,
-  IconCalendarEvent,
-  IconDatabase,
-  IconLink,
-  IconServer,
-  IconHome,
   IconAffiliate,
-  IconFolders,
-  IconDog,
+  IconApi,
   IconAppWindow,
-  IconZoomCode,
   IconArrowBarLeft,
   IconArrowBarRight,
+  IconAutomation,
+  IconCalendarTime,
+  IconCamera,
+  IconDashboard,
   IconDatabaseExport,
   IconDatabaseImport,
-  IconApi,
-  IconAutomation, IconPlayerPlay,
+  IconDeviceFloppy,
+  IconDog,
+  IconHome,
+  IconLink,
+  IconPlayerPlay,
+  IconRestore,
+  IconServer,
+  IconStack,
+  IconZoomCode,
 } from '@tabler/icons-react';
 
-import { useRouter, usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 
 import { useMediaQuery } from '@mantine/hooks';
+
 import { useUIStatus } from '@/contexts/UIContext';
 import { useServerStatus } from '@/contexts/ServerContext';
 
@@ -70,7 +72,7 @@ const veleroResourceLinks = [
   {
     link: '/schedules',
     label: 'Schedules',
-    icon: IconCalendarEvent,
+    icon: IconCalendarTime,
     tooltip: 'Schedules',
   },
   {
@@ -82,25 +84,25 @@ const veleroResourceLinks = [
   {
     link: '/volume-snapshot-locations',
     label: 'Volume Locations',
-    icon: IconDatabase,
+    icon: IconCamera,
     tooltip: 'Volume Locations',
   },
   {
     link: '/repos',
     label: 'Repositories',
-    icon: IconFolders,
+    icon: IconStack,
     tooltip: 'Repositories',
   },
   {
     link: '/pod-volume-backups',
     label: 'Pod Volume Backups',
-    icon: IconDatabaseExport,
+    icon: IconDatabaseImport,
     tooltip: 'Pod Volumes Backup',
   },
   {
     link: '/pod-volume-restores',
     label: 'Pod Volume Restores',
-    icon: IconDatabaseImport,
+    icon: IconDatabaseExport,
     tooltip: 'Pod Volumes Restore',
   },
 ];

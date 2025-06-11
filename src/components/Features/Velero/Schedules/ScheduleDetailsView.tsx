@@ -1,9 +1,7 @@
-import { Anchor, Box, Card, Group, ScrollArea, Space, Text, Title } from '@mantine/core';
-import { IconCalendar, IconCamera, IconDeviceFloppy, IconServer } from '@tabler/icons-react';
-import { useRouter } from 'next/navigation';
+import { Box, Card, Group, Space, Text, Title } from '@mantine/core';
+import { IconCalendarTime } from '@tabler/icons-react';
 import VeleroResourceStatusBadge from '@/components/Features/Velero/Commons/Display/VeleroResourceStatusBadge';
 import React from 'react';
-import { DetailsBackupRestoreStatus } from '@/components/Features/Velero/Commons/DetailsBackupRestoreStatus';
 import { DetailsBackupRestoreContent } from '@/components/Features/Velero/Commons/DetailsBackupRestoreContent';
 import { DetailsBackupRestoreLocation } from '@/components/Features/Velero/Commons/DetailsBackupRestoreLocation';
 import classes from '@/styles/veleroResourceDetails.module.css';
@@ -12,12 +10,11 @@ export function ScheduleDetailsView({
                                       data,
                                       ...rest
                                     }: any) {
-  const router = useRouter();
   return (
     <Card shadow="sm" radius="md" withBorder h="100%">
       <Card.Section p="md" className={classes.section}>
         <Group gap={5}>
-          <IconCalendar size={80}/>
+          <IconCalendarTime size={80}/>
           <Box>
             <Title order={2} fw={800}>
               {data?.metadata?.name}

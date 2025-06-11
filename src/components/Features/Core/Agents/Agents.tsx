@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 
-import { Stack, Loader, Center, ScrollArea, Space, Box } from '@mantine/core';
+import { Box, Center, Loader, Stack } from '@mantine/core';
 
 import { useViewportSize } from '@mantine/hooks';
 import { AgentStats } from './items/AgentStats';
@@ -67,7 +67,7 @@ export function Agents() {
       {!data && (
         <Stack h="100%" justify="center">
           <Center>
-            <Loader color="blue"/>
+            <Loader/>
           </Center>
         </Stack>
       )}

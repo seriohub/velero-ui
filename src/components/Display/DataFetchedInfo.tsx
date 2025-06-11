@@ -1,9 +1,8 @@
 import { Box, Group, Text } from '@mantine/core';
-
 import { getExpirationString } from '@/utils/getExpirationString';
 
 export const DataFetchedInfo = ({ fetchedTime }: any) => (
-  <Box mb={10}>
+  <Box mt={5}>
     {fetchedTime && (
       <Group justify="flex-end">
         <Text fw={500} size="xs">

@@ -1,12 +1,11 @@
 'use client';
 
 import React from 'react';
-import { Box, Image, Paper, Stack, Text, Group, Flex } from '@mantine/core';
+import { Box, Flex, Group, Image, Paper, Text } from '@mantine/core';
 
 import {
   IconCalendar,
-  IconCheck,
-  IconClock,
+  IconCalendarTime,
   IconDeviceFloppy,
   IconPlugConnected,
   IconRestore,
@@ -107,7 +106,7 @@ export function AgentStats({
             {/* latest */}
             <Box>
               <Group gap={5}>
-                <IconClock size={20}/>
+                <IconCalendarTime size={20}/>
                 <Text size="lg" fw={800}>{data?.stats?.backups?.stats?.latest?.count}</Text>
                 <Text size="sm">
                   Latest

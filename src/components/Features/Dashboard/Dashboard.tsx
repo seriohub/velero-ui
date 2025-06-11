@@ -2,15 +2,15 @@
 
 import React, { useEffect, useState } from 'react';
 
-import { Stack, Loader, Center, ScrollArea, SimpleGrid, Grid, Box } from '@mantine/core';
+import { Box, Center, Grid, Loader, ScrollArea, SimpleGrid, Stack } from '@mantine/core';
 
-import { IconClock, IconDeviceFloppy, IconRestore, IconCalendarEvent } from '@tabler/icons-react';
+import { IconCalendarEvent, IconCalendarTime, IconDeviceFloppy, IconHistory, IconRestore } from '@tabler/icons-react';
 
 import { useStats } from '@/api/Stats/useStats';
 
 import { useAgentStatus } from '@/contexts/AgentContext';
 
-import { LatestBackup } from '@/components/Features/Velero/Backups/LatestBackup';
+import { LatestBackupMRT } from '@/components/Features/Velero/Backups/LatestBackupMRT';
 import Toolbar from '@/components/Display/Toolbar';
 import ReloadData from '@/components/Inputs/ReloadData';
 import { DataFetchedInfo } from '@/components/Display/DataFetchedInfo';
@@ -46,7 +46,7 @@ export function Dashboard() {
     return (
       <Stack h="100%" justify="center">
         <Center>
-          <Loader color="blue"/>
+          <Loader/>
         </Center>
       </Stack>
     );
@@ -60,7 +60,6 @@ export function Dashboard() {
             <Toolbar title="Dashboard" fetching={fetching}>
               <ReloadData setReload={setReload} reload={reload} fetching={fetching}/>
             </Toolbar>
-            <DataFetchedInfo fetchedTime={fetchedTime}/>
           </Box>
 
           <SimpleGrid
@@ -110,7 +109,7 @@ export function Dashboard() {
             <StatsSegmentsDonuts
               data={data.backups.stats.latest}
               title="Last Backups"
-              icon={<IconClock/>}
+              icon={<IconHistory/>}
               path="/backups"
             />
             <StatsSegmentsDonuts
@@ -122,7 +121,7 @@ export function Dashboard() {
             <StatsSegmentsDonuts
               data={data.schedules.all}
               title="Schedules"
-              icon={<IconCalendarEvent/>}
+              icon={<IconCalendarTime/>}
               path="/schedules"
             />
           </SimpleGrid>
@@ -136,7 +135,7 @@ export function Dashboard() {
                 lg: 9,
               }}
             >
-              <LatestBackup latest={data.backups.latest} setReload={setReload}/>
+              <LatestBackupMRT latest={data.backups.latest} setReload={setReload}/>
             </Grid.Col>
             <Grid.Col
               span={{
@@ -151,6 +150,7 @@ export function Dashboard() {
               />
             </Grid.Col>
           </Grid>
+          <DataFetchedInfo fetchedTime={fetchedTime}/>
         </Stack>
       </ScrollArea>
     </>

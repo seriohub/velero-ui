@@ -13,8 +13,8 @@ import { handleApiResponse } from './handleApiResponse';
 import { parseApiResponse } from './parseApiResponse';
 import { buildBackendUrl } from "@/utils/backend";
 import { env } from 'next-runtime-env';
+import { inMemoryCache } from '@/cache/inMemoryCache';
 
-const inMemoryCache = new Map<string, { data: any; timestamp: number }>();
 const CACHE_TTL = Number(env('NEXT_PUBLIC_CACHE_TTL') ?? 60) * 1000;
 
 type TargetType = 'core' | 'agent' | 'static';
@@ -85,12 +85,12 @@ export const useApiGet = () => {
     }
 
     if (typeof window === 'undefined') {
-      console.log(`Window unavailable: skip request ${fullUrl}`);
+      console.warn(`Window unavailable: skip request ${fullUrl}`);
       return;
     }
 
     if (!serverValues.isServerAvailable) {
-      console.log(`Server unavailable: skip request ${fullUrl}`);
+      console.warn(`Server unavailable: skip request ${fullUrl}`);
       return;
     }
 
@@ -99,7 +99,7 @@ export const useApiGet = () => {
       url !== '/online' &&
       (agentValues.currentAgent === undefined || !agentValues.isAgentAvailable)
     ) {
-      console.log(`Agent unavailable: skip request ${url}?${params}`);
+      console.warn(`Agent unavailable: skip request ${url}?${params}`);
       return;
     }
 
@@ -165,6 +165,7 @@ export const useApiGet = () => {
 
         if (err.message.includes('Unauthorized')) {
           logout();
+          return
         }
         if (err.message.includes('404')) {
           router.push('/dashboard');

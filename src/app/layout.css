@@ -1,1 +1,40 @@
-@layer mantine, mantine-contextmenu, mantine-datatable;
+@layer mantine;
+
+.mantine-Menu-dropdown .mrt-grab-handle-button {
+    display: none !important;
+}
+
+svg.tabler-icon {
+    stroke-width: 1.5;
+}
+
+.react-table-custom-action {
+    --ai-size: var(--ai-size-lg);
+    --ai-bg: transparent;
+    --ai-hover: var(--mantine-color-gray-light-hover);
+    --ai-color: var(--mantine-color-gray-light-color);
+    --ai-bd: calc(0.0625rem * var(--mantine-scale)) solid transparent;
+    color: light-dark(var(--mantine-color-gray-light-color), var(--mantine-color-gray))
+}
+
+.react-table-custom-action:hover {
+    background: var(--mantine-color-gray-light-hover);
+}
+
+mark {
+    font-size: inherit !important;
+    font-family: inherit;
+}
+
+.spin-icon {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}

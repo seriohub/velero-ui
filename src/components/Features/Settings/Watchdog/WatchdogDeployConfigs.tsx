@@ -1,15 +1,16 @@
 'use client';
 
 import React from 'react';
-import { Group, Text } from '@mantine/core';
-import { IconAlertTriangle, IconArrowRight } from '@tabler/icons-react';
-import { DataTable } from 'mantine-datatable';
+import { Group } from '@mantine/core';
+
 import { MaskedConfiguration } from '@/components/Features/Settings/Watchdog/Display/MaskedConfiguration';
+import { WatchdogEnvMRT } from '@/components/Features/Settings/Watchdog/WatchdogEnvMRT';
 
 interface Props {
   deployConfiguration: Record<string, any>;
   userConfiguration: Record<string, any>;
   fetching: boolean;
+  setReload: Function;
 }
 
 // List of keys whose values should be masked
@@ -18,7 +19,8 @@ const maskedKeys = ['APPRISE'];
 export function WatchdogDeployConfigs({
                                         deployConfiguration,
                                         userConfiguration,
-                                        fetching
+                                        fetching,
+                                        setReload
                                       }: Props) {
   // Function to determine if a key has changed
   function hasChanged(key: string): boolean {
@@ -36,56 +38,25 @@ export function WatchdogDeployConfigs({
   }
 
   const array = Object.entries(deployConfiguration).map(([key, value]) => ({
-    key,
-    value,
+    hasChanged: hasChanged(key),
+    name: key,
+    value: maskValue(key, deployConfiguration[key]),
+    newValue: <Group gap={2}>
+      {/*maskValue(key, deployConfiguration[key])*/}
+      {hasChanged(key) && (
+        <>
+          {/*<Text size="sm" c="var(--mantine-primary-color-light-color)"></Text>{' '}
+          <IconArrowRight size={20} color="var(--mantine-primary-color-light-color)"/>*/}
+          {maskValue(key, userConfiguration[key])}
+        </>
+      )}
+    </Group>,
   }));
   return (
-    <>
-      <DataTable
-        withTableBorder
-        striped
-        fetching={fetching}
-        idAccessor="key"
-        columns={[
-          {
-            accessor: 'name',
-            title: 'Environment variable',
-            width: 150,
-            render: ({ key }) => (
-              <>
-                <Group gap={5}>
-                  {hasChanged(key) && (
-                    <IconAlertTriangle size={20} color="var(--mantine-primary-color-light-color)"/>
-                  )}
-                  {key}
-                </Group>
-              </>
-            ),
-          },
-          {
-            accessor: 'value',
-            title: 'value',
-            render: ({ key }: any) => (
-              <>
-                <Group gap={2}>
-                  {maskValue(key, deployConfiguration[key])}
-                  {hasChanged(key) && (
-                    <>
-                      <Text size="sm" c="var(--mantine-primary-color-light-color)"></Text>{' '}
-                      <IconArrowRight size={20} color="var(--mantine-primary-color-light-color)"/>
-                      {maskValue(key, userConfiguration[key])}
-                    </>
-                  )}
-                </Group>
-              </>
-            ),
-            sortable: true,
-            width: 600,
-            ellipsis: true,
-          },
-        ]}
-        records={array}
-      />
-    </>
+    <WatchdogEnvMRT
+      fetching={fetching}
+      setReload={setReload}
+      items={array}
+    />
   );
 }

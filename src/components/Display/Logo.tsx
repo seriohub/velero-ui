@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 
 import { Anchor, Box, Group, Text } from '@mantine/core';
 import { IconSailboat } from '@tabler/icons-react';
@@ -15,6 +15,7 @@ interface LogoProps {
 export function Logo({ collapsed }: LogoProps) {
   const router = useRouter();
   const uiValues = useUIStatus();
+  const pathname = usePathname();
 
   return (
     <Anchor
@@ -26,7 +27,7 @@ export function Logo({ collapsed }: LogoProps) {
     >
       <Box lightHidden>
         <Group p={0} gap={2}>
-          <IconSailboat size={40} stroke="1.5" color="white"/>
+          <IconSailboat size={40} color="white"/>
           <Text fz="xl" size="xl" fw={800} c="white">
             Vui
           </Text>
@@ -34,13 +35,13 @@ export function Logo({ collapsed }: LogoProps) {
       </Box>
       <Box darkHidden>
         <Group p={0} gap={2}>
-          <IconSailboat size={40} stroke="1.5"
-                        color={uiValues.navbarColored && !collapsed ? 'white' : 'var(--mantine-primary-color-filled)'}/>
+          <IconSailboat size={40}
+                        color={uiValues.navbarColored && !collapsed && pathname !== '/login' ? 'white' : 'var(--mantine-primary-color-filled)'}/>
           <Text
             fz="xl"
             size="xl"
             fw={800}
-            c={uiValues.navbarColored && !collapsed ? 'white' : 'var(--mantine-primary-color-filled)'}
+            c={uiValues.navbarColored && !collapsed && pathname !== '/login' ? 'white' : 'var(--mantine-primary-color-filled)'}
           >
             Vui
           </Text>

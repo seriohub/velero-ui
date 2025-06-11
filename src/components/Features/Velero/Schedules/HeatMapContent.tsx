@@ -2,9 +2,9 @@
 
 import { HeatMapGrid } from 'react-grid-heatmap';
 
-import { Box, List, Text, rem, useComputedColorScheme } from '@mantine/core';
+import { Box, List, rem, Text, useComputedColorScheme } from '@mantine/core';
 import { useState } from 'react';
-import { IconClock } from '@tabler/icons-react';
+import { IconCalendarTime } from '@tabler/icons-react';
 
 interface DayHeatmapProps {
   data: any;
@@ -88,7 +88,7 @@ export function HeatMapContent({
           size="sm"
           center
           icon={
-            <IconClock
+            <IconCalendarTime
               style={{
                 width: rem(16),
                 height: rem(16),
