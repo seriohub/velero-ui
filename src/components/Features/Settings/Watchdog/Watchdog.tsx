@@ -20,6 +20,7 @@ import { WatchdogEnvironment } from '@/components/Features/Settings/Watchdog/Dis
 import { MainStack } from '@/components/Commons/MainStack';
 import { WatchdogUserConfigs } from '@/components/Features/Settings/Watchdog/WatchdogUserConfigs';
 import WatchdogService from '@/components/Features/Settings/Watchdog/WatchdogService';
+import ReloadData from '@/components/Inputs/ReloadData';
 
 type Differences<T> = {
   hasDifferences: boolean;
@@ -157,7 +158,7 @@ export function Watchdog() {
   return (
     <MainStack>
       <Toolbar title="Watchdog" breadcrumbItem={[{ name: 'Watchdog' }]}>
-        {/*<ReloadData setReload={setReload} reload={reload}/>*/}
+        <ReloadData setReload={setReload} reload={reload}/>
         <SendReport fetching={reportFetching} requestSendReport={watchdogSendReport}/>
         {appValues?.appInfo?.helm_version && (
           <ReloadConfig
