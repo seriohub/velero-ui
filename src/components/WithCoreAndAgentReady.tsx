@@ -6,6 +6,7 @@ import { Box, Center, Loader, Overlay } from "@mantine/core";
 import { useAppStatus } from "@/contexts/AppContext";
 import { useServerStatus } from '@/contexts/ServerContext';
 import { useAgentStatus } from '@/contexts/AgentContext';
+import { env } from 'next-runtime-env';
 
 interface Props {
   children: React.ReactNode;
@@ -19,12 +20,13 @@ export default function WithCoreAndAgentReady({
   const serverValues = useServerStatus();
   const agentValues = useAgentStatus();
   const appValues = useAppStatus();
+  const NEXT_PUBLIC_AUTH_ENABLED = env('NEXT_PUBLIC_AUTH_ENABLED')?.toLowerCase() !== 'false';
 
   const isReady =
     serverValues?.isServerAvailable &&
     serverValues?.isCurrentServerControlPlane !== undefined &&
     agentValues?.isAgentAvailable &&
-    appValues.isAuthenticated;
+    (appValues.isAuthenticated || !NEXT_PUBLIC_AUTH_ENABLED);
 
   const [renderKey, setRenderKey] = useState(0);
 
